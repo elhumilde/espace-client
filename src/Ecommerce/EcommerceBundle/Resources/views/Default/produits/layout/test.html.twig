@@ -1,0 +1,551 @@
+{% extends "::layout/layout.html.twig" %}
+
+                {% block body %}
+                    <head>
+
+                        <meta charset="utf-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1">
+                        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+                        <link rel="stylesheet" href="{{ asset('css/accueil.css') }}" />
+                    </head>
+
+                    <style>
+                        #fond-8 #content-8 .bouton-1 {
+                            width: 310px;
+                            height: 57px;
+                            margin-top: 100px;
+                            background-color: #ffdb2e;
+                            border: 0;
+                            font-size: 21px;
+                            letter-spacing: 2px;
+                            float: left;
+                            margin-left: -44px;
+                        }
+                        @media (min-width: 992px){
+                            .col-md-12 {
+                                width: 151%!important;
+                            }
+                        }
+                        form {
+                            margin: 79px 56px 20px;
+                            margin-left: -600px;
+                        }
+                        .btn-info {
+                            color: #0e0e0e;;
+                        }
+                        span.glyphicon-triangle-bottom {
+                            font-size: 32px;
+                            color: #0e0e0e;
+                        }
+                        .btn-info:active:focus, .btn-info:active:hover,
+                        .open>.dropdown-toggle.btn-info.focus, .open>.dropdown-toggle.btn-info:focus,
+                        .open>.dropdown-toggle.btn-info:hover {
+                            color: #0c0c0c!important;
+                        }
+                        .btn {
+                            border-radius: 0px!important;
+                        }
+                        .btn-info:hover {
+                            color: #080808;
+                        }
+                        .btn-info.focus, .btn-info:focus {
+                            color: #0a0a0a;
+                        }
+                        select, textarea, input[type="text"], input[type="password"],
+                        input[type="datetime"], input[type="datetime-local"], input[type="date"],
+                        input[type="month"], input[type="time"], input[type="week"], input[type="number"],
+                        input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+                            display: inline-block;
+                            height: 35px!important;
+                            padding: 4px 6px;
+                            margin-bottom: 10px;
+                            font-size: 14px;
+                            line-height: 84px;
+                            color: #555555;
+                            vertical-align: middle;
+                            /* -webkit-border-radius: 4px;
+                            -moz-border-radius: 4px;
+                            border-radius: 4px; */
+                            width: 172px!important;
+                        }
+                    </style>
+                    <div class="container">
+                        <div class="row">
+                            <div class="span3">
+
+
+
+
+
+                            </div>
+
+                            <div class="span3">
+
+
+
+
+
+                            </div>
+
+
+
+                            <div class="span12">
+                                <section  id="fond-8" align=center>
+                                    <div class="container" id="content-8">
+                                        <div class="row">
+
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12" >
+                                                <button type="button" class="btn btn-info bouton-1" data-toggle="collapse" style="background-color:red!important;width: 344px!important;"  >
+
+                                                    <label style="font-size: 46px; text-align: center;color: white;">Budgétisation</label>
+
+                                                </button>
+
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" class="btn btn-info bouton-1" data-toggle="collapse" style="width: 360px!important;" >
+                                                    <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icone-1.png" alt="icone-3" style="width: 50px;height: 50px;padding: 0;"></span>  &nbsp;<label style="font-size: 36px;">Affichage</label>
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" class="btn btn-info bouton-1" data-toggle="collapse" data-target="#demo-1">
+                                                    Vignette thématique &nbsp;   <span class="glyphicon glyphicon-play"></span>
+                                                </button>
+                                                <div id="demo-1" class="collapse bouton-2">
+                                                    <ul class="thumbnails">
+
+                                                        <li id="">
+
+                                                            <div align=center class="col-md-12" style="background-color: white; height: 207px;overflow-y: scroll;margin-top: 59px; margin-left: 51px;">
+                                                                <div class="titre">Ville depart</div>
+                                                                <br>
+                                                                {% for ville in villes %}
+                                                                    <div class="tex" >
+                                                                        <input id="select" class="vignette_thematique_ville  " type="radio" name="villes"  value="{{ ville.region.coderegion }}"/>{{ ville.libelle }}
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                            <br>
+                                                        </li>
+
+                                                        <li id="">
+                                                            <div align=center class="col-md-12" style="background-color: white; height:210px; margin-top: 59px;margin-left: 51px;">
+
+
+
+
+                                                                <br>
+                                                                <br>
+
+                                                                <div class="tex" >
+                                                                    <div class="form-inline">
+
+                                                                        <div class="form-inline">
+                                                                            <label class="checkbox-inline">
+                                                                                <input class="vignette_thematique" name="ch0" type="checkbox" value="L" id="ch0" align="left" onclick="check(this, 'ch1'),check(this,'ch2'),check(this,'ch3'),check(this,'ch4'),check(this,'ch5');" style="float:left; margin-right:5px;" />
+                                                                                Ma ville
+                                                                            </label>
+                                                                            <label class="checkbox-inline">
+                                                                                <input class="vignette_thematique" name="ch1" type="checkbox" value="0" id="ch1" align="left" onclick="check(this, 'ch0'),check(this,'ch2'),check(this,'ch3'),check(this,'ch4'),check(this,'ch5');"  style="float:left; margin-right:5px;" />
+                                                                                Sa région
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="form-inline">
+                                                                            <label class="checkbox-inline">
+                                                                                <input class="vignette_thematique" name="ch2" type="checkbox" value="1" id="ch2" align="left" onclick="check(this, 'ch0'),check(this,'ch1'),check(this,'ch3'),check(this,'ch4'),check(this,'ch5');"  style="float:left; margin-right:5px;" />
+                                                                                +1 région
+                                                                            </label>
+                                                                            <label class="checkbox-inline">
+                                                                                <input class="vignette_thematique" name="ch3" type="checkbox" value="3" id="ch3" align="left" onclick="check(this, 'ch0'),check(this,'ch1'),check(this,'ch2'),check(this,'ch4'),check(this,'ch5');"  style="float:left; margin-right:5px;" />
+                                                                                +3 région
+                                                                            </label>
+
+                                                                        </div>
+                                                                        <div class="form-inline">
+                                                                            <label class="checkbox-inline">
+                                                                                <input class="vignette_thematique" name="ch4" type="checkbox" value="6" id="ch4" align="left" onclick="check(this, 'ch0'),check(this,'ch1'),check(this,'ch2'),check(this,'ch3'),check(this,'ch5');"  style="float:left; margin-right:5px;" />
+                                                                                +6 région
+                                                                            </label>
+                                                                            <label class="checkbox-inline">
+                                                                                <input class="vignette_thematique" name="ch5" type="checkbox" value="9" id="ch5" align="left" onclick="check(this, 'ch0'),check(this,'ch1'),check(this,'ch2'),check(this,'ch3'),check(this,'ch4');"  style="float:left; margin-right:5px;" />
+                                                                                +9 région
+                                                                            </label>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="thumbnail" id="divchk">
+                                                                        <input type="checkbox" id="chk1" name="chk"   class="vignette_thematique single-checkbox "  value="L" >Ma ville</h5>
+                                                                        <input type="checkbox" id="chk2" name="chk"   class="vignette_thematique single-checkbox "  value="0" >Sa région
+                                                                        <input type="checkbox" id="chk3" name="chk"   class="vignette_thematique single-checkbox "  value="1" >+1 région<br>
+                                                                        <input type="checkbox" id="chk4" name="chk"   class="vignette_thematique single-checkbox "  value="3" >+3 région
+                                                                        <input type="checkbox" id="chk5" name="chk"   class="vignette_thematique single-checkbox "  value="6" >+6 région<br>
+                                                                        <input type="checkbox" id="chk6" name="chk"   class="vignette_thematique single-checkbox"  value="9" >+9 région
+                                                                    </div>
+                                                                    </span>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+
+
+                                                    <input type="text" id="thematique" value="0" readonly >
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="row">
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" class="btn btn-info bouton-1" data-toggle="collapse" data-target="#demo-2">
+                                                    Vignette localité &nbsp;   <span class="glyphicon glyphicon-play"></span>
+                                                </button>
+                                                <div id="demo-2" class="collapse bouton-2">
+                                                    <ul class="thumbnails">
+
+                                                        <li id="">
+                                                            <div align=center class="col-md-3" style="background-color: white; height:210px;margin-top: 73px; margin-left: 51px; ">
+
+                                                                <div class="titre"><label  class="vignette_localite  "  name="villes"  value="24000"/> Categorie 1</div>
+
+                                                                <br>
+                                                                <br>
+
+                                                                <div class="tex" >
+                                                                    <br>
+                                                                    <div style="width: 200px;"><input  class="vignette_localite  " type="checkbox" name="villes"  value="24000"/>  Casablanca</div>
+
+
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+
+                                                        <li id="">
+                                                            <div align=center class="col-md-3" style="background-color: white; height:210px; margin-top: 73px; ">
+
+                                                                <div class="titre"><label  class="vignette_localite "  name="villes"  value="12000"/> Categorie 2<br></div>
+
+                                                                <br>
+                                                                <br>
+
+                                                                <div class="tex" >
+
+                                                                    <div style="width: 200px;"><input  class="vignette_localite  " type="checkbox" name="villes"  value="12000"/>  Rabat</div>
+                                                                    <div style="width: 200px;"><input  class="vignette_localite  " type="checkbox" name="villes"  value="12000"/>  Fés</div>
+                                                                    <div style="width: 200px;"><input  class="vignette_localite  " type="checkbox" name="villes"  value="12000"/>  Marrakech</div>
+                                                                    <div style="width: 200px;"><input  class="vignette_localite  " type="checkbox" name="villes"  value="12000"/>  Meknés</div>
+                                                                    <div style="width: 200px;"><input  class="vignette_localite  " type="checkbox" name="villes"  value="12000"/>  Agadir</div>
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+
+                                                        <li id="">
+                                                            <div align=center class="col-md-3" style="background-color: white; height:210px;margin-top: 73px;  ">
+
+                                                                <div class="titre"><label  class="vignette_localite"  name="villes"  value="8000"/>Categorie 3<br></div>
+
+                                                                <br>
+                                                                <br>
+
+                                                                <div class="tex" >
+                                                                    <div style="width: 200px;"><input  class="vignette_localite  " type="checkbox" name="villes"  value="8000"/>  Kénitra</div>
+                                                                    <div style="width: 200px;"><input  class="vignette_localite  " type="checkbox" name="villes"  value="8000"/>  Oujda</div>
+                                                                    <div style="width: 200px;"><input  class="vignette_localite  " type="checkbox" name="villes"  value="8000"/>  Essaouira</div>
+                                                                    <div style="width: 200px;"><input  class="vignette_localite ck " type="checkbox" name="villes"  value="8000"/>  Safi</div>
+                                                                    <div style="width: 200px;"><input  class="vignette_localite ck " type="checkbox" name="villes"  value="8000"/>  Settat</div>
+                                                                    <div style="width: 200px;"><input  class="vignette_localite ck " type="checkbox" name="villes"  value="8000"/>  Tétouan</div>
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div align=center class="col-md-3" style="background-color: white; height:210px;margin-top: 73px;   ">
+
+                                                                <div class="titre"> <label  class="vignette_localite" type="" name="villes" />Categorie 4</div>
+
+                                                                <br>
+                                                                <br>
+
+                                                                <div class="tex" >
+                                                                    <div style="width: 200px;"><input  class="vignette_localite ck " type="checkbox" name="villes"  value="5000"/>   Toutes les autres
+                                                                        villes y comprix les alentours des grandes villes Ex: Bouskoura</div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                    <input type="text" id="localite" value="0" readonly>
+                                                    <input  type="text" id="localite1" style="display: none" >
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+
+
+                                        <div class="row">
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" class="btn btn-info bouton-1" data-toggle="collapse" data-target="#demo-3">
+                                                    Professionnels du jour &nbsp;   <span class="glyphicon glyphicon-play"></span>
+                                                </button>
+                                                <div id="demo-3" class="collapse bouton-2">
+                                                    <form class="form-inline  ">
+                                                        <div class="form-inline ">
+                                                            <label class="checkbox-inline titre  ">
+                                                                <div>
+                                                                    <input class="professionnels_du_jour" name="pj" type="checkbox" value="1" id="pj0" align="left" onclick="check_pj(this, 'pj1');" style="float:left; margin-right:5px;" />
+                                                                    1 Mois</div>
+                                                            </label>
+                                                            <label class="checkbox-inline titre">
+                                                                <div>
+                                                                    <input class="professionnels_du_jour" name="pj"  type="checkbox" value="3" id="pj1" align="left" onclick="check_pj(this, 'pj0');" style="float:left; margin-right:5px;" />
+                                                                    2 Mois </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-group mb-2">
+                                                            <div class="titre"> <input  class="professionnels_du_jour single-checkbox " type="checkbox" name="villes"  value="1" style=""/>1 Mois
+                                                                <input  class="professionnels_du_jour single-checkbox " type="checkbox" name="villes"  value="3"/> 2 Mois
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group mb-2">
+                                                            <div class="titre"> <input  class="professionnels_du_jour single-checkbox" type="checkbox" name="villes"  value="3"/> 2 Mois </div>
+                                                        </div>
+
+                                                    </form>
+
+                                                    <input type="text" id="pfjour" value="0" readonly >
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" class="btn btn-info bouton-1" data-toggle="collapse" data-target="#demo-4">
+                                                    Espace Promo &nbsp;   <span class="glyphicon glyphicon-play"></span>
+                                                </button>
+                                                <div id="demo-4" class="collapse bouton-2">
+                                                    <form class="form-inline ">
+                                                        <div class="form-group mb-2">
+                                                            <label style="width: 292px; height: 92px;background-color: #c8d0d5;color: black;border-radius: 5px;font-size: 18px;padding-top: 15px;margin-top: 20px;line-height: 33px;">
+                                                                <input id="select" class="espace_promo single-checkbox " type="checkbox" name="villes"  value="1"/> 1 Promo / An  &nbsp;
+                                                                <input id="select" class="espace_promo single-checkbox" type="checkbox" name="villes"  value="2"/> 3 Promo / An<br>
+                                                                <input id="select" class="espace_promo single-checkbox" type="checkbox" name="villes"  value="3"/> 6 promo / An&nbsp;
+                                                                <input id="select" class="espace_promo single-checkbox" type="checkbox" name="villes"  value="4"/> 12 Promo / An  </label>
+                                                        </div>
+                                                    </form>
+
+                                                    <input type="text" id="promo" value="0" readonly >
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <div class="row">
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" class="btn btn-info bouton-1" data-toggle="collapse" data-target="#demo-5">
+                                                    Vignettes &nbsp;   <span class="glyphicon glyphicon-play"></span>
+                                                </button>
+                                                <div id="demo-5" class="collapse bouton-2">
+
+                                                    <form class="form-inline ">
+                                                        <div class="form-group mb-2">
+                                                            Nombre d'Affichage: <input  class="vignette_acc_video" type="text" name="nbr" id="nbr"  value=""/>
+                                                        </div>
+
+
+                                                    </form>
+
+                                                    <form class="form-inline ">
+
+                                                        <div class="form-group mb-2">
+                                                            <div class="titre"><input type="checkbox" class="vignette_acc_video single-checkbox"  value="100"> Accueil
+                                                                <input type="checkbox" class="vignette_acc_video single-checkbox"  value="80">  Vidéo</div>
+                                                        </div>
+
+                                                    </form>
+                                                    <form class="form-inline ">
+                                                        <div class="form-group mb-2">
+                                                            <div class="titre"><input type="checkbox" class="vignette_acc_video"  value="100"> Accueil </div>
+                                                        </div>
+                                                        <div class="form-group mx-sm-3 mb-2">
+                                                            <div  class="titre">  <input type="checkbox" class="vignette_acc_video"  value="80">  Vidéo</div>
+                                                        </div>
+                                                    </form>
+
+                                                    <input type="text" id="vignette" name="vignette" value="0" readonly >
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="row">
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" class="btn btn-info bouton-1" data-toggle="collapse" data-target="#demo-10">
+                                                    Vignettes &nbsp;   <span class="glyphicon glyphicon-play"></span>
+                                                </button>
+                                                <div id="demo-10" class="collapse bouton-2">
+
+                                                    <form class="form-inline ">
+                                                        <div class="form-group mb-2">
+                                                            Nombre d'Affichage: <input  class="vignette_acc_video" type="text" name="nbr1" id="nbr1"  value=""/>
+                                                        </div>
+
+
+                                                    </form>
+
+                                                    <form class="form-inline ">
+
+                                                        <div class="form-group mb-2">
+                                                            <div class="titre"><input type="checkbox" class="vignette_acc_video single-checkbox"  value="V0"> Accueil
+                                                                <input type="checkbox" class="vignette_acc_video single-checkbox"  value="VV">  Vidéo</div>
+                                                        </div>
+
+                                                    </form>
+                                                    <form class="form-inline ">
+
+                                                        <div class="form-group mb-2">
+                                                            <div class="titre"><input type="checkbox" class="vignette_acc_video"  value="100"> Accueil </div>
+                                                        </div>
+                                                        <div class="form-group mx-sm-3 mb-2">
+                                                            <div  class="titre">  <input type="checkbox" class="vignette_acc_video"  value="80">  Vidéo</div>
+                                                        </div>
+
+                                                    </form>
+
+                                                    <input type="text" id="vignette" name="vignette" value="0" readonly style="display: none" >
+                                                    <input type="text" id="total1" name="total" value="0" readonly >
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <div class="row">
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" class="btn btn-info bouton-1" data-toggle="collapse" data-target="#demo-6">
+                                                    Habillage &nbsp;   <span class="glyphicon glyphicon-play"></span>
+                                                </button>
+                                                <div id="demo-6" class="collapse bouton-2">
+
+
+                                                    <form class="form-inline ">
+                                                        <div class="form-group mb-2">
+                                                            <div class="titre">
+                                                                <input  class="habillage single-checkbox" type="checkbox" name="villes"  value="1" style=""/>Jour
+                                                                <input  class="habillage single-checkbox" type="checkbox" name="villes"  value="2"/> Semaine
+
+                                                            </div>
+
+
+                                                        </div>
+
+
+                                                    </form>
+
+                                                    <input type="text" id="habillage" value="0" readonly >
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" class="btn btn-info bouton-1" data-toggle="collapse" data-target="#demo-7">
+                                                    Bannières &nbsp;   <span class="glyphicon glyphicon-play"></span>
+                                                </button>
+                                                <div id="demo-7" class="collapse bouton-2">
+
+
+                                                    <form class="form-inline ">
+
+                                                        <div class="form-group mb-2">
+                                                            Nombre d'Affichage: <input  class="banniere" type="text" name="nombre" id="nombre"  value=""/>
+                                                        </div>
+
+
+                                                    </form>
+
+                                                    <form class="form-inline ">
+
+                                                        <div class="form-group mb-2">
+                                                            <div class="titre" style="width: 295px!important;"><input id="select" class="banniere my-activity" type="checkbox"   value="80"/> En haut sur la page de résultats </div>
+                                                        </div>
+                                                        <div class="form-group mx-sm-3 mb-2">
+                                                            <div  class="titre" style="width: 295px!important;">  <input id="select" class="banniere my-activity" type="checkbox"   value="90"/> En bas sur la page de résultats</div>
+                                                        </div>
+
+                                                    </form>
+
+                                                    <form class="form-inline ">
+
+                                                        <div class="form-group mb-2">
+                                                            <div class="titre" style="width: 295px!important;"><input id="select" class="banniere my-activity" type="checkbox"   value="150"/> En haut sur les fichiers prospects </div>
+                                                        </div>
+                                                        <div class="form-group mx-sm-3 mb-2">
+                                                            <div  class="titre" style="width: 295px!important;">  <input id="select" class="banniere my-activity" type="checkbox"   value="150"/> En bas sur les fichiers prospects</div>
+                                                        </div>
+
+                                                    </form>
+
+
+                                                    <input type="text"  id="banniere" name="banniere" value="0" readonly >
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </section>
+
+
+                            </div>
+
+                        </div>
+                        <br>
+                        <br>
+
+                        <div class="span12">
+                            <p>
+                                <strong> Budget estimé R</strong>: <input type="text" name="total" id="" readonly value="0" />
+                                <strong> Budget estimé G C</strong>: <input type="text" name="total" id="" readonly value="0" />
+                                <strong> Budget estimé A</strong>: <input type="text" name="total" id="total" readonly value="0" />
+                                <strong> B G estimé </strong>: <input type="text" name="" id="" readonly value="0"/>
+                            </p>
+                        </div>
+                    </div>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% include 'UtilisateursBundle:Default:modulesUsed/utilisateursConnecte.html.twig' %}
+                    {% else %}
+                        {% include 'UtilisateursBundle:Default:modulesUsed/utilisateurs.html.twig' %}
+                    {% endif %}
+                    {% render(controller('EcommerceBundle:Panier:menu')) %}

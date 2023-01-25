@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block titre %}E-contact | Budgétisation - Gestion de contenu{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="{{ asset('Logo-econtact-2.png') }}" />
+    <link rel="stylesheet" href="{{ asset('css/style-budgetisation-gestion-de-contenu.css') }}" />
+</head>
+<style>
+    .loaders {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        background: url(../../web/ajax-loaderd.gif) center center no-repeat rgba(57, 66, 100, 0.6);
+        z-index: 500;
+    }
+    .results{
+
+        height: 36px;
+        width: 200px;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        padding: 18px 11px;
+        font-size: 18px;
+    }
+</style>
+
+<body>
+
+<form id="jsForm" class="form-group" action="" method="GET">
+    <div class="icon-retour">
+        <a style="color: #2eb2ff;" href="http://www.e-contact.telecontact.ma/#fond-8{#{{ path('fos_user_profile_show') }}#}">< Retour  ( chemins des onglets parcourus )</a>
+    </div>
+
+    <section  id="fond-1" align=center>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12" align=center>
+                    <div class="titre-1">
+                        <p>Simulation devis</p>
+                    </div>
+                    <div class="titre-2">
+                        <p class="acroche">Engagez la relation avec vos clients potentiels avec la diffusion
+                            <br>
+                            d'un <span style="color: #ffdb2e"><strong>contenu pertinent et riche</strong></span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+
+
+
+
+    <section  id="fond-2">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+
+
+                    <div class="form-inline" align="center">
+                        <div class="form-group ">
+                            <div class="btn-1" >
+                                <a href="{{ path('referencementdevis') }}" {#id="ajax_test_referencement_ther"#} style="color: black" >
+                                    {# <span class="glyphicon glyphicon-triangle-left fleche-petit"></span>#} <img class="icone" src="http://www.telecontact.ma/trouver/images_econtact/Icone-3.png" alt="icone-3">
+                                    Référencement
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <div class="btn-1" style="width: 330px!important;background-color: black;">
+
+                                <a {#href="{{ path('budget_gestion_contenu') }}" id="ajax_test_referencement_ther"#} style="width: 319px!important;color: white">
+                                    <img class="icone" src="https://image.noelshack.com/fichiers/2018/13/5/1522417107-icone-2-inverse.png" alt="icone-3">
+                                    Gestion de Contenu   <span class="glyphicon glyphicon-triangle-right"></span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <div class="btn-1">
+
+                                <a href="{{ path('devis_affichage') }}" id="ajax_test_referencement_fort"  style="color: black">
+                                    <img class="icone" src="http://www.telecontact.ma/trouver/images_econtact/Icone-1.png" alt="icone-3">
+                                    Affichage   <span class="glyphicon glyphicon-triangle-right"></span>
+                                </a>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="produits">
+
+
+
+
+                        <div class="form-inline" >
+                            <button type="button" class="btn btn-2" data-toggle="collapse" data-target="#demo-1">
+                                <span class="glyphicon glyphicon-zoom-in"></span>&nbsp; &nbsp;Catalogue &nbsp;   <span class="glyphicon glyphicon-triangle-right glyphicon-triangle-"></span>
+                            </button>
+                            <div id="demo-1" class="collapse ">
+                                <label class="checkbox-inline" style="width: 181px;">
+                                    <div>
+                                        <input name="catalogue" class="my-activity checkbox " {% if contenu['catalogue']==3500 %} checked {% endif %} type="checkbox" id="ct0" value="3500" >5 pages
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline" style="width: 181px;">
+                                    <div>
+                                        <input name="catalogue" class="my-activity checkbox " {% if contenu['catalogue']==5000 %} checked {% endif %} type="checkbox" id="ct1" value="5000" >10 pages
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline" style="width: 181px;">
+                                    <div>
+                                        <input name="catalogue" class="my-activity checkbox "  {% if contenu['catalogue']==7500 %} checked {% endif %}  type="checkbox" id="ct2" value="7500" >20 pages
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div class="form-inline">
+                            <button type="button" class="btn btn-2" data-toggle="collapse" data-target="#demo-2">
+                                <span class="glyphicon glyphicon-zoom-in"></span>&nbsp; &nbsp;Catalogue Référencé &nbsp;   <span class="glyphicon glyphicon-triangle-right glyphicon-triangle-"></span>
+                            </button>
+                            <div id="demo-2" class="collapse">
+                                <label class="checkbox-inline" style="width: 181px;">
+                                    <div>
+                                        <input type="checkbox" name="catalogue_ref" {% if contenu['catalogue_ref']==5000 %} checked {% endif %}  class="my-activity checkboxs " id="cr1"  value="5000" >5 pages
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline" style="width: 181px;">
+                                    <div>
+                                        <input type="checkbox" name="catalogue_ref" {% if contenu['catalogue_ref']==6500 %} checked {% endif %} class="my-activity checkboxs " id="cr2" value="6500" >10 pages
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline" style="width: 181px;">
+                                    <div>
+                                        <input type="checkbox" name="catalogue_ref" {% if contenu['catalogue_ref']==9000 %} checked {% endif %}  class="my-activity checkboxs " id="cr3" value="9000" >20 pages
+                                    </div>
+                                </label>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-inline">
+                            <button type="button" class="btn btn-2" data-toggle="collapse" data-target="#demo-3">
+                                <span class="glyphicon glyphicon-zoom-in"></span>&nbsp; &nbsp;Vidéo &nbsp;   <span class="glyphicon glyphicon-triangle-right glyphicon-triangle-"></span>
+                            </button>
+                            <div id="demo-3" class="collapse">
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="video[]" {% for entity in contenu['video'] %}  {% if entity == 6500 %} checked {% endif %}  {% endfor %} class="my-activity " id="vd4" value="6500" >Graphique
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="video[]"  {% for entity in contenu['video'] %}  {% if entity == 9500 %} checked {% endif %}  {% endfor %} class="my-activity " id="vd5" value="9500" >Vidéo
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="video[]"  {% for entity in contenu['video'] %}  {% if entity == 12500 %} checked {% endif %}  {% endfor %} class="my-activity " id="vd0"  value="12500" >Film
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="video[]" {% for entity in contenu['video'] %}  {% if entity == 20000 %} checked {% endif %}  {% endfor %} class="my-activity " id="vd1"  value="20000" >Motion Design
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="video[]"  {% for entity in contenu['video'] %}  {% if entity == 30000 %} checked {% endif %}  {% endfor %} class="my-activity " id="vd2" value="30000" >Vidéo Premium
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="video[]"  {% for entity in contenu['video'] %}  {% if entity == 3500 %} checked {% endif %}  {% endfor %} class="my-activity " id="vd3" value="3500" >Diffusion
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div class="form-inline">
+                            <button type="button" class="btn btn-2" data-toggle="collapse" data-target="#demo-4">
+                                <span class="glyphicon glyphicon-zoom-in"></span>&nbsp; &nbsp;Pack Visibilité Internet &nbsp;   <span class="glyphicon glyphicon-triangle-right glyphicon-triangle-"></span>
+                            </button>
+                            <div id="demo-4" class="collapse">
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="page[]" {% for entity in contenu['page'] %}  {% if entity == 2000 %} checked {% endif %}  {% endfor %}   class="my-activity " id="pv0" value="2000" >Page Web
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="page[]" {% for entity in contenu['page'] %}  {% if entity == 3000 %} checked {% endif %}  {% endfor %}  class="my-activity " id="pv1"  value="3000" >Pack Présence
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="page[]" {% for entity in contenu['page'] %}  {% if entity == 4500 %} checked {% endif %}  {% endfor %}  class="my-activity " id="pv2" value="4500" >Web
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="page[]" {% for entity in contenu['page'] %}  {% if entity == 7000 %} checked {% endif %}  {% endfor %}  class="my-activity " id="pv3"  value="7000" >Web +
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="page[]" {% for entity in contenu['page'] %}  {% if entity == 9500 %} checked {% endif %}  {% endfor %}  class="my-activity " id="pv4" value="9500" >Web Interactif
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="page[]" {% for entity in contenu['page'] %}  {% if entity == 12000 %} checked {% endif %}  {% endfor %}  class="my-activity " id="pv5" value="12000" >E-commerce
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-inline">
+                            <button type="button" class="btn btn-2" data-toggle="collapse" data-target="#demo-5">
+                                <span class="glyphicon glyphicon-zoom-in"></span>&nbsp; &nbsp;Site Contact &nbsp;   <span class="glyphicon glyphicon-triangle-right glyphicon-triangle-"></span>
+                            </button>
+                            <div id="demo-5" class="collapse">
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="site_web[]" {% for entity in contenu['site_web'] %}  {% if entity == 7800 %} checked {% endif %}  {% endfor %} class="my-activity " id="pv0" value="7800" >Site Vitrine
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="site_web[]" {% for entity in contenu['site_web'] %}  {% if entity == 10000 %} checked {% endif %}  {% endfor %}class="my-activity " id="pv1"  value="10000" >Site Catalogue
+                                    </div>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <div>
+                                        <input type="checkbox" name="site_web[]" {% for entity in contenu['site_web'] %}  {% if entity == 20000 %} checked {% endif %}  {% endfor %}  class="my-activity " id="pv2" value="20000" >Site Premium
+                                    </div>
+                                </label>
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section  id="fond-4">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12 col-xs-12" >
+
+                <div class="form-inline" style="display: none">
+                    <div class="form-group pull-left">
+                        <div class="form-group">
+                            <button id="ajax_test_ref" class="btn black" onclick="showhide_r() ">
+                                <span style="color: #ffdb2e;">Budget estimé</span>
+                                <br>Référencement
+                            </button>
+                            <div id="ref" style="display: none">
+                                <input class=" results" type="text" name="total" id="totalref" value="0"  readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group pull-left">
+                        <div class="form-group">
+                            <button id="ajax_test_referencement" class="btn black"  onclick="showhide_c()">
+                                <span style="color: #ffdb2e;">Budget estimé</span>
+                                <br>Gestion de contenu
+                            </button>
+                            <div id="cat" style="display: none">
+                                <input class=" results" type="text" name="total" id="total" value="0"  readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="button" value="test" id="ajax_test_referencement_sec" style="display: none;">
+                    {#  <div class="form-group pull-right">
+                          <form class="form-inline">
+                              <div class="form-group">
+                                  <a href="{{ path('referencement') }}" id="ajax_test_referencement_ther" role="button" class="btn btn-info">
+                                      <span class="glyphicon glyphicon-triangle-left fleche-petit"></span> <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icone-3.png" alt="icone-3">
+                                      Référencement
+                                  </a>
+                              </div>
+
+                              <div class="form-group">
+                                  <a href="{{ path('budget_affichage') }}" id="ajax_test_referencement_fort" role="button" class="btn" style="width: 165px;">
+                                      <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icone-1.png" alt="icone-3">
+                                      Affichage   <span class="glyphicon glyphicon-triangle-right"></span>
+                                  </a>
+                              </div>
+                          </form>
+                      </div>#}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+</form>
+
+</body>
+
+
+<script>
+
+    function showhide_r_sec_sec()
+    {
+
+        event.preventDefault();
+
+        $('.loaders').css('display','');
+
+        form =$('#jsForm ');
+
+        $.ajax({
+            url: '{{ path('referencement_commande_contenu') }}',
+            type: 'POST',
+            data: form.serialize(),
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+
+
+                    console.log(successMessage);
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+
+
+    }
+
+    $('#ajax_test_referencement_sec___________________').on('click', function (event) {
+
+
+
+        showhide_r_sec_sec();
+
+
+    });
+
+    $('#ajax_test_referencement_ther__________________').on('click', function (event) {
+
+        event.preventDefault();
+
+        $('.loaders').css('display','');
+
+        form =$('#jsForm ');
+
+        $.ajax({
+            url: '{{ path('referencement_commande_contenu') }}',
+            type: 'POST',
+            data: form.serialize(),
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+
+
+                    console.log(successMessage);
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+
+
+
+
+
+    });
+
+    $('#ajax_test_referencement_fort_______________').on('click', function (event) {
+
+
+        event.preventDefault();
+
+        $('.loaders').css('display','');
+
+        form =$('#jsForm ');
+
+        $.ajax({
+            url: '{{ path('referencement_commande_contenu') }}',
+            type: 'POST',
+            data: form.serialize(),
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+
+                    // window.location..replace = {{ path('budget_affichage') }};
+                    console.log(successMessage);
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+    });
+
+
+
+    $('#ajax_test_ref').on('click', function (event) {
+
+        event.preventDefault();
+
+        $('.loaders').css('display','');
+        var fayssal=  $("#total").val( );
+        form =$('#jsForm ');
+        var data_send = {'nbr': fayssal};
+        $.ajax({
+            url: '{{ path('referencement_commande_devis_somme') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+                    var t= successMessage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                    $("#totalref").val(t);
+
+
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+                    showhide_r_sec_sec();
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+
+
+
+
+    });
+
+    function kam(){
+
+        $('.loaders').css('display','');
+        var fayssal1=  $("#total").val( );
+        var fayssal= fayssal1.replace(/[^0-9\.]/g, '');
+        form =$('#jsForm ');
+        var data_send = {'nbr': fayssal};
+        $.ajax({
+            url: '{{ path('referencement_commande_devis_cont') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+
+                    showhide_r_sec_sec();
+                    console.log(successMessage);
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+
+
+
+    }
+
+    $('#ajax_test_referencement').on('click', function (event) {
+
+        event.preventDefault();
+
+        kam();
+
+
+    });
+
+    $('.checkbox').on('change', function() {
+        $('.checkbox').not(this).prop('checked', false);
+    });
+    $('.checkboxs').on('change', function() {
+        $('.checkboxs').not(this).prop('checked', false);
+    });
+
+
+    function showhide_r()
+    {
+        var div = document.getElementById("ref");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+    }
+
+    function showhide_c()
+    {
+        var div = document.getElementById("cat");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+
+        tot();
+        function tot(){
+
+            var total = 0;
+            var t;
+            $(".my-activity:checked").each(function() {
+                total += parseInt($(this).val());
+                t= total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            });
+            if (t == 0) {
+                $('#total').val(0);
+            } else {
+                $('#total').val(t);
+            }
+        }
+        $(".my-activity").change(function(event) {
+            var total = 0;
+            var t;
+            $(".my-activity:checked").each(function() {
+                total += parseInt($(this).val());
+                t= total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+            });
+            if (t == 0) {
+                $('#total').val(0);
+            } else {
+                $('#total').val(t);
+            }
+            kam();
+        });
+    });
+
+</script>
+</html>

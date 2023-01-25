@@ -1,0 +1,295 @@
+body .icon-retour {
+    margin: 20px;
+    height: auto;
+    overflow-y: scroll;
+}
+
+section {
+    width:100%;
+    height: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#fond-1 {
+    background-image:url('http://www.telecontact.ma/trouver/images_econtact/fond-budgetisation.jpg');
+    left: 0;
+    height: 250px;
+
+}
+
+#fond-1 .titre-1 {
+    background-color: #ff5c5c;
+    width: 300px;
+    height: 60px;
+    border-radius: 5px;
+    margin-top: 60px;
+    padding-top: 8px;
+    color: white;
+    letter-spacing: 1px;
+    font-size: 32px;
+}
+
+
+#fond-1 .titre-2 {
+    background-color: black;
+    width: 940px;
+    height: 120px;
+    border-radius: 0;
+    margin-top: 60px;
+    padding-top: 20px;
+    font-size: 26px;
+    font-weight: lighter;
+}
+
+
+#fond-1 .titre-2 .acroche {
+    color: white;
+    letter-spacing: 2px;
+    line-height: 1.4;
+}
+
+#fond-2 {
+    background-color: white;
+    left: 0;
+    height: 100%;
+}
+
+#fond-2 .container .btn-1 {
+    background-color: #ffdb2e;
+    margin: 50px 15px 10px 0;
+    width: 318px;
+    height: 49px;
+    border: 0;
+    font-size: 25px;
+    padding: 8px 0 0 0px;
+    color: black;
+}
+
+
+#fond-2 .container .btn-1 .icone {
+    width: 50px;
+    height: 49px;
+    padding: 0;
+    margin-top: -8px;
+}
+
+#fond-2 .container .produits {
+    margin-left: 20px;
+}
+
+#fond-2 .container .produits .btn-2 {
+    background-color: #ffdb2e;
+    margin: 30px 15px 10px 0;
+    width: 280px;
+    height: 40px;
+    border: 0;
+    font-size: 18px;
+    padding-left: 25px;
+    color: black;
+    text-align: left;
+}
+
+
+
+
+#fond-2 .container .produits #demo-1 {
+    margin: -53px 0 0 300px;
+    width: 600px;
+    height: 195px;
+}
+
+
+#fond-2 .container .produits #demo-2 {
+    margin: -53px 0 0 300px;
+    width: 600px;
+    height: 195px;
+}
+
+#fond-2 .container .produits #demo-3 {
+    margin: -53px 0 0 300px;
+}
+
+
+
+
+#fond-2 .container .produits #demo-4 {
+    margin: -53px 0 0 300px;
+    width: 800px;
+}
+
+#fond-2 .container .produits #demo-5 {
+    margin: -53px 0 0 300px;
+    width: 600px;
+}
+
+
+#fond-2 .container .produits #demo-6 {
+    margin: -53px 0 0 300px;
+
+}
+
+
+#fond-2 .container .produits #demo-7 {
+    margin: -53px 0 0 300px;
+    width: 700px;
+
+}
+
+#fond-2 .container .produits #nombre-afichage {
+}
+
+
+
+#fond-2 .container .produits label{
+    background-color: #dadada;
+    padding: 10px 14px 10px 34px;
+    font-size: 16px;
+    margin: 3px;
+}
+
+#fond-2 .container .produits .villes .btn {
+    width: 220px;
+    height: 40px;
+    color: white;
+    background-color: black;
+    border-radius: 0;
+    font-size: 17px;
+    margin: 4px 0 0 0;
+}
+
+
+#fond-2 .container .produits #demo-1-1, #demo-2-1, #demo-2-2, #demo-2-3, #demo-2-4 {
+    width: 220px;
+    position: absolute;
+    background-color: #dadada;
+    margin-top : 0;
+    height: 155px;
+}
+
+
+#fond-2 .container .produits #demo-1 .region {
+    margin: -43px 0 0 230px;
+    width: 400px;
+}
+
+#fond-2 .container .produits #demo-2 .categorie-1 {
+    margin: -43px 0 0 230px;
+    width: 400px;
+}
+
+#fond-2 .container .produits #demo-2 .categorie-2 {
+    margin: -43px 0 0 460px;
+    width: 400px;
+}
+
+#fond-2 .container .produits #demo-2 .categorie-3 {
+    margin: -43px 0 0 690px;
+    width: 400px;
+}
+#fond-2 .container .produits #demo-2 .categorie-4 {
+    margin: -43px 0 0 800px;
+    width: 400px;
+}
+
+#fond-4 {
+    background-color: white;
+    height: 220px;
+
+}
+
+
+#fond-4 .container form .btn {
+    background-color: #ffdb2e;
+    margin: 50px 0 0 15px;
+    width: 250px;
+    height: 45px;
+    border: 0;
+    font-size: 18px;
+    padding: 4px 0 0 0;
+    color: black;
+}
+
+#fond-4 .container div .black {
+    background-color: black;
+    margin: 50px 15px 0 0;
+    width: 200px;
+    height: 65px;
+    border: 0;
+    font-size: 18px;
+    padding: 8px 0 0 0;
+    color: white;
+    margin-bottom: 20px;
+}
+
+#fond-4 .container form .btn .icone {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+}
+
+span.glyphicon-triangle-right {
+    font-size: 16px;
+    vertical-align: -2px;
+    /*float: right;*/
+}
+span.glyphicon-triangle- {
+    float: right;
+}
+span.glyphicon-triangle-left {
+    font-size: 16px;
+    vertical-align: 3px;
+    /*float: right;*/
+}
+
+span.glyphicon glyphicon-zoom-in {
+    font-size: 16px;
+    vertical-align: -2px;
+    float: left;
+}
+
+
+@media (min-width: 992px) and (max-width: 1400px) {
+
+    .form-group {
+        margin-top: 40px;
+    }
+ #fond-2 .container .produits .villes .btn {
+        width: 170px;
+    }
+#fond-2 .container .produits #demo-1-1, #demo-2-1, #demo-2-2, #demo-2-3, #demo-2-4 {
+        width: 170px;
+    }
+
+#fond-2 .container .produits #demo-2 .categorie-1 {
+        margin: -43px 0 0 185px;
+        width: 400px;
+    }
+
+#fond-2 .container .produits #demo-2 .categorie-2 {
+        margin: -43px 0 0 370px;
+        width: 400px;
+    }
+
+#fond-2 .container .produits #demo-2 .categorie-3 {
+        margin: -43px 0 0 555px;
+        width: 400px;
+    }
+#fond-2 .container .produits #demo-2 .categorie-4 {
+        margin: -43px 0 0 800px;
+        width: 400px;
+    }
+}
+
+@media (max-width: 990px){
+    #fond-2 {
+        margin-top: 80px;
+    }
+
+    #fond-1 .titre-2 {
+        width: 687px;
+        height: 151px;
+
+    }
+
+}

@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block titre %}E-contact | Referencement{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/style-profession_liberale.css') }}" />
+    <style>
+        .ui-timepicker-list
+        {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="icon-retour">
+    <a style="color: #2eb2ff;" href="{{ path('budget_affichage') }}">< Retour  ( chemins des onglets parcourus )</a>
+</div>
+{#<div class="loaders" style="display: none"></div>#}
+
+<section  id="fond-1" align=center>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12" align=center>
+                <div class="titre-1">
+                    <p>Budgétisation</p>
+                </div>
+                <div class="titre-2">
+                    <p class="acroche"><span style="color: #ffdb2e"><strong>Optimisez</strong></span> votre présence sur les moteurs de recherche
+                        <br>
+                        et sur telecontact.ma
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section  id="fond-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="form-inline" >
+                    <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="btn-1 menu" style="background-color: black">
+                            <a href="{{ path('profession_liberale') }}" id="ajax_test_referencement_fort"  style="color: white">
+                                <img class="icone" src="https://image.noelshack.com/fichiers/2018/24/3/1528884879-imageedit-48-3908522270.gif" alt="icone-3" alt="icone-3">
+                                Professsion libérale
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="btn-1 menu" >
+                            <a href="{{ path('budget_gestion_contenu') }}"  style="color: black">
+                                <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icona-2.png" alt="icone-3">
+                                Gestion de Contenu   <span class="glyphicon glyphicon-triangle-right"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="btn-1 menu">
+                            <a href="{{ path('budget_affichage') }}" style="color: black">
+                                <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icone-1.png" alt="icone-3">
+                                Affichage   <span class="glyphicon glyphicon-triangle-right"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <form id="profession_liberal">
+                    <div class="activites" style="margin-left: 68px!important;margin-top: 154px">
+                        <div class="btn-2" align="center">
+                            <p>Parcours - Diplômes</p>
+                        </div>
+                        <div class="form-group " >
+                            <div class="form-inline ">
+                                <textarea type="text" class="form-control profession_envoi_session " id="parcours_diplomes" name="parcours_diplomes"  placeholder="Parcours - Diplômes" >{% if profession['parcours_diplomes'] %} {{  profession['parcours_diplomes']}}{% endif %}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="btn-2" align="center">
+                            <p>Rubrique</p>
+                        </div>
+                        <div class="form-group" >
+                            <button type="button" id="dropdownMenu1"  class="btn multiselect" data-toggle="collapse" data-target="#demo-1-1">
+                                <span id="select_rub">Sélectionner rubrique</span><span id="rubrique_view"></span>
+                                <span class="glyphicon glyphicon-triangle-bottom visibilite_icon"></span>
+                            </button>
+                        </div>
+                        <div id="demo-1-1" class="collapse bouton-2 r " style="overflow-y:scroll;position: relative!important;">
+                            <input type="text" id="myInput" class="form-control" placeholder="search" >
+                            <span class="glyphicon glyphicon-search form-control-feedback " ></span>
+                            <div class="form-inline" id="dropdownMenu1" >
+                                <table id="myTable" class="avocat">
+                                    <tbody >
+                                    {% for avocat in Rubrique_Profession_Liberale %}
+                                        <tr>
+                                            <td >
+                                                <label><input class="select_rub checkbox_rub chnage_color r first profession_envoi_session" id="check" name="check" type="checkbox" {% if profession['rubrique']%} {% if avocat.id==profession['rubrique'] %} checked {% endif %}{% endif %} value="{{ avocat.id }}" ><h7 class="label_rub" >{{ avocat.libelle }}</h7></label>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <table id="myTable" class="dentiste">
+                                    <tbody >
+                                    {% for dentiste in dentistes %}
+                                        <tr>
+                                            <td >
+                                                <label><input class="select_rub checkbox_rub chnage_color r first profession_envoi_session" id="check" name="check" type="checkbox" {% if profession['rubrique']%} {% if dentiste.id==profession['rubrique'] %} checked {% endif %}{% endif %} value="{{ dentiste.id }}" ><h7 class="label_rub" >{{ dentiste.libelle }}</h7></label>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                                <table id="myTable" class="medecin">
+                                    <tbody >
+                                    {% for medecin in medecins %}
+                                        <tr>
+                                            <td >
+                                                <label><input class="select_rub checkbox_rub chnage_color r first profession_envoi_session" id="check" name="check" type="checkbox" {% if profession['rubrique']%} {% if medecin.id==profession['rubrique'] %} checked {% endif %}{% endif %} value="{{ medecin.id }}" ><h7 class="label_rub" >{{ medecin.libelle }}</h7></label>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <div class="btn-2" align="center">
+                            <p>Specialités & Services</p>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-group" >
+                                <input type="number" class="profession_envoi_session" id="count_specialites" name="count_specialites"  {% if profession['count_specialites'] %}  value="{{ profession['count_specialites']}}" {% endif %} style="display: none">
+                                <input type="number" class="profession_envoi_session" id="count_services" name="count_services" {% if profession['count_services'] %}  value="{{ profession['count_services']}}" {% endif %} style="display: none">
+                                <div class="input_fields_wrap" style="position: relative!important;">
+                                    <div style="margin-top: 36px;">
+
+                                    </div>
+                                </div>
+                                <button class="add_field_button btn_prestattion profession_envoi_session" >Ajouter une Spécialité</button>
+                            </div>
+                            <div style="margin-left: -15px;">
+                                <div class="btn-2" align="center">
+                                    <p>Information générale</p>
+                                </div>
+                                <div class="form-group" style="margin-top: 36px;">
+                                    <label class="info-gen" for="exampleInputAmount">Certifications</label>
+                                    <div class="form-group ">
+                                        <textarea class="certifications profession_envoi_session" type="text" name="certifications"  style="margin-left: 54px;text-align: justify;!important;">{% if profession['certifications'] %} {{  profession['certifications']}} {% else %} {% endif %}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="form-group " >
+                                <div class="input_fields_wrap2">
+                                    <div style="margin-top: 36px;">
+
+                                    </div>
+                                </div>
+                                <button class="add_field_button2 btn_prestattion profession_envoi_session">Ajouter un Service </button>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group" style="margin-top: -9px" >
+
+                            <div class="form-group  ">
+                                <div ><label class="info-gen" for="exampleInputAmount">Horaires d'ouverture</label>
+                                    <button type="button" id="dropdownMenu1"  class="btn horraire" data-toggle="collapse" data-target="#demo-2-1" >
+                                        <span id="select_first_day">Sélectionner jour</span><span id="first_day_view"></span>
+                                        <span class="glyphicon glyphicon-triangle-bottom visibilite_icon"></span>
+                                    </button>
+                                    <div id="demo-2-1" class=" btn collapse bouton-3  " style="overflow-y:scroll;">
+                                        <div class="form-inline" id="dropdownMenu3" >
+                                            <label class="label_day">
+
+                                                <input class="profession_envoi_session first_day" id="first_day" name="first_day[]" type="checkbox"   {% for entity in profession['first_day'] %}{% if entity=="Lundi" %} checked {% endif %}{% endfor %}   value="Lundi" ><h7 class="label_rub" >Lundi</h7></label>
+
+                                            <label class="label_day"><input class="profession_envoi_session first_day" id="first_day" name="first_day[]" type="checkbox"   {% for entity in profession['first_day'] %}{% if entity=="Mardi" %} checked {% endif %} {% endfor %}   value="Mardi" ><h7 class="label_rub" >Mardi</h7></label>
+
+                                            <label class="label_day"><input class="profession_envoi_session first_day" id="first_day" name="first_day[]" type="checkbox"    {% for entity in profession['first_day'] %}{% if entity=="Mercredi" %} checked {% endif %}{% endfor %}   value="Mercredi" ><h7 class="label_rub" >Mercredi</h7></label>
+
+                                            <label class="label_day"><input class="profession_envoi_session first_day" id="first_day" name="first_day[]" type="checkbox"    {% for entity in profession['first_day'] %}{% if entity=="Jeudi" %} checked {% endif %} {% endfor %}  value="Jeudi" ><h7 class="label_rub" >Jeudi</h7></label>
+
+                                            <label class="label_day"><input class="profession_envoi_session first_day" id="first_day" name="first_day[]" type="checkbox"   {% for entity in profession['first_day'] %}{% if entity=="Vendredi" %} checked {% endif %}{% endfor %}   value="Vendredi" ><h7 class="label_rub" >Vendredi</h7></label>
+
+                                            <label class="label_day"><input class="profession_envoi_session first_day samedi" id="samedi" name="samedi" type="checkbox"    {% if profession['samedi']=="Samedi" %} checked {% endif %} value="Samedi" ><h7 class="label_rub" >Samedi</h7></label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div  >
+                                    <button type="button" id="dropdownMenu1"  class="btn horraire" data-toggle="collapse" data-target="#demo-2-2" >
+                                        <span id="select_second_day">Sélectionner l'heur</span><span id="decond_day_view"></span>
+                                        <span class="glyphicon glyphicon-triangle-bottom visibilite_icon"></span>
+                                    </button>
+                                    <div id="demo-2-2" class=" btn collapse bouton-4 " style="overflow-y:scroll;">
+                                        <div class="form-inline" id="dropdownMenu4" >
+
+                                            <label class="label_day"><input class="profession_envoi_session second_day" id="second_day" name="second_day[]" type="checkbox"   {% for entity in profession['second_day'] %}{% if entity=="8h:00" %} checked {% endif %} {% endfor %}  value="8h:00" ><h7 class="label_rub" >8h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session second_day" id="second_day" name="second_day[]" type="checkbox"   {% for entity in profession['second_day'] %}{% if entity=="9h:00" %} checked {% endif %} {% endfor %}   value="9h:00" ><h7 class="label_rub" >9h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session second_day" id="second_day" name="second_day[]" type="checkbox"   {% for entity in profession['second_day'] %}{% if entity=="10h:00" %} checked {% endif %}{% endfor %}    value="10h:00" ><h7 class="label_rub" >10h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session second_day" id="second_day" name="second_day[]" type="checkbox"   {% for entity in profession['second_day'] %}{% if entity=="11h:00" %} checked {% endif %}{% endfor %}    value="11h:00" ><h7 class="label_rub" >11h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session second_day" id="second_day" name="second_day[]" type="checkbox"   {% for entity in profession['second_day'] %}{% if entity=="12h:00" %} checked {% endif %}{% endfor %}    value="12h:00" ><h7 class="label_rub" >12h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session second_day" id="second_day" name="second_day[]" type="checkbox"  {% for entity in profession['second_day'] %}{% if entity=="13h:00" %} checked {% endif %} {% endfor %}   value="13h:00" ><h7 class="label_rub" >13h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session second_day" id="second_day" name="second_day[]" type="checkbox"   {% for entity in profession['second_day'] %}{% if entity=="14h:00" %} checked {% endif %}{% endfor %}    value="14h:00" ><h7 class="label_rub" >14h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session second_day" id="second_day" name="second_day[]" type="checkbox"   {% for entity in profession['second_day'] %}{% if entity=="15h:00" %} checked {% endif %} {% endfor %}   value="15h:00" ><h7 class="label_rub" >15h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session second_day" id="second_day" name="second_day[]" type="checkbox"   {% for entity in profession['second_day'] %}{% if entity=="16h:00" %} checked {% endif %} {% endfor %}   value="16h:00" ><h7 class="label_rub" >16h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session second_day" id="second_day" name="second_day[]" type="checkbox"   {% for entity in profession['second_day'] %}{% if entity=="17h:00" %} checked {% endif %} {% endfor %}   value="17h:00" ><h7 class="label_rub" >17h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session second_day" id="second_day" name="second_day[]" type="checkbox"   {% for entity in profession['second_day'] %}{% if entity=="18h:00" %} checked {% endif %} {% endfor %}   value="18h:00" ><h7 class="label_rub" >18h:00</h7></label>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group Horaire_semedi" style="display: none">
+                                <div  s>
+                                    <button type="button" id="dropdownMenu1"  class="btn horraire" data-toggle="collapse" data-target="#demo-2-5" >
+                                        <span id="select_h_samedi">Sélectionner l'heur</span><span id="h_samedi_view"></span>
+                                        <span class="glyphicon glyphicon-triangle-bottom visibilite_icon"></span>
+                                    </button>
+                                    <div id="demo-2-5" class=" btn collapse bouton-4 " style="overflow-y:scroll;">
+                                        <div class="form-inline" id="dropdownMenu5" >
+
+                                            <label class="label_day"><input class="profession_envoi_session h_samedi" id="h_samedi" name="h_samedi[]" type="checkbox"   {% for entity in profession['h_samedi'] %}{% if entity=="8h:00" %} checked {% endif %}{% endfor %}   value="8h:00" ><h7 class="label_rub" >8h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session h_samedi" id="h_samedi" name="h_samedi[]" type="checkbox"   {% for entity in profession['h_samedi'] %}{% if entity=="9h:00" %} checked {% endif %}{% endfor %}   value="9h:00" ><h7 class="label_rub" >9h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session h_samedi" id="h_samedi" name="h_samedi[]" type="checkbox"   {% for entity in profession['h_samedi'] %}{% if entity=="10h:00" %} checked {% endif %}{% endfor %}   value="10h:00" ><h7 class="label_rub" >10h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session h_samedi" id="h_samedi" name="h_samedi[]" type="checkbox"   {% for entity in profession['h_samedi'] %}{% if entity=="11h:00" %} checked {% endif %}{% endfor %}   value="11h:00" ><h7 class="label_rub" >11h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session h_samedi" id="h_samedi" name="h_samedi[]" type="checkbox"   {% for entity in profession['h_samedi'] %}{% if entity=="12h:00" %} checked {% endif %}{% endfor %}   value="12h:00" ><h7 class="label_rub" >12h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session h_samedi" id="h_samedi" name="h_samedi[]" type="checkbox"   {% for entity in profession['h_samedi'] %}{% if entity=="13h:00" %} checked {% endif %}{% endfor %}   value="13h:00" ><h7 class="label_rub" >13h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session h_samedi" id="h_samedi" name="h_samedi[]" type="checkbox"   {% for entity in profession['h_samedi'] %}{% if entity=="14h:00" %} checked {% endif %}{% endfor %}  value="14h:00" ><h7 class="label_rub" >14h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session h_samedi" id="h_samedi" name="h_samedi[]" type="checkbox"   {% for entity in profession['h_samedi'] %}{% if entity=="15h:00" %} checked {% endif %}{% endfor %}  value="15h:00" ><h7 class="label_rub" >15h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session h_samedi" id="h_samedi" name="h_samedi[]" type="checkbox"   {% for entity in profession['h_samedi'] %}{% if entity=="16h:00" %} checked {% endif %}{% endfor %}   value="16h:00" ><h7 class="label_rub" >16h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session h_samedi" id="h_samedi" name="h_samedi[]" type="checkbox"   {% for entity in profession['h_samedi'] %}{% if entity=="17h:00" %} checked {% endif %}{% endfor %}   value="17h:00" ><h7 class="label_rub" >17h:00</h7></label>
+                                            <label class="label_day"><input class="profession_envoi_session h_samedi" id="h_samedi" name="h_samedi[]" type="checkbox"   {% for entity in profession['h_samedi'] %}{% if entity=="18h:00" %} checked {% endif %}{% endfor %}   value="18h:00" ><h7 class="label_rub" >18h:00</h7></label>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="form-group" style="margin-top: 12px;" >
+                            <label class="info-gen" for="exampleInputAmount">Langues parlées</label>
+                            <div class="form-group">
+                                <button class="btn dropdown-toggle  langue_paiement" type="button"  data-toggle="collapse" data-target="#demo-2-3" style="margin-left: 30px;">
+                                    <span id="select_langue">Sélectionner langues</span><span id="langue_view"></span>
+                                    <span class="caret"></span></button>
+                            </div>
+                            <div id="demo-2-3" class="collapse bouton-5 r " style="overflow-y:scroll;position: relative!important;">
+                                <div class="form-inline" id="dropdownMenu1" >
+                                    <table id="myTable_langue">
+                                        <tbody >
+                                        <tr>
+                                            <td >
+                                                <label ><input class="langue profession_envoi_session" id="langue1" name="langue[]" type="checkbox"  {% for entity in profession['langue'] %} {% if entity =="Arabe" %} checked {% endif %}  {% endfor %} value="Arabe" ><h7 class="label_rub" >Arabe</h7></label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td >
+                                                <label><input class="langue profession_envoi_session" id="langue2" name="langue[]" type="checkbox" {% for entity in profession['langue'] %} {% if entity =="Français" %} checked {% endif %}  {% endfor %}  value="Français" ><h7 class="label_rub" >Français</h7></label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td >
+                                                <label><input class="langue profession_envoi_session" id="langue3" name="langue[]" type="checkbox" {% for entity in profession['langue'] %} {% if entity =="Anglais" %} checked {% endif %}  {% endfor %} value="Anglais" ><h7 class="label_rub" >Anglais</h7></label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td >
+                                                <label><input class="langue profession_envoi_session" id="langue4" name="langue[]" type="checkbox" {% for entity in profession['langue'] %} {% if entity =="Amazigh" %} checked {% endif %}  {% endfor %} value="Amazigh" ><h7 class="label_rub" >Amazigh</h7></label>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+
+                            <br>
+
+
+                            <div class="form-group" style="margin-top: 26px;">
+                                <label class="info-gen" for="exampleInputAmount">Mode de paiement</label>
+                                <button class="btn dropdown-toggle  langue_paiement" type="button"  data-toggle="collapse" data-target="#demo-2-4" style="margin-left: 17px" >
+                                    <span id="select_mode">Sélectionner mode de paiement</span><span id="mode_view"></span>
+                                    <span class="caret"></span></button>
+                            </div>
+                            <div id="demo-2-4" class="collapse bouton-5 r " style="overflow-y:scroll;position: relative!important;height: 80px">
+                                <div class="form-inline" id="dropdownMenu1" >
+                                    <table id="myTable_mode">
+                                        <tbody >
+                                        <tr>
+                                            <td >
+                                                <label><input class="paiement profession_envoi_session" id="paiement" name="paiement[]" type="checkbox" {% for entity in profession['paiement'] %} {% if entity =="Espèce" %} checked {% endif %}  {% endfor %}  value="Espèce" ><h7 class="label_rub" >Espèce</h7></label>
+                                            </td>
+                                        </tr>
+                                        <tr >
+                                            <td >
+                                                <label><input class="paiement profession_envoi_session" id="paiement" name="paiement[]" type="checkbox" {% for entity in profession['paiement'] %} {% if entity =="Chèque" %} checked {% endif %}  {% endfor %}  value="Chèque" ><h7 class="label_rub" >Chèque</h7></label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td >
+                                                <label><input class="paiement profession_envoi_session" id="paiement" name="paiement[]" type="checkbox" {% for entity in profession['paiement'] %} {% if entity =="Carte bancaire" %} checked {% endif %}  {% endfor %}  value="Carte bancaire" ><h7 class="label_rub" >Carte bancaire</h7></label>
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="">
+                                <div class="form-group" style="margin-top: 23px;">
+                                    <label class="info-gen" for="exampleInputAmount">Réseaux sociaux</label>
+                                    <div class="form-group">
+                                        <input type="text" class="socieux profession_envoi_session " name="socieux" {% if profession['socieux'] %} value="{{  profession['socieux']}}" {% else %} value=""{% endif %} style="margin-left: 27px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-2" align="center">
+                                <p>Ma visibilité sur</p>
+                            </div>
+
+                            <div class="visibilite" style="position: relative;">
+
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <div class="form-group" style="margin-left: -10px;">
+                                        <button type="button" id="dropdownMenu1"  class="btn" data-toggle="collapse" data-target="#demo-2-7">
+                                            Ville principale &nbsp;   <span class="glyphicon glyphicon-triangle-bottom visibilite_icon"></span>
+                                        </button>
+                                    </div>
+                                    <div id="demo-2-7" class="collapse bouton-ville" >
+                                        <input type="text" id="myInput_ville" class="form-control" placeholder="search" >
+                                        <span class="glyphicon glyphicon-search form-control-feedback search_ville" ></span>
+                                        <div class="form-inline" id="dropdownMenu1" >
+                                            <table id="myTable_ville">
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <label class="checkbox-inline" >
+                                                            <input id="select" class="checkbox_villes profession_ville profession_envoi_session" type="checkbox"  name="villesp"  {% if profession['villesp']  %} {% if profession['villesp']=="91010" %} checked {% endif %}{% endif %} value="91010">&nbsp; &nbsp;Casablanca
+
+                                                        </label><br>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label class="checkbox-inline">
+                                                            <input id="select" class="checkbox_villes profession_ville profession_envoi_session" type="checkbox" name="villesp" {% if profession['villesp']  %} {% if profession['villesp']=="101010" %} checked {% endif %}{% endif %} value="101010">&nbsp; &nbsp;Rabat
+                                                        </label><br>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label class="checkbox-inline">
+                                                            <input id="select" class="checkbox_villes profession_ville profession_envoi_session" type="checkbox" name="villesp" {% if profession['villesp']  %} {% if profession['villesp']=="141010" %} checked {% endif %}{% endif %} value="141010">&nbsp; &nbsp;Fès
+                                                        </label><br>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label class="checkbox-inline">
+                                                            <input id="select" class="checkbox_villes profession_ville profession_envoi_session" type="checkbox" name="villesp" {% if profession['villesp']  %} {% if profession['villesp']=="41110" %} checked {% endif %}{% endif %} value="41110">&nbsp; &nbsp;Agadir
+                                                        </label><br>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label class="checkbox-inline">
+                                                            <input id="select" class="checkbox_villes profession_ville profession_envoi_session" type="checkbox" name="villesp" {% if profession['villesp']  %} {% if profession['villesp']=="163010" %} checked {% endif %}{% endif %} value="163010">&nbsp; &nbsp;Tanger
+                                                        </label><br>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label class="checkbox-inline">
+                                                            <input id="select" class="checkbox_villes profession_ville profession_envoi_session" type="checkbox" name="villesp" {% if profession['villesp']  %} {% if profession['villesp']=="71010" %} checked {% endif %}{% endif %} value="71010">&nbsp; &nbsp;Marrakech
+                                                        </label><br>
+                                                    </td>
+                                                </tr>
+
+                                                {% for ville in villes %}
+                                                    <tr>
+                                                        <td>
+                                                            <label class="checkbox-inline">
+                                                                <input id="select" class="checkbox_villes profession_ville profession_envoi_session" {% if profession['villesp']  %} {% if ville.codeville==profession['villesp']  %} checked {% endif %}{% endif %}
+                                                                       type="checkbox" name="villesp" value="{{ ville.codeville }}"/>&nbsp; &nbsp;{{ ville.libelle }}
+                                                            </label><br>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
+                                    <label class="checkbox-inline"  style="display: none">
+                                        <input class="checkbox_profession profession profession_envoi_session" name="profession" {% if profession['profession']=='3000' %}checked {% endif %} type="checkbox" value="3000">Profession libérale
+                                    </label>
+                                    <label class="checkbox-inline" style="display: none" >
+                                        <input type="text" id="prix" name="prix" {% if profession['prix'] %} value="{{ profession['prix'] }}" {% else %}  value="3000" {% endif %} readonly  >
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+
+            </div>
+            <div class="container">
+
+
+                <div class="row">
+
+                    <div class="col-md-12 col-sm-12 col-xs-12" >
+
+                        <div class="form-inline" align="center">
+
+                            <div class="form-group pull-left col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <button id="ajax_test_referencement" class="btn black" onclick="showhide_p()">
+                                        <span style="color: #ffdb2e;">Budget estimé</span>
+                                        <br><span style="color: white">Profession libérale</span>
+                                    </button>
+                                    <div id="prof" style="display: none">
+                                        <input class="results" type="text" name="total" id="totalporf" value="0"  readonly/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group pull-right col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-inline">
+                                    {#<div class="form-group">
+                                        <button id="ajax_test_referencement_refss" class="btn black" onclick="showhide_global()">
+                                            <span style="color: #ffdb2e;">Budget Global <br >estimé </span>
+
+                                        </button>
+                                        <div id="global" style="display: none">
+                                            <input class="results" type="text" name="total" id="totalglobal" value="0"  readonly/>
+                                        </div>
+                                    </div>#}
+                                    <div class="form-inline" align="center">
+
+                                        <div class="form-inline" >
+                                            <div class="form-group ">
+                                                <div class="btn black" style="background-color:#fe5c5b;padding: 18px 0 0 0!important;">
+
+                                                    <a href="{{ path('facture_sec_fayssal') }}" id="ajax_test_referencement_fort" target="_blank" style="color: white;font-weight: bold;font-size: 22px">
+
+                                                        <span style="color: white">Devis</span>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br><br><br><br><br>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="{{ asset('js/jquery.quicksearch.js') }}  "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.62/jquery.inputmask.bundle.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.js"></script>
+<script>
+    var defaultDiacriticsRemovalMap = [
+        {'base':'A', 'letters':/[\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g},
+        {'base':'AA','letters':/[\uA732]/g},
+        {'base':'AE','letters':/[\u00C6\u01FC\u01E2]/g},
+        {'base':'AO','letters':/[\uA734]/g},
+        {'base':'AU','letters':/[\uA736]/g},
+        {'base':'AV','letters':/[\uA738\uA73A]/g},
+        {'base':'AY','letters':/[\uA73C]/g},
+        {'base':'B', 'letters':/[\u0042\u24B7\uFF22\u1E02\u1E04\u1E06\u0243\u0182\u0181]/g},
+        {'base':'C', 'letters':/[\u0043\u24B8\uFF23\u0106\u0108\u010A\u010C\u00C7\u1E08\u0187\u023B\uA73E]/g},
+        {'base':'D', 'letters':/[\u0044\u24B9\uFF24\u1E0A\u010E\u1E0C\u1E10\u1E12\u1E0E\u0110\u018B\u018A\u0189\uA779]/g},
+        {'base':'DZ','letters':/[\u01F1\u01C4]/g},
+        {'base':'Dz','letters':/[\u01F2\u01C5]/g},
+        {'base':'E', 'letters':/[\u0045\u24BA\uFF25\u00C8\u00C9\u00CA\u1EC0\u1EBE\u1EC4\u1EC2\u1EBC\u0112\u1E14\u1E16\u0114\u0116\u00CB\u1EBA\u011A\u0204\u0206\u1EB8\u1EC6\u0228\u1E1C\u0118\u1E18\u1E1A\u0190\u018E]/g},
+        {'base':'F', 'letters':/[\u0046\u24BB\uFF26\u1E1E\u0191\uA77B]/g},
+        {'base':'G', 'letters':/[\u0047\u24BC\uFF27\u01F4\u011C\u1E20\u011E\u0120\u01E6\u0122\u01E4\u0193\uA7A0\uA77D\uA77E]/g},
+        {'base':'H', 'letters':/[\u0048\u24BD\uFF28\u0124\u1E22\u1E26\u021E\u1E24\u1E28\u1E2A\u0126\u2C67\u2C75\uA78D]/g},
+        {'base':'I', 'letters':/[\u0049\u24BE\uFF29\u00CC\u00CD\u00CE\u0128\u012A\u012C\u0130\u00CF\u1E2E\u1EC8\u01CF\u0208\u020A\u1ECA\u012E\u1E2C\u0197]/g},
+        {'base':'J', 'letters':/[\u004A\u24BF\uFF2A\u0134\u0248]/g},
+        {'base':'K', 'letters':/[\u004B\u24C0\uFF2B\u1E30\u01E8\u1E32\u0136\u1E34\u0198\u2C69\uA740\uA742\uA744\uA7A2]/g},
+        {'base':'L', 'letters':/[\u004C\u24C1\uFF2C\u013F\u0139\u013D\u1E36\u1E38\u013B\u1E3C\u1E3A\u0141\u023D\u2C62\u2C60\uA748\uA746\uA780]/g},
+        {'base':'LJ','letters':/[\u01C7]/g},
+        {'base':'Lj','letters':/[\u01C8]/g},
+        {'base':'M', 'letters':/[\u004D\u24C2\uFF2D\u1E3E\u1E40\u1E42\u2C6E\u019C]/g},
+        {'base':'N', 'letters':/[\u004E\u24C3\uFF2E\u01F8\u0143\u00D1\u1E44\u0147\u1E46\u0145\u1E4A\u1E48\u0220\u019D\uA790\uA7A4]/g},
+        {'base':'NJ','letters':/[\u01CA]/g},
+        {'base':'Nj','letters':/[\u01CB]/g},
+        {'base':'O', 'letters':/[\u004F\u24C4\uFF2F\u00D2\u00D3\u00D4\u1ED2\u1ED0\u1ED6\u1ED4\u00D5\u1E4C\u022C\u1E4E\u014C\u1E50\u1E52\u014E\u022E\u0230\u00D6\u022A\u1ECE\u0150\u01D1\u020C\u020E\u01A0\u1EDC\u1EDA\u1EE0\u1EDE\u1EE2\u1ECC\u1ED8\u01EA\u01EC\u00D8\u01FE\u0186\u019F\uA74A\uA74C]/g},
+        {'base':'OI','letters':/[\u01A2]/g},
+        {'base':'OO','letters':/[\uA74E]/g},
+        {'base':'OU','letters':/[\u0222]/g},
+        {'base':'P', 'letters':/[\u0050\u24C5\uFF30\u1E54\u1E56\u01A4\u2C63\uA750\uA752\uA754]/g},
+        {'base':'Q', 'letters':/[\u0051\u24C6\uFF31\uA756\uA758\u024A]/g},
+        {'base':'R', 'letters':/[\u0052\u24C7\uFF32\u0154\u1E58\u0158\u0210\u0212\u1E5A\u1E5C\u0156\u1E5E\u024C\u2C64\uA75A\uA7A6\uA782]/g},
+        {'base':'S', 'letters':/[\u0053\u24C8\uFF33\u1E9E\u015A\u1E64\u015C\u1E60\u0160\u1E66\u1E62\u1E68\u0218\u015E\u2C7E\uA7A8\uA784]/g},
+        {'base':'T', 'letters':/[\u0054\u24C9\uFF34\u1E6A\u0164\u1E6C\u021A\u0162\u1E70\u1E6E\u0166\u01AC\u01AE\u023E\uA786]/g},
+        {'base':'TZ','letters':/[\uA728]/g},
+        {'base':'U', 'letters':/[\u0055\u24CA\uFF35\u00D9\u00DA\u00DB\u0168\u1E78\u016A\u1E7A\u016C\u00DC\u01DB\u01D7\u01D5\u01D9\u1EE6\u016E\u0170\u01D3\u0214\u0216\u01AF\u1EEA\u1EE8\u1EEE\u1EEC\u1EF0\u1EE4\u1E72\u0172\u1E76\u1E74\u0244]/g},
+        {'base':'V', 'letters':/[\u0056\u24CB\uFF36\u1E7C\u1E7E\u01B2\uA75E\u0245]/g},
+        {'base':'VY','letters':/[\uA760]/g},
+        {'base':'W', 'letters':/[\u0057\u24CC\uFF37\u1E80\u1E82\u0174\u1E86\u1E84\u1E88\u2C72]/g},
+        {'base':'X', 'letters':/[\u0058\u24CD\uFF38\u1E8A\u1E8C]/g},
+        {'base':'Y', 'letters':/[\u0059\u24CE\uFF39\u1EF2\u00DD\u0176\u1EF8\u0232\u1E8E\u0178\u1EF6\u1EF4\u01B3\u024E\u1EFE]/g},
+        {'base':'Z', 'letters':/[\u005A\u24CF\uFF3A\u0179\u1E90\u017B\u017D\u1E92\u1E94\u01B5\u0224\u2C7F\u2C6B\uA762]/g},
+        {'base':'a', 'letters':/[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g},
+        {'base':'aa','letters':/[\uA733]/g},
+        {'base':'ae','letters':/[\u00E6\u01FD\u01E3]/g},
+        {'base':'ao','letters':/[\uA735]/g},
+        {'base':'au','letters':/[\uA737]/g},
+        {'base':'av','letters':/[\uA739\uA73B]/g},
+        {'base':'ay','letters':/[\uA73D]/g},
+        {'base':'b', 'letters':/[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g},
+        {'base':'c', 'letters':/[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g},
+        {'base':'d', 'letters':/[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g},
+        {'base':'dz','letters':/[\u01F3\u01C6]/g},
+        {'base':'e', 'letters':/[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g},
+        {'base':'f', 'letters':/[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g},
+        {'base':'g', 'letters':/[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g},
+        {'base':'h', 'letters':/[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g},
+        {'base':'hv','letters':/[\u0195]/g},
+        {'base':'i', 'letters':/[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g},
+        {'base':'j', 'letters':/[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g},
+        {'base':'k', 'letters':/[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g},
+        {'base':'l', 'letters':/[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g},
+        {'base':'lj','letters':/[\u01C9]/g},
+        {'base':'m', 'letters':/[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g},
+        {'base':'n', 'letters':/[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g},
+        {'base':'nj','letters':/[\u01CC]/g},
+        {'base':'o', 'letters':/[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g},
+        {'base':'oi','letters':/[\u01A3]/g},
+        {'base':'ou','letters':/[\u0223]/g},
+        {'base':'oo','letters':/[\uA74F]/g},
+        {'base':'p','letters':/[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g},
+        {'base':'q','letters':/[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g},
+        {'base':'r','letters':/[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g},
+        {'base':'s','letters':/[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g},
+        {'base':'t','letters':/[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g},
+        {'base':'tz','letters':/[\uA729]/g},
+        {'base':'u','letters':/[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g},
+        {'base':'v','letters':/[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g},
+        {'base':'vy','letters':/[\uA761]/g},
+        {'base':'w','letters':/[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g},
+        {'base':'x','letters':/[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g},
+        {'base':'y','letters':/[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g},
+        {'base':'z','letters':/[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g}
+    ];
+    function removeDiacritics (str) {
+        var changes = defaultDiacriticsRemovalMap;
+        for(var i=0; i<changes.length; i++) {
+            str = str.replace(changes[i].letters, changes[i].base);
+        }
+        return str;
+    }
+</script>
+<script>
+    $(document).ready(function() {
+
+
+        var max_fields      = 4; //maximum input boxes allowed
+        var wrapper   		= $(".input_fields_wrap"); //Fields wrapper
+        var add_button      = $(".add_field_button"); //Add button ID
+        var specialites      = $("#count_specialites").val(); //Add button ID
+
+        var x = specialites; //initlal text box count
+        $(add_button).click(function(e){ //on add input button click
+            e.preventDefault();
+            if(x < max_fields){ //max input box allowed
+                x++; //text box increment
+                $(wrapper).append('<div><input type="text" class="form-control profession_envoi_session textarea" name="specialites[]" value="" style="position: relative" ><a href="#" class="remove_field profession_envoi_session" style="float: right">supprimer</a><br></div>'); //add input box
+                var t=document.getElementById('count_specialites').value = x;
+            }
+        });
+        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+            e.preventDefault(); $(this).parent('div').remove();
+            var t=x--;
+            var t=document.getElementById('count_specialites').value = t-1;
+        });
+        function specialite() {
+            {% for specialite in profession['specialites'] %}
+            {% if profession['specialites'] %}
+            $("input[value='{{ specialite}}'][name='specialites[]']");
+            {% endif %}
+            {% endfor %}
+        }
+
+        $(window).load(function(e){ //on add input button click
+            e.preventDefault();
+            for (var i =1;  i<=specialites;i++)
+            {
+                $(wrapper).append('<div><input type="text" class="form-control profession_envoi_session textarea"  name="specialites[]"><a href="#" class="remove_field profession_envoi_session" style="float: right">Supprimer</a><br></div>'); //add input box
+            }
+            setTimeout( function(){
+                specialite();
+            }  , 3000 );
+        });
+
+
+    });
+    $(document).ready(function() {
+        var max_fields      = 4; //maximum input boxes allowed
+        var wrapper   		= $(".input_fields_wrap2"); //Fields wrapper
+        var add_button      = $(".add_field_button2"); //Add button ID
+        var services      = $("#count_services").val(); //Add button ID
+
+        var x = services; //initlal text box count
+        $(add_button).click(function(e){ //on add input button click
+            e.preventDefault();
+            if(x < max_fields){ //max input box allowed
+                x++; //text box increment
+                $(wrapper).append('<div><input type="text" class="form-control profession_envoi_session textarea" textarea name="services[]"><a href="#" class="remove_field profession_envoi_session" style="float: right">Supprimer</a><br></div>'); //add input box
+                document.getElementById('count_services').value = x;
+            }
+        });
+        $(window).load(function(e){ //on add input button click
+            e.preventDefault();
+            for (var i =1;  i<=services;i++)
+            {
+                $(wrapper).append('<div><input type="text" class="form-control profession_envoi_session textarea"  name="services[]"><a href="#" class="remove_field profession_envoi_session" style="float: right">Supprimer</a><br></div>'); //add input box
+            }
+        });
+
+        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+            e.preventDefault(); $(this).parent('div').remove();
+            var y=x--;
+            var t=document.getElementById('count_services').value = y-1;
+        })
+    });
+    $('.logo').on('change', function() {
+        $('.logo').not(this).prop('checked', false);
+    });
+    /*$('.first_day').on('change', function() {
+        $('.first_day').not(this).prop('checked', false);
+    });
+    $('.second_day').on('change', function() {
+        $('.second_day').not(this).prop('checked', false);
+    });*/
+    $(function(){
+        $('#hour1').timepicker();
+    });
+    $(function(){
+        $('#hour2').timepicker();
+    });
+    $(function(){
+        $('#hour3').timepicker();
+    });
+    $(function(){
+        $('#hour4').timepicker();
+    });
+
+    $(window).load(function()
+    {
+        var phones = [{ "mask": " 99:99/99:99"}];
+        $('#first_hour,#second_hour').inputmask({
+            mask: phones,
+            greedy: false,
+            definitions: { '#': { validator: "[0-9]", cardinality: 1}} });
+    });
+
+</script>
+
+<script>
+
+    $('input#myInput').quicksearch('table#myTable   tbody tr');
+    $(".r input[name='check']").on('change  ',function() {
+
+        if(($(".r input[name='check']").is(":checked")))
+        {
+            $('.r').not(this).prop('disabled', this.checked);
+            $(".r input[name='check']:disabled").css('display', 'none');
+            $(".r input[name='check']:disabled + h7 ").css('display', 'none');
+            $(".r input[name='check']").css('float', 'left');
+            $(".r input[name='check']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+        }else
+        if ($(".r input[name='check']").prop('checked', false))
+        {
+            $(".r input[name='check']").css("position", "absolute");
+            $(".r input[name='check']:disabled").css('display', '');
+            $(".r input[name='check']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+        }
+    });
+
+    $(".samedi").on('click  ',function() {
+        if(($(".samedi").is(":checked"))) {
+            $(".Horaire_semedi").show();
+        }else
+        if ($(".samedi").prop('checked', false)) {
+            $(".Horaire_semedi").hide();
+        }
+    });
+    $(window).on('load  ',function() {
+        if(($(".samedi").is(":checked"))) {
+            $(".Horaire_semedi").show();
+        }else
+        if ($(".samedi").prop('checked', false)) {
+            $(".Horaire_semedi").hide();
+        }
+    });
+
+
+    $(".r input[name='check']").on('change  ',function() {
+        $(".r input[name='check']").not(this).prop('disabled', this.checked);
+    });
+    $(window).load(function() {
+
+        if(($(".r input[name='check']").is(":checked"))) {
+            $(".r input[name='check']").prop('disabled', true);
+            $(".r input[name='check']:checked").removeAttr('disabled');
+            $(".r input[name='check']:disabled").css('display', 'none');
+            $(".r input[name='check']:disabled + h7").css('display', 'none');
+        }
+        else
+        if ($(".r input[name='check']").prop('checked', false)) {
+            $(".r input[name='check']").prop('disabled', false);
+            $(".r input[name='check']:checked").removeAttr('disabled');
+            $(".r input[name='check']:disabled").css('display', '');
+            $(".r input[name='check']:disabled + h7").css('display', '');
+        }
+    });
+
+    $(document).on('click  ', '.r', function () {
+        if(($(".r").is(":checked"))) {
+
+            var labels = $('#myTable :checked').map(function () {
+                /*alert("eee");*/
+                return $(this).closest('label').text();
+            }).get();
+
+
+            $("#rubrique_view").html(labels);
+            $("#select_rub").hide();
+            $("#rubrique_view").show();
+        }
+        else
+        {
+            if ($('.r').prop('checked', false)) {
+                $("#rubrique_view").html(null);
+                $("#rubrique_view").hide();
+                $("#select_rub").show();
+
+            }
+        }
+
+    });
+    $(window).on('load  ', function () {
+
+
+        if(($(".r").is(":checked"))) {
+
+            var labels = $('#myTable :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+
+            $("#rubrique_view").html(labels);
+            $("#select_rub").hide();
+            $("#rubrique_view").show();
+
+        }});
+    $(document).on('change  ', '.first_day', function () {
+        if(($(".first_day").is(":checked"))) {
+            var labels = $('#dropdownMenu3 :checked').map(function () {
+                /*alert(labels);*/
+                return $(this).closest('label').text();
+            }).get();
+
+            $("#first_day_view").html(labels+',');
+            $("#select_first_day").hide();
+            $("#first_day_view").show();
+        }
+        else
+        {
+            if ($('.first_day').prop('checked', false)) {
+                $("#first_day_view").html(null);
+                $("#first_day_view").hide();
+                $("#select_first_day").show();
+
+            }
+        }
+
+    });
+    $(window).on('load  ', function () {
+
+
+        if(($(".first_day").is(":checked"))) {
+
+            var labels = $('#dropdownMenu3 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+
+            $("#first_day_view").html(labels+',');
+            $("#select_first_day").hide();
+            $("#first_day_view").show();
+
+        }});
+    $(document).on('change  ', '.second_day', function () {
+        if(($(".second_day").is(":checked"))) {
+            var labels = $('#dropdownMenu4 :checked').map(function () {
+                /* alert(labels);*/
+                return $(this).closest('label').text();
+            }).get();
+            $("#decond_day_view").html(labels+',');
+            $("#select_second_day").hide();
+            $("#decond_day_view").show();
+        }
+        else
+        {
+            if ($('.second_day').prop('checked', false)) {
+                $("#decond_day_view").html(null);
+                $("#decond_day_view").hide();
+                $("#select_second_day").show();
+
+            }
+        }
+
+    });
+    $(window).on('load  ', function () {
+
+        if(($(".second_day").is(":checked"))) {
+
+            var labels = $('#dropdownMenu4 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            $("#decond_day_view").html(labels+',');
+            $("#select_second_day").hide();
+            $("#decond_day_view").show();
+
+        }});
+
+    $(document).on('change  ', '.h_samedi', function () {
+        if(($(".h_samedi").is(":checked"))) {
+            var labels = $('#dropdownMenu5 :checked').map(function () {
+                /*alert(labels);*/
+                return $(this).closest('label').text();
+            }).get();
+            $("#h_samedi_view").html(labels+',');
+            $("#select_h_samedi").hide();
+            $("#h_samedi_view").show();
+        }
+        else
+        {
+            if ($('.h_samedi').prop('checked', false)) {
+                $("#h_samedi_view").html(null);
+                $("#h_samedi_view").hide();
+                $("#select_h_samedi").show();
+
+            }
+        }
+
+    });
+    $(window).on('load  ', function () {
+
+        if(($(".h_samedi").is(":checked"))) {
+
+            var labels = $('#dropdownMenu5 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            $("#h_samedi_view").html(labels+',');
+            $("#select_h_samedi").hide();
+            $("#h_samedi_view").show();
+
+        }});
+
+    $(document).on('click  ', '.langue', function () {
+        if(($(".langue").is(":checked"))) {
+
+            var labels = $('#myTable_langue :checked').map(function () {
+
+                return $(this).closest('label').text();
+            }).get();
+
+
+            $("#langue_view").html(labels+',');
+            $("#select_langue").hide();
+            $("#langue_view").show();
+        }
+        else
+        {
+            if ($('.langue').prop('checked', false)) {
+                $("#langue_view").html(null);
+                $("#langue_view").hide();
+                $("#select_langue").show();
+
+            }
+        }
+
+    });
+    $(window).on('load  ', function () {
+
+
+        if(($(".langue").is(":checked"))) {
+
+            var labels = $('#myTable_langue :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+
+            $("#langue_view").html(labels +',');
+            $("#select_langue").hide();
+            $("#langue_view").show();
+
+        }});
+
+    $(document).on('click  ', '.paiement', function () {
+        if(($(".paiement").is(":checked"))) {
+
+            var labels = $('#myTable_mode :checked').map(function () {
+
+                return $(this).closest('label').text();
+            }).get();
+
+
+            $("#mode_view").html(labels+',');
+            $("#select_mode").hide();
+            $("#mode_view").show();
+        }
+        else
+        {
+            if ($('.paiement').prop('checked', false)) {
+                $("#mode_view").html(null);
+                $("#mode_view").hide();
+                $("#select_mode").show();
+
+            }
+        }
+
+    });
+    $(window).on('load  ', function () {
+
+
+        if(($(".paiement").is(":checked"))) {
+
+            var labels = $('#myTable_mode :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+
+            $("#mode_view").html(labels +',');
+            $("#select_mode").hide();
+            $("#mode_view").show();
+
+        }});
+
+
+
+    $(document).keypress('.input', function (e) {
+
+        var dInput = $('input.input').val();
+        if (e.which == 13 && $('input.input').val() != "") {
+            var text = $('.input').val();
+            $('#checkboxes').append('<label class="label_prest"><input type="checkbox" id="addprestation" name="specialites[]" class="specialite service_specialite controle-checkbox " value="' + text + '" checked/> ' + text + '</label><br />');
+            $(".input").val(null);
+            $('#prestaAjax').css('display', 'none');
+        }
+    });
+    $(document).keypress('.inputservice', function (e) {
+
+        var dInput = $('input.input').val();
+        if (e.which == 13 && $('input.inputservice').val() != "") {
+            var text = $('.inputservice').val();
+            $('#checkboxesservice').append('<label class="label_prest"><input type="checkbox" id="addprestation" name="services[]" class="service service_specialite controle-checkbox " value="' + text + '" checked/> ' + text + '</label><br />');
+            $(".inputservice").val(null);
+            $('#prestaAjax').css('display', 'none');
+        }
+    });
+
+    $('#ajax_test_referencement_sec').on('click', function (event) {
+
+        event.preventDefault();
+
+        bar();
+    });
+
+    function ref()
+    {
+        $('.loaders').css('display','');
+        var fayssal=  $("#total").val( );
+        form =$('#jsForm ');
+        var data_send = {'nbr': fayssal};
+        $.ajax({
+
+            url: '{{ path('referencement_commande_devis_somme') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+                    var tref= successMessage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                    $("#totalref").val(tref);
+
+
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+    }
+
+    $('#ajax_test_ref').on('click', function (event) {
+
+        event.preventDefault();
+        ref();
+
+
+
+    });
+    function cont()
+    {
+
+        $('.loaders').css('display','');
+        var fayssal=  $("#total").val( );
+        form =$('#jsForm ');
+        var data_send = {'nbr': fayssal};
+        $.ajax({
+            url: '{{ path('referencement_commande_devis_somme_cont') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+                    console.log(successMessage);
+                    var tcat= successMessage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                    $("#totalcat").val(tcat);
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+    }
+
+    $('#ajax_test_cont').on('click', function (event) {
+
+        event.preventDefault();
+
+        cont();
+
+
+    });
+
+
+    function aff()
+    {
+        $('.loaders').css('display','');
+        var fayssal=  $("#total").val( );
+        form =$('#jsForm ');
+        var data_send = {'nbr': fayssal};
+        $.ajax({
+            url: '{{ path('referencement_commande_devis_somme_aff') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+                    console.log(successMessage);
+                    var taff= successMessage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                    console.log("testt",taff);
+                    $("#totalaff").val(taff);
+
+
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+    }
+
+    $('#ajax_test_referencement').on('click', function (event) {
+
+
+        event.preventDefault();
+
+
+        aff();
+
+
+
+    });
+
+    /* function prof()
+     {
+
+         $('.loaders').css('display','');
+         if($(".profession_ville").is(":checked")) {
+             var prix = $("#prix").val();
+             var prix= prix.replace(/[^0-9\.]/g, '');
+             alert(prix);
+         }
+         else prix =0;
+         console.log("bonjour",prix);
+         form =$('#jsForm ');
+         var data_send = {'nbr': prix};
+         $.ajax({
+             url: '{{ path('referencement_commande_devis_prof') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response){
+                    var successMessage = response;
+
+                    console.log(successMessage);
+                    /!*  $('#prestation').children("option").remove();*!/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+    }
+*/
+
+    function prof()
+    {
+
+        $('.loaders').css('display','');
+        var fayssal1=  $("#prix").val( );
+        var fayssal= fayssal1.replace(/[^0-9\.]/g, '');
+        form =$('#jsForm ');
+        var data_send = {'nbr': fayssal};
+        $.ajax({
+            url: '{{ path('referencement_commande_devis_ref') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response){
+                    var successMessage = response;
+
+
+                    console.log(successMessage);
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+    }
+
+
+    $('#ajax_test_profession').on('click', function (event) {
+
+        event.preventDefault();
+
+
+        prof();
+
+
+
+    });
+    /*----------------------------------*/
+    function showhide_r()
+    {
+        var div = document.getElementById("ref");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+    }
+
+    function showhide_c()
+    {
+        var div = document.getElementById("cat");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+    }
+    function showhide_a()
+    {
+        var div = document.getElementById("aff");
+        if (div.style.display == "none")
+        {
+            div.style.display = "block";
+        }
+        else
+        {
+            div.style.display = "none";
+        }
+        /* bar();*/
+    }
+    function showhide_p()
+    {
+        var div = document.getElementById("prof");
+        if (div.style.display == "none")
+        {
+            div.style.display = "block";
+        }
+        else
+        {
+            div.style.display = "none";
+        }
+    }
+
+    function showhide_global()
+    {
+
+        ref();
+        cont();
+        aff()
+
+
+
+        var vat = +$("#totalref").val().replace(/[^0-9\.]/g, '') || 0;
+        var vard = +$("#totalcat").val().replace(/[^0-9\.]/g, '') || 0;
+        var final = +$("#totalaff").val().replace(/[^0-9\.]/g, '') || 0;
+        var profession = +$("#totalporf").val().replace(/[^0-9\.]/g, '') || 0;
+
+        $bar=vat+vard+final;
+        var tg= (vat+vard+final+profession).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        $("#totalglobal").val(tg);
+
+        console.log($bar);
+
+        var div = document.getElementById("global");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+        /* bar();*/
+    }
+
+    /*----------------------------------*/
+
+    var selectfct = function () {
+        if($(".profession_ville").is(":checked")){
+            /*alert("test");*/
+            $('.checkbox_profession').prop('checked', true);
+        }else{
+            $('.checkbox_profession').prop('checked', false
+            );
+        }
+    };
+    $(selectfct);
+    $(".profession_ville").click(selectfct);
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        function cal2() {
+            var totalref = +$("#totalref").val().replace(/[^0-9\.]/g, '') || 0;
+            var totalcat = +$("#totalcat").val().replace(/[^0-9\.]/g, '') || 0;
+            var totalaff = +$("#totalaff").val().replace(/[^0-9\.]/g, '') || 0;
+            var totalporf = +$("#totalporf").val().replace(/[^0-9\.]/g, '') || 0;
+            var totalglobal = parseInt(totalref) + parseInt(totalcat) + parseInt(totalaff)+ parseInt(totalporf);
+            var tg = totalglobal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            $("#totalglobal").val(tg);
+        }
+    });
+
+
+</script>
+
+<script>
+    $(document).ready(function() {
+
+        tot();
+        function tot(){
+
+            var total = 0;
+            var t;
+            $(".checkbox_profession:checked").each(function() {
+                total += parseInt($(this).val());
+                t= total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            });
+            if (t == 0) {
+                $('#totalporf').val(0);
+            } else {
+                $('#totalporf').val(t);
+            }
+        }
+        $(".checkbox_profession").change(function(event) {
+            var total = 0;
+            var t;
+            $(".checkbox_profession:checked").each(function() {
+                total += parseInt($(this).val());
+                t= total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+            });
+            if (t == 0) {
+                $('#totalporf').val(0);
+            } else {
+                $('#totalporf').val(t);
+            }
+            /*   kam();*/
+        });
+    });
+    $(document).on('change', '.profession_ville', function () {
+        var profession = $('input[name=profession]:checked').val();
+
+        if($(".profession_ville").is(":checked")){
+            $('#totalporf').val(profession.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "));
+        }else{
+            $('#totalporf').val(0);
+        }
+
+    });
+
+    /*.checkbox_villes,*/
+    $(document).on('change keyup click', '.profession_envoi_session', function () {
+
+        $('.loaders').css('display','');
+        var langue = $('input[id=langue1]:checked').val();
+
+        form =$('#profession_liberal ');
+        $.ajax({
+            url: '{{ path('referencement_commande_profession') }}',
+            type: 'POST',
+            data: form.serialize(),
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+                    console.log(successMessage);
+                    prof();
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                    $('.loaders').css('display','none');
+
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+
+
+    });
+
+    $('.checkbox_villes').on('change', function() {
+        $('.checkbox_villes').not(this).prop('checked', false);
+    });
+
+
+    $(window,'.logo').on('keyup change load',function() {
+
+        var logo = $('input[name=logo]:checked').val();
+
+        if (logo =='avocat')
+        {
+            $(".avocat").show();
+            $(".medecin").hide();
+            $(".dentiste").hide();
+        }else
+        if (logo =='dentiste')
+        {
+            $(".avocat").hide();
+            $(".medecin").hide()
+            $(".dentiste").show()
+        }
+        else
+        if (logo =='medecin')
+        {
+            $(".avocat").hide();
+            $(".medecin").show()
+            $(".dentiste").hide()
+        }
+    });
+
+
+</script>
+
+</html>

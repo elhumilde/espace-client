@@ -1,0 +1,423 @@
+{% extends "::layout/base_statistics2.html.twig" %}
+
+
+{% block title %} Vignette {{ data_vignette['raison_sociale'] }} - Affichages {% endblock %}
+{% block stylesheets %}
+
+<style>
+    .demo { 
+        position: relative; 
+    }
+    .demo i {
+        position: absolute; bottom: 10px; right: 24px; top: auto; cursor: pointer;
+    }
+    .btns{
+        min-height: 66px!important;
+        height: 75px!important;
+    }
+</style>
+
+{% endblock %}
+
+{% block slide %}
+    <div class="group-bg-image">
+        <div class="col-lg-12 col-xlg-12 col-md-12 bg-image">
+            <p class="bg-image-text">Vignette</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+
+
+
+        
+
+                   <!--  <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                        <h4 class="page-title">{{ data_vignette['raison_sociale'] }}<span class="page-title2" ></span> </h4>
+                        <input type="hidden" name="vignette" id="vignette" value="vignette">
+                        <input type="hidden" name="type" id="type" value="">
+                    </div>
+                </div>
+            </div> -->
+
+
+            <div class="col-md-9 col-lg-9 col-sm-12 row right-side" id="captures">
+                        <div class=" row white-box-top">
+                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                <h4 class="page-title"><span class="page-title2"></span>  </h4>
+                                <input type="hidden" name="vignette" id="vignette" value="vignette">
+                            </div>
+                            <div class="col-lg-5 col-sm-12 col-md-5 col-xs-12">
+                                <div class="d-md-flex">
+                                    <ol class="breadcrumb ms-auto">
+                                    {% include "EcommerceBundle:Administration/statistics:daterangepicker.html.twig" %}
+                                    </ol>
+                                    <input type="hidden" name="code_firme" id="code_firme" {% if utilisateur[0]['code_firme'] is defined %} value="{{ data_user[0]['code_firme'] }}" {% elseif cf is defined %} value="{{ cf }}" {% else %} value="" {% endif %}>
+                                    <input type="hidden" name="user" id="user" {% if utilisateur[0]['code_firme'] is defined %} value="1" {% elseif cf is defined %} value="2" {% else %} value="" {% endif %}>
+                                    <input type="hidden" name="rs_comp" id="rs_comp" {% if utilisateur[0]['code_firme'] is defined %} value="{{data_user[0]['raison_sociale']}}" {% else %} value="" {% endif %}>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+            <div class="container-fluid btns">
+                <!-- ============================================================== -->
+                <!-- Three charts -->
+                <!-- ============================================================== -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-12">
+                        <div class="white-box analytics-info" style="background: #2b96a9; color: white; height: 50px; line-height: 0!important; padding: 2%; text-align: center;" onclick="vignetteRubriqueChart();"><h3 class="box-title">Vignette thématique</h3>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="white-box analytics-info" style="background: #2b96a9; color: white; height: 50px; line-height: 0!important; padding: 2%; text-align: center;" onclick="vignetteRegionChart();"><h3 class="box-title">Vignette localité</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- PRODUCTS YEARLY SALES -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div class="white-box">
+                            <h3 class="box-title box-title-change">Affichage vignette</h3>
+                            <div class="d-md-flex">
+                                <ul class="list-inline d-flex ms-auto">
+                                    <!-- <li class="ps-3">
+                                        <h5><i class="fa fa-circle me-1 text-info"></i>Sessions</h5>
+                                    </li> -->
+                                    <li class="ps-3">
+                                        <h5><i class="fa fa-circle me-1 text-inverse"></i>Affichage</h5>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="ct-visits" ><!-- style="height: 420px;" -->
+                            	<img src="{{ asset('public_statistics/plugins/images/preloader.gif') }}" id="loading_visit_chart">
+                                <div class="chartist-tooltip" style="top: -13px; left: -12px;">
+                                    <span class="chartist-tooltip-value">6</span>
+                                </div>
+                                <canvas id="ctx" ></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a href="https://www.telecontact.ma/">Télécontact</a></footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+	<script>
+			
+
+      vignetteRubriqueChart();
+			function vignetteRubriqueChart(){
+
+                document.body.style.overflow = 'hidden';
+
+                $('body').attr('id' , 'overlay');
+                $("#ctx").remove();
+                $("#ct-visits").append('<canvas id="ctx" style="max-height:420px"></canvas>');
+
+                $("#ctx").hide();
+                $('body').css('pointer-events', 'none');
+
+                $('#loading_visit_chart').css('display', 'flex');
+
+
+
+
+
+                /*$('body').css('pointer-events', 'none');
+                $('body').attr('id' , 'overlay');
+                $("#ctx").remove();
+                $("#ct-visits").append('<canvas id="ctx" ></canvas>');
+
+                $("#ctx").hide();*/
+		
+				var code_firme= $("input[name=code_firme]").val();
+				var start_period= $("input[name=start-period]").val();
+				var end_period= $("input[name=end-period]").val();
+
+				/*if(start_period !== ''){*/
+					var start_period = start_period;
+					var end_period = end_period;
+				/*}else{
+					var start_period = '-1months';
+					var end_period = '-1days';
+				}*/
+
+                $( ".chartist-tooltip" ).empty();
+                $( ".ct-grids" ).empty();
+                $( ".ct-labels" ).empty();
+                $( ".ct-series " ).empty();
+                $('.box-title-change').empty();          
+                $('.box-title-change').append('Affichage vignette thématique'); 
+                $('#type').val('rubrique'); 
+
+                
+
+				$('#loading_visit_chart').css('display', 'flex');				
+		
+				$.ajax({
+						url     : "{{path('vignetteRubrique')}}",
+						type    : 'POST',
+						data    : {code_firme: code_firme, start_period: start_period, end_period: end_period},
+						success : function(data){ 
+
+							$('#loading_visit_chart').css('display', 'none');
+              /*$(".page-title2").append("Du "+ data.begin_period+" au "+data.end_period);*/
+              var result = data.vignette_rubrique;
+              var dates = data.dates;
+              chartByMonth(result, dates);
+						},
+
+						error : function(resultat, statut, erreur){
+							alert('vignetteRubriqueChart no');
+						}
+
+					});
+
+			};
+
+
+            function vignetteRegionChart(){
+
+              document.body.style.overflow = 'hidden';
+              
+
+                $('body').attr('id' , 'overlay');
+                $("#ctx").remove();
+                $("#ct-visits").append('<canvas id="ctx" style="max-height:420px"></canvas>');
+
+                $("#ctx").hide();
+                $('body').css('pointer-events', 'none');
+
+                $('#loading_visit_chart').css('display', 'flex');
+
+        
+                var code_firme= $("input[name=code_firme]").val();
+                var start_period= $("input[name=start-period]").val();
+                var end_period= $("input[name=end-period]").val();
+
+                /*if(start_period !== ''){*/
+                    var start_period = start_period;
+                    var end_period = end_period;
+                /*}else{
+                    var start_period = '-1months';
+                    var end_period = '-1days';
+                }*/
+
+                $( ".chartist-tooltip" ).empty();
+                $( ".ct-grids" ).empty();
+                $( ".ct-labels" ).empty();
+                $( ".ct-series " ).empty();
+
+                $('#loading_visit_chart').css('display', 'flex');
+                $('.box-title-change').empty();          
+                $('.box-title-change').append('Affichage vignette localité');
+                $('#type').val('region');                
+        
+                $.ajax({
+                        url     : "{{path('vignetteRegion')}}",
+                        type    : 'POST',
+                        data    : {code_firme: code_firme, start_period: start_period, end_period: end_period},
+                        success : function(data){ 
+
+                            $('#loading_visit_chart').css('display', 'none');
+                            $("#ctx").show();
+                            
+                            var result = data.vignette_region;
+                            var dates = data.dates;
+                            chartByMonth1(result, dates);
+                            
+                        },
+
+                        error : function(resultat, statut, erreur){
+                            
+                            alert('vignetteRegionChart no');
+                        }
+
+                    });
+
+            };
+
+
+
+
+			async function chartByMonth(result, dates){
+
+                var a =[];
+                      for($i=0; $i<result.length;$i++){
+                          a.push(result[$i][1]);
+                      }
+
+               var isChartRendered = false;
+                var chart = new Chart(ctx, {
+                   type: 'line',
+                   data: {
+                      labels: dates,
+                      datasets: [{
+                         label: 'LINE',
+                         data: a,
+                         backgroundColor: 'rgba(0, 119, 290, 0.2)',
+                         borderColor: 'rgba(0, 119, 290, 0.6)',
+                         fill: true
+                      }]
+                   },
+                   options: { 
+                      // setting following option is mandatory
+                      /*animation: {
+                         onComplete: function() {
+                            isChartRendered = true,
+                            
+                         }
+                      },*/
+                      
+                   }
+                });
+
+                $('body').css('pointer-events', 'auto');
+                $('body').removeAttr('id');
+                download(isChartRendered);
+                $("#ctx").css({"height": "450px", "margin-top": "-15px"});
+                $("#ctx").show(); 
+            }
+
+
+             async function chartByMonth1(result, dates){
+
+                var a =[];
+                      for($i=0; $i<result.length;$i++){
+                          a.push(result[$i][1]);
+                      }
+                var isChartRendered = false;
+                var chart = new Chart(ctx, {
+                   type: 'line',
+                   data: {
+                      labels: dates,
+                      datasets: [{
+                         label: 'LINE',
+                         data: a,
+                         backgroundColor: 'rgba(0, 119, 290, 0.2)',
+                         borderColor: 'rgba(0, 119, 290, 0.6)',
+                         fill: true
+                      }]
+                   },
+                   options: { 
+                      // setting following option is mandatory
+                      /*animation: {
+                         onComplete: function() {
+                            isChartRendered = true,
+                            
+                         }
+                      },*/
+                      
+                   }
+                });
+
+                $('body').css('pointer-events', 'auto');
+                $('body').removeAttr('id');
+                download1(isChartRendered);
+                $("#ctx").css({"height": "450px", "margin-top": "-15px"});
+
+            }
+
+
+             async function download(isChartRendered) {
+
+               //if (!isChartRendered) return; // return if chart not rendered
+               html2canvas(document.getElementById('captures'), {
+                  onrendered: function(canvas) {    
+                    var imgData = canvas.toDataURL('image/jpeg');  
+
+                    var code_firme = $("input[name=code_firme]").val();
+                    var id_user = $("input[name=id_user]").val();
+                    var page = '4';
+                    
+                    var url = "{{path('uploadPdfImages')}}";
+                        $.ajax({ 
+                            type: "POST", 
+                            url: url,
+                            dataType: 'text',
+                            data: {
+                                base64data : imgData, code_firme : code_firme, page : page, id_user : id_user
+                            }
+                        });     
+                        
+
+                    //End html2canvas
+                    }
+                    });
+                    document.body.style.overflow = 'scroll';
+                } // End exportAndSaveCanvas()
+
+
+
+
+            async function download1(isChartRendered) {
+               //if (!isChartRendered) return; // return if chart not rendered
+               html2canvas(document.getElementById('captures'), {
+                  onrendered: function(canvas) {
+                    var imgData = canvas.toDataURL('image/jpeg');  
+
+                    var code_firme = $("input[name=code_firme]").val();
+                    var id_user = $("input[name=id_user]").val();
+                    var page = '5';
+
+                    
+                    var url = "{{path('uploadPdfImages')}}";
+                        $.ajax({ 
+                            type: "POST", 
+                            url: url,
+                            dataType: 'text',
+                            data: {
+                                base64data : imgData, code_firme : code_firme, page : page, id_user : id_user
+                            }
+                        });     
+                        
+
+                    //End html2canvas
+                    }
+                });
+               document.body.style.overflow = 'scroll';
+            } // End exportAndSaveCanvas()
+
+	        
+
+			
+
+
+	</script>
+
+
+
+    
+{% endblock %}

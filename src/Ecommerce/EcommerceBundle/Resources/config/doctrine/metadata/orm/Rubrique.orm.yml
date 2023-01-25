@@ -1,0 +1,22 @@
+Rubrique:
+    type: entity
+    table: rubrique
+    id:
+        codeRubrique:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: CODE_RUBRIQUE
+            generator:
+                strategy: IDENTITY
+    fields:
+        libelle:
+            type: string
+            nullable: true
+            length: 65
+            fixed: false
+            comment: ''
+            column: LIBELLE
+    lifecycleCallbacks: {  }

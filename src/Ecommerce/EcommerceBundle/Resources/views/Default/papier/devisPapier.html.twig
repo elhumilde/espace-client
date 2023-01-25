@@ -1,0 +1,1785 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>E-contact</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="icon" type="image/x-icon" href="{{ asset('Logo-econtact-2.png') }}" />
+    <link rel="stylesheet" href="{{ asset('css/contact.css') }}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+    <style>
+        .envoyer_a
+        {
+            text-align: center;
+            background-color: #58595a;
+            padding: 0px;
+            font-size: 18px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            width: 120px;
+            height: 35px;
+            color: white!important;
+            cursor: pointer;
+        }
+        .loaders {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: url({{ asset('ajax-loader.gif') }}) center center no-repeat rgba(57, 66, 100, 0.6);
+            z-index: 500;
+        }
+        .edit-input
+        {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <br>
+    <div class="icon-retour retour">
+        <a style="color: #2eb2ff; " href="{{ path('gestion_contenu_papier') }}">< Retour  ( chemins des onglets parcourus )</a><br>
+        <a style="color: #2eb2ff; " href="{{ path('referencement_clear_session') }}">< Nouveau client</a>
+    </div>
+
+    <div class="loaders" style="display: none"></div>
+
+    <br>
+    <div class="row" align="center">
+
+
+        <span class="devis_text"><img  src="http://www.telecontact.ma/trouver/images/tete_proposition.jpg" class="img-fluid" alt="proposition de visibilité telecontact" style="height: 176px; width: 80%;"></span>
+        <span class="ordre_insertion" style="display: none"><img  src="http://www.telecontact.ma/trouver/images/tete_devis.jpg" class="img-fluid" alt="proposition de visibilité telecontact" style="height: 176px; width: 80%;"></span>
+        <span class="bn_commande_text" style="display: none"><img  src="http://www.telecontact.ma/trouver/images/tete_bon_commande.jpg" class="img-fluid" alt="proposition de visibilité telecontact" style="height: 176px; width: 80%;"></span>
+    </div>
+
+    <div class="row">
+        {% for flashMessage in app.session.flashbag.get('success') %}
+            <div class="alert alert-success fade in col-xs-6">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('error') %}
+            <div class="alert alert-danger fade in col-xs-6">
+                <a href="#"  class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <div  style="width: 85%;margin-left: 82px;">
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+                <h5> <span class=" date_h pull-right">{#{{ 'now' | date("d/m/Y") }#} {{jour['now'|date('l')]}} {{ 'now' |date("d") }} {{trans_day_hash['now'|date('F')]}} {{ 'now' |date("Y") }} </span>  </h5></div>
+        </div>
+        <h5 class="rs_firme" > Raison sociale&nbsp;&nbsp;:  {% if panniers %}  {% if panniers.papier1.rs  %}
+                <label class="rs" >
+                    <span class="rs_view" >{{panniers.papier1.rs|title }}</span>
+                </label>
+                <input type="text" id="rs"  class="edit-input" value="{{ panniers.papier1.rs|title }}" {#style="text-transform: capitalize;"#} />
+                <br>{% endif %} {% if panniers.papier1.codeFirme  %}
+                Code firme &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                <label class="cfirme" >
+                    <span class="cfirme_view" >{{ panniers.papier1.codeFirme|title }}</span>
+                </label>
+                <input type="text" id="cfirme" class="edit-input" value="{{ panniers.papier1.codeFirme }}" />
+
+            {% endif %}  {% endif %}</h5><br>
+        <h7 class="civi" >
+
+                <input id="civi" value="{{panniers.papier1.civi}}" style="display: none"/>
+                {#{% if result['civi'] =='Mr' %} cher  {% endif %}#}
+                {#{% if result['civi'] =='Mme' %} chère   {% endif %}#}
+                {#{% if result['civi'] =='Mlle' %} chère  {% endif %}#}
+                {% if panniers %}
+                    {% if panniers.papier1.civi  %}
+                        {% if panniers.papier1.civi =='Mme' %} Madame {% endif %}
+                        {% if panniers.papier1.civi =='Mlle' %} Mademoiselle {% endif %}
+                        {% if panniers.papier1.civi =='Mr' %} Monsieur  {% endif %}
+                    {% endif %}
+                    {#<input id="sign" value="{{ result['sign'] }}" style="display: none"/>#}
+                    {% if panniers.papier1.sign  %}
+
+                        <label class="sign" >
+                            <span class="sign_view" >{{ panniers.papier1.sign |title }}</span>
+                        </label>
+                        <input type="text" id="sign" class="edit-input" value="{{ panniers.papier1.sign |title }}" />
+
+
+                    {% endif %} {% endif %} ,
+
+        </h7>
+        <br><br>
+        <div align="center" class="txt_descriptif">
+            <p  >Tout d'abord, nous tenons à vous remercier pour votre confiance et nous sommes ravis de vous compter parmi nos clients.</p>
+            <p>Pour développer votre visibilité auprés des professionnels, nous vous préconisons une présence efficace sur telecontact.ma avec les solutions digitales suivantes:</p>
+        </div>
+    </div>
+
+    <table align="center" class="table table-bordered" style="margin-top: 30px;width: 70%;">
+
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" style="width: 444px;text-align: center;border-right: 2px solid white;">Produit(s)</th>
+            
+            <th scope="col" style="width: 72px;text-align: center;border-right: 2px solid white;">Type</th>
+            <th scope="col" style="width: 129px;text-align: center;border-right: 2px solid white;">Ville</th>
+            <th scope="col" style="width: 129px;text-align: center;border-right: 2px solid white;">P.U</th>
+            <th scope="col" style="width: 129px;text-align: center;">Montant HT </th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+       
+
+        <div>
+            {% for pannier in panniers %}
+          			<tr class="table-warning referencement">
+	                <th colspan="5" style="background-color: #ffdb2e;font-size: 14px;">{{ pannier.format }}</th>
+	                </tr>
+                    <tr>
+                
+                        <th scope="row"><strong style="font-size: 15px;">Rubrique principale : </strong><br>
+                            {#{% for rubrique in desrubref['rubrique'] %}
+                            - <h7 style="font-weight: 500;font-size: 16px;">{{ rubrique.sel|rub.libelle }}</h7>
+                            {% endfor %}#}
+                            <div style="width: 350px!important;background-color: #f9f1c9">
+                                <strong style="font-weight: 500;font-size: 14px;"> •&nbsp; <span style="font-weight: 700;font-size: 14px;">{{ pannier.rubrique[0] }} </span></br>
+                                   visibilité sur : {{  pannier.region[0]["region"] }}</strong>
+                            </div>
+                        </th>
+                        <td>Numérique</td>
+                        <td>{{ pannier.villeRs }}</td>
+                        <td>-</td>
+                        <td>{{pannier.prix|number_format|replace(',',' ')}}</td>
+
+                       
+                    </tr>
+
+
+            {% endfor %}
+         
+          
+          
+        </div>
+
+
+        </tbody>
+    </table>
+<table width="30%" border="1" style="border: 1px solid #dee2e6;margin-top: -17px;margin-left: 610px;">
+
+        <tr>
+
+            <td scope="row" class="pull-right" ><h7 style="font-weight: bold;font-size: 15px;">Montant H.T &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</h7></td>
+            <td  style="text-align: center;">
+                <input type="text" id="ht_net" value="{{somme|number_format|replace(',',' ')}}" style="display: none;">
+                <input type="text" id="ht_brut"  value="{{somme|number_format|replace(',',' ')}}" style=";color: black;border: white;text-align: -webkit-center;font-weight: bold;width: 100px;height: 28px;" readonly /></td>
+
+        </tr>
+
+      
+        <tr>
+
+            <td scope="row" class="pull-right" ><h7 style="font-weight: 500;font-size: 15px;">T.V.A 20%</h7></td>
+            <input type="text" id="tva_brut" value="{{(somme*0.2)|number_format|replace(',',' ')}}" style="display: none">
+
+            <td class="tva"  style="text-align: center;"><input type="text" id="tva"  style=";color: black;border: white;text-align: -webkit-center;font-weight: 500;width: 100px;height: 28px;margin-left: 7px;" value="{{(somme*0.2)|number_format|replace(',',' ')}}" readonly /></td>
+
+
+        </tr>
+
+
+        <tr>
+
+            <td scope="row" class="pull-right" style="background-color: #dadada;" ><h7 style="font-weight: bold;font-size: 15px;">Montant T.T.C</h7></td>
+
+            <input type="text" id="ttc_net" value="{{(somme+somme*0.2)|number_format|replace(',',' ')}}" style="display: none;">
+
+            <td class="ttc_brut" style="text-align: center;background-color: #dadada;"><input type="text" id="ttc_brut"  style=";color: black;border: white;text-align: -webkit-center;font-weight: bold;width: 100px;height: 28px;background-color: #dadada;" value="{{(somme+somme*0.2)|number_format|replace(',',' ')}}" readonly /></td>
+
+
+
+        </tr>
+    </table>
+    <div class="container">
+
+	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+	        <div class="row" style="margin-left: -68px;width: 765px;margin-top: 30px;">
+	            <div class="col-xs-4 hrefpdf">
+	                <a href="{{path('telecharger_pdf')}}" target="_blank" class="btn  btn-sx pdf" type="button" style="width: 200px!important;margin-left: 55px;font-weight: bold;">Télécharger PDF</a>
+
+	            </div>
+	        </div>  
+	</div>
+	<form action="{{path('send_email_pdf')}}" method="post">
+               
+
+        <br><br>
+
+
+
+        <br><br>
+        <div class="form-group col-md-8" style="margin-left: 169px;margin-top: -24px;">
+            <div class="form-inline">
+                <div class="form-group ">
+                    <label class="checkbox-inline header">
+                        <input type="checkbox" class="visbilite_header proposition" name="proposition" id="visbilite_header" value="proposition">&nbsp;Proposition
+                    </label>&nbsp;&nbsp;&nbsp;
+                      
+                  
+                      
+                    
+                </div>
+            </div>
+        </div>
+                    <div>
+                <label style="margin-left: 179px">Envoyer le devis&nbsp; &nbsp;</label><input class="email" id="email" name="email_ad" placeholder="E-mail" type="email" required="">&nbsp; &nbsp;
+                <a type="submit" id="proposition_test_envoi" class="envoyer_a send_email_ proposition_btn_test_envoi" onclick="alert('Veuillez spécifier le document à envoyer');" style="display: none;">Envoyer</a>
+                <button type="submit" id="proposition" class="envoyer send_email_ proposition_btn" style="display: inline-block;">Envoyer</button>
+                <button type="submit" id="devis" class="envoyer send_email_ devis_btn" style="display: none">Envoyer</button>
+                <button type="submit" id="bon_commande" class="envoyer send_email_ bon_commande_btn" style="display: none">Envoyer</button>
+                            </div>
+            </form>
+            <br><br>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.62/jquery.inputmask.bundle.js"></script>
+
+<script>
+    $(function () {
+        $(window,'.checkbox').on('change load',function () {
+            if ($('input.remise').is(':checked')) {
+                $(".promo_remise").show();
+                $(".promo_gratuite").hide();
+                /*document.getElementById('nature_contenu_gratuite').value = null;
+                 document.getElementById('montant_remise1').value = null;
+                 document.getElementById('montant_remise2').value = null;*/
+            }else
+            if ($('input.gratuite').is(':checked')) {
+                $(".promo_gratuite").show();
+                $(".promo_remise").hide();
+                /*document.getElementById('nature_contenu_remise').value = null;*/
+            }
+            else
+            {
+                $(".promo_remise").hide();
+                $(".promo_gratuite").hide();
+                /* document.getElementById('nature_contenu_remise').value = null;
+                 document.getElementById('nature_contenu_gratuite').value = null;
+                 document.getElementById('montant_remise1').value = null;
+                 document.getElementById('montant_remise2').value = null;*/
+            }
+
+        });
+    });
+    $(function () {
+        $(window,'.gratuite').on('change load',function () {
+            if ($('input.gratuite').is(':checked')) {
+                $(".gratuite_th").show();
+
+            }
+            else
+            if ($('input.remise').is(':checked'))
+            {
+                $(".gratuite_th").hide();
+
+            }
+            else
+            {
+                $(".gratuite_th").hide();
+
+
+            }
+        });
+    });
+    $(function () {
+        $(window,'.remise_pourcentage').on('change keyup keydown load',function () {
+            var pourcent = $('input.pourcentage').val()
+            if ($('input.remise_pourcentage').is(':checked') && pourcent.length != "")
+            {
+                $(".remise_th").show();
+                $(".montant_remise_th").hide();
+
+
+
+            }
+            else
+            if ($('input.gratuite').is(':checked'))
+            {
+                $(".remise_th").hide();
+
+
+
+
+
+            }
+            else
+            {
+                $(".remise_th").hide();
+
+
+
+            }
+        });
+    });
+    $(function () {
+        $(window,'.remise').on('change keyup keydown load',function () {
+            var m_r =parseInt($("#montant_remise").val().replace(/[^0-9\.]/g, ''));
+
+            if ($('input.remise').is(':checked') && m_r.length != "")
+            {
+                $(".montant_remise_th").show();
+
+            }
+            else
+            if ($('input.gratuite').is(':checked'))
+            {
+                $(".montant_remise_th").hide();
+                /*document.getElementById('nature_remise').value = null;
+                 document.getElementById('nature_contenu_gratuite').value = null;*/
+
+
+            }
+            else
+            {
+                $(".montant_remise_th").hide();
+                document.getElementById('nature_remise').value = null;
+                document.getElementById('nature_contenu_gratuite').value = null;
+
+
+            }
+        });
+    });
+
+    $(function () {
+        $(window,'.gratuite,.remise,.remise_pourcentage').on('change load',function () {
+            if ($('input.gratuite').is(':checked')|| $('input.remise').is(':checked')|| $('input.remise_pourcentage').is(':checked')) {
+                $(".visibilite_new_ht").show();
+                $(".visibilite-td").show();
+            }
+            else
+            {
+                $(".visibilite_new_ht").hide();
+                $(".visibilite-td").hide();
+
+
+            }
+        });
+    });
+    $('.rs_view').click(function () {
+        var dad = $(this).parent().parent();
+        dad.find('label.rs').hide();
+        dad.find('input[id=rs]').show().focus();
+    });
+
+    $('input[id=rs]').focusout(function() {
+        var dad = $(this).parent();
+        $(this).hide();
+        dad.find('label.rs').show();
+    });
+    $("#rs").on('change',function() {
+        var val = $(this).val();
+        /*val = val.toLowerCase().replace(/\b[a-z]/g, function (letter1) {
+            return letter1.toUpperCase();
+        });*/
+        $(".rs_view").html(val);
+    });
+    $('.cfirme_view').click(function () {
+        var dad = $(this).parent().parent();
+        dad.find('label.cfirme').hide();
+        dad.find('input[id=cfirme]').show().focus();
+    });
+
+    $('input[id=cfirme]').focusout(function() {
+        var dad = $(this).parent();
+        $(this).hide();
+        dad.find('label.cfirme').show();
+    });
+    $("#cfirme").keyup(function() {
+        var val = $(this).val();
+        $(".cfirme_view").html(val);
+    });
+
+    $('.sign_view').click(function () {
+        var dad = $(this).parent().parent();
+        dad.find('label.sign').hide();
+        dad.find('input[id=sign]').show().focus();
+    });
+
+    $('input[id=sign]').focusout(function() {
+        var dad = $(this).parent();
+        $(this).hide();
+        dad.find('label.sign').show();
+    });
+    $("#sign").keyup(function() {
+        var val = $(this).val();
+        val = val.toLowerCase().replace(/\b[a-z]/g, function (letter1) {
+            return letter1.toUpperCase();
+        });
+        $(".sign_view").html(val);
+    });
+
+    $('.pdf,#rs,#cfirme,#sign').on('click change ', function () {
+        var rs=  $(".rs_view").text();
+        var sign=  $(".sign_view").text();
+       /* rs = rs.toLowerCase().replace(/\b[a-z]/g, function (letter) {
+            return letter.toUpperCase();
+
+        });*/
+
+        var rs=  rs;
+        var firme=  $(".cfirme_view").text();
+        var sign= sign;
+        var civi = $("#civi").val();
+        var profession = 'oui';
+        var data_send = {'rs': rs,'cfirme':firme,'sign': sign,'civi':civi,'profession':profession};
+        $.ajax({
+            url: '{{ path('referencement_commande_devis_rs') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+                    console.log(successMessage);
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+
+
+    });
+
+    /*$(document).on('change keyup keydown','#dateP1',function()
+     {
+
+     var phones = [{ "mask": " ##/##/####"}];
+     $('#dateP1').inputmask({
+     mask: phones,
+     });
+     });
+     $(document).on('change keyup keydown','#dateP2',function()
+     {
+
+     var phones = [{ "mask": " ##/##/####"}];
+     $('#dateP2').inputmask({
+     mask: phones,
+     greedy: false,
+     definitions: { '#': { validator: "[0-9]", cardinality: 1}} });
+     });
+     $(document).on('change keyup keydown','#dateP3',function()
+     {
+
+     var phones = [{ "mask": " ##/##/####"}];
+     $('#dateP3').inputmask({
+     mask: phones,
+     greedy: false,
+     definitions: { '#': { validator: "[0-9]", cardinality: 1}} });
+     });*/
+
+
+
+    function prosition() {
+        alert("Impossible d'envoyer un devis vide!");
+    }
+    function devis() {
+        alert("Impossible d'envoyer un ordre d'insertion vide!");
+    }
+    function bon_commande() {
+        alert("Impossible d'envoyer un bon de commande vide!");
+    }
+    $("#nature_remise").keyup(function() {
+        var val = $(this).val();
+        $("#nature_contenu_gratuite").html(val);
+        $("#nature_contenu_remise").html(val);
+    });
+
+    $('#nbr').on("keydown keyup change", function (){
+        var nbr =$('input[name=nbr]').val();
+        for(i=nbr;i <= nbr;i++)
+            $('#echeance').val(i);
+        i++;
+    });
+
+    $(window,'.remise,gratuite').on(" change load  ", function() {
+        if($('.gratuite').is(":checked") || $('.remise').is(":checked"))
+        {
+            $(".montant_remise").show();
+        }else
+        {
+            $(".montant_remise").hide();
+            document.getElementById('montant_remise').value = 0;
+        }
+    });
+
+    $(window,'.remise,gratuite').on(" change load  ", function() {
+        if ($('.gratuite').is(":checked") || $('.remise').is(":checked")) {
+            $(".nature_remise").show();
+        }else
+        {
+            $(".nature_remise").hide();
+            document.getElementById('nature_remise').value = null;
+        }
+    });
+
+    $(window,'.remise_pourcentage').on(" change load  ", function() {
+        if($('.remise_pourcentage').is(":checked"))
+        {
+            $(".pourcentage").show();
+        }
+        else
+        {
+            $(".pourcentage").hide();
+            document.getElementById('pourcentage').value = 0;
+        }
+
+    });
+
+    $('.checkbox_offre').on('change', function() {
+        $('.checkbox_offre').not(this).prop('checked', false);
+    });
+
+    function showhide_m()
+    {
+        var div = document.getElementById("modalite");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+    }
+
+    function showhide_c()
+    {
+        var div = document.getElementById("code");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+    }
+
+    function showhide_p()
+    {
+        var div = document.getElementById("preconise");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+    }
+    (function($, undefined) {
+
+        "use strict";
+
+        // When ready.
+        $(function() {
+
+            var $form = $( ".test" );
+            var $input = $form.find( "input" );
+
+            $input.on( "keyup", function( event ) {
+                // When user select text in the document, also abort.
+                var selection = window.getSelection().toString();
+                if ( selection !== '' ) {
+                    return;
+                }
+
+                // When the arrow keys are pressed, abort.
+                if ( $.inArray( event.keyCode, [38,40,37,39] ) !== -1 ) {
+                    return;
+                }
+                var $this = $( this );
+
+                // Get the value.
+                var input = $this.val();
+
+                var input = input.replace(/[\D\s\._\-]+/g, "");
+                input = input ? parseInt( input, 10 ) : 0;
+
+                $this.val( function() {
+                    return ( input === 0 ) ? "" : input.toLocaleString( "MAD" );
+                } );
+            } );
+
+        });
+    })(jQuery);
+    /* $(window).on('load',  function () {
+     if(($(".remise").is(":checked")))
+     {
+     var montant_rem = $("#montant_rem").val();
+     document.getElementById('montantttc_stock').value = montant_rem;
+     } else if(($(".remise_pourcentage").is(":checked")))
+     {
+     var montant_r = $("#montant_r").val();
+     document.getElementById('montantttc_stock').value = montant_r;
+     }else
+     {
+     var montantttc_modalite = $("#montantttc_stock").val();
+     document.getElementById('montantttc_stock').value = montantttc_modalite;
+     }
+
+     });
+     */
+
+    /*$(document).on('click',  function () {
+
+     $('.loaders').css('display','');
+     if(($(".remise").is(":checked"))) {
+     var montantttc_modalite = $("#ttc_brut").val();
+     var accompte1 = $("#accompte").val().replace(/[^0-9\.]/g, '');
+     var accompte = accompte1.replace(/[^0-9\.]/g, '');
+     var reste = $('input[name=reste]').val().replace(/[^0-9\.]/g, '');
+     console.log('resttttttttttttttttttttttttt', reste);
+     var nbr = $("#nbr").val();
+     var montant1 = $("#montant1").val().replace(/[^0-9\.]/g, '');
+     var montant2 = $("#montant2").val().replace(/[^0-9\.]/g, '');
+     var montant3 = $("#montant3").val().replace(/[^0-9\.]/g, '');
+     var dateP1 = $("#dateP1").val();
+     var dateP2 = $("#dateP2").val();
+     var dateP3 = $("#dateP3").val();
+     var data_send = {'montantttc': montantttc_modalite,'accompte': accompte1,'reste': reste,'nbr': nbr,'montant1': montant1,'montant2': montant2,'montant3': montant3,'dateP1': dateP1,'dateP2': dateP2, 'dateP3': dateP3};
+     }
+     else if(($(".remise_pourcentage").is(":checked")))
+     {
+     var montantttc_modalite = $("#ttc_brut").val();
+     /!*alert(montantttc_modalite);*!/
+     var accompte1 = $("#accompte").val().replace(/[^0-9\.]/g, '');
+     var accompte = accompte1.replace(/[^0-9\.]/g, '');
+     var reste = $('input[name=reste]').val().replace(/[^0-9\.]/g, '');
+     console.log('resttttttttttttttttttttttttt', reste);
+     var nbr = $("#nbr").val();
+     var montant1 = $("#montant1").val().replace(/[^0-9\.]/g, '');
+     var montant2 = $("#montant2").val().replace(/[^0-9\.]/g, '');
+     var montant3 = $("#montant3").val().replace(/[^0-9\.]/g, '');
+     var dateP1 = $("#dateP1").val();
+     var dateP2 = $("#dateP2").val();
+     var dateP3 = $("#dateP3").val();
+     /!*alert(reste);*!/
+     var data_send = {'montantttc': montantttc_modalite,'accompte': accompte1,'reste': reste,'nbr': nbr,'montant1': montant1,'montant2': montant2,'montant3': montant3,'dateP1': dateP1,'dateP2': dateP2, 'dateP3': dateP3};
+     }
+     else
+     {
+     var montantttc_modalite = $("#ttc_brut").val();
+     /!*alert(montantttc_modalite);*!/
+     var accompte1 = $("#accompte").val().replace(/[^0-9\.]/g, '');
+     var accompte = accompte1.replace(/[^0-9\.]/g, '');
+     var reste = $('input[name=reste]').val().replace(/[^0-9\.]/g, '');
+     console.log('resttttttttttttttttttttttttt', reste);
+     var nbr = $("#nbr").val();
+     var montant1 = $("#montant1").val().replace(/[^0-9\.]/g, '');
+     var montant2 = $("#montant2").val().replace(/[^0-9\.]/g, '');
+     var montant3 = $("#montant3").val().replace(/[^0-9\.]/g, '');
+     /!*alert(montant3);*!/
+     var dateP1 = $("#dateP1").val();
+     var dateP2 = $("#dateP2").val();
+     var dateP3 = $("#dateP3").val();
+     var data_send = {'montantttc': montantttc_modalite,'accompte': accompte1,'reste': reste,'nbr': nbr,'montant1': montant1,'montant2': montant2,'montant3': montant3,'dateP1': dateP1,'dateP2': dateP2, 'dateP3': dateP3};
+     }
+
+     $.ajax({
+     url: '{{ path('referencement_commande_devis_paiement') }}',
+     type: 'POST',
+     data: data_send,
+     statusCode: {
+     //traitement en cas de succès
+     200: function (response) {
+     var successMessage = response;
+     console.log(successMessage);
+     /!*  $('#prestation').children("option").remove();*!/
+     //on vide les champs formulaires ou on le supprime ou ...
+     //on retire le loader...
+     //                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+     $('.loaders').css('display','none');
+
+     },
+     //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+     412: function (response) {
+     var errorsForm = response.responseJSON.formErrors;
+     //on affiche les erreurs...
+     alert('error');
+
+     }
+     }
+     });
+     });*/
+
+    /*  $(window).load(function () {
+
+     $('.loaders').css('display', '');
+
+     var mont_ttc = $("#montantttc_stock").val();
+     alert(mont_ttc);
+     var montant_remise = $("#montant_remise").val();
+     var montant_remise1 = $("#montant_remise").val().replace(/[^0-9\.]/g, '');
+     var pourcentage = $("#pourcentage").val();
+     var montantttcc = $('input[name=montantttc]').val();
+     var m_ttc = parseInt(montantttcc.replace(/[^0-9\.]/g, ''));
+     var pourcentage = parseInt($('input[name=pourcentage]').val());
+     var montant_r = (m_ttc - (m_ttc * (pourcentage / 100))).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+     var montant_rem = (m_ttc - montant_remise1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+     if ($('input.remise:checked')) {
+     document.getElementById('montantttc').value = montant_rem;
+     } else if ($('input[name=pourcentage]')) {
+     document.getElementById('montantttc').value = montant_r;
+     }
+     else {
+     document.getElementById('montantttc').value = mont_ttc;
+     }
+     });*/
+
+    $(window,document).on('load', function () {
+
+
+        /*$('.loaders').css('display', '');*/
+        var nature_remise = $("#nature_remise").val();
+        var tva_brut = $("#tva_brut").val().replace(/[^0-9\.]/g, '');
+        var ttc_net = $("#ttc_net").val().replace(/[^0-9\.]/g, '');
+
+        var ht_net = $("#ht_net").val().replace(/[^0-9\.]/g, '');
+
+        var montantttcc1 = $("#montantttc_stock").val();
+        var montantttcc = $("#montantttc_stock").val().replace(/[^0-9\.]/g, '');
+        var montant_remise = $("#montant_remise").val();
+        var montant_remise1 = $("#montant_remise").val().replace(/[^0-9\.]/g, '');
+        var offre = $('input[name=offre]:checked').val();
+        var pourcentage = $("#pourcentage").val();
+        /*var montantttcc       = $('input[name=montantttc]').val();*/
+        var m_ttc = parseInt(montantttcc.replace(/[^0-9\.]/g, ''));
+        var pourcentage = parseInt($('input[name=pourcentage]').val());
+        var montant_r         =parseInt(m_ttc-(m_ttc*(pourcentage/100)));
+        var montant_rem = parseInt(m_ttc - montant_remise1);
+        var tva_r_p = parseInt((montant_r)*0.2);
+        var tva_r_m = parseInt((montant_rem)*0.2);
+        var ttc_r_m = parseInt(montant_rem)  + parseInt(tva_r_m);
+        var ttc_r_p = parseInt(montant_r)  + parseInt(tva_r_p);
+        var ttc_brut =parseInt(tva_brut)+ parseInt(ttc_net);
+        var ht_brut =parseInt(ht_net)+ parseInt(montant_remise1);
+
+
+        if (($(".remise").is(":checked"))) {
+            document.getElementById('montantttc_preconise').value = montant_rem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = montant_rem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('tva').value = tva_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ht_brut').value = ht_net.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+
+        }
+        else if (($(".remise_pourcentage").is(":checked"))) {
+            document.getElementById('montantttc_preconise').value = montant_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = montant_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('tva').value = tva_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ht_brut').value = ht_net.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+        }
+        else if (($(".gratuite").is(":checked"))) {
+            document.getElementById('ht_brut').value = ht_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('tva').value = tva_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+        }
+
+
+        else {
+            document.getElementById('montantttc_preconise').value = montantttcc1;
+            document.getElementById('montantttc_modalite').value = montantttcc1;
+            document.getElementById('tva').value = tva_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ht_brut').value = ht_net.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+        }
+
+        document.getElementById('montant_r').value = montant_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        document.getElementById('montant_rem').value = montant_rem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    });
+
+    $(document).on('keydown keyup change', '.code-rp,.remise,.gratuite,.remise_pourcentage', function () {
+
+        /*$('.loaders').css('display','');*/
+        var nature_remise     =  $("#nature_remise").val();
+        var tva_brut = $("#tva_brut").val().replace(/[^0-9\.]/g, '');
+
+        var ttc_net = $("#ttc_net").val().replace(/[^0-9\.]/g, '');
+
+        var ht_net = $("#ht_net").val().replace(/[^0-9\.]/g, '');
+
+        var montantttcc1             =  $("#montantttc_stock").val();
+        var montantttcc             =  $("#montantttc_stock").val().replace(/[^0-9\.]/g, '');
+        var montant_remise    =  $("#montant_remise").val();
+        var montant_remise1   =  $("#montant_remise").val().replace(/[^0-9\.]/g, '');
+        var offre             = $('input[name=offre]:checked').val();
+        var pourcentage       =  $("#pourcentage").val();
+        /*var montantttcc       = $('input[name=montantttc]').val();*/
+        var m_ttc             = parseInt(montantttcc.replace(/[^0-9\.]/g, ''));
+        var pourcentage       = parseInt($('input[name=pourcentage]').val());
+        var montant_r         =parseInt(m_ttc-(m_ttc*(pourcentage/100)));
+
+        var montant_rem       =parseInt(m_ttc-montant_remise1);
+
+        var tva_r_p  = parseInt((montant_r)*0.2);
+        var tva_r_m  =parseInt((montant_rem)*0.2) ;
+        var ttc_r_m  = parseInt(montant_rem)  + parseInt(tva_r_m);
+        var ttc_r_p  = parseInt(montant_r)  + parseInt(tva_r_p);
+        var ttc_brut =parseInt(tva_brut)+ parseInt(ttc_net);
+
+        var ht_brut =parseInt(ht_net)+ parseInt(montant_remise1);
+        var new_ht =parseInt(ht_brut)- parseInt(montant_remise1);
+        /*alert(ht_brut)*/
+
+
+        /*alert(tva_brut);
+         alert(ttc_net);
+         alert(ttc_brut);*/
+
+
+        if (($(".remise").is(":checked"))) {
+            document.getElementById('montantttc_preconise').value = montant_rem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = montant_rem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('tva').value = tva_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montant_rem').value = montant_rem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ht_brut').value = ht_net.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+
+        }
+        else if (($(".remise_pourcentage").is(":checked"))) {
+            document.getElementById('montantttc_preconise').value = montant_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = montant_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('tva').value = tva_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montant_r').value = montant_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ht_brut').value = ht_net.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+        }
+        else if (($(".gratuite").is(":checked"))) {
+            document.getElementById('ht_brut').value = ht_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = montantttcc1;
+            document.getElementById('montantttc_modalite').value = montantttcc1;
+            document.getElementById('tva').value = tva_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+        }
+
+        else {
+            document.getElementById('montantttc_preconise').value = montantttcc1;
+            document.getElementById('montantttc_modalite').value = montantttcc1;
+            document.getElementById('tva').value = tva_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ht_brut').value = ht_net.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+        }
+
+
+
+        console.log('montant ttc',m_ttc)
+        console.log('remise',pourcentage)
+        console.log('montant remisé',montant_r)
+
+        document.getElementById('pourcent').value = pourcentage+'%';
+        /* document.getElementById('nature_contenu_remise').value = nature_remise;*/
+        /* document.getElementById('nature_contenu_gratuite').value = nature_remise;
+         document.getElementById('montant_remise1').value = montant_remise;
+         document.getElementById('montant_remise2').value = montant_remise;*/
+        document.getElementById('montant_remise3').value = montant_remise;
+        document.getElementById('montant_remise4').value = montant_remise;
+        /*document.getElementById('montant_remise5').value = montant_remise;
+         document.getElementById('montant_remise6').value = montant_remise;*/
+        $("#nature_contenu_gratuite").html(nature_remise);
+        $("#nature_contenu_remise").html(nature_remise);
+        $("#montant_remise_gratuite").html(montant_remise);
+        $("#montant_remise_remise").html(montant_remise);
+
+        var tva = $("#tva").val().replace(/[^0-9\.]/g, '');
+        /* alert(tva);*/
+
+        var data_send    = {'nature_remise':nature_remise,'montant_remise':montant_remise1,'offre':offre,'pourcentage':pourcentage,'montant_r':montant_r,'montant_rem':montant_rem,'tva':tva};
+        $.ajax({
+            url: '{{ path('referencement_commande_devis_code_rp') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+                    console.log(successMessage);
+                    /*$('.loaders').css('display','none');*/
+
+                },
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    alert('error');
+                }
+            }
+        });
+    });
+
+
+    $(window).on("load ", function() {
+
+
+        var montantttc = $('input[name=montantttc_modalite]').val();
+        var ttc = montantttc.replace(/[^0-9\.]/g, '');
+        var accompte = $('input[name=accompte]').val();
+        console.log('acompppppppppppte',accompte);
+        var  a = accompte.replace(/[^0-9\.]/g, '');
+        var  a2 = accompte.replace(/[^0-9\.]/g, '');
+        var v_a=(ttc * 25) / 100;
+        console.log("aaaa2",a2,"v_a",v_a);
+        var v_a_s=v_a.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+        var char = a;
+
+        if(char == 0){
+            $("#sp").css('display','none');
+            $(".clor").css("border", '1px solid #ced4da');
+        }
+
+        else if(char < v_a){
+            $("#sp").text('Veuillez saisir au minimum '+v_a_s+' MAD (25% du montant TTC).');
+            $("#sp").css('display','block');
+            $(".clor").css("border", "1px solid red");
+
+
+        }
+
+
+        else if(char > v_a) {
+            $("#sp").css('display','none');
+            $(".clor").css("border", "1px solid green");
+        }
+        var result = parseFloat(ttc -a)/*.toFixed(2)*/;
+        var sum=result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ",".");
+        var nbrpaiement =$('input[name=nbr]').val();
+        var nbr=nbrpaiement.replace(/[^0-9\.]/g, '');
+        var result1=parseInt( result/nbr).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+        document.getElementById('reste').value = sum;
+        var montant1 = $('input[id=echeance]').value;
+
+        if(a==ttc)
+        {
+            $('#nbr').css('display','none');  document.getElementById('nbr').value =  0;
+            document.getElementById('montant1').value = null;
+            document.getElementById('montant2').value = null;
+            document.getElementById('montant3').value = null;
+            $('#montant1,#montant2,#montant3,#dateP1,#dateP2,#dateP3').css('display','none');
+            document.getElementById('dateP1','dateP2','dateP3').value = null;
+        }
+        else{$('#nbr').css('display','block'); }
+
+        if((nbr==0) || result ==0 )
+        {
+            document.getElementById('montant1','montant2','montant3').value =  null;
+            $('#montant1,#montant2,#montant3,#dateP1,#dateP2,#dateP3').css('display','none');
+            document.getElementById('dateP1','dateP2','dateP3').value = null;
+        }else
+
+        if ((nbr==1) )
+        {
+            $('#montant2,#montant3,#dateP2,#dateP3').css('display','none');
+            $('#montant1,#dateP1').css('display','block');
+
+            document.getElementById('montant1').value = result1;
+            document.getElementById('montant2','montant3').value =  null;
+            document.getElementById('dateP2','dateP3').value = null;
+            /* var d = new Date;
+             var m=d.getMonth()
+             if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(0);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}
+             */
+        }else
+        if(nbr==2)
+        {
+            $('#montant3,#dateP3').css('display','none');
+            $('#montant1,#montant2,#dateP1,#dateP2').css('display','block');
+
+            document.getElementById('montant1').value = result1;
+            document.getElementById('montant2').value = result1;
+            document.getElementById('montant3').value =  null;
+            document.getElementById('dateP3','dateP4','dateP5').value = null;
+
+            /* var d = new Date;
+             var m=d.getMonth()
+             if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(0);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}
+             if(m==0){ d.setMonth(4); document.getElementById("dateP2").valueAsDate = d; }  else if(m==1){ d.setMonth(5);document.getElementById("dateP2").valueAsDate = d; }else if(m==2){  d.setMonth(6);document.getElementById("dateP2").valueAsDate = d;} else if(m==3){ d.setMonth(7); document.getElementById("dateP2").valueAsDate = d;}else if(m==4){ d.setMonth(8);document.getElementById("dateP2").valueAsDate = d; } else if(m==5){d.setMonth(9);document.getElementById("dateP2").valueAsDate = d;} else if(m==6){  d.setMonth(10);  document.getElementById("dateP2").valueAsDate = d;}   else if(m==7){ d.setMonth(11); document.getElementById("dateP2").valueAsDate = d; } else if(m==8){ d.setMonth(0);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(2);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(3);document.getElementById("dateP1").valueAsDate = d;}
+             */
+        }
+        else
+        if(nbr==3)
+        {
+            $('#montant4,#montant5,#dateP4,#dateP5').css('display','none');
+            $('#montant1,#montant2,#montant3,#dateP1,#dateP2,#dateP3').css('display','block');
+
+            document.getElementById('montant1').value = result1;
+            document.getElementById('montant2').value = result1;
+            document.getElementById('montant3').value = result1;
+
+
+            /* var d = new Date;
+             var m=d.getMonth()
+             if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(0);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}
+             if(m==0){ d.setMonth(4); document.getElementById("dateP2").valueAsDate = d; }  else if(m==1){ d.setMonth(5);document.getElementById("dateP2").valueAsDate = d; }else if(m==2){  d.setMonth(6);document.getElementById("dateP2").valueAsDate = d;} else if(m==3){ d.setMonth(7); document.getElementById("dateP2").valueAsDate = d;}else if(m==4){ d.setMonth(8);document.getElementById("dateP2").valueAsDate = d; } else if(m==5){d.setMonth(9);document.getElementById("dateP2").valueAsDate = d;} else if(m==6){  d.setMonth(10);  document.getElementById("dateP2").valueAsDate = d;}   else if(m==7){ d.setMonth(11); document.getElementById("dateP2").valueAsDate = d; } else if(m==8){ d.setMonth(0);document.getElementById("dateP2").valueAsDate = d;}else if(m==9){  d.setMonth(1);document.getElementById("dateP2").valueAsDate = d;}else if(m==10){d.setMonth(2);document.getElementById("dateP2").valueAsDate = d; } else if(m==11){d.setMonth(3);document.getElementById("dateP2").valueAsDate = d;}
+             if(m==0){ d.setMonth(6); document.getElementById("dateP3").valueAsDate = d; }  else if(m==1){ d.setMonth(7);document.getElementById("dateP3").valueAsDate = d; }else if(m==2){  d.setMonth(8);document.getElementById("dateP3").valueAsDate = d;} else if(m==3){ d.setMonth(9); document.getElementById("dateP3").valueAsDate = d;}else if(m==4){ d.setMonth(10);document.getElementById("dateP3").valueAsDate = d; } else if(m==5){d.setMonth(11);document.getElementById("dateP3").valueAsDate = d;} else if(m==6){  d.setMonth(0);  document.getElementById("dateP3").valueAsDate = d;}   else if(m==7){ d.setMonth(1); document.getElementById("dateP3").valueAsDate = d; } else if(m==8){ d.setMonth(2);document.getElementById("dateP3").valueAsDate = d;}else if(m==9){  d.setMonth(3);document.getElementById("dateP3").valueAsDate = d;}else if(m==10){d.setMonth(4);document.getElementById("dateP3").valueAsDate = d; } else if(m==11){d.setMonth(5);document.getElementById("dateP3").valueAsDate = d;}
+             */
+
+        }
+
+
+    });
+    function acpt()
+    {
+        $(".modalites").on("keydown keyup change ", function() {
+
+
+            var montantttc = $('input[name=montantttc_modalite]').val();
+            var ttc = montantttc.replace(/[^0-9\.]/g, '');
+            var accompte = $('input[name=accompte]').val();
+            console.log('acompppppppppppte',accompte);
+            var  a = accompte.replace(/[^0-9\.]/g, '');
+            var  a2 = accompte.replace(/[^0-9\.]/g, '');
+            var v_a=(ttc * 25) / 100;
+            console.log("aaaa2",a2,"v_a",v_a);
+            var v_a_s=v_a.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+            var char = a;
+
+            if(char == 0){
+                $("#sp").css('display','none');
+                $(".clor").css("border", '1px solid #ced4da');
+            }
+
+            else if(char < v_a){
+                $("#sp").text('Veuillez saisir au minimum '+v_a_s+' MAD (25% du montant TTC).');
+                $("#sp").css('display','block');
+                $(".clor").css("border", "1px solid red");
+
+
+            }
+
+
+            else if(char > v_a) {
+                $("#sp").css('display','none');
+                $(".clor").css("border", "1px solid green");
+            }
+            var result = parseFloat(ttc -a)/*.toFixed(2)*/;
+            var sum=result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ",".");
+            var nbrpaiement =$('input[name=nbr]').val();
+            var nbr=nbrpaiement.replace(/[^0-9\.]/g, '');
+            var result1=parseInt( result/nbr).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+            document.getElementById('reste').value = sum;
+            var montant1 = $('input[id=echeance]').value;
+
+            if(a==ttc)
+            {
+                $('#nbr').css('display','none');  document.getElementById('nbr').value =  0;
+                document.getElementById('montant1').value = null;
+                document.getElementById('montant2').value = null;
+                document.getElementById('montant3').value = null;
+                $('#montant1,#montant2,#montant3,#dateP1,#dateP2,#dateP3').css('display','none');
+                document.getElementById('dateP1','dateP2','dateP3').valueAsDate = null;
+            }
+            else{$('#nbr').css('display','block'); }
+
+            if((nbr==0) || result ==0 )
+            {
+                document.getElementById('montant1','montant2','montant3').value =  null;
+                $('#montant1,#montant2,#montant3,#dateP1,#dateP2,#dateP3').css('display','none');
+                document.getElementById('dateP1','dateP2','dateP3').valueAsDate = null;
+            }else
+
+            if ((nbr==1) )
+            {
+                $('#montant2,#montant3,#dateP2,#dateP3').css('display','none');
+                $('#montant1,#dateP1').css('display','block');
+
+                document.getElementById('montant1').value = result1;
+                document.getElementById('montant2','montant3').value =  null;
+                document.getElementById('dateP2','dateP3').value = null;
+                /* var d = new Date;
+                 var m=d.getMonth()
+                 if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(0);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}
+                 */
+            }else
+            if(nbr==2)
+            {
+                $('#montant3,#dateP3').css('display','none');
+                $('#montant1,#montant2,#dateP1,#dateP2').css('display','block');
+
+                document.getElementById('montant1').value = result1;
+                document.getElementById('montant2').value = result1;
+                document.getElementById('montant3').value =  null;
+                document.getElementById('dateP3','dateP4','dateP5').valueAsDate = null;
+
+                /* var d = new Date;
+                 var m=d.getMonth()
+                 if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(0);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}
+                 if(m==0){ d.setMonth(4); document.getElementById("dateP2").valueAsDate = d; }  else if(m==1){ d.setMonth(5);document.getElementById("dateP2").valueAsDate = d; }else if(m==2){  d.setMonth(6);document.getElementById("dateP2").valueAsDate = d;} else if(m==3){ d.setMonth(7); document.getElementById("dateP2").valueAsDate = d;}else if(m==4){ d.setMonth(8);document.getElementById("dateP2").valueAsDate = d; } else if(m==5){d.setMonth(9);document.getElementById("dateP2").valueAsDate = d;} else if(m==6){  d.setMonth(10);  document.getElementById("dateP2").valueAsDate = d;}   else if(m==7){ d.setMonth(11); document.getElementById("dateP2").valueAsDate = d; } else if(m==8){ d.setMonth(0);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(2);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(3);document.getElementById("dateP1").valueAsDate = d;}
+                 */
+            }
+            else
+            if(nbr==3)
+            {
+                $('#montant4,#montant5,#dateP4,#dateP5').css('display','none');
+                $('#montant1,#montant2,#montant3,#dateP1,#dateP2,#dateP3').css('display','block');
+
+                document.getElementById('montant1').value = result1;
+                document.getElementById('montant2').value = result1;
+                document.getElementById('montant3').value = result1;
+
+
+                /* var d = new Date;
+                 var m=d.getMonth()
+                 if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(0);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}
+                 if(m==0){ d.setMonth(4); document.getElementById("dateP2").valueAsDate = d; }  else if(m==1){ d.setMonth(5);document.getElementById("dateP2").valueAsDate = d; }else if(m==2){  d.setMonth(6);document.getElementById("dateP2").valueAsDate = d;} else if(m==3){ d.setMonth(7); document.getElementById("dateP2").valueAsDate = d;}else if(m==4){ d.setMonth(8);document.getElementById("dateP2").valueAsDate = d; } else if(m==5){d.setMonth(9);document.getElementById("dateP2").valueAsDate = d;} else if(m==6){  d.setMonth(10);  document.getElementById("dateP2").valueAsDate = d;}   else if(m==7){ d.setMonth(11); document.getElementById("dateP2").valueAsDate = d; } else if(m==8){ d.setMonth(0);document.getElementById("dateP2").valueAsDate = d;}else if(m==9){  d.setMonth(1);document.getElementById("dateP2").valueAsDate = d;}else if(m==10){d.setMonth(2);document.getElementById("dateP2").valueAsDate = d; } else if(m==11){d.setMonth(3);document.getElementById("dateP2").valueAsDate = d;}
+                 if(m==0){ d.setMonth(6); document.getElementById("dateP3").valueAsDate = d; }  else if(m==1){ d.setMonth(7);document.getElementById("dateP3").valueAsDate = d; }else if(m==2){  d.setMonth(8);document.getElementById("dateP3").valueAsDate = d;} else if(m==3){ d.setMonth(9); document.getElementById("dateP3").valueAsDate = d;}else if(m==4){ d.setMonth(10);document.getElementById("dateP3").valueAsDate = d; } else if(m==5){d.setMonth(11);document.getElementById("dateP3").valueAsDate = d;} else if(m==6){  d.setMonth(0);  document.getElementById("dateP3").valueAsDate = d;}   else if(m==7){ d.setMonth(1); document.getElementById("dateP3").valueAsDate = d; } else if(m==8){ d.setMonth(2);document.getElementById("dateP3").valueAsDate = d;}else if(m==9){  d.setMonth(3);document.getElementById("dateP3").valueAsDate = d;}else if(m==10){d.setMonth(4);document.getElementById("dateP3").valueAsDate = d; } else if(m==11){d.setMonth(5);document.getElementById("dateP3").valueAsDate = d;}
+                 */
+
+            }
+
+
+        });
+    }
+
+    /*$("#dateP3").on("change", function() {
+     var dateP3 = $("#dateP3").val();
+     var dateP4 = $("#dateP4").val();
+     var d = new Date;
+     var m=d.getMonth()
+     if(m==0){ d.setMonth(6); document.getElementById("dateP4").valueAsDate = d; }  else if(m==1){ d.setMonth(7);document.getElementById("dateP4").valueAsDate = d; }else if(m==2){  d.setMonth(8);document.getElementById("dateP4").valueAsDate = d;} else if(m==3){ d.setMonth(9); document.getElementById("dateP4").valueAsDate = d;}else if(m==4){ d.setMonth(10);document.getElementById("dateP4").valueAsDate = d; } else if(m==5){d.setMonth(11);document.getElementById("dateP4").valueAsDate = d;} else if(m==6){  d.setMonth(0);  document.getElementById("dateP4").valueAsDate = d;}   else if(m==7){ d.setMonth(1); document.getElementById("dateP4").valueAsDate = d; } else if(m==8){ d.setMonth(2);document.getElementById("dateP4").valueAsDate = d;}else if(m==9){  d.setMonth(3);document.getElementById("dateP4").valueAsDate = d;}else if(m==10){d.setMonth(4);document.getElementById("dateP4").valueAsDate = d; } else if(m==11){d.setMonth(5);document.getElementById("dateP4").valueAsDate = d;}
+
+     if(dateP3 > dateP4)
+     {
+     alert('Vous avez entré une date supérieure à la date de règlement interne de la société.');
+     }
+
+     });*/
+
+    $("#nbr,#accompte").on("keydown keyup change  load ", function() {
+        var nbrpaiement =$('input[name=nbr]').val();
+        var nbr=nbrpaiement.replace(/[^0-9\.]/g, '');
+
+        if ((nbr==1) )
+        {
+            var d = new Date;
+            var m=d.getMonth();
+            var y=d.getFullYear();
+            var year=y+1
+            if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}
+
+            else if(m==10){d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP1").valueAsDate = d;} }
+            else if(m==11){d.setMonth(1);d.setFullYear(year);var x= d.getMonth();if(x==1){document.getElementById("dateP1").valueAsDate = d;} }
+        }else
+        if(nbr==2)
+        {
+            var d = new Date;
+            var m=d.getMonth();
+            var y=d.getFullYear();
+            var year=y+1
+            if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}
+
+            else if(m==10){d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP1").valueAsDate = d;} }
+            else if(m==11){d.setMonth(1);d.setFullYear(year);var x= d.getMonth();if(x==1){document.getElementById("dateP1").valueAsDate = d;} }
+
+            if(m==0){ d.setMonth(4); document.getElementById("dateP2").valueAsDate = d; }  else if(m==1){ d.setMonth(5);document.getElementById("dateP2").valueAsDate = d; }else if(m==2){  d.setMonth(6);document.getElementById("dateP2").valueAsDate = d;} else if(m==3){ d.setMonth(7); document.getElementById("dateP2").valueAsDate = d;}else if(m==4){ d.setMonth(8);document.getElementById("dateP2").valueAsDate = d; } else if(m==5){d.setMonth(9);document.getElementById("dateP2").valueAsDate = d;} else if(m==6){  d.setMonth(10);  document.getElementById("dateP2").valueAsDate = d;}   else if(m==7){ d.setMonth(10); document.getElementById("dateP2").valueAsDate = d; }
+            else if(m==8){ d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP2").valueAsDate = d;}}
+            else if(m==9){d.setMonth(1);d.setFullYear(year);var x= d.getMonth();if(x==2){d.setMonth(1);document.getElementById("dateP2").valueAsDate = d;}}
+            else if(m==10){d.setMonth(2);d.setFullYear(year);var x= d.getMonth();if(x==2){document.getElementById("dateP2").valueAsDate = d;}}
+            else if(m==11){d.setMonth(3);d.setFullYear(year);var x= d.getMonth();if(x==3){document.getElementById("dateP2").valueAsDate = d; }}
+
+        }
+        else
+        if(nbr==3)
+        {
+            var d = new Date;
+            var m=d.getMonth();
+            var y=d.getFullYear();
+            var year=y+1
+
+            if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}
+
+            else if(m==10){d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP1").valueAsDate = d;} }
+            else if(m==11){d.setMonth(1);d.setFullYear(year);var x= d.getMonth();if(x==1){document.getElementById("dateP1").valueAsDate = d;} }
+
+            if(m==0){ d.setMonth(4); document.getElementById("dateP2").valueAsDate = d; }  else if(m==1){ d.setMonth(5);document.getElementById("dateP2").valueAsDate = d; }else if(m==2){  d.setMonth(6);document.getElementById("dateP2").valueAsDate = d;} else if(m==3){ d.setMonth(7); document.getElementById("dateP2").valueAsDate = d;}else if(m==4){ d.setMonth(8);document.getElementById("dateP2").valueAsDate = d; } else if(m==5){d.setMonth(9);document.getElementById("dateP2").valueAsDate = d;} else if(m==6){  d.setMonth(10);  document.getElementById("dateP2").valueAsDate = d;}   else if(m==7){ d.setMonth(10); document.getElementById("dateP2").valueAsDate = d; }
+            else if(m==8){ d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP2").valueAsDate = d;}}
+            else if(m==9){d.setMonth(1);d.setFullYear(year);var x= d.getMonth();if(x==2){d.setMonth(1);document.getElementById("dateP2").valueAsDate = d;}}
+            else if(m==10){d.setMonth(2);d.setFullYear(year);var x= d.getMonth();if(x==2){document.getElementById("dateP2").valueAsDate = d;}}
+            else if(m==11){d.setMonth(3);d.setFullYear(year);var x= d.getMonth();if(x==3){document.getElementById("dateP2").valueAsDate = d; }}
+
+            if(m==0){ d.setMonth(6); document.getElementById("dateP3").valueAsDate = d; }  else if(m==1){ d.setMonth(7);document.getElementById("dateP3").valueAsDate = d; }else if(m==2){  d.setMonth(8);document.getElementById("dateP3").valueAsDate = d;} else if(m==3){ d.setMonth(9); document.getElementById("dateP3").valueAsDate = d;}else if(m==4){ d.setMonth(10);document.getElementById("dateP3").valueAsDate = d; } else if(m==5){d.setMonth(11);document.getElementById("dateP3").valueAsDate = d;}
+            else if(m==6){  d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP3").valueAsDate = d;}}
+            else if(m==7){ d.setMonth(1); d.setFullYear(year);var x= d.getMonth();if(x==1){document.getElementById("dateP3").valueAsDate = d;}}
+            else if(m==8){ d.setMonth(2);d.setFullYear(year);var x= d.getMonth();if(x==2){document.getElementById("dateP3").valueAsDate = d;}}
+            else if(m==9){ d.setMonth(3);d.setFullYear(year);var x= d.getMonth();if(x==3){document.getElementById("dateP3").valueAsDate = d;}}
+            else if(m==10){d.setMonth(4);d.setFullYear(year);var x= d.getMonth();if(x==4){document.getElementById("dateP3").valueAsDate = d;}}
+            else if(m==11){d.setMonth(5);d.setFullYear(year);var x= d.getMonth();if(x==5){document.getElementById("dateP3").valueAsDate = d;}}
+
+        }
+
+    });
+
+    $(document).on('change keyup keydown ', '.modalites', function () {
+
+        /*$('.loaders').css('display','');*/
+        acpt();
+        var montantttc_modalite = $("#ttc_brut").val();
+        var new_ht = $("#ht_brut").val();
+        /*alert(montantttc_modalite);*/
+        var accompte1 = $("#accompte").val().replace(/[^0-9\.]/g, '');
+        var accompte = accompte1.replace(/[^0-9\.]/g, '');
+        var reste = $('input[name=reste]').val().replace(/[^0-9\.]/g, '');
+        console.log('resttttttttttttttttttttttttt', reste);
+        var nbr = $("#nbr").val();
+        var montant1 = $("#montant1").val().replace(/[^0-9\.]/g, '');
+        var montant2 = $("#montant2").val().replace(/[^0-9\.]/g, '');
+        var montant3 = $("#montant3").val().replace(/[^0-9\.]/g, '');
+        /* alert(montant1);*/
+        var dateP1 = $("#dateP1").val();
+        var dateP2 = $("#dateP2").val();
+        var dateP3 = $("#dateP3").val();
+        var data_send = {'montantttc': montantttc_modalite,'new_ht': new_ht,'accompte': accompte1,'reste': reste,'nbr': nbr,'montant1': montant1,'montant2': montant2,'montant3': montant3,'dateP1': dateP1,'dateP2': dateP2, 'dateP3': dateP3};
+
+
+
+        $.ajax({
+            url: '{{ path('referencement_commande_devis_paiement') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+                    console.log(successMessage);
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                    /*$('.loaders').css('display','none');*/
+
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+    });
+
+    $(window, "#modalite_preconise").on("click  load ", function() {
+        var montantttc = $('input[name=montantttc_preconise]').val();
+        var nbr_preconise = $('input[name=nbr_preconise]').val();
+        var ttc = montantttc.replace(/[^0-9\.]/g, '');
+        var v_a=(ttc * 25) / 100;
+        var reste_preconise=ttc - v_a;
+        var montant_div=reste_preconise/nbr_preconise;
+        var v_a_s=v_a.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+        var reste_preo=reste_preconise.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+        var montant_divi=montant_div.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+        document.getElementById('accompte_preconise').value = v_a_s;
+        document.getElementById('reste_preconise').value = reste_preo;
+        document.getElementById('montant1_preconise').value = montant_divi;
+        document.getElementById('montant2_preconise').value = montant_divi;
+        document.getElementById('montant3_preconise').value = montant_divi;
+        var d = new Date;
+        var m=d.getMonth();
+        var y=d.getFullYear();
+        var year=y+1
+        if(m==0){ d.setMonth(1); document.getElementById("dateP1_preconise").valueAsDate = d; }  else if(m==1){ d.setMonth(2);document.getElementById("dateP1_preconise").valueAsDate = d; }else if(m==2){  d.setMonth(3);document.getElementById("dateP1_preconise").valueAsDate = d;} else if(m==3){ d.setMonth(4); document.getElementById("dateP1_preconise").valueAsDate = d;}else if(m==4){ d.setMonth(5);document.getElementById("dateP1_preconise").valueAsDate = d; } else if(m==5){d.setMonth(6);document.getElementById("dateP1_preconise").valueAsDate = d;} else if(m==6){  d.setMonth(7);  document.getElementById("dateP1_preconise").valueAsDate = d;}   else if(m==7){ d.setMonth(8); document.getElementById("dateP1_preconise").valueAsDate = d; } else if(m==8){ d.setMonth(9);document.getElementById("dateP1_preconise").valueAsDate = d;}
+
+        else if(m==9){d.setMonth(10);var x= d.getMonth();if(x==11){d.setMonth(10);document.getElementById("dateP1_preconise").valueAsDate = d;}}
+
+
+        else if(m==10){d.setMonth(11);document.getElementById("dateP1_preconise").valueAsDate = d; }
+        else if(m==11){ d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP1_preconise").valueAsDate = d;}}
+
+
+        if(m==0){ d.setMonth(2); document.getElementById("dateP2_preconise").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP2_preconise").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP2_preconise").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP2_preconise").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP2_preconise").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP2_preconise").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP2_preconise").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP2_preconise").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP2_preconise").valueAsDate = d;}
+
+        else if(m==9){
+
+
+            d.setMonth(11);document.getElementById("dateP2_preconise").valueAsDate = d;
+
+        }
+        else if(m==10){d.setMonth(0);d.setFullYear(year);var x= d.getMonth(); if(x==0){document.getElementById("dateP2_preconise").valueAsDate = d;}}
+
+        else if(m==11){d.setMonth(1);d.setFullYear(year);var x= d.getMonth(); if(x==1){document.getElementById("dateP2_preconise").valueAsDate = d;}}
+
+        if(m==0){ d.setMonth(3); document.getElementById("dateP3_preconise").valueAsDate = d; }  else if(m==1){ d.setMonth(4);document.getElementById("dateP3_preconise").valueAsDate = d; }else if(m==2){  d.setMonth(5);document.getElementById("dateP3_preconise").valueAsDate = d;} else if(m==3){ d.setMonth(6); document.getElementById("dateP3_preconise").valueAsDate = d;}else if(m==4){ d.setMonth(7);document.getElementById("dateP3_preconise").valueAsDate = d; } else if(m==5){d.setMonth(8);document.getElementById("dateP3_preconise").valueAsDate = d;} else if(m==6){  d.setMonth(9);  document.getElementById("dateP3_preconise").valueAsDate = d;}   else if(m==7){ d.setMonth(10); document.getElementById("dateP3_preconise").valueAsDate = d; } else if(m==8){ d.setMonth(11);document.getElementById("dateP3_preconise").valueAsDate = d;}
+
+        else if(m==9){d.setMonth(0);d.setFullYear(year);var x= d.getMonth(); if(x==0){document.getElementById("dateP3_preconise").valueAsDate = d;}}
+        else if(m==10){d.setMonth(1);d.setFullYear(year);var x= d.getMonth(); if(x==1){document.getElementById("dateP3_preconise").valueAsDate = d;}}
+        else if(m==11){d.setMonth(2);d.setFullYear(year);var x= d.getMonth(); if(x==2){document.getElementById("dateP3_preconise").valueAsDate = d;}}
+
+
+    });
+
+    /* $(function () {
+     $(window,'.checkbox').on('change load',function () {
+     if ($('input.checkbox').is(':checked')) {
+     $(".promotion").show();
+     }
+     else
+     {
+     $(".promotion").hide();
+     document.getElementById('nature_contenu_remise').value = null;
+     document.getElementById('nature_contenu_gratuite').value = null;
+     document.getElementById('montant_remise1').value = null;
+     document.getElementById('montant_remise2').value = null;
+     }
+     });
+     });*/
+
+
+    $(document).ready(function() {
+
+        function validateEmail(sEmail) {
+            var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            if (filter.test(sEmail)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+
+        $(document).on('click', '.proposition_btn', function (event) {
+            event.preventDefault();
+            $('.loaders').css('display','');
+console.log('ici');
+
+            var selectedLanguage = new Array();
+            $('input[name="joindre"]:checked').each(function() {
+
+                selectedLanguage.push(this.value);
+            });
+
+
+            var b=   $('input[id=email]').val();
+            if (validateEmail(b)) {
+                console.log(selectedLanguage);
+                var data_send = {'rs': 'rs', 'cfirme': 'firme', 'join': selectedLanguage, 'email': b};
+                $.ajax({
+                    url: '{{ path('send_email_pdf') }}',
+                    type: 'POST',
+                    data: data_send,
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response;
+
+
+                            console.log(successMessage);
+                            /*  $('#prestation').children("option").remove();*/
+                            //on vide les champs formulaires ou on le supprime ou ...
+                            //on retire le loader...
+
+                            $('.loaders').css('display', 'none');
+                            alert('E-mail envoyée avec succès');
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+
+                        }
+                    }
+                });
+            }
+            else
+            {
+                $('.loaders').css('display', 'none');
+                alert('Veuillez saisir un email valide');
+                event.preventDefault();
+            }
+
+        });
+
+        $(document).on('click', '.devis_btn', function (event) {
+            event.preventDefault();
+            $('.loaders').css('display','');
+
+            var selectedLanguage = new Array();
+            $('input[name="joindre"]:checked').each(function() {
+
+                selectedLanguage.push(this.value);
+            });
+
+            var b=   $('input[id=email]').val();
+            if (validateEmail(b)) {
+                console.log(selectedLanguage);
+            var data_send = {'rs': 'rs','cfirme':'firme','join':selectedLanguage,'email':b};
+            $.ajax({
+                url: '{{ path('referencement_commande_devis_mail_bon_devis') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+                        var successMessage = response;
+
+
+
+                        console.log(successMessage);
+                        /*  $('#prestation').children("option").remove();*/
+                        //on vide les champs formulaires ou on le supprime ou ...
+                        //on retire le loader...
+
+                        $('.loaders').css('display','none');
+                        alert('E-mail envoyée avec succès');
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                    },
+                    //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+
+                    }
+                }
+            });
+            }
+            else
+            {
+                $('.loaders').css('display', 'none');
+                alert('Veuillez saisir un email valide');
+                event.preventDefault();
+            }
+
+
+        });
+
+
+        $(document).on('click', '.bon_commande_btn', function (event) {
+            event.preventDefault();
+            $('.loaders').css('display','');
+
+            var selectedLanguage = new Array();
+            $('input[name="joindre"]:checked').each(function() {
+
+                selectedLanguage.push(this.value);
+            });
+
+            var b=   $('input[id=email]').val();
+            if (validateEmail(b)) {
+                console.log(selectedLanguage);
+
+            var data_send = {'rs': 'rs','cfirme':'firme','join':selectedLanguage,'email':b};
+            $.ajax({
+                url: '{{ path('referencement_commande_devis_mail_bon_commande') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+                        var successMessage = response;
+
+
+
+                        console.log(successMessage);
+                        /*  $('#prestation').children("option").remove();*/
+                        //on vide les champs formulaires ou on le supprime ou ...
+                        //on retire le loader...
+
+                        $('.loaders').css('display','none');
+                        alert('E-mail envoyée avec succès');
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                    },
+                    //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+
+                    }
+                }
+            });
+            }
+            else
+            {
+                $('.loaders').css('display', 'none');
+                alert('Veuillez saisir un email valide');
+                event.preventDefault();
+            }
+
+        });
+
+
+        $(document).on('click', '#now', function () {
+            var data_send = {'rs': 'rs','cfirme':'firme'};
+            $.ajax({
+                url: '{{ path('referencement_commande_devis_fn') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+                        var successMessage = response;
+                        console.log(successMessage);
+                        /*  $('#prestation').children("option").remove();*/
+                        //on vide les champs formulaires ou on le supprime ou ...
+                        //on retire le loader...
+                       /* $('.loaders').css('display','none');*/
+                        alert('devis validé avec succès');
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                    },
+                    //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+
+                    }
+                }
+            });
+        });
+
+        $(document).on('change', '.visbilite_header', function () {
+            var proposition=  $('input[name=proposition]:checked').val();
+            var ordre=  $('input[name=ordre]:checked').val();
+            var bon_commande=  $('input[name=bon_commande]:checked').val();
+
+
+            var data_send = {'proposition': proposition,'ordre': ordre,'bon_commande': bon_commande,};
+            $.ajax({
+                url: '{{ path('referencement_commande_devis_visbilite_header') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+                        var successMessage = response;
+                        console.log(successMessage);
+                        /*  $('#prestation').children("option").remove();*/
+                        //on vide les champs formulaires ou on le supprime ou ...
+                        //on retire le loader...
+                       /* $('.loaders').css('display','none');*/
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                    },
+                    //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+
+                    }
+                }
+            });
+        });
+
+    });
+
+
+    $(window).on("load", function (){
+        var proposition = $('input.proposition:checked').val();
+
+
+        if (proposition=='proposition') {
+
+            $('#proposition').show();
+            $('#proposition_test_envoi').css('display','none');
+            $('#bon_commande').hide();
+            $('#devis').hide();
+            $('.devis_text').css('display','');
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').hide();
+        }else
+        {
+            $('#proposition').hide();
+            $('#proposition_test_envoi').css('display','');
+            $('#devis').hide();
+            $('#bon_commande').hide();
+        }
+    });
+
+    $('.v_reguelemnt').on("change ", function (){
+
+        if (($(".v_reguelemnt").is(":checked"))) {
+            $('#proposition').hide();
+            $('#proposition_test_envoi').css('display','none');
+            $('#devis').show();
+            $('#bon_commande').hide();
+            $('.reglement').hide();
+            $('#joindre').prop('disabled', 'disabled');
+            $('.devis_text').css('display','none');
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').show();
+
+        }else
+
+        if ($('.v_reguelemnt').prop('checked', false)) {
+
+            $('#proposition_test_envoi').css('display','');
+            $('#joindre').prop('checked', false);
+            $('#devis').hide();
+            $('.devis_text').css('display','');
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').hide();
+
+        }
+    });
+
+    $('.bon_commande').on("change ", function (){
+
+        if (($(".bon_commande").is(":checked"))) {
+            $('#proposition').hide();
+            $('#proposition_test_envoi').css('display','none');
+            $('#bon_commande').show();
+            $('#devis').hide();
+            $('#joindre').prop('checked', true);
+            $('#proposition').css('display','none');
+            $('.reglement').show();
+            $('#joindre').prop('disabled', 'disabled');
+            $('.devis_text').css('display','none');
+            $('.bn_commande_text').show();
+            $('.ordre_insertion').hide();
+
+        }else
+        if ($('.bon_commande').prop('checked', false)) {
+
+
+            $('#proposition_test_envoi').css('display','');
+            $('#bon_commande').hide();
+            $('#devis').hide();
+
+            $('.reglement').hide();
+            $('#joindre').prop('disabled', 'disabled');
+            $('.devis_text').css('display','');
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').hide();
+        }
+    });
+
+
+    $('.proposition').on("change ", function (){
+
+        if (($(".proposition").is(":checked"))) {
+            $('#proposition').show();
+            $('#proposition_test_envoi').css('display','none');
+            $('#bon_commande').hide();
+            $('#devis').hide();
+            $('.reglement').hide();
+            $('#joindre').prop('disabled', 'disabled');
+            $('.devis_text').css('display','');
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').hide();
+
+        }else
+        if ($('.proposition').prop('checked', false)) {
+            $('#proposition').hide();
+            $('#bon_commande').hide();
+            $('#devis').hide();
+            $('#proposition_test_envoi').css('display','');
+            $('.devis_text').css('display','');
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').hide();
+        }
+    });
+
+
+
+    $(window).on("load", function (){
+        var devis = $('input.v_reguelemnt:checked').val();
+
+
+        if (devis=='ordre') {
+            $('#proposition').hide();
+            $('#proposition_test_envoi').css('display','none');
+            $('#bon_commande').hide();
+            $('#devis').show();
+            $('.devis_text').hide();
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').show();
+        }else
+        {
+            $('#devis').hide();
+            $('#bon_commande').hide();
+
+
+        }
+    });
+
+    $(window).on("load ", function (){
+        var bon_commande = $('input.bon_commande:checked').val();
+        if (bon_commande=='bon_commande') {
+
+            $('#proposition').hide();
+            $('#bon_commande').show();
+            $('#devis').hide();
+            $('#joindre').prop('checked', true);
+            $('#proposition').css('display','none');
+            $('#proposition_test_envoi').css('display','none');
+            $('.reglement').show();
+            $('#joindre').prop('disabled', 'disabled');
+            $('.devis_text').hide();
+            $('.bn_commande_text').show();
+            $('.ordre_insertion').hide();
+
+        }else
+        if ($('.bon_commande').prop('checked', false)) {
+            /*  $('#proposition').hide();*/
+            /* $('#proposition_test_envoi').css('display','');*/
+
+            $('.reglement').hide();
+            $('#joindre').prop('disabled', 'disabled');
+
+        }
+    });
+
+
+
+
+    $('.visbilite_header').on('change', function() {
+        $('.visbilite_header').not(this).prop('checked', false);
+    });
+</script>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>E-contact</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            min-height: 100%;}
+        .container {
+            width: 760px;
+            margin: auto;
+            height: 100%;
+            padding: 0px;
+        }
+        table.content
+        {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+            padding: 20px;
+            margin: 4px;
+            font-family: Arial;
+            font-size: 15px;
+            line-height: 2;
+        }
+
+        .content th
+        {
+            padding: 5px;
+            margin: 5px;
+            border: solid 1px #000000!important;
+            text-align: left;
+
+        }
+        .content td
+        {
+            padding: 5px;
+            margin: 5px;
+            border: solid 1px #000000!important;
+            text-align: center;
+        }
+
+        .content .row
+        {
+            border-top: solid 1px #000000;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="row">
+        <img  src="http://www.telecontact.ma/trouver/images/Image-11.jpg" class="img-fluid" alt="proposition de visibilité telecontact" style="height: 150px;width: 100%;margin-left: -5px">
+
+
+
+
+    </div>
+
+    <p style="float: right; width: 88%;text-align: right;"> {{ 'now' | date("d/m/Y") }} </p>
+    <p> {% if raison  %} {% if raison['rs']  %}  <div style="float: right; width: 88%; font-family: Arial;
+        font-size: 16px;   padding: 0px; margin:0px; text-align: left;">  <span class="text-success">Raison sociale : {{ raison['rs']|capitalize }}</span> </div> {% endif %}{% endif %}</p>
+    <p>{% if raison %} {% if raison['cfirme']  %}<div style="float: right; width: 88%;       font-family: Arial;
+        font-size: 16px;    padding: 0px; margin:0px;  text-align: left;"><span class="text-warning">Code firme :  {{ raison['cfirme'] }}</span> </div> {% endif %}{% endif %}</p>
+    <p style="  font-family: Arial;
+      font-size: 16px;">Cher Client(e) {% if raison %}
+            {% if raison['civi']  %}
+
+
+                {% if raison['civi'] =='Mme' %} Madame  {% endif %}
+                {% if raison['civi'] =='Mlle' %}  Mademoiselle {% endif %}
+                {% if raison['civi'] =='Mr' %} Monsieur  {% endif %}
+            {% endif %}
+
+
+            {% if raison['sign']  %} {{raison['sign']|capitalize }} {% endif %} {% endif %} ,     </p>
+    <p style=" font-family: Arial;
+        font-size: 13px;line-height: 2;margin:0px;">Tout d'abord, nous tenons a vous remercier pour votre confiance et nous sommes ravis de vous compter parmi nos clients.Pour développer votre visibilité auprès des professionnels, nous vous préconisons une présence efficace sur telecontact.ma avec les solutions digitales suivantes :</p>
+
+
+
+    <table class="table content" style="margin-top: 50px">
+        <thead class="thead-dark">
+        <tr  style="background-color: black;color:white;">
+            <th scope="col">Montant T.T.C</th>
+            <th scope="col">Acompte</th>
+            <th scope="col">Reste</th>
+            <th scope="col">Nombre de paiement</th>
+            <th scope="col">Montant d'écheance</th>
+            <th scope="col">Date de paiement</th>
+
+        </tr>
+
+        </thead>
+        <tbody>
+
+        <tr>
+
+            <td>{{ (somme+(somme*0.2))|number_format|replace(',',' ')  }}</td>
+
+            <td>{{ (paiement['accompte'])|number_format|replace(',',' ') }}</td>
+
+            <td>{{ (paiement['reste'])|number_format|replace(',',' ') }}</td>
+
+            <td>{{ paiement['nbr'] }}</td>
+
+            {% if paiement['nbr']==1  %}
+                <td>{{ (paiement['montant1'])|number_format|replace(',',' ') }}</td>
+                <td>{{ paiement['dateP1'] }}</td>
+
+            {% elseif paiement['nbr']==2 %}
+                <td>{{ (paiement['montant1'])|number_format|replace(',',' ') }}<br>{{ (paiement['montant2'])|number_format|replace(',',' ') }}</td>
+                <td>{{ paiement['dateP1']|date("d/m/Y") }}<br>{{ paiement['dateP2']|date("d/m/Y") }}</td>
+
+            {% elseif paiement['nbr']==3 %}
+                <td>{{ (paiement['montant1'])|number_format|replace(',',' ') }}<br>{{ (paiement['montant2']) }}<br>{{ (paiement['montant3'])|number_format|replace(',',' ') }}</td>
+                <td>{{ paiement['dateP1']|date("d/m/Y") }}<br>{{ paiement['dateP2']|date("d/m/Y") }}<br>{{ paiement['dateP3']|date("d/m/Y") }}</td>
+
+            {% endif %}
+
+        </tr>
+        </tbody>
+    </table>
+    <p style="margin-top: 100px">En l'attente de votre confirmation, veuillez agréér Monsieur nos sincères salutations.</p>
+    <p>NB : Devis valable jusqu’au {{ 'now' |date_modify("+15 day")|date("d/m/Y") }}  </p>
+    <img  src="http://www.telecontact.ma/trouver/images/Image-12.jpg" class="img-fluid" alt="proposition de visibilité telecontact" style="height: 100px;width: 100%;margin-top: 100px;margin-left: -5px">
+
+    {#[[page_cu]]/[[page_nb]]#}
+
+
+
+</div>
+
+
+
+
+</body>
+
+
+</html>

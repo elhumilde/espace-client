@@ -1,0 +1,484 @@
+{% extends "::layout/base_statistics.html.twig" %}
+
+
+{% block title %}{% set data_user = app.session.get('data_user') %} Audience {{ data_user[0]['raison_sociale'] }} - Clicks {% endblock %}
+{% block stylesheets %}
+<style>
+    .ct-label {
+   
+}
+</style>
+{% endblock %}
+
+
+{% block body %}
+
+                    <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                        <h4 class="page-title">{{ data_user[0]['raison_sociale'] }}<span class="page-title2"></span>  </h4>
+                        <input type="hidden" name="click" id="click" value="click">
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <div class="d-md-flex">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- PRODUCTS YEARLY SALES -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div class="white-box">
+                            <h3 class="box-title">Rapport mensuel</h3>
+                            <div class="d-md-flex">
+                                <ul class="list-inline d-flex ms-auto">
+                                    <!-- <li class="ps-3">
+                                        <h5><i class="fa fa-circle me-1 text-info"></i>Sessions</h5>
+                                    </li> -->
+                                    <li class="ps-3">
+                                        <!-- <h5><i class="fa fa-circle me-1 text-inverse"></i>Click</h5> -->
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="ct-visits" style="height: 420px;">
+                                <img src="{{ asset('public_statistics/plugins/images/preloader.gif') }}" id="loading_default">
+                                <div class="chartist-tooltip" style="top: -13px; left: -12px;">
+                                    <span class="chartist-tooltip-value">6</span>
+                                </div>
+                                <canvas id="ctx" ></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+		            <div class="col-xl-12 col-lg-12">
+		            	<h3 class="affichage_title" >Clics de sélection<p>Statistiques mensuelles par produit de sélection <span class="page-title2"> </span></p></h3>
+		            </div>
+		        </div>
+
+                
+
+		          <!-- <div class="row parition">
+                    <div class="col-lg-12" >
+                        
+                    </div>
+		          </div> -->
+
+                  <!-- ============================================================== -->
+                <!-- RECENT SALES -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-md6 col-lg-6 col-sm-12">
+                        <div class="white-box">
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-top-0">Evenement</th>
+                                            <th class="border-top-0">Nb clics</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="clicks" >
+                                        
+                                    </tbody>
+                                </table>
+                            </div><img src="{{ asset('public_statistics/plugins/images/preloader.gif') }}" id="loading_table" >
+                        </div>
+                    </div>
+                </div>
+
+
+		        
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+	<script>
+
+
+            clickTable();
+            function clickTable(){
+
+                            $('body').css('pointer-events', 'none');
+                            $('body').attr('id' , 'overlay');
+                            $("#ctx").remove();
+                            $("#ct-visits").append('<canvas id="ctx" ></canvas>');
+                            $('#loading_default').css('display', 'flex'); 
+
+                            $( ".page-title2" ).empty();
+                            var code_firme= $("input[name=code_firme]").val();
+                            var start_period= $("input[name=start-period]").val();
+                            var end_period= $("input[name=end-period]").val();
+
+                            /*if(start_period !== ''){*/
+                                var start_period = start_period;
+                                var end_period = end_period;
+                            /*}else{
+                                var start_period = '-1months';
+                                var end_period = '-1days';
+                            } */
+
+
+                            $('#loading_table').css('display', 'flex');  
+
+                            $( ".chartist-tooltip" ).empty();
+                            $( ".ct-grids" ).empty();
+                            $( ".ct-labels" ).empty();
+                            $( ".ct-series " ).empty();
+                            $( ".clicks" ).empty(); 
+                            $( ".parition_fiche" ).empty(); 
+                            $( ".parition_site" ).empty();
+                            $( ".parition_pvi" ).empty();   
+                            $( ".page-title2" ).empty();
+                            
+                    
+                            $.ajax({
+                                    url     : "{{path('clickTable')}}",
+                                    type    : 'POST',
+                                    data    : {code_firme: code_firme, start_period: start_period, end_period: end_period},
+                                    success : function(data){ 
+
+
+                                        $( ".page-title2" ).append(" : du "+ data.begin_period+" au "+data.end_period);
+                                        $('#loading_table').css('display', 'none');
+
+                                        var res = data.click_table;
+                                        for($i=0; $i<=res.length; $i++){
+                                            if(typeof data.click_table[$i] != "undefined"){
+                                                var final = res[$i][0];
+                                                    final = final.replaceAll('_', ' ');
+                                                    final = final.replaceAll('lick', 'lic');
+                                                $(".clicks").append("<tr><td class='txt-oflo'>"+final+"</td><td><span class='text-success'>"+res[$i][1]+"</span></td></tr>");
+                                            }else{}
+                                        }    
+
+                                        clickDefaultChart();                                                                   
+
+                                        
+                                    },
+
+                                    error : function(resultat, statut, erreur){
+                                        
+                                        alert('clickVisite no');
+                                    }
+
+                                });
+
+                        };
+
+            /**/
+
+
+           
+            
+            
+            function clickDefaultChart(){
+
+                
+        
+                var code_firme= $("input[name=code_firme]").val();
+                var start_period= $("input[name=start-period]").val();
+                var end_period= $("input[name=end-period]").val();
+
+                /*if(start_period !== ''){*/
+                    var start_period = start_period;
+                    var end_period = end_period;
+                /*}else{
+                    var start_period = '-1months';
+                    var end_period = '-1days';
+                }*/  
+
+                $( ".chartist-tooltip" ).empty();
+                $( ".ct-grids" ).empty();
+                $( ".ct-labels" ).empty();
+                $( ".ct-series " ).empty();
+                $('#loading_default').css('display', 'flex');  
+        
+                $.ajax({
+                        url     : "{{path('clickDefaultChart')}}",
+                        type    : 'POST',
+                        data    : {code_firme: code_firme, start_period: start_period, end_period: end_period},
+                        success : function(data){ 
+
+                            $('#loading_default').css('display', 'none');
+                            var result = data.click_def_chart;
+                            var dates = data.dates;
+                            chartByMonth(result, dates);
+                            
+                        },
+
+                        error : function(resultat, statut, erreur){
+                            
+                            alert('clickVisitechart no');
+                        }
+
+                    });
+
+            };
+
+            /*function clickFicheChart(){
+
+                
+        
+                var code_firme= $("input[name=code_firme]").val();
+                var start_period= $("input[name=start-period]").val();
+                var end_period= $("input[name=end-period]").val();
+
+                    var start_period = start_period;
+                    var end_period = end_period; 
+        
+                $.ajax({
+                        url     : "{{path('clickFicheChart')}}",
+                        type    : 'POST',
+                        data    : {code_firme: code_firme, start_period: start_period, end_period: end_period},
+                        success : function(data){ 
+
+                            var result = data.click_fiche_chart;
+                            var dates = data.dates;
+                            chartSiteByMonth(result, dates);
+                            
+                        },
+
+                        error : function(resultat, statut, erreur){
+                            
+                            alert('clickVisitechart no');
+                        }
+
+                    });
+
+            };
+
+
+
+          
+            function clickPviChart(){
+
+                
+        
+                var code_firme= $("input[name=code_firme]").val();
+                var start_period= $("input[name=start-period]").val();
+                var end_period= $("input[name=end-period]").val();
+
+                    var start_period = start_period;
+                    var end_period = end_period;    
+        
+                $.ajax({
+                        url     : "{{path('clickPviChart')}}",
+                        type    : 'POST',
+                        data    : {code_firme: code_firme, start_period: start_period, end_period: end_period},
+                        success : function(data){ 
+
+                            var result = data.click_table_chart;
+                            var dates = data.dates;
+                            chartByMonth(result, dates);
+                            
+                        },
+
+                        error : function(resultat, statut, erreur){
+                            
+                            alert('clickVisitechart no');
+                        }
+
+                    });
+
+            };
+
+
+            
+            function clickSiteChart(){
+
+                
+        
+                var code_firme= $("input[name=code_firme]").val();
+                var start_period= $("input[name=start-period]").val();
+                var end_period= $("input[name=end-period]").val();
+
+                    var start_period = start_period;
+                    var end_period = end_period; 
+        
+                $.ajax({
+                        url     : "{{path('clickSiteChart')}}",
+                        type    : 'POST',
+                        data    : {code_firme: code_firme, start_period: start_period, end_period: end_period},
+                        success : function(data){ 
+
+                            var result = data.click_table_chart;
+                            var dates = data.dates;
+                            chartByMonth(result, dates);
+
+
+
+                            
+                        },
+
+                        error : function(resultat, statut, erreur){
+                            
+                            alert('clickVisitechart no');
+                        }
+
+                    });
+
+            };
+*/
+
+
+            async function chartByMonth(result, dates){
+
+                var a =[];
+                      for($i=0; $i<result.length;$i++){
+                          a.push(result[$i][1]);
+                      }
+                var isChartRendered = false;
+                var chart = new Chart(ctx, {
+                   type: 'line',
+                   data: {
+                      labels: dates,
+                      datasets: [{
+                         label: 'Click',
+                         data: a,
+                         backgroundColor: 'rgba(0, 119, 290, 0.2)',
+                         borderColor: 'rgba(0, 119, 290, 0.6)',
+                         fill: true
+                      }]
+                   },
+                   options: { 
+                      // setting following option is mandatory
+                      animation: {
+                         onComplete: function() {
+                            isChartRendered = true,
+                            $('body').css('pointer-events', 'auto');
+                            $('body').removeAttr('id');
+                            download(isChartRendered);
+                         }
+                      },
+                      /*scales: {
+                          yAxes: [{
+                             ticks: {
+                                stepSize: 1
+                             }
+                          }],
+                          
+                       },*/
+                   }
+                });
+
+                $("#ctx").css({"height": "450px", "margin-top": "-15px"});
+
+
+            }
+
+
+            /*function chartSiteByMonth(result,dates) {
+
+                        
+
+                      var data =[];
+                      for($i=0; $i<result.length;$i++){
+                          data.push(result[$i][1]);
+                      }
+
+                      var responsiveOptions = [
+                          ['screen and (min-width: 641px) and (max-width: 1024px)', {
+                            axisX: {
+                              labelInterpolationFnc: function(value) {
+                                return value.slice(0, 5);
+                              }
+                            }
+                          }],
+                          ['screen and (max-width: 640px)', {
+                            axisX: {
+                              labelInterpolationFnc: function(value) {
+                                return value.slice(0, 2);
+                              }
+                            }
+                          }]
+                        ];
+
+                      
+                        var chart = new Chartist.Line('#ct-visits', {
+                            labels: dates,
+                            series: [data]
+                        }, {
+                            ticks: ['One', 'Two', 'Three'],
+                            chartPadding: 30,
+                            labelOffset: 50,
+                            labelDirection: 'explode',
+                            top: 0,
+                            low: 0,
+                            showPoint: true,
+                            fullWidth: true,
+                            plugins: [
+                                Chartist.plugins.tooltip()
+                            ],
+                            axisY: {
+                                onlyInteger: true,
+                                labelInterpolationFnc: function (value) {
+                                    return (value / 1);
+                                }
+                            },
+                            showArea: true
+                        },responsiveOptions);
+
+                        setTimeout(exportAndSaveCanvas(), 13000);
+             };*/
+
+
+             async function download(isChartRendered) {
+               //if (!isChartRendered) return;  return if chart not rendered
+               html2canvas(document.getElementById('captures'), {
+                  onrendered: function(canvas) {  
+                    var imgData = canvas.toDataURL('image/jpeg');  
+
+                    var code_firme = $("input[name=code_firme]").val();
+                    var id_user = $("input[name=id_user]").val();
+                    var page = '3';
+
+                    
+                    var url = "{{path('uploadPdfImages')}}";
+                        $.ajax({ 
+                            type: "POST", 
+                            url: url,
+                            dataType: 'text',
+                            data: {
+                                base64data : imgData, code_firme : code_firme, page : page, id_user : id_user
+                            }
+                        });     
+                        
+
+                    //End html2canvas
+                    }
+                    });
+                } // End exportAndSaveCanvas()
+
+	</script>
+{% endblock %}

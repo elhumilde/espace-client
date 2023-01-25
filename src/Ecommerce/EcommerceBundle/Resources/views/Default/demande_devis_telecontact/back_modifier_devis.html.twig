@@ -1,0 +1,151 @@
+{% extends "::layout/base_statistics.html.twig" %}
+
+
+{% block title %} Espace Admin {% endblock %}
+{% block stylesheets %}
+{{parent()}}
+    <link rel="stylesheet" type="text/css" href="{{asset('/css/jquery.dataTables.min.css')}}"/>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="{{asset('/css/back-modifier-devis.css')}}" />
+{% endblock %}
+
+{% block menu %}
+    {% include "EcommerceBundle:Administration:menu.html.twig" %}
+{% endblock %}
+
+{% block body %}
+        
+                    <div class="col-lg-12 col-md-12 col-sm-8 col-xs-12 row">
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                            <h4 class="page-title">Modifier la demande de devis <span class="page-title2" ></span></h4>
+                        </div>
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12" >
+                            <h4 style="float: right;"></h4>
+                        </div>
+                        <input type="hidden" name="audience" id="audience" value="audience">
+                    </div>
+                    <div class="col-md-12 mt-5">
+                    </div>
+                </div> 
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        
+
+                        <form id="form-update-publication">
+
+                            <div class="alert alert-success" id="alert-modification" style="display: none">
+                                <span>La modification à été fait avec succès</span>
+                            </div>
+
+                                <div class="form-group">
+                                    <label>Titre : </label>
+                                    <input type="text" value="{{publication.titre}}" name="titre" placeholder="Modifier le titre ..." class="form-control" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Catégorie : </label>
+                                    <select id="categorie" name="categorie" class="form-control">
+                                        {% for categorie in categories %}
+                                            <option value="{{categorie.id}}">{{categorie.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Mots clés pour préciser votre besoin : </label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <input type="text" value="{{publication.mot_cle1}}" name="mot-cle1" placeholder="Mot clé 1" class="form-control"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" value="{{publication.mot_cle2}}" name="mot-cle2" placeholder="Mot clé 2" class="form-control"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" value="{{publication.mot_cle3}}" name="mot-cle3" placeholder="Mot clé 3" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Ville : </label>
+                                    <select id="ville" name="ville" class="form-control">
+                                        {% for ville in villes %}
+                                            <option value="{{ville.id}}">{{ville.ville}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Description : </label>
+                                    <textarea name="description" class="form-control" placeholder="Modifier la description ...">{{publication.description|trim}}</textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Plus de détails :</label>
+                                    <textarea name="plusDetails" class="form-control" placeholder="Modifier plus de détails ...">   {{publication.plus_details|trim}}</textarea>
+                                </div>
+
+                                <div class="form-group" style="text-align: center;">
+                                    <button type="submit">Modifier la publication</button>
+                                </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{asset('./js/jquery-3.5.1.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.3.0/classic/ckeditor.js"></script>
+    <script>
+        try {
+
+            let ID_VILLE = "{{publication.id_ville}}"; 
+            window.ID_VILLE = ID_VILLE == "" ? null : ID_VILLE;
+            let NAME_VILLE = "{{publication.ville}}"; 
+            window.NAME_VILLE = NAME_VILLE == "" ? null : NAME_VILLE;
+            let ID_CATEGORIE = "{{publication.id_cat}}"; 
+            window.ID_CATEGORIE = ID_CATEGORIE == "" ? null : ID_CATEGORIE;
+            let NAME_CATEGORIE = "{{publication.name}}"; 
+            window.NAME_CATEGORIE = NAME_CATEGORIE == "" ? null : NAME_CATEGORIE;
+
+        } catch(e) {
+            console.log(e);
+        }
+    </script>
+    <script type="text/javascript" src="{{asset('./js/modifier-demande-devis.js')}}"></script>
+{% endblock %}

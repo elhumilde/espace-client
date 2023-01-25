@@ -1,0 +1,264 @@
+{% extends "::layout/base_statistics.html.twig" %}
+
+
+{% block title %}
+
+
+
+ Audience - Affichages {% endblock %}
+{% block stylesheets %}
+
+<style>
+    .demo { 
+        position: relative; 
+    }
+    .demo i {
+        position: absolute; bottom: 10px; right: 24px; top: auto; cursor: pointer;
+    }
+</style>
+
+{% endblock %}
+
+
+{% block body %}
+
+
+
+        
+
+                    <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                        <h4 class="page-title">Homepage<span class="page-title2" ></span> </h4>
+                        <input type="hidden" name="affichage" id="affichage" value="affichage">
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- PRODUCTS YEARLY SALES -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div class="white-box">
+                            <h3 class="box-title">Carte visite</h3>
+                            <div class="d-md-flex">
+                                <ul class="list-inline d-flex ms-auto">
+                                    <!-- <li class="ps-3">
+                                        <h5><i class="fa fa-circle me-1 text-info"></i>Sessions</h5>
+                                    </li> -->
+                                    <li class="ps-3">
+                                        <h5><i class="fa fa-circle me-1 text-inverse"></i>Nbr de parution</h5>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="ct-visits" style="height: 420px;">
+                                <img src="{{ asset('public_statistics/plugins/images/preloader.gif') }}" id="loading_visit_chart">
+                                <div class="chartist-tooltip" style="top: -13px; left: -12px;">
+                                    <span class="chartist-tooltip-value">6</span>
+                                </div>
+                                <canvas id="ctx" ></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12">
+                        <h3 class="affichage_title" >Nombre de parution de la carte de viste</h3>
+                    </div>
+                </div>
+
+                
+
+                  <div class="row parition_cv">
+                    <img src="{{ asset('public_statistics/plugins/images/preloader.gif') }}" id="loading_parution_cv">
+                  </div>
+
+
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12">
+                        <h3 class="affichage_title mt-4" >Nombre de parution de la fiche</h3>
+                    </div>
+                </div>
+
+                
+
+                  <div class="row parition_fiche">
+                    <!-- <div class="col-xl-4 col-lg-4">
+                      <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col">
+                              <h5 class="card-title text-uppercase text-muted mb-0">Nb affichages</h5>
+                              <span class="h2 font-weight-bold mb-0 parition_fiche0"></span>
+                            </div>
+                            <div class="col-auto">
+                              <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                <i class="fas fa-eye"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4">
+                      <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col">
+                              <h5 class="card-title text-uppercase text-muted mb-0">Nb utilisateurs</h5>
+                              <span class="h2 font-weight-bold mb-0 parition_fiche1"></span>
+                            </div>
+                            <div class="col-auto">
+                              <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                <i class="fas fa-users"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div> -->
+                    <img src="{{ asset('public_statistics/plugins/images/preloader.gif') }}" id="loading_parution_fiche">
+                  </div>
+
+
+                <!-- ============================================================== -->
+                <!-- Audience par type de connexion -->
+                <!-- ============================================================== -->
+                <div class="row" style="margin-top: 30px;display: none;">
+                    <div class="col-md-6 col-lg-6 col-sm-12">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3 ">
+                                <h3 class="box-title mb-0">Top 5 recherches dans google</h3>
+                                <!-- <div class="col-md-3 col-sm-4 col-xs-6 ms-auto">
+                                    <select class="form-select shadow-none row border-top">
+                                        <option>March 2021</option>
+                                        <option>April 2021</option>
+                                        <option>May 2021</option>
+                                        <option>June 2021</option>
+                                        <option>July 2021</option>
+                                    </select>
+                                </div> -->
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <!-- <thead>
+                                        <tr>
+                                            <th class="border-top-0">Name</th>
+                                            <th class="border-top-0">Status</th>
+                                            <th class="border-top-0">Price</th>
+                                        </tr>
+                                    </thead> -->
+                                    <tbody id="table_t_r">
+                                      <img src="{{ asset('public_statistics/plugins/images/preloader.gif') }}" id="loading_key">                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- <div class="col-md-6 col-lg-6 col-sm-12">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3 ">
+                                <h3 class="box-title mb-0">Nombre de parution de la Rubrique à CASABLANCA</h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <tbody>
+                                        <tr>
+                                            <td class="txt-oflo">Nouveaux visiteurs</td>
+                                            <td style="font-weight: bold;">bb</td>
+                                            <td><span class="text-success"> cc</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-oflo">Visiteurs connus</td>
+                                            <td style="font-weight: bold;">bb</td>
+                                            <td><span class="text-info"> cc</span></td>
+                                        </tr>
+                                        <tr style="height: 54px!important;">
+                                            <td class="txt-oflo"></td>
+                                            <td><span class="text-warning"></span></td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 col-lg-6 col-sm-12">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3 ">
+                                <h3 class="box-title mb-0">Nombre de parution de la Rubrique au MAROC</h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <tbody>
+                                        <tr>
+                                            <td class="txt-oflo">Nouveaux visiteurs</td>
+                                            <td style="font-weight: bold;">bb</td>
+                                            <td><span class="text-success"> cc</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-oflo">Visiteurs connus</td>
+                                            <td style="font-weight: bold;">bb</td>
+                                            <td><span class="text-info"> cc</span></td>
+                                        </tr>
+                                        <tr style="height: 54px!important;">
+                                            <td class="txt-oflo"></td>
+                                            <td><span class="text-warning"></span></td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+
+
+            
+
+
+    </script>
+
+
+
+    
+{% endblock %}

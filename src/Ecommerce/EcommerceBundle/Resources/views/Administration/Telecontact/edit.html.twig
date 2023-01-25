@@ -1,0 +1,113 @@
+{#{% extends '::layout/layoutAdmin.html.twig' %}#}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style-admin.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/nprogress.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/custom.min.css') }}" />
+    <title>E-contact | Accueil </title>
+</head>
+
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0;">
+                    {#<a > <img class="logo" src="https://image.noelshack.com/fichiers/2018/07/4/1518687555-logo-econtact-2.png" alt="logo"></a>#}
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <!-- sidebar menu -->
+                {% include "EcommerceBundle:Administration:menu.html.twig" %}
+                <!-- /sidebar menu -->
+
+
+            </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <nav>
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="clearfix"></div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+
+                            <h1>Editer Entreprise</h1>
+                     <br>
+                            <form action="{{ path('adminTelecontact_update', { 'id' : entity.id }) }}" method="POST" {{ form_enctype(edit_form) }}>
+                                {{ form(edit_form) }}
+                                {{ form(delete_form) }}
+                            </form>
+
+                           {# <ul class="record_actions">
+                                <li>
+                                    <a href="{{ path('adminTelecontact') }}">
+                                        Back to the list
+                                    </a>
+                                </li>
+                                <li>{{ form(delete_form) }}</li>
+                            </ul>#}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- /page content -->
+<script src="{{ asset('js/bootstrap.js') }}"></script>
+
+<!-- jQuery -->
+<script src="{{ asset('js/admin/jquery.min.js') }}"></script>
+<!-- Bootstrap -->
+<script src="{{ asset('js/admin/bootstrap.min.js') }}"></script>
+<!-- FastClick -->
+<script src="{{ asset('js/admin/fastclick.js') }}"></script>
+<!-- NProgress -->
+<script src="{{ asset('js/admin/nprogress.js') }}"></script>
+<!-- validator -->
+<script src="{{ asset('js/admin/validator.js') }}"></script>
+
+<!-- Custom Theme Scripts -->
+<script src="{{ asset('js/custom.min.js') }}"></script>
+<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+{#<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/scripts.js"></script>#}
+
+</body>
+</html>
+

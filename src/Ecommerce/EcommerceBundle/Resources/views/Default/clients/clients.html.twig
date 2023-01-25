@@ -1,0 +1,42 @@
+{% extends "::layout/layout.html.twig" %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+
+            <div class="span3">
+
+
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% include 'UtilisateursBundle:Default:modulesUsed/utilisateursConnecte.html.twig' %}
+                {% else %}
+                    {% include 'UtilisateursBundle:Default:modulesUsed/utilisateurs.html.twig' %}
+                {% endif %}
+
+            </div>
+
+            <div class="span9">
+                {% if clients|length != 0 %}
+                    <ul class="thumbnails">
+                        {% for client in clients %}
+                            <li class="span3">
+                                <div class="thumbnail">
+
+                                    <img src="{{ asset('uploads/' ~ client.Path) }}"  width="300" height="150">
+                                    <div class="caption">
+                                        <a class="btn btn-primary" href="{{ path('presentationclient', { 'id' : client.id }) }}">Plus d'infos</a>
+
+                                    </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+
+
+                {% else %}
+                    Aucun client
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

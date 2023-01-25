@@ -1,0 +1,2724 @@
+
+<link rel="stylesheet" href="{{ asset('css/style-budgetisation-referencement.css') }}" />
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"> </script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"> </script>
+<link rel="stylesheet" href="{{ asset('css/style-budgetisation-referencement.css') }}" />
+<div class="icon-retour">
+    <a style="color: #2eb2ff;" href="http://www.e-contact.telecontact.ma/#fond-8">&lt; Retour  ( chemins des onglets parcourus )</a></br>
+    <a style="color: #2eb2ff; " href="{{ path('referencement_clear_session') }}">< Nouveau client</a>
+</div>
+<section  id="fond-1" align=center>
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12 col-xs-12" align=center>
+                <div class="titre-1">
+                    <p>Budgétisation</p>
+                </div>
+                <div class="titre-2">
+                    <p class="acroche"><span style="color: #ffdb2e"><strong>Optimisez</strong></span> votre présence sur les moteurs de recherche
+                        <br>
+                        et sur telecontact.ma
+                    </p>
+                </div>
+                <div class="form-inline" >
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</section>
+<section  id="fond-2" >
+    <div class="container">
+    <form id="jsForm" class="form-group" action="" method="GET">
+        <div class="container" {#style="width: 1500px!important; "#}>
+            <div class="row">
+                <section id="fond-4">
+                    <div class="container" align="center">
+                        <div class="row">
+                            <div {#style="width: 1356px"#}>
+                                <div class="form-group">
+                                    <div class="btn-1 menu" style="width: 330px!important;">
+                                        <a href="" id="ajax_test_referencement" style="width: 319px!important;color: black">
+                                            <img class="icone" src="http://www.telecontact.ma/trouver/images_econtact/Icona-2.png" alt="icone-3">
+                                            Gestion de Contenu   <span class="glyphicon glyphicon-triangle-right"></span>
+                                        </a>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+            <div style="margin-left: 41px;">
+                <button class="plus_details"  id="rubrique" type="button"  style="display: inline-block;">
+                    Mes activités
+                </button>
+                <br><br>
+                <div class="form-group" style="margin-top: 36px;margin-left: 29px;">
+                        <label for="exampleInputAmount">Nombre produit</label>
+                        <div class="input-group ">
+                            <input type="number" class="form-control exampleInputAmount rubrique mySelect" value="1" placeholder="Nbre" name="num1" id="num1" min="1" max="8" style="width:194px;">
+                        </div>
+                </div>
+                <br>
+                <div id="demo-10" class="">
+                    
+                    <div id="contenu_lists">
+                        <form id="rub_presti"  action="" method="GET">
+                            <div id="select_rub_presti" >
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button class="btn dropdown-toggle multiselect" type="button" style="width: 400px;" id="rubrique1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_rub">Sélectionner la rubrique principale</span><span id="rubrique_view"></span>
+
+                                                    <span class="caret"></span></button>
+                                                <ul class=" dropdown-menu r mySelect ul_rub" id="select-rubrique"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable">
+                                                        <tbody >
+
+                                                        {% for rubriqu in rubriques %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub checkbox_rub chnage_color rub first" id="check" name="check" type="checkbox" value="{{ rubriqu.id }}|{{ rubriqu.type  }}" ><h7 class="label_rub" >{{ rubriqu.libelle }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div  class="form-group testpres" style="margin-bottom: 20px!important;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_format">   Sélectionner le format &nbsp; </span><span id="rubrique_view1"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r1  ul_rub1 format1" id="select_format"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable1">
+                                                        <tbody >
+
+                                                        {% for tarif in tarifs %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub1 checkbox_rub chnage_color rub1 first" id="{{ tarif.CTAR }}" name="formats1" type="checkbox" value="{{ tarif.CTAR }}" ><h7 class="label_rub" >{{ tarif.CTAR }}-{{ tarif.LIBTAR }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+
+
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_region">Région de parution &nbsp; </span><span id="rubrique_view3"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r2 ul_rub ville1" id="select_region"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable2">
+                                                        <tbody >
+
+                                                        {% for region in regions %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_region checkbox_rub chnage_color rub2 first" id="villes1" name="villes1" type="checkbox" value="{{ region.number }}" ><h7 class="label_rub" >{{ region.number }}-{{ region.region }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="text" name="input1" id="input1" hidden="true">
+
+                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="contenu_lists1">
+                        <form id="rub_presti"  action="" method="GET">
+                            <div id="select_rub_presti" >
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button class="btn dropdown-toggle multiselect" type="button" style="width: 400px;" id="rubrique1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_rub_lists1">Sélectionner la rubrique principale</span><span id="rubrique_view_lists1"></span>
+
+                                                    <span class="caret"></span></button>
+                                                <ul class=" dropdown-menu r mySelect ul_rub" id="select-rubrique_lists1"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable_lists1">
+                                                        <tbody >
+
+                                                        {% for rubriqu in rubriques %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub_lists1 checkbox_rub chnage_color rub_lists1 first" id="check" name="check" type="checkbox" value="{{ rubriqu.id }}|{{ rubriqu.type  }}" ><h7 class="label_rub" >{{ rubriqu.libelle }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div  class="form-group testpres" style="margin-bottom: 20px!important;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_format_lists1">   Sélectionner le format &nbsp; </span><span id="rubrique_view1_lists1"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r1  ul_rub1 format2" id="select_format_lists1"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable1_lists1">
+                                                        <tbody >
+
+                                                        {% for tarif in tarifs %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub1_lists1 checkbox_rub chnage_color rub1_lists1 first" id="formats2" name="formats2" type="checkbox" value="{{ tarif.CTAR }}" ><h7 class="label_rub" >{{ tarif.CTAR }}-{{ tarif.LIBTAR }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+
+
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_region_lists1">Région de parution &nbsp; </span><span id="rubrique_view3_lists1"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r2  ul_rub ville2" id="select_region_lists1"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable2_lists1">
+                                                        <tbody >
+
+                                                        {% for region in regions %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_region_lists1 checkbox_rub chnage_color rub2_lists1 first" id="villes2" name="villes2" type="checkbox" value="{{ region.number }}" ><h7 class="label_rub" >{{ region.number }}-{{ region.region }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="text" name="input2" id="input2" hidden="true">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="contenu_lists2">
+                        <form id="rub_presti"  action="" method="GET">
+                            <div id="select_rub_presti" >
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button class="btn dropdown-toggle multiselect" type="button" style="width: 400px;" id="rubrique1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_rub_lists2">Sélectionner la rubrique principale</span><span id="rubrique_view_lists2"></span>
+
+                                                    <span class="caret"></span></button>
+                                                <ul class=" dropdown-menu r mySelect ul_rub" id="select-rubrique_lists2"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable_lists2">
+                                                        <tbody >
+
+                                                        {% for rubriqu in rubriques %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub_lists2 checkbox_rub chnage_color rub_lists2 first" id="check" name="check" type="checkbox" value="{{ rubriqu.id }}|{{ rubriqu.type  }}" ><h7 class="label_rub" >{{ rubriqu.libelle }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div  class="form-group testpres" style="margin-bottom: 20px!important;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_format_lists2">   Sélectionner le format &nbsp; </span><span id="rubrique_view1_lists2"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r1 ul_rub1 format3" id="select_format_lists2"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable1_lists2"> 
+                                                        <tbody >
+
+                                                        {% for tarif in tarifs %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub1_lists2 checkbox_rub chnage_color rub1_lists2 first" id="formats3" name="formats3" type="checkbox" value="{{ tarif.CTAR }}" ><h7 class="label_rub" >{{ tarif.CTAR }}-{{ tarif.LIBTAR }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+
+
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_region_lists2">Région de parution &nbsp; </span><span id="rubrique_view3_lists2"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r2 ul_rub ville3" id="select_region_lists2"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable2_lists2">
+                                                        <tbody >
+
+                                                        {% for region in regions %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_region_lists2 checkbox_rub chnage_color rub2_lists2 first" id="villes3" name="villes3" type="checkbox" value="{{ region.number }}" ><h7 class="label_rub" >{{ region.number }}-{{ region.region }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="text" name="input3" id="input3" hidden="true">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="contenu_lists3">
+                        <form id="rub_presti"  action="" method="GET">
+                            <div id="select_rub_presti" >
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button class="btn dropdown-toggle multiselect" type="button" style="width: 400px;" id="rubrique1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_rub_lists3">Sélectionner la rubrique principale</span><span id="rubrique_view_lists3"></span>
+
+                                                    <span class="caret"></span></button>
+                                                <ul class=" dropdown-menu r mySelect ul_rub" id="select-rubrique_lists3"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable_lists3">
+                                                        <tbody >
+
+                                                        {% for rubriqu in rubriques %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub_lists3 checkbox_rub chnage_color rub_lists3 first" id="check" name="check" type="checkbox" value="{{ rubriqu.id }}|{{ rubriqu.type  }}" ><h7 class="label_rub" >{{ rubriqu.libelle }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div  class="form-group testpres" style="margin-bottom: 20px!important;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_format_lists3">   Sélectionner le format &nbsp; </span><span id="rubrique_view1_lists3"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r1 ul_rub1 format4" id="select_format_lists3"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable1_lists3">
+                                                        <tbody >
+
+                                                        {% for tarif in tarifs %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub1_lists3 checkbox_rub chnage_color rub1_lists3 first" id="formats4" name="formats4" type="checkbox" value="{{ tarif.CTAR }}" ><h7 class="label_rub" >{{ tarif.CTAR }}-{{ tarif.LIBTAR }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+
+
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_region_lists3">Région de parution &nbsp; </span><span id="rubrique_view3_lists3"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r2 ul_rub ville4" id="select_region_lists3"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable2_lists3">
+                                                        <tbody >
+
+                                                        {% for region in regions %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_region_lists3 checkbox_rub chnage_color rub2_lists3 first" id="villes4" name="villes4" type="checkbox" value="{{ region.number }}" ><h7 class="label_rub" >{{ region.number }}-{{ region.region }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="text" name="input4" id="input4" hidden="true">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="contenu_lists4">
+                        <form id="rub_presti"  action="" method="GET">
+                            <div id="select_rub_presti" >
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button class="btn dropdown-toggle multiselect" type="button" style="width: 400px;" id="rubrique1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_rub_lists4">Sélectionner la rubrique principale</span><span id="rubrique_view_lists4"></span>
+
+                                                    <span class="caret"></span></button>
+                                                <ul class=" dropdown-menu r mySelect ul_rub" id="select-rubrique_lists4"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable_lists4">
+                                                        <tbody >
+
+                                                        {% for rubriqu in rubriques %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub_lists4 checkbox_rub chnage_color rub_lists4 first" id="check" name="check" type="checkbox" value="{{ rubriqu.id }}|{{ rubriqu.type  }}" ><h7 class="label_rub" >{{ rubriqu.libelle }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div  class="form-group testpres" style="margin-bottom: 20px!important;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_format_lists4">   Sélectionner le format &nbsp; </span><span id="rubrique_view1_lists4"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r1 ul_rub1 format5" id="select_format_lists4"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable1_lists4">
+                                                        <tbody >
+
+                                                        {% for tarif in tarifs %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub1_lists4 checkbox_rub chnage_color rub1_lists4 first" id="formats5" name="formats5" type="checkbox" value="{{ tarif.CTAR }}" ><h7 class="label_rub" >{{ tarif.CTAR }}-{{ tarif.LIBTAR }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+
+
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_region_lists4">Région de parution &nbsp; </span><span id="rubrique_view3_lists4"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r2 ul_rub ville5" id="select_region_lists4"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable2_lists4">
+                                                        <tbody >
+
+                                                        {% for region in regions %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_region_lists4 checkbox_rub chnage_color rub2_lists4 first" id="villes5" name="villes5" type="checkbox" value="{{ region.number }}" ><h7 class="label_rub" >{{ region.number }}-{{ region.region }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="text" name="input5" id="input5" hidden="true">
+
+                                        <div  class="form-group testpres" style="margin-bottom: 20px!important;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="contenu_lists5">
+                        <form id="rub_presti"  action="" method="GET">
+                            <div id="select_rub_presti" >
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button class="btn dropdown-toggle multiselect" type="button" style="width: 400px;" id="rubrique1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_rub_lists5">Sélectionner la rubrique principale</span><span id="rubrique_view_lists5"></span>
+
+                                                    <span class="caret"></span></button>
+                                                <ul class=" dropdown-menu r mySelect ul_rub" id="select-rubrique_lists5"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable_lists5">
+                                                        <tbody >
+
+                                                        {% for rubriqu in rubriques %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub_lists5 checkbox_rub chnage_color rub_lists5 first" id="check" name="check" type="checkbox" value="{{ rubriqu.id }}|{{ rubriqu.type  }}" ><h7 class="label_rub" >{{ rubriqu.libelle }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div  class="form-group testpres" style="margin-bottom: 20px!important;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_format_lists5">   Sélectionner le format &nbsp; </span><span id="rubrique_view1_lists5"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r1 ul_rub1 format6" id="select_format_lists5_lists5"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable1_lists5">
+                                                        <tbody >
+
+                                                        {% for tarif in tarifs %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub1_lists5 checkbox_rub chnage_color rub1_lists5 first" id="formats6" name="formats6" type="checkbox" value="{{ tarif.CTAR }}" ><h7 class="label_rub" >{{ tarif.CTAR }}-{{ tarif.LIBTAR }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+
+
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_region_lists5">Région de parution &nbsp; </span><span id="rubrique_view3_lists5"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r2 ul_rub ville6" id="select_region_lists5"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable2_lists5">
+                                                        <tbody >
+
+                                                        {% for region in regions %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_region_lists5 checkbox_rub chnage_color rub2_lists5 first" id="villes6" name="villes6" type="checkbox" value="{{ region.number }}" ><h7 class="label_rub" >{{ region.number }}-{{ region.region }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="text" name="input6" id="input6" hidden="true">
+
+                                        <div  class="form-group testpres" style="margin-bottom: 20px!important;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="contenu_lists6">
+                        <form id="rub_presti"  action="" method="GET">
+                            <div id="select_rub_presti" >
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button class="btn dropdown-toggle multiselect" type="button" style="width: 400px;" id="rubrique1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_rub_lists6">Sélectionner la rubrique principale</span><span id="rubrique_view_lists6"></span>
+
+                                                    <span class="caret"></span></button>
+                                                <ul class=" dropdown-menu r mySelect ul_rub" id="select-rubrique_lists6"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable_lists6">
+                                                        <tbody >
+
+                                                        {% for rubriqu in rubriques %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub_lists6 checkbox_rub chnage_color rub_lists6 first" id="check" name="check" type="checkbox" value="{{ rubriqu.id }}|{{ rubriqu.type  }}" ><h7 class="label_rub" >{{ rubriqu.libelle }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div  class="form-group testpres" style="margin-bottom: 20px!important;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_format_lists6">   Sélectionner le format &nbsp; </span><span id="rubrique_view1_lists6"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r1 ul_rub1 format7" id="select_format_lists6"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable1_lists6">
+                                                        <tbody >
+
+                                                        {% for tarif in tarifs %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub1_lists6 checkbox_rub chnage_color rub1_lists6 first" id="formats7" name="formats7" type="checkbox" value="{{ tarif.CTAR }}" ><h7 class="label_rub" >{{ tarif.CTAR }}-{{ tarif.LIBTAR }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+
+
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_region_lists6">Région de parution &nbsp; </span><span id="rubrique_view3_lists6"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r2 ul_rub ville7" id="select_region_lists6"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable2_lists6">
+                                                        <tbody >
+
+                                                        {% for region in regions %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_region_lists6 checkbox_rub chnage_color rub2_lists6 first" id="villes7" name="villes7" type="checkbox" value="{{ region.number }}" ><h7 class="label_rub" >{{ region.number }}-{{ region.region }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="text" name="input7" id="input7" hidden="true">
+                                   
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="contenu_lists7">
+                        <form id="rub_presti"  action="" method="GET">
+                            <div id="select_rub_presti" >
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button class="btn dropdown-toggle multiselect" type="button" style="width: 400px;" id="rubrique1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_rub_lists7">Sélectionner la rubrique principale</span><span id="rubrique_view_lists7"></span>
+
+                                                    <span class="caret"></span></button>
+                                                <ul class=" dropdown-menu r mySelect ul_rub" id="select-rubrique_lists7"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable_lists7">
+                                                        <tbody >
+
+                                                        {% for rubriqu in rubriques %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub_lists7 checkbox_rub chnage_color rub_lists7 first" id="check" name="check" type="checkbox" value="{{ rubriqu.id }}|{{ rubriqu.type  }}" ><h7 class="label_rub" >{{ rubriqu.libelle }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div  class="form-group testpres" style="margin-bottom: 20px!important;">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_format_lists7">   Sélectionner le format &nbsp; </span><span id="rubrique_view1_lists7"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r1 ul_rub1 format8" id="select_format_lists7"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable1_lists7">
+                                                        <tbody >
+
+                                                        {% for tarif in tarifs %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_rub1 checkbox_rub chnage_color rub1_lists7 first" id="formats8" name="formats8" type="checkbox" value="{{ tarif.CTAR }}" ><h7 class="label_rub" >{{ tarif.CTAR }}-{{ tarif.LIBTAR }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" id="no_package" >
+                                        <div  class="form-group" >
+                                            <div class="dropdown">
+
+
+                                                <button type="button" id="dropdownMenu1"  class="btn dropdown-toggle multiselect" data-toggle="dropdown" style="width: 400px;"  aria-haspopup="true" aria-expanded="false">
+                                                    <span id="select_region_lists7">Région de parution &nbsp; </span><span id="rubrique_view3_lists7"></span><span class="caret"></span>
+                                                </button>
+
+
+                                                <ul class=" dropdown-menu r2 ul_rub ville8" id="select_region_lists7"  >
+                                                    <input type="text" id="myInput" class="form-control" placeholder="search" style="border-radius: -2px!important;">
+                                                    {# <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>#}
+                                                    <span class="glyphicon glyphicon-search form-control-feedback" style="line-height: 44px;"></span>
+                                                    <table id="myTable2_lists7">
+                                                        <tbody >
+
+                                                        {% for region in regions %}
+                                                            <tr>
+                                                                <td >
+                                                                    <label><input class="select_region checkbox_rub chnage_color rub2_lists7 first" id="villes8" name="villes8" type="checkbox" value="{{ region.number }}" ><h7 class="label_rub" >{{ region.number }}-{{ region.region }}</h7></label>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="text" name="input8" id="input8" hidden="true">
+                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+      			   	<div class="col-md-4">
+                        <div  class="form-group" >
+                                <div class="dropdown" id="item1">
+                                    <button class="btn dropdown-toggle multiselect villeRs" type="button" style="width: 400px;margin-left : 53px !important" id="rubrique3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                    <span id="villeRs">{{ville}}</span><span id="rubriq"></span>
+                                    </button>
+                                </div>
+                        </div>
+						<div  class="form-group testpres" style="margin-bottom: 20px!important;">
+                        </div>
+                    </div>          
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group">
+
+                            <button id="khalila" class="btn black" onclick="unhide()"><span style="color: #ffdb2e;">Budget estimé</span></button>
+
+                            <div id="ref" style="display: none; margin-top: 20px;"><input class="results" type="text" name="total" id="total" value="" readonly="" >
+                            </div>
+                        </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group pull-right">
+                            <div class="btn black" id="devis">
+                                <a href="{{path('showDevis', {codeFirme: codeFirme})}}" id="ajax_test_referencement_fort" target="_blank" style="color: white;font-weight: bold;font-size: 22px">Devis </a>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+</section>
+
+
+
+<script src="{{ asset('js/jquery.quicksearch.js') }}  "></script>
+
+
+<script>
+	$('#contenu_lists1').hide();
+    $('#contenu_lists2').hide();
+    $('#contenu_lists3').hide();
+    $('#contenu_lists4').hide();
+    $('#contenu_lists5').hide();
+    $('#contenu_lists6').hide();
+    $('#contenu_lists7').hide();
+
+    $("#num1").on("change", function() {
+    	
+        var num1 = $("#num1").val();
+        //document.getElementById('nbr_rubrique').value = num1;
+        if (num1 == 1) {
+            $("#contenu_lists").show();
+            $("#contenu_lists1").hide();
+            $("#contenu_lists2").hide();
+            $("#contenu_lists3").hide();
+            $("#contenu_lists4").hide();
+            $("#contenu_lists5").hide();
+            $("#contenu_lists6").hide();
+            $("#contenu_lists7").hide();
+            $('.r,.r1,.r2,.r3,.r4,.r5,.r6,.prest1,.prest2,.prest3,.prest4,.prest5,.prest6,.prest7').prop('checked', false);
+
+        }
+        else
+        if(num1==2)
+        {
+            $("#contenu_lists").show();
+            $("#contenu_lists1").show();
+            $("#contenu_lists2").hide();
+            $("#contenu_lists3").hide();
+            $("#contenu_lists4").hide();
+            $("#contenu_lists5").hide();
+            $("#contenu_lists6").hide();
+            $("#contenu_lists7").hide();
+
+            $('.r1,.r2,.r3,.r4,.r5,.r6,.prest2,.prest3,.prest4,.prest5,.prest6,.prest7').prop('checked', false);
+        }
+        else
+        if(num1==3)
+        {
+            $("#contenu_lists").show();
+            $("#contenu_lists1").show();
+            $("#contenu_lists2").show();
+            $("#contenu_lists3").hide();
+            $("#contenu_lists4").hide();
+            $("#contenu_lists5").hide();
+            $("#contenu_lists6").hide();
+            $("#contenu_lists7").hide();
+
+
+            $('.r2,.r3,.r4,.r5,.r6,.prest3,.prest4,.prest5,.prest6,.prest7').prop('checked', false);
+        }
+        else
+        if(num1==4)
+        {
+            $("#contenu_lists").show();
+            $("#contenu_lists1").show();
+            $("#contenu_lists2").show();
+            $("#contenu_lists3").show();
+            $("#contenu_lists4").hide();
+            $("#contenu_lists5").hide();
+            $("#contenu_lists6").hide();
+            $("#contenu_lists7").hide();
+
+
+
+            $('.r3,.r4,.r5,.r6,.prest4,.prest5,.prest6,.prest7').prop('checked', false);
+        }
+        else
+        if(num1==5)
+        {
+            $("#contenu_lists").show();
+            $("#contenu_lists1").show();
+            $("#contenu_lists2").show();
+            $("#contenu_lists3").show();
+            $("#contenu_lists4").show();
+            $("#contenu_lists5").hide();
+            $("#contenu_lists6").hide();
+            $("#contenu_lists7").hide();
+
+            $('.r4,.r5,.r6,.prest5,.prest6,.prest7').prop('checked', false);
+        }
+        else
+        if(num1==6)
+        {
+            $("#contenu_lists").show();
+            $("#contenu_lists1").show();
+            $("#contenu_lists2").show();
+            $("#contenu_lists3").show();
+            $("#contenu_lists4").show();
+            $("#contenu_lists5").show();
+            $("#contenu_lists6").hide();
+            $("#contenu_lists7").hide();
+            $('.r5,.r6,.prest6,.prest7').prop('checked', false);
+
+
+        }
+        else
+        if(num1==7)
+        {
+            $("#contenu_lists").show();
+            $("#contenu_lists1").show();
+            $("#contenu_lists2").show();
+            $("#contenu_lists3").show();
+            $("#contenu_lists4").show();
+            $("#contenu_lists5").show();
+            $("#contenu_lists6").show();
+            $("#contenu_lists7").hide();
+            $('.r6,.prest7').prop('checked', false);
+        }
+        else
+        if(num1==8)
+        {
+            $("#contenu_lists").show();
+            $("#contenu_lists1").show();
+            $("#contenu_lists2").show();
+            $("#contenu_lists3").show();
+            $("#contenu_lists4").show();
+            $("#contenu_lists5").show();
+            $("#contenu_lists6").show();
+            $("#contenu_lists7").show();
+        }
+
+    });
+    var ctar;
+    var libtar;
+    var region;
+    var rubriquePapier;
+    var somme=0;
+
+    $(window).on('change',function () {
+
+        if(($(".rub").is(":checked"))) {
+            var labels = $('#myTable :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            rubriquePapier = labels;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,1);
+            $("#rubrique_view").html(labels);
+            $("#select_rub").hide();
+            $("#rubrique_view").show();
+
+        }
+        else
+        {
+            if ($('.rub').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view").html(null);
+                $("#rubrique_view").hide();
+                $("#select_rub").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub1").is(":checked"))) {
+            var labels = $('#myTable1 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            ctar = arr[0];
+            libtar = arr[1];
+            region = null;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,1);
+            //console.log('label1 :',ctar);
+            //console.log('libtar :',libtar);
+            $("#rubrique_view1").html(labels);
+            $("#select_format").hide();
+            $("#rubrique_view1").show();
+
+        }
+        else
+        {
+            if ($('.rub1').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view1").html(null);
+                $("#rubrique_view1").hide();
+                $("#select_format").show();
+                 //calculPriceByFormat(ctar,libtar);
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub2").is(":checked"))) {
+            var labels = $('#myTable2 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            region = arr[0];
+            calculPriceByFormat(ctar,libtar,region,rubriquePapier,1);
+            $("#rubrique_view3").html(labels);
+            $("#select_region").hide();
+            $("#rubrique_view3").show();
+            
+        }
+        else
+        {
+            if ($('.rub2').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view3").html(null);
+                $("#rubrique_view3").hide();
+                $("#select_region").show();
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+//-----------------------2--------------------------
+    $(window).on('change',function () {
+
+        if(($(".rub_lists1").is(":checked"))) {
+            var labels = $('#myTable_lists1 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            rubriquePapier = labels;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,2);
+            $("#rubrique_view_lists1").html(labels);
+            $("#select_rub_lists1").hide();
+            $("#rubrique_view_lists1").show();
+
+        }
+        else
+        {
+            if ($('.rub_lists1').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view_lists1").html(null);
+                $("#rubrique_view_lists1").hide();
+                $("#select_rub_lists1").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub1_lists1").is(":checked"))) {
+            var labels = $('#myTable1_lists1 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            ctar = arr[0];
+            libtar = arr[1];
+            region = null;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,2);
+            //console.log('label1 :',ctar);
+            //console.log('libtar :',libtar);
+            $("#rubrique_view1_lists1").html(labels);
+            $("#select_format_lists1").hide();
+            $("#rubrique_view1_lists1").show();
+
+        }
+        else
+        {
+            if ($('.rub1_lists1').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view1_lists1").html(null);
+                $("#rubrique_view1_lists1").hide();
+                $("#select_format_lists1").show();
+                // calculPriceByFormat(ctar,libtar);
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub2_lists1").is(":checked"))) {
+            var labels = $('#myTable2_lists1 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            region = arr[0];
+            calculPriceByFormat(ctar,libtar,region,rubriquePapier,2);
+            $("#rubrique_view3_lists1").html(labels);
+            $("#select_region_lists1").hide();
+            $("#rubrique_view3_lists1").show();
+            
+
+        }
+        else
+        {
+            if ($('.rub2_lists1').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view3_lists1").html(null);
+                $("#rubrique_view3_lists1").hide();
+                $("#select_region_lists1").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+//-----------------------3--------------------------
+    $(window).on('change',function () {
+
+        if(($(".rub_lists2").is(":checked"))) {
+            var labels = $('#myTable_lists2 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            rubriquePapier = labels;
+           // calculPriceByFormat(ctar,libtar,region,rubriquePapier,3);
+            $("#rubrique_view_lists2").html(labels);
+            $("#select_rub_lists2").hide();
+            $("#rubrique_view_lists2").show();
+
+        }
+        else
+        {
+            if ($('.rub_lists2').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view_lists2").html(null);
+                $("#rubrique_view_lists2").hide();
+                $("#select_rub_lists2").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub1_lists2").is(":checked"))) {
+            var labels = $('#myTable1_lists2 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            ctar = arr[0];
+            libtar = arr[1];
+            region = null;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,3);
+            //console.log('label1 :',ctar);
+            //console.log('libtar :',libtar);
+            $("#rubrique_view1_lists2").html(labels);
+            $("#select_format_lists2").hide();
+            $("#rubrique_view1_lists2").show();
+        }
+        else
+        {
+            if ($('.rub1_lists2').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view1_lists2").html(null);
+                $("#rubrique_view1_lists2").hide();
+                $("#select_format_lists2").show();
+                 //calculPriceByFormat(ctar,libtar);
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub2_lists2").is(":checked"))) {
+            var labels = $('#myTable2_lists2 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            region = arr[0];
+            calculPriceByFormat(ctar,libtar,region,rubriquePapier,3);
+            $("#rubrique_view3_lists2").html(labels);
+            $("#select_region_lists2").hide();
+            $("#rubrique_view3_lists2").show();
+            
+
+        }
+        else
+        {
+            if ($('.rub2_lists2').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view3_lists2").html(null);
+                $("#rubrique_view3_lists2").hide();
+                $("#select_region_lists2").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+//-----------------------4--------------------------
+    $(window).on('change',function () {
+
+        if(($(".rub_lists3").is(":checked"))) {
+            var labels = $('#myTable_lists3 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            rubriquePapier = labels;
+           // calculPriceByFormat(ctar,libtar,region,rubriquePapier,4);
+            $("#rubrique_view_lists3").html(labels);
+            $("#select_rub_lists3").hide();
+            $("#rubrique_view_lists3").show();
+
+        }
+        else
+        {
+            if ($('.rub_lists3').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view_lists3").html(null);
+                $("#rubrique_view_lists3").hide();
+                $("#select_rub_lists3").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub1_lists3").is(":checked"))) {
+            var labels = $('#myTable1_lists3 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            ctar = arr[0];
+            libtar = arr[1];
+            region = null;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,4);
+            //console.log('label1 :',ctar);
+            //console.log('libtar :',libtar);
+            $("#rubrique_view1_lists3").html(labels);
+            $("#select_format_lists3").hide();
+            $("#rubrique_view1_lists3").show();
+
+        }
+        else
+        {
+            if ($('.rub1_lists3').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view1_lists3").html(null);
+                $("#rubrique_view1_lists3").hide();
+                $("#select_format_lists3").show();
+                // calculPriceByFormat(ctar,libtar);
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub2_lists3").is(":checked"))) {
+            var labels = $('#myTable2_lists3 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            region = arr[0];
+            calculPriceByFormat(ctar,libtar,region,rubriquePapier,4);
+            $("#rubrique_view3_lists3").html(labels);
+            $("#select_region_lists3").hide();
+            $("#rubrique_view3_lists3").show();
+            
+
+        }
+        else
+        {
+            if ($('.rub2_lists3').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view3_lists3").html(null);
+                $("#rubrique_view3_lists3").hide();
+                $("#select_region_lists3").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+//-----------------------5--------------------------
+    $(window).on('change',function () {
+
+        if(($(".rub_lists4").is(":checked"))) {
+            var labels = $('#myTable_lists4 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            rubriquePapier = labels;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,5);
+            $("#rubrique_view_lists4").html(labels);
+            $("#select_rub_lists4").hide();
+            $("#rubrique_view_lists4").show();
+
+        }
+        else
+        {
+            if ($('.rub_lists4').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view_lists4").html(null);
+                $("#rubrique_view_lists4").hide();
+                $("#select_rub_lists4").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub1_lists4").is(":checked"))) {
+            var labels = $('#myTable1_lists4 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            ctar = arr[0];
+            libtar = arr[1];
+            region = null;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,5);
+            //console.log('label1 :',ctar);
+            //console.log('libtar :',libtar);
+            $("#rubrique_view1_lists4").html(labels);
+            $("#select_format_lists4").hide();
+            $("#rubrique_view1_lists4").show();
+
+        }
+        else
+        {
+            if ($('.rub1_lists4').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view1_lists4").html(null);
+                $("#rubrique_view1_lists4").hide();
+                $("#select_format_lists4").show();
+                // calculPriceByFormat(ctar,libtar);
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub2_lists4").is(":checked"))) {
+            var labels = $('#myTable2_lists4 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            region = arr[0];
+            calculPriceByFormat(ctar,libtar,region,rubriquePapier,5);
+            $("#rubrique_view3_lists4").html(labels);
+            $("#select_region_lists4").hide();
+            $("#rubrique_view3_lists4").show();
+            
+
+
+        }
+        else
+        {
+            if ($('.rub2_lists4').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view3_lists4").html(null);
+                $("#rubrique_view3_lists4").hide();
+                $("#select_region_lists4").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+//-----------------------6--------------------------
+    $(window).on('change',function () {
+
+        if(($(".rub_lists5").is(":checked"))) {
+            var labels = $('#myTable_lists5 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            rubriquePapier = labels;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,6);
+            $("#rubrique_view_lists5").html(labels);
+            $("#select_rub_lists5").hide();
+            $("#rubrique_view_lists5").show();
+
+        }
+        else
+        {
+            if ($('.rub_lists5').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view_lists5").html(null);
+                $("#rubrique_view_lists5").hide();
+                $("#select_rub_lists5").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub1_lists5").is(":checked"))) {
+            var labels = $('#myTable1_lists5 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            ctar = arr[0];
+            libtar = arr[1];
+            region = null;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,6);
+
+            //console.log('label1 :',ctar);
+            //console.log('libtar :',libtar);
+            $("#rubrique_view1_lists5").html(labels);
+            $("#select_format_lists5").hide();
+            $("#rubrique_view1_lists5").show();
+
+        }
+        else
+        {
+            if ($('.rub1_lists5').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view1_lists5").html(null);
+                $("#rubrique_view1_lists5").hide();
+                $("#select_format_lists5").show();
+                 //calculPriceByFormat(ctar,libtar);
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub2_lists5").is(":checked"))) {
+            var labels = $('#myTable2_lists5 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            region = arr[0];
+            calculPriceByFormat(ctar,libtar,region,rubriquePapier,6);
+            $("#rubrique_view3_lists5").html(labels);
+            $("#select_region_lists5").hide();
+            $("#rubrique_view3_lists5").show();
+            
+        }
+        else
+        {
+            if ($('.rub2_lists5').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view3_lists5").html(null);
+                $("#rubrique_view3_lists5").hide();
+                $("#select_region_lists5").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+//-----------------------7--------------------------
+    $(window).on('change',function () {
+
+        if(($(".rub_lists6").is(":checked"))) {
+            var labels = $('#myTable_lists6 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            rubriquePapier = labels;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,7);
+            $("#rubrique_view_lists6").html(labels);
+            $("#select_rub_lists6").hide();
+            $("#rubrique_view_lists6").show();
+
+        }
+        else
+        {
+            if ($('.rub_lists6').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view_lists6").html(null);
+                $("#rubrique_view_lists6").hide();
+                $("#select_rub_lists6").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub1_lists6").is(":checked"))) {
+            var labels = $('#myTable1_lists6 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            ctar = arr[0];
+            libtar = arr[1];
+            region = null;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,7);
+            //console.log('label1 :',ctar);
+            //console.log('libtar :',libtar);
+            $("#rubrique_view1_lists6").html(labels);
+            $("#select_format_lists6").hide();
+            $("#rubrique_view1_lists6").show();
+
+        }
+        else
+        {
+            if ($('.rub1_lists6').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view1_lists6").html(null);
+                $("#rubrique_view1_lists6").hide();
+                $("#select_format_lists6").show();
+                 //calculPriceByFormat(ctar,libtar);
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub2_lists6").is(":checked"))) {
+            var labels = $('#myTable2_lists6 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            region = arr[0];
+            calculPriceByFormat(ctar,libtar,region,rubriquePapier,7);
+            $("#rubrique_view3_lists6").html(labels);
+            $("#select_region_lists6").hide();
+            $("#rubrique_view3_lists6").show();
+            
+        }
+        else
+        {
+            if ($('.rub2_lists6').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view3_lists6").html(null);
+                $("#rubrique_view3_lists6").hide();
+                $("#select_region_lists6").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });    
+//-----------------------8--------------------------
+    $(window).on('change',function () {
+
+        if(($(".rub_lists7").is(":checked"))) {
+            var labels = $('#myTable_lists7 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            rubriquePapier = labels;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,8);
+            $("#rubrique_view_lists7").html(labels);
+            $("#select_rub_lists7").hide();
+            $("#rubrique_view_lists7").show();
+
+        }
+        else
+        {
+            if ($('.rub_lists7').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view_lists7").html(null);
+                $("#rubrique_view_lists7").hide();
+                $("#select_rub_lists7").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub1_lists7").is(":checked"))) {
+            var labels = $('#myTable1_lists7 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+            var string = labels + '';
+            var arr = string.split('-');
+            ctar = arr[0];
+            libtar = arr[1];
+            region = null;
+            //calculPriceByFormat(ctar,libtar,region,rubriquePapier,8);
+            console.log('label1 :',ctar);
+            console.log('libtar :',libtar);
+            $("#rubrique_view1_lists7").html(labels);
+            $("#select_format_lists7").hide();
+            $("#rubrique_view1_lists7").show();
+
+        }
+        else
+        {
+            if ($('.rub1_lists7').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view1_lists7").html(null);
+                $("#rubrique_view1_lists7").hide();
+                $("#select_format_lists7").show();
+                 //calculPriceByFormat(ctar,libtar);
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    });
+
+    $(window).on('change',function () {
+
+        if(($(".rub2_lists7").is(":checked"))) {
+            var labels = $('#myTable2_lists7 :checked').map(function () {
+                return $(this).closest('label').text();
+            }).get();
+             var string = labels + '';
+            var arr = string.split('-');
+            region = arr[0];
+            calculPriceByFormat(ctar,libtar,region,rubriquePapier,8);
+            $("#rubrique_view3_lists7").html(labels);
+            $("#select_region_lists7").hide();
+            $("#rubrique_view3_lists7").show();
+            
+        }
+        else
+        {
+            if ($('.rub2_lists7').prop('checked', false)) {
+                /*var current =     (this);
+                 $(current).closest('.form-group').siblings(".testpres").first().find("li").remove();*/
+                $('#div').css('display', 'none');
+                $("#rubrique_view3_lists7").html(null);
+                $("#rubrique_view3_lists7").hide();
+                $("#select_region_lists7").show();
+
+
+
+            }
+        }
+
+        setTimeout( function(){
+            prest1();
+        }  , 2000 );
+
+    }); 
+   /* $(window).on('change',function () { 
+        console.log('appel function  !! : ',ctar,libtar,region)
+        calculPriceByFormat(ctar,libtar,region,rubriquePapier);
+     });    */ 
+
+    function calculPriceByFormat(ctar,libtar,region,rubriquePapier,val) {
+    		console.log('into function',ctar,libtar,region);
+            var villeRs = $('#item1 span').text();; 
+            $.ajax({
+            type:"post",
+            dataType:"json",
+            url:'{{ path('budget_papier')}}',
+            data: {'ctar': ctar, 'libtar': libtar, 'region':region, 'villeRs':villeRs, 'rubriquePapier':rubriquePapier,'val':val},
+            success: function(data) {
+                successmessage = 'Data was succesfully captured';
+                
+                    $('#input'+data['id']).val(data['prix']);
+                    var prix = JSON.parse(data['prix']);
+
+                    somme =parseInt($('#input1').val())+parseInt($('#input2').val()+parseInt($('#input3').val())+parseInt($('#input4').val())+parseInt($('#input5').val())+parseInt($('#input6').val())+parseInt($('#input7').val())+parseInt($('#input8').val()));
+                    $('.results').val(somme);
+                 
+
+                    //alert(somme);
+                
+
+            },
+            error: function(data) {
+                successmessage = 'Error';
+                console.log(successmessage);
+            },
+        });
+    }  
+    
+    function unhide() {
+     document.getElementById("ref").style.display = "block";
+
+    }
+
+//---------------------format----------------------------------------
+
+    $(".format1  input[name='formats1']").on('change',function() {
+
+
+        if(($(".format1 input[name='formats1']").is(":checked")))
+        {
+
+
+            $('.format1').not(this).prop('disabled', this.checked);
+            $(".format1 input[name='formats1']:disabled").css('display', 'none');
+            $(".format1 input[name='formats1']:disabled + h7 ").css('display', 'none');
+            $(".format1 input[name='formats1']").css('float', 'left');
+            $(".format1 input[name='formats1']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".format1 input[name='formats1']").prop('checked', false))
+        {
+
+
+
+
+            $(".format1 input[name='formats1']").css("position", "absolute");
+            $(".format1 input[name='formats1']:disabled").css('display', '');
+            $(".format1 input[name='formats1']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".format1 input[name='formats1']").on('change  ',function() {
+        $(".format1 input[name='formats1']").not(this).prop('disabled', this.checked);
+    });
+
+
+
+    $(".format2  input[name='formats2']").on('change',function() {
+
+
+        if(($(".format2 input[name='formats2']").is(":checked")))
+        {
+
+
+            $('.format2').not(this).prop('disabled', this.checked);
+            $(".format2 input[name='formats2']:disabled").css('display', 'none');
+            $(".format2 input[name='formats2']:disabled + h7 ").css('display', 'none');
+            $(".format2 input[name='formats2']").css('float', 'left');
+            $(".format2 input[name='formats2']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".format2 input[name='formats2']").prop('checked', false))
+        {
+
+
+
+
+            $(".format2 input[name='formats2']").css("position", "absolute");
+            $(".format2 input[name='formats2']:disabled").css('display', '');
+            $(".format2 input[name='formats2']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".format2 input[name='formats2']").on('change  ',function() {
+        $(".format2 input[name='formats2']").not(this).prop('disabled', this.checked);
+    });
+
+
+
+    $(".format3  input[name='formats3']").on('change',function() {
+
+
+        if(($(".format3 input[name='formats3']").is(":checked")))
+        {
+
+
+            $('.format3').not(this).prop('disabled', this.checked);
+            $(".format3 input[name='formats3']:disabled").css('display', 'none');
+            $(".format3 input[name='formats3']:disabled + h7 ").css('display', 'none');
+            $(".format3 input[name='formats3']").css('float', 'left');
+            $(".format3 input[name='formats3']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".format3 input[name='formats3']").prop('checked', false))
+        {
+
+
+
+
+            $(".format3 input[name='formats3']").css("position", "absolute");
+            $(".format3 input[name='formats3']:disabled").css('display', '');
+            $(".format3 input[name='formats3']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".format3 input[name='formats3']").on('change  ',function() {
+        $(".format3 input[name='formats3']").not(this).prop('disabled', this.checked);
+    });
+
+
+
+
+    $(".format4  input[name='formats4']").on('change',function() {
+
+
+        if(($(".format4 input[name='formats4']").is(":checked")))
+        {
+
+
+            $('.format4').not(this).prop('disabled', this.checked);
+            $(".format4 input[name='formats4']:disabled").css('display', 'none');
+            $(".format4 input[name='formats4']:disabled + h7 ").css('display', 'none');
+            $(".format4 input[name='formats4']").css('float', 'left');
+            $(".format4 input[name='formats4']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".format4 input[name='formats4']").prop('checked', false))
+        {
+
+
+
+
+            $(".format4 input[name='formats4']").css("position", "absolute");
+            $(".format4 input[name='formats4']:disabled").css('display', '');
+            $(".format4 input[name='formats4']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".format4 input[name='formats4']").on('change  ',function() {
+        $(".format4 input[name='formats4']").not(this).prop('disabled', this.checked);
+    });
+
+
+
+
+
+    $(".format5  input[name='formats5']").on('change',function() {
+
+
+        if(($(".format5 input[name='formats5']").is(":checked")))
+        {
+
+
+            $('.format5').not(this).prop('disabled', this.checked);
+            $(".format5 input[name='formats5']:disabled").css('display', 'none');
+            $(".format5 input[name='formats5']:disabled + h7 ").css('display', 'none');
+            $(".format5 input[name='formats5']").css('float', 'left');
+            $(".format5 input[name='formats5']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".format5 input[name='formats5']").prop('checked', false))
+        {
+
+
+
+
+            $(".format5 input[name='formats5']").css("position", "absolute");
+            $(".format5 input[name='formats5']:disabled").css('display', '');
+            $(".format5 input[name='formats5']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".format5 input[name='formats5']").on('change  ',function() {
+        $(".format5 input[name='formats5']").not(this).prop('disabled', this.checked);
+    });
+
+
+
+
+    $(".format6  input[name='formats6']").on('change',function() {
+
+
+        if(($(".format6 input[name='formats6']").is(":checked")))
+        {
+
+
+            $('.format6').not(this).prop('disabled', this.checked);
+            $(".format6 input[name='formats6']:disabled").css('display', 'none');
+            $(".format6 input[name='formats6']:disabled + h7 ").css('display', 'none');
+            $(".format6 input[name='formats6']").css('float', 'left');
+            $(".format6 input[name='formats6']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".format6 input[name='formats6']").prop('checked', false))
+        {
+
+
+
+
+            $(".format6 input[name='formats6']").css("position", "absolute");
+            $(".formats6 input[name='formats6']:disabled").css('display', '');
+            $(".format6 input[name='formats6']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".format6 input[name='formats6']").on('change  ',function() {
+        $(".format6 input[name='formats6']").not(this).prop('disabled', this.checked);
+    });
+
+    $(".format7  input[name='formats7']").on('change',function() {
+
+
+        if(($(".format7 input[name='formats7']").is(":checked")))
+        {
+
+
+            $('.format7').not(this).prop('disabled', this.checked);
+            $(".format7 input[name='formats7']:disabled").css('display', 'none');
+            $(".format7 input[name='formats7']:disabled + h7 ").css('display', 'none');
+            $(".format7 input[name='formats7']").css('float', 'left');
+            $(".format7 input[name='formats7']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".format7 input[name='formats7']").prop('checked', false))
+        {
+
+
+
+
+            $(".format7 input[name='formats7']").css("position", "absolute");
+            $(".format7 input[name='formats7']:disabled").css('display', '');
+            $(".format7 input[name='formats7']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".format7 input[name='formats7']").on('change  ',function() {
+        $(".format7 input[name='formats7']").not(this).prop('disabled', this.checked);
+    });
+
+    $(".format8  input[name='formats8']").on('change',function() {
+
+
+        if(($(".format8 input[name='formats8']").is(":checked")))
+        {
+
+
+            $('.format8').not(this).prop('disabled', this.checked);
+            $(".format8 input[name='formats8']:disabled").css('display', 'none');
+            $(".format8 input[name='formats8']:disabled + h7 ").css('display', 'none');
+            $(".format8 input[name='formats8']").css('float', 'left');
+            $(".format8 input[name='formats8']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".format8 input[name='formats8']").prop('checked', false))
+        {
+
+
+
+
+            $(".format8 input[name='formats8']").css("position", "absolute");
+            $(".format8 input[name='formats8']:disabled").css('display', '');
+            $(".format8 input[name='formats8']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".format8 input[name='formats8']").on('change  ',function() {
+        $(".format8 input[name='formats8']").not(this).prop('disabled', this.checked);
+    });
+
+    //---------------------ville----------------------------------------
+
+    $(".ville1  input[name='villes1']").on('change',function() {
+
+
+        if(($(".ville1 input[name='villes1']").is(":checked")))
+        {
+
+
+            $('.ville1').not(this).prop('disabled', this.checked);
+            $(".ville1 input[name='villes1']:disabled").css('display', 'none');
+            $(".ville1 input[name='villes1']:disabled + h7 ").css('display', 'none');
+            $(".ville1 input[name='villes1']").css('float', 'left');
+            $(".ville1 input[name='villes1']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".ville1 input[name='villes1']").prop('checked', false))
+        {
+
+
+
+
+            $(".ville1 input[name='villes1']").css("position", "absolute");
+            $(".ville1 input[name='villes1']:disabled").css('display', '');
+            $(".ville1 input[name='villes1']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".ville1 input[name='villes1']").on('change  ',function() {
+        $(".ville1 input[name='villes1']").not(this).prop('disabled', this.checked);
+    });
+
+
+
+    $(".ville2  input[name='villes2']").on('change',function() {
+
+
+        if(($(".ville2 input[name='villes2']").is(":checked")))
+        {
+
+
+            $('.ville2').not(this).prop('disabled', this.checked);
+            $(".ville2 input[name='villes2']:disabled").css('display', 'none');
+            $(".ville2 input[name='villes2']:disabled + h7 ").css('display', 'none');
+            $(".ville2 input[name='villes2']").css('float', 'left');
+            $(".ville2 input[name='villes2']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".ville2 input[name='villes2']").prop('checked', false))
+        {
+
+
+
+
+            $(".ville2 input[name='villes2']").css("position", "absolute");
+            $(".ville2 input[name='villes2']:disabled").css('display', '');
+            $(".ville2 input[name='villes2']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".ville2 input[name='villes2']").on('change  ',function() {
+        $(".ville2 input[name='villes2']").not(this).prop('disabled', this.checked);
+    });
+
+
+
+    $(".ville3  input[name='villes3']").on('change',function() {
+
+
+        if(($(".ville3 input[name='villes3']").is(":checked")))
+        {
+
+
+            $('.ville3').not(this).prop('disabled', this.checked);
+            $(".ville3 input[name='villes3']:disabled").css('display', 'none');
+            $(".ville3 input[name='villes3']:disabled + h7 ").css('display', 'none');
+            $(".ville3 input[name='villes3']").css('float', 'left');
+            $(".ville3 input[name='villes3']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".ville3 input[name='villes3']").prop('checked', false))
+        {
+
+
+
+
+            $(".ville3 input[name='villes3']").css("position", "absolute");
+            $(".ville3 input[name='villes3']:disabled").css('display', '');
+            $(".ville3 input[name='villes3']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".ville3 input[name='villes3']").on('change  ',function() {
+        $(".ville3 input[name='villes3']").not(this).prop('disabled', this.checked);
+    });
+
+
+
+
+    $(".ville4  input[name='villes4']").on('change',function() {
+
+
+        if(($(".ville4 input[name='villes4']").is(":checked")))
+        {
+
+
+            $('.ville4').not(this).prop('disabled', this.checked);
+            $(".ville4 input[name='villes4']:disabled").css('display', 'none');
+            $(".ville4 input[name='villes4']:disabled + h7 ").css('display', 'none');
+            $(".ville4 input[name='villes4']").css('float', 'left');
+            $(".ville4 input[name='villes4']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".ville4 input[name='villes4']").prop('checked', false))
+        {
+
+
+
+
+            $(".ville4 input[name='villes4']").css("position", "absolute");
+            $(".ville4 input[name='villes4']:disabled").css('display', '');
+            $(".ville4 input[name='villes4']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".ville4 input[name='villes4']").on('change  ',function() {
+        $(".ville4 input[name='villes4']").not(this).prop('disabled', this.checked);
+    });
+
+
+
+
+
+    $(".ville5  input[name='villes5']").on('change',function() {
+
+
+        if(($(".ville5 input[name='villes5']").is(":checked")))
+        {
+
+
+            $('.ville5').not(this).prop('disabled', this.checked);
+            $(".ville5 input[name='villes5']:disabled").css('display', 'none');
+            $(".ville5 input[name='villes5']:disabled + h7 ").css('display', 'none');
+            $(".ville5 input[name='villes5']").css('float', 'left');
+            $(".ville5 input[name='villes5']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".ville5 input[name='villes5']").prop('checked', false))
+        {
+
+
+
+
+            $(".ville5 input[name='villes5']").css("position", "absolute");
+            $(".ville5 input[name='villes5']:disabled").css('display', '');
+            $(".ville5 input[name='villes5']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".ville5 input[name='villes5']").on('change  ',function() {
+        $(".ville5 input[name='villes5']").not(this).prop('disabled', this.checked);
+    });
+
+
+
+
+    $(".ville6  input[name='villes6']").on('change',function() {
+
+
+        if(($(".ville6 input[name='villes6']").is(":checked")))
+        {
+
+
+            $('.ville6').not(this).prop('disabled', this.checked);
+            $(".ville6 input[name='villes6']:disabled").css('display', 'none');
+            $(".ville6 input[name='villes6']:disabled + h7 ").css('display', 'none');
+            $(".ville6 input[name='villes6']").css('float', 'left');
+            $(".ville6 input[name='villes6']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".ville6 input[name='villes6']").prop('checked', false))
+        {
+
+
+
+
+            $(".ville6 input[name='villes6']").css("position", "absolute");
+            $(".ville6 input[name='villes6']:disabled").css('display', '');
+            $(".ville6 input[name='villes6']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".ville6 input[name='villes6']").on('change  ',function() {
+        $(".ville6 input[name='villes6']").not(this).prop('disabled', this.checked);
+    });
+
+    $(".ville7  input[name='villes7']").on('change',function() {
+
+
+        if(($(".ville7 input[name='villes7']").is(":checked")))
+        {
+
+
+            $('.ville7').not(this).prop('disabled', this.checked);
+            $(".ville7 input[name='villes7']:disabled").css('display', 'none');
+            $(".ville7 input[name='villes7']:disabled + h7 ").css('display', 'none');
+            $(".ville7 input[name='villes7']").css('float', 'left');
+            $(".ville7 input[name='villes7']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".ville7 input[name='villes7']").prop('checked', false))
+        {
+
+
+
+
+            $(".ville7 input[name='villes7']").css("position", "absolute");
+            $(".ville7 input[name='villes7']:disabled").css('display', '');
+            $(".ville7 input[name='villes7']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".ville7 input[name='villes7']").on('change  ',function() {
+        $(".ville7 input[name='villes7']").not(this).prop('disabled', this.checked);
+    });
+
+    $(".ville8  input[name='villes8']").on('change',function() {
+
+
+        if(($(".ville8 input[name='villes8']").is(":checked")))
+        {
+
+
+            $('.ville8').not(this).prop('disabled', this.checked);
+            $(".ville8 input[name='villes8']:disabled").css('display', 'none');
+            $(".ville8 input[name='villes8']:disabled + h7 ").css('display', 'none');
+            $(".ville8 input[name='villes8']").css('float', 'left');
+            $(".ville8 input[name='villes8']").css('clear', 'left');
+            /*$('.r').css("position", "absolute");
+             $('.r').css("margin-top", "auto");
+             $('.r').css("margin-bottom", "auto");
+             $('.r').css("top", -8);
+             $('.r').css("bottom", 0);*/
+            $('.label_rub').css("margin-left", 21);
+
+
+        }
+        else
+        if ($(".ville8 input[name='villes8']").prop('checked', false))
+        {
+
+
+
+
+            $(".ville8 input[name='villes8']").css("position", "absolute");
+            $(".ville8 input[name='villes8']:disabled").css('display', '');
+            $(".ville8 input[name='villes8']:disabled + h7").css('display', '');
+            $('.label_rub').css("margin-left", 18);
+
+
+        }
+    });
+
+    $(".ville8 input[name='villes8']").on('change  ',function() {
+        $(".ville8 input[name='villes8']").not(this).prop('disabled', this.checked);
+    });
+
+
+
+    $('input#myInput').quicksearch('table#myTable   tbody tr');
+    $('input#myInput_supp').quicksearch('table#myTable_supp   tbody tr');
+
+    $('input#myInput_panier').quicksearch('table#myTable_panier   tbody tr');
+    $('input#myInput1').quicksearch('table#myTable1 tbody tr');
+
+    $('input#myInput2').quicksearch('table#myTable2 tbody tr');
+    $('input#myInput3').quicksearch('table#myTable3 tbody tr');
+    $('input#myInput4').quicksearch('table#myTable4 tbody tr');
+
+
+   
+
+
+
+</script>
+
+

@@ -1,0 +1,79 @@
+{% extends "::layout/layout.html.twig" %}
+
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+
+            <div class="span3">
+                {% include '::modulesUsed/navigation.html.twig' %}
+
+            </div>
+
+            <div class="span9">
+                <div class="row">
+                    <div class="span5">
+<<<<<<< HEAD
+                        <img src="{{ asset('uploads/' ~ client123.Path) }}"  width="270" height="310">
+=======
+                        <img src="{{ asset('uploads/' ~ client.Path) }}"  width="270" height="310">
+>>>>>>> 0d140e8403f4d0adf984ce8537b9fe029928ebe8
+
+                    </div>
+                    <div class="span4" style="text-align: justify">
+                        <table class="record_properties">
+                            <tbody>
+                            <tr>
+                            </tr>
+                            <tr>
+                                <th>Raison   :</th>
+                                <td>{{ client.raison }}</td>
+
+                            </tr>
+                            <tr>
+                                <th>Adresse   :</th>
+                                <td>{{ client.adresse }}</td>
+
+                            </tr>
+                            <tr>
+                                <th>Ville   :</th>
+                                <td>{{ client.ville }}</td>
+
+                            </tr>
+                            <tr>
+                                <th>Telephone   :</th>
+                                <td>{{ client.telephone }}</td>
+
+                            </tr>
+                            <tr>
+                                <th>Fax  :</th>
+                                <td>{{ client.fax }}</td>
+
+                            </tr>
+                            <tr>
+                                <th>Email   :</th>
+                                <td>{{ client.email }}</td>
+
+                            </tr>
+                            <tr>
+                                <th>Nom dirigeant   :</th>
+                                <td>{{ client.nomdirigeant }}</td>
+
+                            </tr>
+                            <tr>
+                                <th>Commercial   :</th>
+                                <td>{{ client.utilisateurs.username }}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="span4">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

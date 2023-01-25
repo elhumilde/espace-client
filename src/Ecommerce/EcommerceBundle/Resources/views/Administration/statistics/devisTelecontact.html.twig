@@ -1,0 +1,505 @@
+{% extends "::layout/base_statistics2.html.twig" %}
+
+
+{% block title %} Liste des Devis {% endblock %}
+{% block stylesheets %}
+
+<style>
+    .border-top-0{
+        font-weight: 700!important;
+    }
+    .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+      background-color: #e9ecef;
+      border-color: #dee2e6;
+      color: black;
+      font-weight: bold;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: #4CAF50!important;
+        color: white!important;
+        border: 1px solid #4CAF50!important;
+    }
+    #myTable_paginate{
+        color: black!important;
+        float: left!important;
+        padding: 8px 16px!important;
+        transition: background-color .3s!important;
+        margin-top: 30px!important;
+        margin-left: 18%;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        border: 1px solid #cccccc!important;
+    }
+    #myTable_length, #myTable_filter, #myTable_info{
+        font-weight: 700;
+    }
+    #config-demo{
+        display: none;
+    }
+    #myTable_length, #myTable_filter{
+        margin-bottom: 25px;
+    }
+    .even{
+        background-color: rgb(185 217 232 / 8%)!important;
+    }
+
+     .button {
+         text-decoration: none;
+         font-size: 0.875rem;
+         font-weight: 300;
+         text-transform: uppercase;
+         display: inline-block;
+         border-radius: 1.5rem;
+         background-color: #fff;
+         color: #9191e9;
+         padding: 1rem 2rem;
+    }
+     .popup {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         position: fixed;
+         width: 100vw;
+         height: 100vh;
+         bottom: 0;
+         right: 0;
+         background-color: rgba(0, 0, 0, 0.8);
+         z-index: 2;
+         visibility: hidden;
+         opacity: 0;
+         overflow: hiden;
+         transition: 0.64s ease-in-out;
+    }
+     .popup-inner {
+         position: relative;
+         bottom: -100vw;
+         right: -100vh;
+         display: flex;
+         align-items: center;
+         max-width: 600px;
+         /*max-height: 550px;*/
+         max-height: 400px;
+         width: 60%;
+         height: 100%;
+         background-color: #fff;
+         transform: rotate(32deg);
+         transition: 0.64s ease-in-out;
+        padding-left: 0px!important;
+        padding-right: 0px!important;
+        border-radius: 10px;
+    }
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 100%;
+         padding: 0rem;
+    }
+
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 70%;
+         padding-top: 0px!important;
+         padding: 4rem;
+    }
+     .popup__text h1 {
+         font-size: 2rem;
+         font-weight: 600;
+         margin-bottom: 2rem;
+         text-transform: uppercase;
+         color: #0a0a0a;
+    }
+     .popup__text p {
+         font-size: 16px;
+         color: #686868;
+         line-height: 1.5;
+         overflow-y:scroll;
+         /* min-height: 350px!important;*/
+         min-height: 280px!important;
+         margin-top: 15%;
+    }
+     .popup:target {
+         visibility: visible;
+         opacity: 1;
+    }
+     .popup:target .popup-inner {
+         bottom: 0;
+         right: 0;
+         transform: rotate(0);
+    }
+     .popup__close {
+         position: absolute;
+         right: -1rem;
+         top: -1rem;
+         width: 3rem;
+         height: 3rem;
+         font-size: 0.875rem;
+         font-weight: 300;
+         border-radius: 100%;
+         background-color: #0a0a0a;
+         z-index: 4;
+         color: #fff!important;
+         line-height: 3rem;
+         text-align: center;
+         cursor: pointer;
+         text-decoration: none;
+    }
+    .dea{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+    }
+    .objet_popup{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+        margin-top: 50px;
+    }
+    .dea_mail{
+        font-weight: 500!important;
+        line-height: 20px!important;
+        font-size: 16px!important;
+        font-family: var(--bs-font-sans-serif)!important;
+    }
+    #message{
+        font-family: Spinnaker,sans-serif;
+        color: #4e4e4e;
+        font-size: 15px;
+        line-height: 1.428571429;
+    }
+    .popup_head{
+        padding-bottom: 25px;
+        background: #fedc01;
+        border-radius: 10px 10px 0px 0px;
+    }
+ 
+
+
+
+
+
+
+
+
+
+
+    /* second modal */
+
+
+    /* end second modal */
+
+
+
+
+
+</style>
+
+{% endblock %}
+
+{% block slide %}
+    <div class="group-bg-image">
+        <div class="col-lg-12 col-xlg-12 col-md-12 bg-image">
+            <p class="bg-image-text">Devis reçus par le biais de Telecontact.ma</p>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block body %}
+
+
+
+
+
+
+                
+
+
+        
+                    <!-- <div class="col-lg-12 col-md-12 col-sm-8 col-xs-12 row">
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                            <h4 class="page-title">Messsages reçus par le biais de Telecontact.ma <span class="page-title2" ></span></h4>
+                        </div>
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12" >
+                            <h4 style="float: right;">{{data_user[0]['raison_sociale']}}</h4>
+                        </div>
+                        <input type="hidden" name="audience" id="audience" value="audience">
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <div class="d-md-flex">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                
+
+
+                
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-md-12 col-lg-12 col-sm-12"> -->
+
+                    <div class="col-md-9 col-lg-9 col-sm-12">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3">
+                            </div>
+                            {% if resultdevis %}
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-top-0">Nom complet</th>
+                                            <th class="border-top-0">Email</th>
+                                            <th class="border-top-0">Téléphone</th>
+                                            <th class="border-top-0">sociéte</th>
+                                            <th class="border-top-0">bession</th>
+                                            <th class="border-top-0">Date <br> envoi</th>
+                                            <th class="border-top-0">Etat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for devis in resultdevis %}
+
+                                            <!-- <div  class="modal fade" id="{{ devis.id }}" role="dialog">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <h4 class="modal-title">Demande Contenu</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div>
+                                                                <h2>aaa</h2>
+
+                                                                <div>vvv</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                         -->
+
+                                         <div class="container">
+                                          <div class="popup" id="popup{{devis.id}}">
+                                            <div class="popup-inner">
+                                              <div class="popup__photo">
+                                                
+                                              </div>
+                                              <div class="popup__text">
+                                                <p>{{ devis.bession }}.</p>
+                                              </div>
+                                              <a class="popup__close close">X</a>
+                                            </div>
+                                          </div>
+                                         </div>
+
+
+                                  
+
+
+
+                                       
+                                        <tr>
+                                            {% set date = devis.date_creation | date('U') %}
+                                            <td>{{ devis.nom_complet }}</td>
+                                            <td class="txt-oflo">{{ devis.email }}</td>
+                                            <td class="txt-oflo">{{ devis.telephone }}</td>
+                                            <td  id="testing">{{ devis.societe }}</td>
+                                            {% set id = devis.id %}
+                                            {% if (data_user[0]['profile'] != "admin") and  (data_user[0]['profile'] != "responsable")  and (data_user[0]['profile'] != "commercial") %}
+                                            <td><a href="#popup{{devis.id}}" class="open_popUp " onclick="etatDevis({{devis.id}})">{{ devis.bession|slice(0, 30) }} ...</a></td>
+                                            {% else %}
+                                            <td><a href="#popup{{devis.id}}" class="open_popUp">{{ devis.bession|slice(0, 30) }} ...</a></td>
+                                            {% endif %}
+                                            <td class="txt-oflo" data-sort="{{ date }}" >{{ devis.date_creation|date("d/m/Y") }} <br> {{ devis.date_creation|date("H:i:s") }} </td>
+                                            <td class="txt-oflo">{% if devis.etat == 1 %} <span class="label label-success">Lu</span> {% else %} <span class="label label-danger"> Non lu</span> {% endif %}</td>
+                                        </tr>
+                                        
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {% else %}
+
+                            <h5><b><i class="fas fa-exclamation-circle"></i></b> Il n'y a aucun devis pour l'instant.</h5>
+
+                            {% endif %}
+
+
+
+
+
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+     
+
+{% endblock %}
+{% block javascripts %}
+
+  		<script>
+
+
+     /*function popup(id, nom, date, email, titre, message){
+
+                
+
+                var id= id;
+                alert(id);alert(nom);alert(date);
+
+                $('#message').text(message);
+
+                $("#popup").css({"display": "flex","align-items": "center","justify-content": "center","position": "fixed","width": "100vw","height": "100vh","bottom": "0","right": "0","background-color": "rgba(0, 0, 0, 0.8)","z-index": "2","visibility": "hidden","opacity": "0","overflow": "hiden","transition":"0.64s ease-in-out"});
+
+
+
+
+setTimeout(function(){
+   $('#popi495588').trigger('click');
+}, 2000);
+ 
+ 
+       
+
+            };*/
+
+            $(document).ready( function () {
+
+      
+                $('#myTable').DataTable({
+                    "order": [6,'desc'],
+                     "language": {
+                            "decimal":        "",
+                            "emptyTable":     "aucune donnée disponible",
+                            "info":           "_TOTAL_ résultats",
+                            "infoEmpty":      "0 résultats",
+                            "infoFiltered":   "(Filtré de _MAX_ résultats totales)",
+                            "infoPostFix":    "",
+                            "thousands":      ",",
+                            "lengthMenu":     "Afficher _MENU_ résultats",
+                            "loadingRecords": "Chargement...",
+                            "processing":     "Traitement...",
+                            "search":         "Rechercher : ",
+                            "zeroRecords":    "Aucun élément à afficher",
+                            "paginate": {
+                                "first":      "Première",
+                                "last":       "Dernière",
+                                "next":       "Suivant",
+                                "previous":   "Précéndent"
+                            },
+                     }
+                 });
+
+
+                 /* $('#myTable').on('click','.open_popUp',function () {
+                    alert("yeeeee");
+                    $(".popup").css("display", "flex");
+
+                  });*/
+
+                  $("#myTable").on("click",'.open_popUp', function(){
+                    $(".popup").css("display", "flex");
+
+                  });
+
+                  $(".close").on("click", function(){
+                    $(".popup").css("display", "none");
+                    
+                  });
+
+                  $("#myTable").on("click",'.open_popUp', function(){
+                    $(".popup").css("display", "flex");
+
+                  });
+
+
+
+
+            });
+
+            function etatMessage($id){
+                var id = $id;
+
+                $.ajax({
+                    type:'POST',
+                    url :'{{path("etatMessage")}}',
+                    dataType: "json",
+                    data: {id:id},
+                    statusCode: {
+                        
+                        200: function (response) {
+
+                            /*location.reload();*/
+                            
+
+                        },
+                        
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            
+                        }
+                    }
+                });
+                    
+            }
+
+            function etatDevis($id){
+                var id = $id;
+
+                $.ajax({
+                    type:'POST',
+                    url :'{{path("etatDevis")}}',
+                    dataType: "json",
+                    data: {id:id},
+                    statusCode: {
+                        
+                        200: function (response) {                           
+
+                                
+                        },
+                        
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            
+                        }
+                    }
+                });
+                    
+            }
+
+
+
+  				
+        </script>
+           
+ {% endblock %}

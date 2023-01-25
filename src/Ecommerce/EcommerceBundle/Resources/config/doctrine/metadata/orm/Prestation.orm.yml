@@ -1,0 +1,27 @@
+Prestation:
+    type: entity
+    table: prestation
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        codeRubrique:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+            column: CODE_RUBRIQUE
+        prestation:
+            type: string
+            nullable: true
+            length: 54
+            fixed: false
+            comment: ''
+            column: PRESTATION
+    lifecycleCallbacks: {  }

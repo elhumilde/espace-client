@@ -1,0 +1,159 @@
+{% extends "::layout/base_statistics.html.twig" %}
+
+
+{% block title %} Espace Admin {% endblock %}
+{% block stylesheets %}
+{{parent()}}
+    <link rel="stylesheet" type="text/css" href="{{asset('/css/jquery.dataTables.min.css')}}"/>
+        <link rel="stylesheet" type="text/css" href="{{asset('/css/details-devis-telecontact.css')}}" />
+{% endblock %}
+
+{% block menu %}
+    {% include "EcommerceBundle:Administration:menu.html.twig" %}
+{% endblock %}
+
+{% block body %}
+        
+                    <div class="col-lg-12 col-md-12 col-sm-8 col-xs-12 row">
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                            <h4 class="page-title">Détails demande de devis <span class="page-title2" ></span></h4>
+                        </div>
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12" >
+                            <h4 style="float: right;"></h4>
+                        </div>
+                        <input type="hidden" name="audience" id="audience" value="audience">
+                    </div>
+                    <div class="col-md-12 mt-5">
+                        <div class="wrapper-demande-devis {% if publication.etat == 1 %} is-published {% endif %}">
+                            {% if publication.titre != "" %}
+                            <div class="title">
+                                <h5>{{ publication.titre }}</h5>
+                            </div>
+                            {% endif %}
+                            {% if publication.date_creation != "" %}
+                            <div class="date-creation">
+                                <span>Publiée le {{ publication.date_creation }}</span>
+                            </div>
+                            {% endif %}
+                            {% if publication.mot_cle1|trim != "" or publication.mot_cle2|trim != "" or publication.mot_cle3|trim != "" %}
+                            <div class="mot-cles">
+                                <span>Mots clés:</span>
+
+                                {% if publication.mot_cle1|trim != "" %}
+                                    <span>{{ publication.mot_cle1 }}</span>
+                                {% endif %}
+
+
+                                {% if publication.mot_cle2|trim != "" %}
+                                    <span>{{ publication.mot_cle2 }}</span>
+                                {% endif %}
+
+
+                                {% if publication.mot_cle3|trim != "" %}
+                                    <span>{{ publication.mot_cle3 }}</span>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            {% if publication.description %}
+                            <div class="description">
+                                <p>{{ publication.description }}<p>
+                            </div>
+                            {% endif %}
+
+                            {% if publication.plus_details|trim != "" %}
+                            <button class="plus-details">Plus de détails</button>
+                            <p class="plus-details hide">{{ publication.plus_details }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if responses is iterable %}
+                    <div class="col-md-12 mt-5">
+                        <h4 class="response-title">Les réponses : </h4>
+                        <table class="table table-striped" id="responses">
+                            <thead>
+                                <th>Nom Complet</th>
+                                <th>Numéro de Tél</th>
+                                <th>Adresse Mail</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </thead>
+                            <tbody>
+                                {% for response in responses %}
+                                <tr>
+                                    <td>{{response.nom_complet}}</td>
+                                    <td>{{response.tel}}</td>
+                                    <td>{{response.message}}</td>
+                                    <td>{{response.email}}</td>
+                                    <td>{{response.date}}</td>
+                                    <td></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfooter>
+                                <th>Nom Complet</th>
+                                <th>Numéro de Tél</th>
+                                <th>Adresse Mail</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tfooter>
+                        </table>
+                    </div>
+                    {% endif %}
+                </div> 
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                
+
+
+                
+
+                  
+
+
+                <!-- ============================================================== -->
+                <!-- Audience par type de connexion -->
+                <!-- ============================================================== -->
+                <div class="row" style="margin-top: 30px;">
+
+                    
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{asset('/js/jquery.min.js')}}"></script>
+    <script src="{{asset('/js/jquery.dataTables.min.js')}}"></script>
+    <script>
+        const URL_DEMANDE_DEVIS = "{{path('demandeDevisTelecontact')}}";
+    </script>
+    <script src="{{asset('/js/details-devis-telecontact.js')}}"></script>           
+{% endblock %}

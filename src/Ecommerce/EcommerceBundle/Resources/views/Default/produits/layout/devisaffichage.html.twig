@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block titre %}E-contact | Budgétisation - Gestion de contenu{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="{{ asset('Logo-econtact-2.png') }}" />
+    <link rel="stylesheet" href="{{ asset('css/style-budgetisation-affichage.css') }}" />
+</head>
+<style>
+    .loaders {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        background: url(../../web/ajax-loaderd.gif) center center no-repeat rgba(57, 66, 100, 0.6);
+        z-index: 500;
+    }
+    .results{
+
+        height: 36px;
+        width: 200px;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+        padding: 18px 11px;
+        font-size: 18px;
+    }
+</style>
+
+<body>
+
+<form id="jsForm" class="form-group" action="" method="GET">
+    <div class="icon-retour">
+        <a style="color: #2eb2ff;" href="http://www.e-contact.telecontact.ma/#fond-8{#{{ path('fos_user_profile_show') }}#}">< Retour  ( chemins des onglets parcourus )</a>
+    </div>
+
+    <section  id="fond-1" align=center>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12" align=center>
+                    <div class="titre-1">
+                        <p>Simulation Devis</p>
+                    </div>
+                    <div class="titre-2">
+                        <p class="acroche">Engagez la relation avec vos clients potentiels avec la diffusion
+                            <br>
+                            d'un <span style="color: #ffdb2e"><strong>contenu pertinent et riche</strong></span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <section  id="fond-2">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    {#<div class="btn-1">
+                        <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icona-2.png">
+                        Affichage
+                    </div>#}
+                    <div class="form-inline" align="center">
+                        <div class="form-group ">
+                            <div class="btn-1" >
+                                <a href="{{ path('referencementdevis') }}" id="ajax_test_referencement_ther" style="color: black" >
+                                    {# <span class="glyphicon glyphicon-triangle-left fleche-petit"></span>#} <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icone-3.png" alt="icone-3">
+                                    Référencement
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <div class="btn-1" style="width: 330px!important;">
+
+                                <a href="{{ path('devis_gestion_contenu') }}" id="ajax_test_referencement_ther" style="width: 319px!important;color: black">
+                                    <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icona-2.png" alt="icone-3">
+                                    Gestion de Contenu   <span class="glyphicon glyphicon-triangle-right"></span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <div class="btn-1" style="background-color: black;">
+
+                                <a href="{{ path('devis_affichage') }}" id="ajax_test_referencement_fort"  style="color: white">
+                                    <img class="icone" src="https://image.noelshack.com/fichiers/2018/13/5/1522417108-icone-1-inverse.png" alt="icone-3" alt="icone-3">
+                                    Affichage   <span class="glyphicon glyphicon-triangle-right"></span>
+                                </a>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="produits">
+
+                        <form class="form-inline">
+
+                            <div>
+
+                                <button type="button" class="btn btn-2" data-toggle="collapse" data-target="#demo-1">
+                                    <span class="glyphicon glyphicon-zoom-in"></span>&nbsp; &nbsp;Vignette thématique &nbsp;   <span class="glyphicon glyphicon-triangle-right glyphicon-triangle-"></span>
+                                </button>
+
+                                <div id="demo-1" class="collapse">
+                                    <div class="form-inline villes" >
+                                        <button type="button" class="btn" data-toggle="collapse" data-target="#demo-1-1">
+                                            Ville de départ &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                        </button>
+                                        <div id="demo-1-1" class="collapse bouton-2" style="overflow-y:scroll;">
+                                            <div class="form-inline" >
+                                                <label class="checkbox-inline" >
+                                                    <input id="select" class="checkbox_villes vignette_thematique_ville" type="checkbox" name="villes" value="91010">&nbsp; &nbsp;Casablanca
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input id="select" class="checkbox_villes vignette_thematique_ville" type="checkbox" name="villes" value="101010">&nbsp; &nbsp;Rabat
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input id="select" class="checkbox_villes vignette_thematique_ville" type="checkbox" name="villes" value="141010">&nbsp; &nbsp;Fès
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input id="select" class="checkbox_villes vignette_thematique_ville" type="checkbox" name="villes" value="41110">&nbsp; &nbsp;Agadir
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input id="select" class="checkbox_villes vignette_thematique_ville" type="checkbox" name="villes" value="163010">&nbsp; &nbsp;Tanger
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input id="select" class="checkbox_villes vignette_thematique_ville" type="checkbox" name="villes" value="71010">&nbsp; &nbsp;Marrakech
+                                                </label>
+
+                                                {% for ville in villes %}
+                                                    <label class="checkbox-inline">
+                                                        <input id="select" class="checkbox_villes vignette_thematique_ville" {% if affichage['villes']  %} {% if ville.codeville==affichage['villes']  %} checked {% endif %}{% endif %} type="checkbox" name="villes" value="{{ ville.codeville }}"/>&nbsp; &nbsp;{{ ville.libelle }}
+                                                    </label>
+                                                {% endfor %}
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-inline region">
+                                            <label class="checkbox-inline"  style="width: 181px;">
+                                                <input class="checkbox_region vignette_thematique" name="regions" {% if affichage['regions']=='L' %}checked {% endif %} type="checkbox" value="L">Ma ville
+                                            </label>
+                                            <label class="checkbox-inline"  style="width: 181px;">
+                                                <input class="checkbox_region vignette_thematique" name="regions" {% if affichage['regions']=='0' %}checked {% endif %} type="checkbox" value="0">Sa région
+                                            </label>
+                                            <label class="checkbox-inline"  style="width: 181px;">
+                                                <input class="checkbox_region vignette_thematique" name="regions" {% if affichage['regions']=='1' %}checked {% endif %} type="checkbox" value="1">+1 région
+                                            </label>
+                                            <label class="checkbox-inline"  style="width: 181px;">
+                                                <input class="checkbox_region vignette_thematique" name="regions" {% if affichage['regions']=='3' %}checked {% endif %} type="checkbox" value="3">+3 régions
+                                            </label>
+                                            <label  class="checkbox-inline"  style="width: 181px;">
+                                                <input class="checkbox_region vignette_thematique" name="regions" {% if affichage['regions']=='6' %}checked {% endif %} type="checkbox" value="6">+6 régions
+                                            </label>
+                                            <label class="checkbox-inline"  style="width: 181px;">
+                                                <input class="checkbox_region vignette_thematique" name="regions" {% if affichage['regions']=='9' %}checked {% endif %} type="checkbox" value="9">+9 régions
+                                            </label>
+                                            <label class="checkbox-inline" style="display: none" >
+                                                <input type="text" id="thematique" name="thematique_name" {% if affichage['thematique_name'] %} value="{{ affichage['thematique_name'] }}" {% else %}  value="0" {% endif %} readonly  >
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+                                <div>
+                                    <button type="button" class="btn btn-2" data-toggle="collapse" data-target="#demo-2">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>&nbsp; &nbsp;Vignette localité <span class="glyphicon glyphicon-triangle-right glyphicon-triangle-"></span>
+                                    </button>
+
+                                    <div id="demo-2" class="collapse">
+
+                                        {#total#}
+                                        <input type="text" id="localite" name="localite_name"  {% if affichage['localite_name'] %}value="{{ affichage['localite_name']  }}" {% else %} value="0" {% endif %} readonly style="display: none">
+                                        <input  type="text" id="localite1" style="display: none" >
+
+                                        <div class="form-inline villes ">
+                                            <button type="button" class="btn" data-toggle="collapse" data-target="#demo-2-1">
+                                                Catégorie 1 &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                            </button>
+                                            <div id="demo-2-1" class="collapse bouton-2" style="overflow-y:scroll;">
+                                                <div class="form-inline" >
+                                                    <label class="checkbox-inline">
+                                                        <input class="vignette_localite" name="cat1" type="checkbox" {% if affichage['cat1']=='24000' %}checked {% endif %} value="24000">Casablanca
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-inline villes categorie-1" >
+                                            <button type="button" class="btn" data-toggle="collapse" data-target="#demo-2-2">
+                                                Catégorie 2 &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                            </button>
+                                            <div id="demo-2-2" class="collapse bouton-2" style="overflow-y:scroll;">
+                                                <div class="form-inline" >
+                                                    <label class="checkbox-inline">
+                                                        <input class="vignette_localite" name="cat2r" type="checkbox"{% if affichage['cat2r'] %} {% if affichage['cat2r']=='12000' %}checked {% endif %} {% endif %}value="12000">&nbsp; &nbsp;Rabat
+                                                    </label>
+                                                    <label  class="checkbox-inline">
+                                                        <input class="vignette_localite" name="cat2f" type="checkbox"{% if affichage['cat2f'] %} {% if affichage['cat2f']=='12000' %}checked {% endif %}{% endif %} value="12000">&nbsp; &nbsp;Fés
+                                                    </label>
+                                                    <label class="checkbox-inline">
+                                                        <input class="vignette_localite" name="cat2ma" type="checkbox"{% if affichage['cat2ma'] %} {% if affichage['cat2ma']=='12000' %}checked {% endif %} {% endif %}value="12000">&nbsp; &nbsp;Marrakech
+                                                    </label>
+                                                    <label class="checkbox-inline">
+                                                        <input class="vignette_localite" name="cat2me" type="checkbox" {% if affichage['cat2me'] %}{% if affichage['cat2me']=='12000' %}checked {% endif %}{% endif %} value="12000">&nbsp; &nbsp;Meknès
+                                                    </label>
+                                                    <label class="checkbox-inline">
+                                                        <input class="vignette_localite" name="cat2ag" type="checkbox"{% if affichage['cat2ag'] %} {% if affichage['cat2ag']=='12000' %}checked {% endif %} {% endif %}value="12000">&nbsp; &nbsp;Agadir
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-inline villes categorie-2" >
+                                            <button type="button" class="btn" data-toggle="collapse" data-target="#demo-2-3">
+                                                Catégorie 3 &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                            </button>
+                                            <div id="demo-2-3" class="collapse bouton-2" style="overflow-y:scroll;">
+                                                <div class="form-inline" >
+                                                    <label class="checkbox-inline">
+                                                        <input class="vignette_localite" name="cat3k" {% if affichage['cat3k']=='8000' %}checked {% endif %} type="checkbox" value="8000">&nbsp; &nbsp;Kénitra
+                                                    </label>
+                                                    <label class="checkbox-inline">
+                                                        <input class="vignette_localite" name="cat3o" {% if affichage['cat3o']=='8000' %}checked {% endif %} type="checkbox" value="8000">&nbsp; &nbsp;Oujda
+                                                    </label>
+                                                    <label class="checkbox-inline">
+                                                        <input class="vignette_localite" name="cat3e" {% if affichage['cat3e']=='8000' %}checked {% endif %} type="checkbox" value="8000">&nbsp; &nbsp;Essaouira
+                                                    </label>
+                                                    <label class="checkbox-inline">
+                                                        <input class="vignette_localite" name="cat3sa" {% if affichage['cat3sa']=='8000' %}checked {% endif %} type="checkbox" value="8000">&nbsp; &nbsp;Safi
+                                                    </label>
+                                                    <label class="checkbox-inline">
+                                                        <input class="vignette_localite" name="cat3se" {% if affichage['cat3se']=='8000' %}checked {% endif %} type="checkbox" value="8000">&nbsp; &nbsp;Settat
+                                                    </label>
+                                                    <label class="checkbox-inline">
+                                                        <input class="vignette_localite" name="cat3te" {% if affichage['cat3te']=='8000' %}checked {% endif %} type="checkbox" value="8000">&nbsp; &nbsp;Tétouan
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-inline villes categorie-3" >
+                                            <button type="button" class="btn" data-toggle="collapse" data-target="#demo-2-4">
+                                                Catégorie 4 &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                            </button>
+                                            <div id="demo-2-4" class="collapse bouton-2" style="overflow-y:scroll;">
+                                                <div class="form-inline" >
+                                                    <label class="checkbox-inline">
+                                                        <input class="vignette_localite" name="cat4"  {% if affichage['cat4']=='5000' %}checked {% endif %} type="checkbox" value="5000" >&nbsp; &nbsp;Toutes les autres villes y compris les alentours des grandes villes.
+                                                        <br>Ex: Bouskoura
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div>
+                                    <button type="button" class="btn btn-2" data-toggle="collapse" data-target="#demo-3">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>&nbsp; &nbsp;Professionnels du jour &nbsp;   <span class="glyphicon glyphicon-triangle-right glyphicon-triangle-"></span>
+                                    </button>
+                                    <div id="demo-3" class="collapse">
+                                        <label class="checkbox-inline" style="width: 181px;">
+                                            <input class=" checkbox_prof professionnels_du_jour" name="pro_du_jour" {% if affichage['pro_du_jour']=='1' %}checked {% endif %}  type="checkbox" value="1"/>1 Mois
+                                        </label>
+                                        <label class="checkbox-inline"style="width: 181px;">
+                                            <input class=" checkbox_prof professionnels_du_jour" name="pro_du_jour" {% if affichage['pro_du_jour']=='3' %}checked {% endif %}  type="checkbox" value="3">3 Mois
+                                        </label><br>
+                                        <label class="checkbox-inline" style="display: none">
+                                            <input type="text" id="pfjour" name="pfjour_name" {% if affichage['pfjour_name'] %} value="{{ affichage['pfjour_name'] }}"  {% else %}value="0" {% endif %}  readonly >
+                                        </label>
+                                    </div>
+                                </div>
+
+
+                                <div>
+                                    <button type="button" class="btn btn-2" data-toggle="collapse" data-target="#demo-4">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>&nbsp; &nbsp;Espace Promo &nbsp;   <span class="glyphicon glyphicon-triangle-right glyphicon-triangle-"></span>
+                                    </button>
+                                    <div id="demo-4" class="collapse">
+                                        <label class="checkbox-inline" style="width: 181px;">
+                                            <input class="checkbox_promo espace_promo" name="promo"  {% if affichage['promo']=='1' %}checked {% endif %} type="checkbox" value="1"/>1 Promo / An
+                                        </label>
+                                        <label class="checkbox-inline" style="width: 181px;">
+                                            <input class="checkbox_promo espace_promo" name="promo"  {% if affichage['promo']=='2' %}checked {% endif %} type="checkbox" value="2">3 Promos / An
+                                        </label>
+                                        <label class="checkbox-inline" style="width: 181px;">
+                                            <input class="checkbox_promo espace_promo" name="promo"  {% if affichage['promo']=='3' %}checked {% endif %} type="checkbox" value="3">6 Promos / An
+                                        </label>
+                                        <label class="checkbox-inline" style="width: 181px;">
+                                            <input class="checkbox_promo espace_promo" name="promo"  {% if affichage['promo']=='4' %}checked {% endif %} type="checkbox" value="4">12 Promos / An
+                                        </label><br>
+                                        <label class="checkbox-inline" style="display: none">
+                                            <input type="text" id="promo"  name="promo_name" {% if affichage['promo_name'] %} value="{{ affichage['promo_name'] }}" {% else  %}value="0" {% endif %}  readonly >
+                                        </label>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div>
+                                    <button type="button" class="btn btn-2" data-toggle="collapse" data-target="#demo-5">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>&nbsp; &nbsp;Vignettes  &nbsp;   <span class="glyphicon glyphicon-triangle-right glyphicon-triangle-"></span>
+                                    </button>
+                                    <div id="demo-5" class="collapse">
+                                        <label for="Nombre d'affichage" i="nombre-afichage">Nombre d'affichage &nbsp; &nbsp;
+                                            <input  class="vignette_acc_video" type="text" name="nbr1" id="nbr1" {% if affichage['vignette_acc_video_nbr'] %}value="{{ affichage['vignette_acc_video_nbr'] }}" {% endif %} />
+                                        </label><br>
+                                        <label class="checkbox-inline" style="width: 181px;">
+                                            <input class="checkbox_vignette_acc_video vignette_acc_video" name="vign_ac" {% if affichage['vign_ac']=='V0' %}checked {% endif %} type="checkbox" value="V0">Accueil
+                                        </label>
+                                        <label class="checkbox-inline" style="width: 181px;">
+                                            <input class="checkbox_vignette_acc_video vignette_acc_video" name="vign_ac" {% if affichage['vign_ac']=='VV' %}checked {% endif %}  type="checkbox" value="VV">Vidéo
+                                        </label><br>
+                                        <label class="checkbox-inline" style="display: none">
+                                            <input type="text" id="vignette" name="vignette" value="0" readonly style="display: none" >
+                                            <input type="text" id="total1" name="total1_name" {% if affichage['total1_name'] %} value="{{ affichage['total1_name'] }}"  {% else %} value="0" {% endif %}   readonly >
+                                        </label>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div>
+                                    <button type="button" class="btn btn-2" data-toggle="collapse" data-target="#demo-6">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>&nbsp; &nbsp;Habillage &nbsp;   <span class="glyphicon glyphicon-triangle-right glyphicon-triangle-"></span>
+                                    </button>
+                                    <div id="demo-6" class="collapse">
+                                        <label class="checkbox-inline" style="width: 181px;">
+                                            <input class="checkbox_habillage habillage" name="habil" {% if affichage['habil']=='1' %}checked {% endif %} type="checkbox" value="1"/>Jour
+                                        </label>
+                                        <label class="checkbox-inline" style="width: 181px;">
+                                            <input class="checkbox_habillage habillage" name="habil" {% if affichage['habil']=='2' %}checked {% endif %} type="checkbox" value="2">Semaine
+                                        </label><br>
+                                        <label class="checkbox-inline" style="display: none">
+                                            <input type="text" id="habillage" name="habillage_name" {% if affichage['habillage_name'] %}value="{{ affichage['habillage_name'] }}" {% else %} value="0"{% endif %}  readonly >
+                                        </label>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <div>
+                                    <button type="button" class="btn btn-2" data-toggle="collapse" data-target="#demo-7">
+                                        <span class="glyphicon glyphicon-zoom-in"></span>&nbsp; &nbsp;Bannières  &nbsp;   <span class="glyphicon glyphicon-triangle-right glyphicon-triangle-"></span>
+                                    </button>
+                                    <div id="demo-7" class="collapse">
+                                        <label for="Nombre d'affichage" i="nombre-afichage">Nombre d'affichage &nbsp; &nbsp;
+                                            <input  class="banniere" type="text" name="nombre" id="nombre" {% if affichage['banniere_nombr'] %}value="{{ affichage['banniere_nombr'] }}" {% endif %}/>
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input class="banniere" type="checkbox" name="bann_up_engin" {% if affichage['bann_up_engin']=='80' %}checked {% endif %} value="80">En haut sur la page de résultats
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input class="banniere" type="checkbox"  name="bann_down_engin" {% if affichage['bann_down_engin']=='90' %}checked {% endif %}  value="90">En bas sur la page de résultats
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input class="banniere" type="checkbox" name="bann_up_customer" {% if affichage['bann_up_customer']=='150' %}checked {% endif %} value="150">En haut sur les fiches prospects
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input class="banniere" type="checkbox" name="bann_down_customer" {% if affichage['bann_down_customer']=='150' %}checked {% endif %} value="150">En bas sur les fiches prospects
+                                        </label><br>
+                                        <label class="checkbox-inline" style="display: none">
+                                            <input type="text"  id="banniere" name="banniere_name" {% if affichage['banniere_name'] %} value="{{ affichage['banniere_name']  }}" {% else %}value="0" {% endif %}  readonly >
+                                        </label>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</form>
+</div>
+</body>
+<div class="row">
+    <section  id="fond-4">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12" >
+
+
+
+
+                    <div class="form-group pull-left" style="display: none">
+                        <div class="form-group">
+                            <button id="ajax_test_ref" class="btn black" onclick="showhide_r() ">
+                                <span style="color: #ffdb2e;">Budget estimé</span>
+                                <br>Référencement
+                            </button>
+                            <div id="ref" style="display: none">
+                                <input class="results" type="text" name="total" id="totalref"   readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group pull-left" style="display: none">
+                        <div class="form-group">
+                            <button id="ajax_test_cont" class="btn black" onclick="showhide_c()">
+                                <span style="color: #ffdb2e;">Budget estimé</span>
+                                <br>Gestion de contenu
+                            </button>
+                            <div id="cat" style="display: none">
+                                <input class="results" type="text" name="total" id="totalcat"  readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group pull-left" style="display: none">
+                        <div class="form-group">
+                            <button id="ajax_test_referencement" class="btn black" onclick="showhide_a()">
+                                <span style="color: #ffdb2e;">Budget estimé</span>
+                                <br>Affichage
+                            </button>
+                            <div id="aff" style="display: none">
+                                <input class="results" type="text" name="total" id="totalaff" value="0"  readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group pull-right">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <button id="ajax_test_referencement_refss" class="btn black" onclick="showhide_global()">
+                                    <span style="color: #ffdb2e;">Budget Global <br >estimé </span>
+
+                                </button>
+                                <div id="global" style="display: none">
+                                    <input class="results" type="text" name="total" id="totalglobal" value="0"  readonly/>
+                                </div>
+                            </div>
+
+                            <div class="form-inline" >
+                                <div class="form-group ">
+                                    <div class="btn black" style="background-color:#fe5c5b;padding: 18px 0 0 0!important;">
+
+                                        <a href="{{ path('facture_sec') }}" id="ajax_test_referencement_fort" target="_blank" style="color: white;font-weight: bold;font-size: 22px">
+
+                                            Devis
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+            {# <div class="row">
+
+                 <a href="{{ path('facture_sec') }}" class="btn btn-info" target="_blank">Votre Facture</a>
+             </div>#}
+        </div>
+
+
+
+    </section>
+</div>
+<a href="#" role="button" class="btn btn-info pull-left" style="display: none;" id="ajax_test_referencement_sec">
+    <span class="glyphicon glyphicon-triangle-left fleche-petit"></span> <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icone-3.png" alt="icone-3">
+    TEST
+</a>
+
+
+</html>
+
+
+
+
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% include 'UtilisateursBundle:Default:modulesUsed/utilisateursConnecte.html.twig' %}
+{% else %}
+    {% include 'UtilisateursBundle:Default:modulesUsed/utilisateurs.html.twig' %}
+{% endif %}
+{% render(controller('EcommerceBundle:Panier:menu')) %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery.js"></script>
+
+<script>
+    (function($, undefined) {
+
+        "use strict";
+
+        // When ready.
+        $(function() {
+
+            var $form = $( ".collapse" );
+            var $input = $form.find( "input" );
+
+            $input.on( "keyup", function( event ) {
+
+
+                // When user select text in the document, also abort.
+                var selection = window.getSelection().toString();
+                if ( selection !== '' ) {
+                    return;
+                }
+
+                // When the arrow keys are pressed, abort.
+                if ( $.inArray( event.keyCode, [38,40,37,39] ) !== -1 ) {
+                    return;
+                }
+                var $this = $( this );
+
+                // Get the value.
+                var input = $this.val();
+
+                var input = input.replace(/[\D\s\._\-]+/g, "");
+                input = input ? parseInt( input, 10 ) : 0;
+
+                $this.val( function() {
+                    return ( input === 0 ) ? "" : input.toLocaleString( "MAD" );
+                } );
+            } );
+
+        });
+    })(jQuery);
+</script>
+
+<script>
+
+    function bar(){
+
+        $('.loaders').css('display','');
+
+        form =$('#jsForm ');
+
+        $.ajax({
+            url: '{{ path('referencement_commande_affichage') }}',
+            type: 'POST',
+            data: form.serialize(),
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+
+
+                    console.log(successMessage);
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+
+
+
+    }
+
+
+    $('#ajax_test_referencement_sec').on('click', function (event) {
+
+        event.preventDefault();
+
+        bar();
+
+    });
+
+    function ref()
+    {
+        $('.loaders').css('display','');
+        var fayssal=  $("#total").val( );
+        form =$('#jsForm ');
+        var data_send = {'nbr': fayssal};
+        $.ajax({
+
+            url: '{{ path('referencement_commande_devis_somme') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+                    var tref= successMessage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                    $("#totalref").val(tref);
+
+
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+    }
+
+    $('#ajax_test_ref').on('click', function (event) {
+
+        event.preventDefault();
+        ref();
+
+
+
+    });
+    function cont()
+    {
+
+        $('.loaders').css('display','');
+        var fayssal=  $("#total").val( );
+        form =$('#jsForm ');
+        var data_send = {'nbr': fayssal};
+        $.ajax({
+            url: '{{ path('referencement_commande_devis_somme_cont') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+                    console.log(successMessage);
+                    var tcat= successMessage.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                    $("#totalcat").val(tcat);
+
+
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+
+    }
+
+    $('#ajax_test_cont').on('click', function (event) {
+
+        event.preventDefault();
+
+        cont();
+
+
+    });
+
+
+    function aff()
+    {
+
+        $('.loaders').css('display','');
+        var fayssal1=  $("#totalaff").val( );
+        var fayssal= fayssal1.replace(/[^0-9\.]/g, '');
+        form =$('#jsForm ');
+        var data_send = {'nbr': fayssal};
+        $.ajax({
+            url: '{{ path('referencement_commande_devis_aff') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response){
+                    var successMessage = response;
+
+
+                    console.log(successMessage);
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+    }
+
+
+    $('#ajax_test_referencement').on('click', function (event) {
+
+        event.preventDefault();
+
+
+        aff();
+
+
+
+    });
+
+    /*single-checkbox*/
+    $('.checkbox_villes').on('change', function() {
+        $('.checkbox_villes').not(this).prop('checked', false);
+    });
+
+    $('.checkbox_region').on('change', function() {
+        $('.checkbox_region').not(this).prop('checked', false);
+    });
+    $('.checkbox_prof').on('change', function() {
+        $('.checkbox_prof').not(this).prop('checked', false);
+    });
+    $('.checkbox_promo').on('change', function() {
+        $('.checkbox_promo').not(this).prop('checked', false);
+    });
+    $('.checkbox_vignette_acc_video').on('change', function() {
+        $('.checkbox_vignette_acc_video').not(this).prop('checked', false);
+    });
+    $('.checkbox_habillage').on('change', function() {
+        $('.checkbox_habillage').not(this).prop('checked', false);
+    });
+
+    /*----------------------------------*/
+    function showhide_r()
+    {
+        var div = document.getElementById("ref");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+    }
+
+    function showhide_c()
+    {
+        var div = document.getElementById("cat");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+    }
+    function showhide_a()
+    {
+        var div = document.getElementById("aff");
+        if (div.style.display == "none")
+        {
+            div.style.display = "block";
+        }
+        else
+        {
+            div.style.display = "none";
+        }
+        bar();
+    }
+    function showhide_global()
+    {
+
+        ref();
+        cont();
+
+
+
+        var vat = +$("#totalref").val().replace(/[^0-9\.]/g, '') || 0;
+        var vard = +$("#totalcat").val().replace(/[^0-9\.]/g, '') || 0;
+        var final = +$("#totalaff").val().replace(/[^0-9\.]/g, '') || 0;
+
+        $bar=vat+vard+final;
+        var tg= (vat+vard+final).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        $("#totalglobal").val(tg);
+
+        console.log($bar);
+
+        var div = document.getElementById("global");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+        bar();
+    }
+    /*----------------------------------*/
+
+    var selectfct = function () {
+        if($(".vignette_thematique_ville").is(":checked")){
+            $('.vignette_thematique').prop('disabled', false);
+        }else{
+            $('.vignette_thematique').prop('disabled', 'disabled');
+        }
+    };
+    $(selectfct);
+    $(".vignette_thematique_ville").click(selectfct);
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        cal();
+
+        function cal(){
+            ref();
+            cont();
+            bar();
+
+            var totalaff=0;
+            var thematique = +$("#thematique").val() || 0;
+            var localite = +$("#localite").val() || 0;
+            var pfjour = +$("#pfjour").val() || 0;
+            var promo = +$("#promo").val() || 0;
+            var vignette = +$("#total1").val() || 0;
+            var habillage = +$("#habillage").val() || 0;
+            var banniere = +$("#banniere").val() || 0;
+            totalaff=thematique + localite+pfjour+promo+vignette+habillage+banniere;
+            var taff= totalaff.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            $("#totalaff").val(taff);
+            cal2();
+            aff();
+        }
+
+        function cal2() {
+            var totalref = +$("#totalref").val().replace(/[^0-9\.]/g, '') || 0;
+            var totalcat = +$("#totalcat").val().replace(/[^0-9\.]/g, '') || 0;
+            var totalaff = +$("#totalaff").val().replace(/[^0-9\.]/g, '') || 0;
+            var totalglobal =parseInt(totalref)+parseInt(totalcat)+parseInt(totalaff);
+            var tg = totalglobal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            $("#totalglobal").val(tg);
+        }
+
+        $(document).on('change', '.vignette_thematique', function (){
+            var ctar  = 'VA';
+            console.log("CHANGE rubrique AND prestation....................");
+            var select = jQuery(this);
+            var v = $('input[name=villes]:checked').val();
+            var o = $(this).attr("value");
+            var region = $(this).attr("value");
+            console.log('ville : ', v, 'opt1 :',o);
+            //     console.log('rubrique : ', r);
+            var data_send = { 'ville': v,'opt1':o,'region':v,'ctar':ctar};
+            console.log(data_send);
+            var $input = $( this );
+            if ( $input.is( ":checked" ) )
+            {
+                $.ajax({
+                    url: '{{ path('ajax_va') }}',
+                    type: 'POST',
+                    data: data_send,
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response.nom.VAR;
+                            $('input[id=thematique]').val(successMessage);
+                            cal();
+                            var successMessageL = response.nom.L;
+                            var successMessageLO1 = response.nom.LO1;
+                            var successMessageLO2 = response.nom.LO2;
+                            console.log('libelle ::', successMessageL);
+                            console.log('libelle OPT1 ::', successMessageLO1);
+                            console.log('libelle OPT2 ::', successMessageLO2);
+
+                            /*  $('#prestation').children("option").remove();*/
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+                        }
+                    }
+                });
+            }
+            else
+            {
+                $('input[id=thematique]').val(0);
+                cal();
+            }
+            //   $( "#select-rubrique" ).clone().appendTo("#test");
+        });
+
+
+
+        //vignette Localité
+        /*$(document).on('click', '.vignette_localite', function ()
+         {
+         var ctar = 'VL';
+         console.log("CHANGE rubrique AND prestation....................");
+         var opt1 = $(this).attr("value");
+         console.log('ctar : ', ctar, 'opt1 :', opt1);
+         var data_send = {'ctar': ctar,'opt1':opt1};
+         var $input = $( this );
+         if ( $input.is( ":checked" ) )
+         {
+         $.ajax({
+         url:'{{ path('ajax_t') }}',
+         type: 'POST',
+         data: data_send,
+         statusCode: {
+         //traitement en cas de succès
+         200: function (response) {
+         var successMessage = response.nom.VL;
+         var t1= $('input[id=localite]').val(successMessage);
+         console.log('localite ::' ,($('input[id=localite]').val(successMessage)).val());
+         cal2();
+         var t= $('input[id=localite1]').val();
+         console.log('localite1 ::',t);
+         cal();
+         },
+         412: function (response) {
+         var errorsForm = response.responseJSON.formErrors;
+         //on affiche les erreurs...
+         alert('error');
+         }
+         }
+         });}
+         else
+         {
+         var bn = $("#localite").val();
+         var bf = $("#localite1").val();
+         var n= (bf-bn);
+         $('input[id=localite]').val(0);
+         $('input[id=localite1]').val(n);
+         cal2();
+         cal();
+         }
+         });
+         */
+
+
+        //vignette Localité
+
+        /*$(document).on('click', '.vignette_localite', function ()
+         {
+         var ctar = 'VL';
+         console.log("CHANGE rubrique AND prestation....................");
+         var opt1 = $(this).attr("value");
+         console.log('ctar : ', ctar, 'opt1 :', opt1);
+         var data_send = {'ctar': ctar,'opt1':opt1};
+
+         var $input = $( this );
+         if ( $input.is( ":checked" ) )
+
+         {
+         $.ajax({
+         url:'{{ path('ajax_t') }}',
+         type: 'POST',
+         data: data_send,
+         statusCode: {
+         //traitement en cas de succès
+         200: function (response) {
+         var successMessage = response.nom.VL;
+
+         var t1= $('input[id=localite]').val(successMessage);
+         console.log('localite ::' ,($('input[id=localite]').val(successMessage)).val());
+         cal2();
+         var t= $('input[id=localite1]').val();
+         console.log('localite1 ::',t);
+         cal();
+         },
+         412: function (response) {
+         var errorsForm = response.responseJSON.formErrors;
+         //on affiche les erreurs...
+         alert('error');
+         }
+         }
+         });}
+         else
+         {
+         var bn = $("#localite").val();
+         var bf = $("#localite1").val();
+         var n= (bf-bn);
+
+         $('input[id=localite]').val(0);
+         $('input[id=localite1]').val(n);
+         cal2();
+         cal();
+
+
+         }
+
+         });
+         */
+
+
+        //solution 2
+        $(".vignette_localite").click(function(event) {
+            var total = 0;
+            $(".vignette_localite:checked").each(function() {
+                total += (parseInt($(this).val()));
+            });
+            if (total == 0) {
+                $('#localite').val(0);
+                cal();
+            } else
+            if( $(".vignette_localite:checked").length ==1)
+            {
+                $('#localite').val(total);
+                cal();
+            }
+            else
+            if( $(".vignette_localite:checked").length ==2)
+            {
+                $('#localite').val((total-(total*0.1)));
+                cal();
+            }
+            else
+            if( $(".vignette_localite:checked").length ==3)
+            {
+                $('#localite').val((total-(total*0.15)));
+                cal();
+            }
+            else
+            if( $(".vignette_localite:checked").length ==4)
+            {
+                $('#localite').val((total-(total*0.2)));
+                cal();
+            }
+            else
+            {
+                $('#localite').val((total-(total*0.25)));
+                cal();
+            }
+            /* {
+             $('#localite').val((total));
+             cal();
+             }*/
+        });
+        //professionnels du jour
+        $(document).on('change', '.professionnels_du_jour', function (){
+            var ctar = 'PJ';
+            console.log("CHANGE rubrique AND prestation....................");
+            var opt1 = $(this).attr("value");
+            console.log('ctar : ', ctar, 'opt1 :', opt1);
+            var data_send = {'ctar': ctar,'opt1':opt1};
+            var $input = $( this );
+            if ( $input.is( ":checked" ) )
+            {
+                $.ajax({
+                    url: '{{ path('ajax_t') }}',
+                    type: 'POST',
+                    data: data_send,
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response.nom.T;
+                            $('input[id=pfjour]').val(successMessage);
+                            cal();
+                            var successMessage  = response.nom.T;
+                            var successMessageL = response.nom.L;
+                            var successMessageLO = response.nom.LO;
+                            console.log('libelle ::', successMessageL);
+                            console.log('libelle OPT1 ::', successMessageLO);
+
+                            /*  $('#prestation').children("option").remove();*/
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+                        }
+                    }
+                });
+            }
+            else
+            {
+                $('input[id=pfjour]').val(0);
+                cal();
+            }
+            //   $( "#select-rubrique" ).clone().appendTo("#test");
+        });
+        //espace promo
+        $(document).on('change', '.espace_promo', function () {
+            var ctar = 'EP';
+            console.log("CHANGE rubrique AND prestation....................");
+            var opt1 = $(this).attr("value");
+            console.log('ctar : ', ctar, 'opt1 :', opt1);
+            var data_send = {'ctar': ctar,'opt1':opt1};
+            var $input = $( this );
+            if ( $input.is( ":checked" ) )
+            {
+                $.ajax({
+                    url:'{{ path('ajax_t') }}',
+                    type: 'POST',
+                    data: data_send,
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response.nom.T;
+                            $('input[id=promo]').val(successMessage);
+                            cal();
+                            var successMessage  = response.nom.T;
+                            var successMessageL = response.nom.L;
+                            var successMessageLO = response.nom.LO;
+                            console.log('libelle ::', successMessageL);
+                            console.log('libelle OPT1 ::', successMessageLO);
+
+                        },
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+                        }
+                    }
+                });}else
+            {
+                $('input[id=promo]').val(0);
+                cal();
+            }
+        });
+        //habillage
+        $(document).on('change', '.habillage', function (){
+            var ctar = 'HB';
+            console.log("CHANGE rubrique AND prestation....................");
+            var opt1 = $(this).attr("value");
+            console.log('ctar : ', ctar, 'opt1 :', opt1);
+            var data_send = {'ctar': ctar,'opt1':opt1};
+            var $input = $( this );
+            if ( $input.is( ":checked" ) )
+            {
+                $.ajax({
+                    url: '{{ path('ajax_t') }}',
+                    type: 'POST',
+                    data: data_send,
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response.nom.T;
+                            $('input[id=habillage]').val(successMessage);
+                            cal();
+                            var successMessage  = response.nom.T;
+                            var successMessageL = response.nom.L;
+                            var successMessageLO = response.nom.LO;
+                            console.log('libelle ::', successMessageL);
+                            console.log('libelle OPT1 ::', successMessageLO);
+
+                            /*  $('#prestation').children("option").remove();*/
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+                        }
+                    }
+                });
+            }
+            else
+            {
+                $('input[id=habillage]').val(0);
+                cal();
+            }
+            //   $( "#select-rubrique" ).clone().appendTo("#test");
+        });
+        //vignette acceuil video
+        /* $(".vignette_acc_video").change(function(event) {
+         var total = 0;
+         var v = $('input[name=nbr]').val();
+         $(".vignette_acc_video:checked").each(function() {
+         total += (parseInt($(this).val())* v )/1000;
+         });
+         if (total == 0) {
+         $('#vignette').val(0);
+         cal();
+         } else {
+         $('#vignette').val(total);
+         cal();
+         }
+         });*/
+
+        $(".vignette_acc_video").change(function(event) {
+            //$(document).on('change', '.habillage', function (){
+            var opt1 = '0';
+            var total = 0;
+
+
+            console.log("CHANGE rubrique AND prestation....................");
+            var ctar = $(this).attr("value");
+
+            console.log('ctar : ', ctar, 'opt1 :', opt1);
+            var data_send = {'ctar': ctar,'opt1':opt1};
+            var $input = $( this );
+            if ( $input.is( ":checked" ) )
+            {
+                $.ajax({
+                    url: '{{ path('ajax_t') }}',
+                    type: 'POST',
+                    data: data_send,
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var v = $('input[name=nbr1]').val();
+                            var v2 = v.replace(/[^0-9\.]/g, '');
+                            var successMessage = response.nom.T;
+                            var t= $('input[id=vignette]').val(successMessage);
+                            total += (parseInt($(t).val())* v2 )/1000;
+                            if (total == 0) {
+                                $('#total1').val(0);
+                                cal();
+                            } else {
+                                $('#total1').val(total);
+                                cal();
+                            }
+
+                            var successMessageL = response.nom.L;
+                            var successMessageLO = response.nom.LO1;
+                            console.log('libelle ::', successMessageL);
+                            console.log('libelle OPT1 ::', successMessageLO);
+
+                            /*  $('#prestation').children("option").remove();*/
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+
+                        }
+                    }
+                });
+            }
+            else
+            {
+                $('input[id=vignette]').val(0);
+                $('#total1').val(0);
+                cal();
+            }
+            //   $( "#select-rubrique" ).clone().appendTo("#test");
+        });
+        //vignette banniere
+        $(".banniere").on('keyup change',function(event) {
+            var total = 0;
+            var nbr = $('input[name=nombre]').val();
+            var nbr1 = nbr.replace(/[^0-9\.]/g, '');;
+            console.log('nbr ',nbr1);
+            $(".banniere:checked").each(function() {
+                total += (parseInt($(this).val())* nbr1 )/1000;
+            });
+            if (total == 0) {
+                $('#banniere').val(0);
+                cal();
+            } else {
+                $('#banniere').val(total);
+                cal();
+            }
+        });
+        //totale estime
+    });
+
+    function vignette_thematique(){
+
+        var ctar  = 'VA';
+        console.log("CHANGE rubrique AND prestation....................");
+        var select = jQuery(this);
+        var v = $('input[name=villes]:checked').val();
+        var o = $(this).attr("value");
+        var region = $(this).attr("value");
+        console.log('ville : ', v, 'opt1 :',o);
+        //     console.log('rubrique : ', r);
+        var data_send = { 'ville': v,'opt1':o,'region':v,'ctar':ctar};
+        console.log(data_send);
+        var $input = $( this );
+        if ( $input.is( ":checked" ) )
+        {
+            $.ajax({
+                url: '{{ path('ajax_va') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+                        var successMessage = response.nom.VAR;
+                        $('input[id=thematique]').val(successMessage);
+                        cal();
+                        var successMessageL = response.nom.L;
+                        var successMessageLO1 = response.nom.LO1;
+                        var successMessageLO2 = response.nom.LO2;
+                        console.log('libelle ::', successMessageL);
+                        console.log('libelle OPT1 ::', successMessageLO1);
+                        console.log('libelle OPT2 ::', successMessageLO2);
+
+                        /*  $('#prestation').children("option").remove();*/
+                    },
+                    //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+                    }
+                }
+            });
+        }
+        else
+        {
+            $('input[id=thematique]').val(0);
+            cal();
+        }
+    }
+
+
+</script>
+
+<body>
+
+
+
+
+
+
+

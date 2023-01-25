@@ -1,0 +1,19 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_port: null
+    database_name: ecommerce
+    database_user: pyxicom
+    database_password: Yz9nVEXjZ2hqptZT
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: fr
+    secret: ThisTokenIsNotSoSecretChangeIt
+twig:
+    globals:
+        telephone: '05 22 77 71 11'
+        fax: '05 00 00 00 00'
+        adresse: 'Sidi Maarouf Business Center، Lotissement Mederssa، N°1 Zone Industrielle، Immeuble 1- 2 eme étage، Casablanca'

@@ -1,0 +1,415 @@
+index:
+    pattern: /
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:connection" }
+
+telecontact_data:
+    pattern: /audience/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:telecontact_data" }
+
+audience:
+    pattern: /audience
+    defaults: { _controller: "EcommerceBundle:Default:audience" }
+
+audience2:
+    pattern: /audience2
+    defaults: { _controller: "EcommerceBundle:Default:audience2" }
+
+statistiques:
+    pattern: /statistiques/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:statistiques" }
+
+affichage:
+    pattern: /affichage/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:affichage" }
+
+affichage2:
+    pattern: /affichage2/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:affichage2" }
+
+rubrique:
+    pattern: /rubrique
+    defaults: { _controller: "EcommerceBundle:Default:rubrique" }
+
+rubriqueMaroc:
+    pattern: /rubriqueMaroc
+    defaults: { _controller: "EcommerceBundle:Default:rubriqueMaroc" }
+
+clickVisiteChart:
+    pattern: /clickVisiteChart
+    defaults: { _controller: "EcommerceBundle:Default:clickVisiteChart" }
+
+clickVisite:
+    pattern: /clickVisite
+    defaults: { _controller: "EcommerceBundle:Default:clickVisite" }
+
+topKeywordSearch:
+    pattern: /topKeywordSearch
+    defaults: { _controller: "EcommerceBundle:Default:topKeywordSearch" }
+
+click:
+    pattern: /click/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:click" }
+
+click2:
+    pattern: /click2/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:click2" }
+
+clickTableChart:
+    pattern: /clickTableChart
+    defaults: { _controller: "EcommerceBundle:Default:clickTableChart" }
+
+clickTable:
+    pattern: /clickTable
+    defaults: { _controller: "EcommerceBundle:Default:clickTable" }
+
+clickFicheChart:
+    pattern: /clickFicheChart
+    defaults: { _controller: "EcommerceBundle:Default:clickFicheChart" }
+
+clickPviChart:
+    pattern: /clickPviChart
+    defaults: { _controller: "EcommerceBundle:Default:clickPviChart" }
+
+clickSiteChart:
+    pattern: /clickSiteChart
+    defaults: { _controller: "EcommerceBundle:Default:clickSiteChart" }
+
+clickDefaultChart:
+    pattern: /clickDefaultChart
+    defaults: { _controller: "EcommerceBundle:Default:clickDefaultChart" }
+
+dateRangePicker:
+    pattern: /dateRangePicker
+    defaults: { _controller: "EcommerceBundle:Default:dateRangePicker" }
+
+vignette:
+    pattern: /vignette/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:vignette" }
+
+vignetteRubrique:
+    pattern: /vignetteRubrique
+    defaults: { _controller: "EcommerceBundle:Default:vignetteRubrique" }
+
+vignetteRegion:
+    pattern: /vignetteRegion
+    defaults: { _controller: "EcommerceBundle:Default:vignetteRegion" }
+
+devis:
+    pattern: /Messages/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:devis" }
+
+devisTelecontact:
+    pattern: /devis_telecontact/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:devisTelecontact" }
+
+etatDevis:
+    pattern: /etatDevis
+    defaults: { _controller: "EcommerceBundle:Default:etatDevis" }
+
+consulterDevis:
+    pattern: /consulterDevis/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:consulterDevis" }
+
+test:
+    pattern: /test
+    defaults: { _controller: "EcommerceBundle:Default:test" }
+
+demandeDevisTelecontact:
+    pattern: /demande-devis-telecontact
+    defaults: { _controller: "EcommerceBundle:Default:demandeDevisTelecontact" }
+
+detailsDevisTelecontact:
+    pattern: /details-devis-telecontact/{id}
+    defaults: { _controller: "EcommerceBundle:Default:detailsDevisTelecontact" }
+
+
+# end statistics Telecontact
+
+
+# 
+session_insert:
+    pattern: /session_insert
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:session_insert" }
+
+reintialiser_mdp:
+    pattern: /reintialiser_mdp
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:reintialiserMdp" }
+
+validerReintialisationMdp:
+    pattern: /valider_reintialisation_mdp
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:validerReintialisationMdp" }
+
+login:
+    pattern: /login
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:connection" }
+
+connection:
+    pattern: /connection
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:connection" }
+
+homepageToken:
+    pattern: /homepage/{code_firme}/{token}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:homepage" }
+
+homepage:
+    pattern: /homepage/{code_firme}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:homepage" }
+
+homepage2:
+    pattern: /homepage2/{code_firme}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:homepage2" }
+
+mesclients:
+    pattern: /mesclients
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:mesclients" }
+
+clientsTelecontact:
+    pattern: /clientsTelecontact/
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:clientsTelecontact" }
+
+clientsTelecontactToken:
+    pattern: /clientsTelecontact/{token}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:clientsTelecontact" }
+
+clientsCommercial:
+    pattern: /clientsCommercial/{code_commercial}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:clientsCommercial" }
+
+clientsCommercialToken:
+    pattern: /clientsCommercial/{code_commercial}/{token}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:clientsCommercial" }
+
+ResCommercial:
+    pattern: /ResCommercial/{id_utilisateur}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:ResCommercial" }
+
+ResCommercialToken:
+    pattern: /ResCommercial/{id_utilisateur}/{token}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:ResCommercial" }
+
+ResClients:
+    pattern: /ResClients/{code_commercial}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:ResClients" }
+
+deconnexion:
+    pattern: /deconnexion
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:disconnect" }
+
+monCompte:
+    pattern: /monCompte/{code_firme}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:monCompte" }
+
+updateCompte:
+    pattern: /updateCompte/{code_firme}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:updateCompte" }
+
+compteClients:
+    pattern: /compteClients/{code_commercial}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:compteClients" }
+
+SuiviCommercial:
+    pattern: /Suivi_commercial
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:SuiviCommercial" }
+
+historique_cnx_comm:
+    pattern: /historique_connexion/{id}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:historique_cnx_comm" }
+
+tracabilite:
+    pattern: /tracabilite/{id}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:tracabilite" }
+
+
+
+listeComptesClient:
+    pattern: /listeComptesClient
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:listeComptesClient" }
+
+updateCompteClient:
+    pattern: /updateCompteClient/{code_firme}
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:updateCompteClient" }
+
+prospects:
+    pattern: /firmes
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:prospects" }
+
+affectation:
+    pattern: /affectation
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:affectation" }
+
+dataTableServer:
+    pattern: /dataTableServer
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:dataTableServer" }
+
+pdf:
+    pattern: /pdf/{code_firme}/{id_user}/{start}/{end}
+    defaults: { _controller: "EcommerceBundle:Default:pdf" }
+
+listpdf:
+    pattern: /listpdf/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:listpdf" }
+
+Allpdf:
+    pattern: /Allpdf
+    defaults: { _controller: "EcommerceBundle:Default:Allpdf" }
+
+historique_connection:
+    pattern: /historique_connection
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:historique_connection" }
+
+uploadPdfImages:
+    pattern: /uploadPdfImages
+    defaults: { _controller: "EcommerceBundle:Default:uploadPdfImages" }
+
+uploadPdfAudience:
+    pattern: /uploadPdfAudience
+    defaults: { _controller: "EcommerceBundle:Default:uploadPdfAudience" }
+
+LoadStatistiquePdf:
+    pattern: /LoadStatistiquePdf
+    defaults: { _controller: "EcommerceBundle:Default:LoadStatistiquePdf" }
+
+actualites:
+    pattern: /actualites/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:actualites" }
+
+actualite:
+    pattern: /actualite/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:actualite" }
+
+actualiteapi:
+    pattern: /actualiteapi/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:actualiteapi" }
+
+ads:
+    pattern: /ads/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:ads" }
+
+carreacceuil:
+    pattern: /carreacceuil
+    defaults: { _controller: "EcommerceBundle:Default:carreacceuil" }
+
+ticket:
+    pattern: /ticket/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:ticket" }
+
+ticketList:
+    pattern: /ticketList
+    defaults: { _controller: "EcommerceBundle:Default:ticketList" }
+
+ticketSolve:
+    pattern: /ticketSolve
+    defaults: { _controller: "EcommerceBundle:Default:ticketSolve" }
+
+change_ticket_stat:
+    pattern: /change_ticket_stat
+    defaults: { _controller: "EcommerceBundle:Default:change_ticket_stat" }
+
+avis_list:
+    pattern: /avis_list/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:avis_list" }
+
+# response:
+#     pattern: /response
+#     defaults: { _controller: "EcommerceBundle:Default:response" }
+
+# editresponse:
+#     pattern: /editresponse
+#     defaults: { _controller: "EcommerceBundle:Default:editresponse" }
+
+# deleteresponse:
+#     pattern: /deleteresponse
+#     defaults: { _controller: "EcommerceBundle:Default:deleteresponse" }
+
+# Etat:
+#     pattern: /Etat
+#     defaults: { _controller: "EcommerceBundle:Default:Etat" }
+
+changevisibitity:
+    pattern: /changevisibitity
+    defaults: { _controller: "EcommerceBundle:Default:changevisibitity" }
+
+changestate:
+    pattern: /changestate
+    defaults: { _controller: "EcommerceBundle:Default:changestate" }
+
+saveReplay:
+    pattern: /saveReplay
+    defaults: { _controller: "EcommerceBundle:Default:saveReplay" }
+
+deleteReplay:
+    pattern: /deleteReplay
+    defaults: { _controller: "EcommerceBundle:Default:deleteReplay" }
+
+etatMessage:
+    pattern: /etatMessage
+    defaults: { _controller: "EcommerceBundle:Default:etatMessage" }
+
+
+# Modification societe
+
+modifierSociete:
+    pattern: /modifier_societe/{code_firme}
+    defaults: { _controller: "EcommerceBundle:Default:modifierSociete" }
+
+modifierSocieteData:
+    pattern: /modifier_societe_data
+    defaults: { _controller: "EcommerceBundle:Default:modifierSocieteData" }
+
+
+modifierSociete_telecontact:
+    pattern: /modifier_societe_f/{code_firme}/{id}
+    defaults: { _controller: "EcommerceBundle:Default:modifierSocieteTlc" }
+
+modifierSocieteData_telecontact:
+    pattern: /modifier_societe_data_tlc
+    defaults: { _controller: "EcommerceBundle:Default:modifierSocieteDataTlc" }
+
+        
+
+deleteSocieteEdit:
+    pattern: /deleteSocieteEdit
+    defaults: { _controller: "EcommerceBundle:Default:deleteSocieteEdit" }
+
+saveDirigeant:
+    pattern: /save_dirigeant
+    defaults: { _controller: "EcommerceBundle:Default:saveDirigeant" }
+
+deleteSocieteDirigeantEdit:
+    pattern: /delete_societe_dirigeant_edit
+    defaults: { _controller: "EcommerceBundle:Default:deleteSocieteDirigeantEdit" }
+
+savePrestation:
+    pattern: /save_prestation
+    defaults: { _controller: "EcommerceBundle:Default:savePrestation" }
+
+deleteSocietePrestationEdit:
+    pattern: /delete_societe_prestation_edit
+    defaults: { _controller: "EcommerceBundle:Default:deleteSocietePrestationEdit" }
+
+deleteSocietePrestation:
+    pattern: /delete_societe_prestation
+    defaults: { _controller: "EcommerceBundle:Default:deleteSocietePrestation" }
+
+deleteSocieteDirigeant:
+    pattern: /delete_societe_dirigeant
+    defaults: { _controller: "EcommerceBundle:Default:deleteSocieteDirigeant" }
+
+
+
+# End modification societe
+
+#
+
+createToken:
+    pattern: /createToken
+    defaults: { _controller: "EcommerceBundle:UtilisateursEspaceClient:createToken" }
+
+delete_image_actu:
+    pattern: /delete_image_actu
+    defaults: { _controller: "EcommerceBundle:Default:delete_image_actu" }
+
+
+back_modifier_devis:
+    pattern: /back-modifier-devis/{id}
+    defaults: { _controller: "EcommerceBundle:Default:backModifierDevis" }

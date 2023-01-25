@@ -1,0 +1,1846 @@
+{% extends "::layout/base_statistics2.html.twig" %}
+
+
+{% block title %} Actualités {% endblock %}
+{% block stylesheets %}
+
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+<style>
+     .button {
+         text-decoration: none;
+         font-size: 0.875rem;
+         font-weight: 300;
+         text-transform: uppercase;
+         display: inline-block;
+         border-radius: 1.5rem;
+         background-color: #fff;
+         color: #9191e9;
+         padding: 1rem 2rem;
+    }
+     .popup {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         position: fixed;
+         width: 100vw;
+         height: 100vh;
+         bottom: 0;
+         right: 0;
+         background-color: rgba(0, 0, 0, 0.8);
+         z-index: 2;
+         visibility: hidden;
+         opacity: 0;
+         overflow: hiden;
+         transition: 0.64s ease-in-out;
+    }
+     .popup-inner {
+         position: relative;
+         bottom: -100vw;
+         right: -100vh;
+         display: flex;
+         align-items: center;
+         max-width: 600px;
+         max-height: 550px;
+         width: 60%;
+         height: 100%;
+         background-color: #fff;
+         transform: rotate(32deg);
+         transition: 0.64s ease-in-out;
+        padding-left: 0px!important;
+        padding-right: 0px!important;
+        border-radius: 10px;
+    }
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 100%;
+         padding: 0rem;
+    }
+
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 70%;
+         padding-top: 0px!important;
+         padding: 4rem;
+    }
+     .popup__text h1 {
+         font-size: 2rem;
+         font-weight: 600;
+         margin-bottom: 2rem;
+         text-transform: uppercase;
+         color: #0a0a0a;
+    }
+     .popup__text p {
+         font-size: 16px;
+         color: #686868;
+         line-height: 1.5;
+    }
+     .popup:target {
+         visibility: visible;
+         opacity: 1;
+    }
+     .popup:target .popup-inner {
+         bottom: 0;
+         right: 0;
+         transform: rotate(0);
+    }
+     .popup__close {
+         position: absolute;
+         right: -1rem;
+         top: -1rem;
+         width: 3rem;
+         height: 3rem;
+         font-size: 0.875rem;
+         font-weight: 300;
+         border-radius: 100%;
+         background-color: #0a0a0a;
+         z-index: 4;
+         color: #fff;
+         line-height: 3rem;
+         text-align: center;
+         cursor: pointer;
+         text-decoration: none;
+    }
+    .dea{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+    }
+    .objet_popup{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+        margin-top: 50px;
+    }
+    .dea_mail{
+        font-weight: 500!important;
+        line-height: 20px!important;
+        font-size: 16px!important;
+        font-family: var(--bs-font-sans-serif)!important;
+    }
+    #message{
+        font-family: Spinnaker,sans-serif;
+        color: #4e4e4e;
+        font-size: 15px;
+        line-height: 1.428571429;
+    }
+    .popup_head{
+        padding-bottom: 25px;
+        background: #fedc01;
+        border-radius: 10px 10px 0px 0px;
+    }
+    .checkbox-inline, .radio-inline{
+        font-weight: 600!important;
+    }
+    label{
+        display: inline-block;
+        margin-bottom: 5px!important;
+        font-weight: bold!important;
+        color: black;
+        font-size: 14px;
+    }
+    .fn{
+        /*width: 65%;*/
+        height: 36px;
+        padding: 4px 8px;
+        font-size: 14px;
+        font-weight: 100;
+        line-height: 1.5;
+        color: #495057;
+        border: 1px solid #ebebeb;
+    }
+    .checkb{
+        margin-right: 5px;
+    }
+     .popup {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         position: fixed;
+         width: 100vw;
+         height: 100vh;
+         bottom: 0;
+         right: 0;
+         background-color: rgba(0, 0, 0, 0.8);
+         z-index: 2;
+         visibility: hidden;
+         opacity: 0;
+         overflow: hiden;
+         transition: 0.64s ease-in-out;
+    }
+     .popup-inner {
+         position: relative;
+         bottom: -100vw;
+         right: -100vh;
+         display: flex;
+         align-items: center;
+         /*max-width: 600px;
+         max-height: 550px;*/
+         max-width: 800px;
+         max-height: 10000px;
+         width: 60%;
+         height: 100%;
+         background-color: #fff;
+         transform: rotate(32deg);
+         transition: 0.64s ease-in-out;
+        padding-left: 0px!important;
+        padding-right: 0px!important;
+        border-radius: 10px;
+    }
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 100%;
+         padding: 0rem;
+    }
+
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 70%;
+         padding-top: 0px!important;
+         padding: 4rem;
+    }
+     .popup__text h1 {
+         font-size: 2rem;
+         font-weight: 600;
+         margin-bottom: 2rem;
+         text-transform: uppercase;
+         color: #0a0a0a;
+    }
+     .popup__text p {
+         font-size: 16px;
+         color: #686868;
+         line-height: 1.5;
+    }
+     .popup:target {
+         visibility: visible;
+         opacity: 1;
+    }
+     .popup:target .popup-inner {
+         bottom: 0;
+         right: 0;
+         transform: rotate(0);
+    }
+     .popup__close {
+         position: absolute;
+         right: -1rem;
+         top: -1rem;
+         width: 3rem;
+         height: 3rem;
+         font-size: 0.875rem;
+         font-weight: 300;
+         border-radius: 100%;
+         background-color: #0a0a0a;
+         z-index: 4;
+         color: #fff;
+         line-height: 3rem;
+         text-align: center;
+         cursor: pointer;
+         text-decoration: none;
+    }
+    .dea{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+    }
+    .objet_popup{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+        margin-top: 50px;
+    }
+    .dea_mail{
+        font-weight: 500!important;
+        line-height: 20px!important;
+        font-size: 16px!important;
+        font-family: var(--bs-font-sans-serif)!important;
+    }
+    #message{
+        font-family: Spinnaker,sans-serif;
+        color: #4e4e4e;
+        font-size: 15px;
+        line-height: 1.428571429;
+    }
+    .popup_head{
+        padding-bottom: 25px;
+        background: #fedc01;
+        border-radius: 10px 10px 0px 0px;
+    }
+    .page-title{
+        margin-top: -18px;
+    }
+
+
+    /* new actu css */
+
+    .main-box{
+        border: 1px solid #ededed;
+        padding-top: 15px;
+        padding-bottom: 20px;
+        box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+    }
+    /*#inputmessage{
+        height: 110px;
+    }*/
+    .label_title{
+        text-decoration: underline;
+        margin-top: 25px;
+        margin-bottom: 12px!important;
+        font-size: 15px;
+        margin-bottom: 4px!important;
+    }
+    .label_title_2{
+        text-decoration: underline;
+        margin-top: 25px;
+        margin-bottom: 12px!important;
+        font-size: 15px;
+        margin-bottom: 8px!important;
+    }
+    .label_title_3{        
+        margin-top: 25px;
+        margin-bottom: 12px!important;
+        font-size: 15px;
+        margin-bottom: 8px!important;
+    }
+    .add_button_prestation, .add_button_produit, .add_button_marque, .add_button_image, .add_button_service, .add_button_acte, .add_button_ville
+    {
+        text-decoration: underline;
+        color: black!important;
+        font-weight: 700;
+        font-size: 13px;
+    }
+    .img_add{
+        margin-right: 5px;
+        width: 16px;
+    }
+    .input-group-addon-from{
+        margin-top: 10px;
+        margin-right: 4px;
+    }
+    .input-group-addon-till{
+        margin-top: 10px;
+        margin-right: 13px;
+    }
+    .mini-time{
+        text-align: center;
+    }
+    .checkbox-inline{
+        border: 1px solid lightgrey;
+        padding: 4px 22px 3px 16px;
+        margin: 3px 20px 3px 0px;
+    }
+    .rs_icons{
+        width: 35px;
+        float: left;
+        margin-right: 10px;
+    }
+    .rs_input{
+        margin-bottom: 10px;
+        width: 40%;
+    }
+    .fn_image{
+        margin-left: 15px;
+        /*width: 18%;*/
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 100!important;
+        line-height: 1.5;
+        color: #495057;
+    }
+    .fn_image_2 {
+        margin-left: 15px;
+        width: 30%;
+    }
+    .fn_image img{
+        width: 12px;
+        margin-bottom: 4px;
+        margin-left: 20px;
+
+    }
+    .right_space{
+        float: left;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    .icon-rem{
+        margin-top: 7px;
+    }
+
+    .ck-editor__editable {
+      min-height: 100px!important;
+    }
+
+    .aligned{
+        margin-bottom: 4px!important;
+    }
+
+    .nbr_of_letters{
+        font-weight: 800;
+        float: right;
+        margin-bottom: -24px;
+        margin-top: 10px;
+        font-size: 12px;
+    }
+    .span_photo{
+        font-family: var(--bs-font-sans-serif);
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1.5;
+    }
+    label .fn_image {
+        cursor: pointer!important;
+    }
+
+    @media only screen and (max-width: 992px) {
+        .rs_input {
+            width: 60%!important;
+        }
+    }
+
+    .select2-container {
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        vertical-align: middle;
+        border: 1px solid #ebebeb;
+    }
+    .select2-search--dropdown .select2-search__field {
+        padding: 4px;
+        width: 100%;
+        box-sizing: border-box;
+        border: 2px solid #0d6efd54;
+    }
+    .select2-container--bootstrap-5 .select2-dropdown .select2-results__options:not(.select2-results__options--nested) {
+        max-height: 15rem;
+        overflow-y: auto;
+    }
+    .select2-results__option:hover{
+        background-color: #0d6efd;
+        color: white;
+    }
+    .select2-container .select2-selection--single {
+        box-sizing: border-box;
+        cursor: pointer;
+        display: block;
+        height: 32px!important;
+        padding: 4px 8px;
+        font-size: 14px;
+        font-weight: 100;
+        line-height: 1.5;
+        color: #495057;
+        border: 0px solid #ebebeb;
+    }
+    .select2-dropdown {
+        background-color: white;
+        border: 1px solid #afcffe;
+    }
+    .select2-results__option--selected {
+        background-color: #0d6efd;
+        color: white;
+    }
+
+    .field_wrapper_ville{
+        margin-bottom: -20px;
+    }
+    
+   
+
+    
+
+
+
+
+    /* end new actu css */
+
+</style>
+
+{% endblock %}
+
+
+
+
+
+{% block slide %}
+    {% if code_fichier in ['H53', 'H63', 'H55', 'H65', 'H73', 'H54', 'H56', 'H50', 'H78'] %}
+        <div class="group-bg-image">
+            <div class="col-lg-12 col-xlg-12 col-md-12 bg-image">
+                <p class="bg-image-text">Enrichissez votre fiche d'établissement</p>
+                <hr style="color: white; margin: auto 46%; height: 2px; opacity: 1; margin-bottom: 15px; margin-top: 6px;">
+                <p style="color: white; opacity: 1;">Postez vos informations utiles, photos et actualités...</p>
+            </div>
+        </div>
+    {% else %}
+        <div class="group-bg-image">
+            <div class="col-lg-12 col-xlg-12 col-md-12 bg-image">
+                <p class="bg-image-text">Enrichissez votre fiche société</p>
+                <hr style="color: white; margin: auto 46%; height: 2px; opacity: 1; margin-bottom: 15px; margin-top: 6px;">
+                <p style="color: white; opacity: 1;">Postez vos informations utiles, photos et actualités...</p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+
+
+{% set cf = app.session.get('cf') %}
+{% set rs = app.session.get('data_user') %}
+
+
+ {% if code_fichier in ['H53', 'H63', 'H55', 'H65', 'H73', 'H54', 'H56', 'H50', 'H78'] %} 
+
+
+        
+                   
+                    <div class="col-md-9 col-lg-9 col-sm-12">
+                        <div class="white-box">
+                            
+                            <div class="container main-box">
+                                <div class="row no-margin">
+                                    <div class="container row" id="bro">
+                                        <form class="form-horizontal form-material" action="{{ path('actualite', { 'code_firme' : code_firme }) }}" method="POST" enctype="multipart/form-data" >
+                                            
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label for="inputmessage" class="label_title">Présentation et savoir-faire: </label>
+                                                      <textarea rows="3" placeholder="Description de votre établissement, information bon à savoir...." id="inputmessage" name="livraison" class="" size="10" maxlength="10" lengthcut="true" onkeyup="countChars();">{% if actualite %}{% if actualite[0]['livraison'] %} {{ actualite[0]['livraison'] | e('html') }} {% endif %}{% endif %}</textarea>
+                                                      <span class="nbr_of_letters"><span class="total">{% if actualite %}{% if actualite[0]['livraison'] %} {{ count_presentation_car }} {% endif %}{% endif %} </span>/1200</span>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                            
+
+                                            <div class="row">
+                                                <div class="form-group col-md-9 col-sm-12 col-xs-12 aligned">
+                                                    <label for="inputmessage" class="label_title">Horaires d'ouvertures</label>
+                                                </div>
+
+                                                <div class="form-group col-md-9 col-sm-12 col-xs-12">
+                                                    <div id="businessHoursContainer3"></div>
+                                                </div>
+
+                                                <div class="col-md-9" style="display: none;">
+                                                    <textarea id="businessHoursData" name="businessHoursData" rows="8" cols="80" >{% if actualite %}{% if actualite[0]['heure'] %} {{ actualite[0]['heure'] }} {% endif %}{% endif %}</textarea>
+                                                    <textarea id="businessHoursOutput1" name="heure" rows="8" cols="80" style="">{% if actualite %}{% if actualite[0]['heure'] %} {{ actualite[0]['heure'] }} {% endif %}{% endif %}</textarea>
+                                                </div>
+
+
+                                                <div class="dayContainer form-group col-md-3" >
+                                                  <div data-original-title="" id="pause_state" class="colorBox RestDayState" style="width: 80px;">
+                                                    <input type="checkbox" class="invisible operationState">
+                                                  </div>
+                                                    
+                                                  <div class="weekday" style="width: 100px;">Ajouter une pause</div>
+
+                                                  <div class="operationDayTimeContainer pause_visibility">
+                                                    <div class="operationTime input-group" style="width: 70px;">
+                                                      <input type="text" name="startPause" class="startPause mini-time form-control operationTimeFrom ui-timepicker-input" value="{% if actualite %}{% if actualite[0]['startPause'] %}{{ actualite[0]['startPause'] }}{% endif %}{% endif %}" autocomplete="off">
+                                                    </div>
+                                                    <div class="operationTime input-group" style="width: 70px;">
+                                                      <input type="text" name="endPause" class="endPause mini-time form-control operationTimeTill ui-timepicker-input" value="{% if actualite %}{% if actualite[0]['endPause'] %}{{ actualite[0]['endPause'] }}{% endif %}{% endif %}" autocomplete="off">
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                           
+
+                                            <div class="row">
+
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                  <label for="inputmessage" class="label_title">Actes et expertises : </label>
+                                                  <br/>
+                                                  
+                                                  {% if actualite %}
+                                                      {% if actualite[0]['actes'] %}
+                                                        <div class="field_wrapper_acte">
+                                                            {% set brs = '0' %}
+                                                            {% for p in acte %}
+
+                                                                {% if brs == 0 %}
+                                                                    <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                        <input type="text" class="fn col-lg-3 col-md-6 col-sm-12 col-xs-12" name="field_name_acte[]" placeholder="acte 1" value="{{ p }}"/>
+                                                                    </div>
+
+                                                                {% else %}
+                                                                    <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                        <input type="text" class="fn  col-lg-3 col-md-6 col-sm-12 col-xs-12" name="field_name_acte[]" placeholder="acte 1" value="{{ p }}"/> 
+                                                                        <a href="javascript:void(0);" class="remove_button_acte">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a>
+                                                                    </div>
+
+                                                                {% endif %}
+                                                                {% set brs = brs+1 %}
+                                                            {% endfor %}
+                                                            
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_acte" title="Ajouter un acte"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter un autre acte</a>
+                                                      {% else %}
+                                                        <div class="field_wrapper_acte">
+                                                            <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                <input type="text" class="fn col-lg-3 col-md-6 col-sm-12 col-xs-12" name="field_name_acte[]" placeholder="acte 1" value=""/>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_acte" title="Ajouter un acte"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter un autre acte</a>
+                                                      {% endif %}
+                                                  {% else %}
+                                                    <div class="field_wrapper_acte">
+                                                        <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                            <input type="text" class="fn col-lg-3 col-md-6 col-sm-12 col-xs-12" name="field_name_acte[]" placeholder="acte 1" value=""/>                                                        
+                                                        </div>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="add_button_acte" title="Ajouter un acte"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter un autre acte</a>
+                                                  {% endif %}
+
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label for="inputmessage" class="label_title"> Langues parlées : </label><br/>
+                                                    <label class="checkbox-inline"><input type="checkbox" class="checkb" name="langues[]"{% if actualite %}{% if 'francais' in actualite[0]['langues'] %} checked {% endif %}{% endif %} value="francais">Français</label>
+                                                    <label class="checkbox-inline"><input type="checkbox" class="checkb" name="langues[]"{% if actualite %}{% if 'arabe' in actualite[0]['langues'] %} checked {% endif %}{% endif %} value="arabe">Arabe</label>
+                                                    <label class="checkbox-inline"><input type="checkbox" class="checkb" name="langues[]"{% if actualite %}{% if 'anglais' in actualite[0]['langues'] %} checked {% endif %}{% endif %} value="anglais">Anglais</label>
+                                                    <label class="checkbox-inline"><input type="checkbox" class="checkb" name="langues[]"{% if actualite %}{% if 'espagnol' in actualite[0]['langues'] %} checked {% endif %}{% endif %} value="espagnol">Espagnol</label>
+
+
+                                                </div>
+
+                                            </div> 
+
+                                                {% if 1==4 %}
+                                                <div class="col-md-12 row">
+                                                  <label for="inputmessage" class="label_title_3"> <span style="text-decoration: underline;"> Galerie photos :</span> <span class="span_photo"> Ajouter vos photos </span></label>
+                                                  <br/>
+                                                  <input type="hidden" name="count_image" id="count_image" value="{% if galerie_actu %} {{ galerie_actu | length }} {% else %} 1 {% endif %}">
+                                                  {% if actualite %}
+                                                      {% if galerie_actu %}
+                                                        <div class="field_wrapper_image">
+                                                            {% set nga = '0' %}
+                                                            {% for ga in galerie_actu %}
+
+                                                                    <div class="div-image-{{ ga.id }}" style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px; float: left; margin-right: 20px;">
+                                                                        <img src="{{asset('/web/uploads/images_actualites/')}}{{ ga.image }}" style="width: 80px; height: 80px;" >
+                                                                        <a href="javascript:void(0);" class="delete_image" onclick="delete_image_actu('{{ ga.id }}');">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a>
+                                                                        <p style="margin-bottom: 0px;">{{ ga.titre_image }}</p>
+                                                                        
+                                                                    </div>
+
+                                                            {% endfor %}
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_image" title="Ajouter une image"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre image</a>
+                                                      {% else %}
+                                                        <div class="field_wrapper_image">
+                                                            <div class="row col-12" style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                <input type="file" class="label_field_name_image_1 file_input fn_image col-6 form-control " name="field_name_image_1" id="field_name_image_1" style="display: none;" > 
+                                                                <label class=" file_label fn fn_image col-lg-3 col-md-5 col-sm-12 col-xs-12 " for="field_name_image_1" id="label_field_name_image_1"><img src="{{ asset('public_statistics/images/paperclip.png') }}"> Choisissez un fichier </label>   
+                                                                <input type="text" class="fn fn_image_2 col-lg-3 col-md-5 col-sm-12 col-xs-12" name="field_name_text_image_1" id="field_name_text_image_1" placeholder="titre image 1" value=""/>     
+                                                                                                                    
+                                                            </div>
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_image" title="Ajouter une image"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre image</a>
+                                                      {% endif %}
+                                                  {% else %}
+                                                    <div class="field_wrapper_image">
+                                                        <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;" class="row col-12">
+                                                            <input type="file" class="label_field_name_image_1 file_input fn_image col-6  form-control " name="field_name_image_1" id="field_name_image_1" style="display: none;" >
+                                                            <label class=" file_label fn fn_image col-lg-3 col-md-5 col-sm-12 col-xs-12  " for="field_name_image_1" id="label_field_name_image_1"><img src="{{ asset('public_statistics/images/paperclip.png') }}"> Choisissez un fichier </label>
+                                                            <input type="text" class="fn fn_image_2 col-lg-3 col-md-5 col-sm-12 col-xs-12" name="field_name_text_image_1" id="field_name_text_image_1" placeholder="titre image 1" value=""/>
+                                                             
+                                                        </div>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="add_button_image" title="Ajouter une image"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre image</a>
+                                                  {% endif %}
+
+                                                </div>
+
+                                                      {% endif %}
+
+
+
+                                                <div class="col-md-12">
+                                                    <label for="inputmessage" class="label_title"> Moyens de paiement : </label><span> Cocher les moyens de paiement utilisés  </span> <br/>
+                                                    <label class="checkbox-inline"><input type="checkbox" class="checkb" name="paiement[]"{% if actualite %}{% if 'espece' in actualite[0]['paiement'] %} checked {% endif %}{% endif %} value="espece">Espèces</label>
+                                                    <label class="checkbox-inline"><input type="checkbox" class="checkb" name="paiement[]"{% if actualite %}{% if 'cheque' in actualite[0]['paiement'] %} checked {% endif %}{% endif %} value="cheque">Chèque</label>
+                                                    <label class="checkbox-inline"><input type="checkbox" class="checkb" name="paiement[]"{% if actualite %}{% if 'virement' in actualite[0]['paiement'] %} checked {% endif %}{% endif %} value="virement">Virement</label>
+                                                    <label class="checkbox-inline"><input type="checkbox" class="checkb" name="paiement[]"{% if actualite %}{% if 'tpe' in actualite[0]['paiement'] %} checked {% endif %}{% endif %} value="tpe">TPE</label>
+
+                                                </div> 
+
+
+                                               <div class="col-md-12 col-sm-12 col-xs-12">
+                                                  <label for="inputmessage" class="label_title">Services + : </label><span> Ajouter vos services Plus (Exemple : livraison gratuite, garantie 5 ans...)</span>
+                                                  <br/>
+                                                  
+                                                  {% if actualite %}
+                                                      {% if actualite[0]['services_plus'] %}
+                                                        <div class="field_wrapper_service">
+                                                            {% set ns = '0' %}
+                                                            {% for m in service %}
+
+                                                                {% if ns == 0 %}
+                                                                    <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                        <input type="text" class="fn col-lg-3 col-md-6 col-sm-6 col-xs-12" name="field_name_service[]" placeholder="service 1" value="{{ m }}"/>
+                                                                    </div>
+
+                                                                {% else %}
+                                                                    <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                        <input type="text" class="fn col-lg-3 col-md-6 col-sm-6 col-xs-12" name="field_name_service[]" placeholder="service 1" value="{{ m }}"/> 
+                                                                        <a href="javascript:void(0);" class="remove_button_service">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a>
+                                                                    </div>
+
+                                                                {% endif %}
+                                                                {% set ns = ns+1 %}
+                                                            {% endfor %}
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_service" title="Ajouter une service"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre service</a>
+                                                      {% else %}
+                                                        <div class="field_wrapper_service">
+                                                            <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                <input type="text" class="fn col-lg-3 col-md-6 col-sm-6 col-xs-12" name="field_name_service[]" placeholder="service 1" value=""/>                                                            
+                                                            </div>
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_service" title="Ajouter une service"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre service</a>
+                                                      {% endif %}
+                                                  {% else %}
+                                                    <div class="field_wrapper_service">
+                                                        <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                            <input type="text" class="fn col-lg-3 col-md-6 col-sm-6 col-xs-12" name="field_name_service[]" placeholder="service 1" value=""/>
+                                                        </div>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="add_button_service" title="Ajouter une service"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre service</a>
+                                                  {% endif %}
+
+                                                </div>
+
+                                            
+
+
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <label for="inputmessage" class="label_title_2"> Autre numéro de contact ou numéro d'urgence : </label><br/>
+                                                    <input type="text" class="fn col-lg-3 col-md-6 col-sm-12 col-xs-12" name="numero_urgence" placeholder="Numéro de téléphone" value="{% if actualite %}{{ actualite[0]['numero_urgence'] }}{% endif %}"/>
+                                                </div>
+
+
+                                                <div class="col-md-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <label for="inputmessage" class="label_title_2"> Lien site web : </label><br/>
+                                                    <input type="text" class="fn col-lg-3 col-md-6 col-sm-12 col-xs-12" name="site_web" placeholder="Site web" value="{% if actualite %}{{ actualite[0]['site_web'] }}{% endif %}"/>
+                                                </div> 
+
+
+                                                <div class="col-md-9 col-md-12 col-sm-12 col-xs-12">
+                                                    <label for="inputmessage" class="label_title_2"> Liens réseaux sociaux : </label><span> Ajouter les liens de vos pages professionnelles sur les réseaux sociaux </span><br/>
+                                                    <img class="rs_icons" src="{{ asset('public_statistics/images/facebook.png') }}" ><input type="text" class="fn rs_input form-control" name="facebook" placeholder="https://www.facebook.com/edicom" value="{% if existe_facebook %} {{ existe_facebook[0]['lien'] }} {% endif %}"/>
+                                                    <img class="rs_icons" src="{{ asset('public_statistics/images/instagram.png') }}" ><input type="text" class="fn rs_input form-control" name="instagram" placeholder="https://www.instagram.com/edicom" value="{% if existe_instagram %} {{ existe_instagram[0]['lien'] }} {% endif %}"/>
+                                                    <img class="rs_icons" src="{{ asset('public_statistics/images/linkedin.png') }}" ><input type="text" class="fn rs_input form-control" name="linkedin" placeholder="https://www.linkedin.com/edicom" value="{% if existe_linkedin %} {{ existe_linkedin[0]['lien'] }} {% endif %}"/>
+                                                    <img class="rs_icons" src="{{ asset('public_statistics/images/whatsapp.png') }}" ><input type="text" class="fn rs_input form-control" name="whatsapp" placeholder="https://www.whatsapp.com/edicom" value="{% if existe_whatsapp %} {{ existe_whatsapp[0]['lien'] }} {% endif %}"/>
+                                                </div>
+
+                                                <div class="col-md-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <label for="inputmessage" class="label_title_2"> Etat de Actualités:  </label> <br/>
+                                                    <label class="radio-inline"><input type="radio" class="checkb" name="valider" {% if actualite %}{% if actualite[0]['valider'] == 1 %} checked {% endif %}{% endif %} value="1">Activer</label>
+                                                        <br>
+                                                    <label class="radio-inline"><input type="radio" class="checkb" name="valider" {% if actualite %}{% if actualite[0]['valider'] == 2 %} checked {% endif %}{% endif %} value="2">Désactiver</label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <button id="bnt-submit" type="submit" class="btn btn-primary pull-right" style="background-color: #b7b740!important;border-color: #b7b740!important;margin-top: -20px;">Mettre à jour</button>
+                                                </div>
+
+
+
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
+ {% else %} 
+
+
+                    <div class="col-md-9 col-lg-9 col-sm-12">
+                        <div class="white-box">
+                            
+                            <div class="container main-box">
+                                <div class="row no-margin">
+                                    <div class="container row" id="bro">
+                                        <form class="form-horizontal form-material" action="{{ path('actualite', { 'code_firme' : code_firme }) }}" method="POST" enctype="multipart/form-data" >
+                                            
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                  <div class="form-group">
+                                                      <label for="inputmessage" class="label_title">Présentation et savoir-faire: </label>
+                                                      <textarea rows="3" placeholder="Description de votre établissement, information bon à savoir...." id="inputmessage" name="livraison" class="" size="10" maxlength="10" lengthcut="true" onkeyup="countChars();">{% if actualite %}{% if actualite[0]['livraison'] %} {{ actualite[0]['livraison'] | e('html') }} {% endif %}{% endif %}</textarea>
+                                                      <span class="nbr_of_letters"><span class="total">{% if actualite %}{% if actualite[0]['livraison'] %} {{ count_presentation_car }} {% endif %}{% endif %}</span>/1200</span>
+                                                  </div><!--/*.form-group-->
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12">
+                                              <label for="inputmessage" class="label_title">Zones de travail/ de service </label>
+                                              <br/>
+
+
+
+                                              {% if actualite %}
+                                                  {% if actualite[0]['zones_de_travail'] %}
+                                                    <div class="field_wrapper_ville">
+                                                        {% set nzt = '0' %}
+                                                        {% for p in zones_de_travail %}
+
+                                                            {% if nzt == 0 %}
+                                                                 <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                    <!-- <input type="text" class="fn form-control" name="field_name_ville[]" placeholder="prestation 1" value="{{ p }}"/> -->
+                                                                    <select class=" fn col-lg-3 col-md-5 col-sm-12 col-xs-12" name="zones_de_travail[]">
+                                                                        <option>zones_de_travail</option>
+                                                                        {% for ville in villes %}
+                                                                            <option value="{{ ville.code }}" {% if ville.code ==  p %} selected {% endif %} >{{ ville.ville }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+
+                                                            {% else %}
+                                                                <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                    <!-- <input type="text" class="fn form-control" name="field_name_ville[]" placeholder="prestation 1" value="{{ p }}"/>  -->
+                                                                    <select class="fn col-lg-3 col-md-5 col-sm-12 col-xs-12" name="zones_de_travail[]">
+                                                                        <option>zones_de_travail</option>
+                                                                        {% for ville in villes %}
+                                                                            <option value="{{ ville.code }}" {% if ville.code ==  p %} selected {% endif %} >{{ ville.ville }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                    <a href="javascript:void(0);" class="remove_button_ville">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a>
+                                                                 </div>
+
+                                                            {% endif %}
+                                                            {% set nzt = nzt+1 %}
+                                                        {% endfor %}
+                                                            
+                                                    </div>
+                                                    <br><a href="javascript:void(0);" class="add_button_ville" title="Ajouter une zone"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre zone</a>
+                                                  {% else %}
+                                                    <div class="field_wrapper_ville">
+                                                        <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                            <select class=" fn col-lg-3 col-md-5 col-sm-12 col-xs-12" name="zones_de_travail[]">
+                                                                <option>zones_de_travail</option>
+                                                                {% for ville in villes %}
+                                                                    <option value="{{ ville.code }}">{{ ville.ville }}</option>
+                                                                {% endfor %}
+                                                            </select>                                                               
+                                                        </div>
+                                                    </div>
+                                                    <br><a href="javascript:void(0);" class="add_button_ville" title="Ajouter une zone"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre zone</a>
+                                                  {% endif %}
+                                          {% else %}
+                                                    <div class="field_wrapper_ville">
+                                                        <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                            <select class=" fn col-lg-3 col-md-5 col-sm-12 col-xs-12" name="zones_de_travail[]">
+                                                                <option>zones_de_travail</option>
+                                                                {% for ville in villes %}
+                                                                    <option value="{{ ville.code }}">{{ ville.ville }}</option>
+                                                                {% endfor %}
+                                                            </select>                                                        
+                                                        </div>
+                                                    </div>
+                                                    <br><a href="javascript:void(0);" class="add_button_ville" title="Ajouter une zone"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre zone</a>
+                                          {% endif %}
+
+
+
+
+
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group col-md-9 col-sm-12 col-xs-12 aligned">
+                                                    <label for="inputmessage" class="label_title">Horaires d'ouvertures</label>
+                                                </div>
+
+                                                <div class="form-group col-md-9 col-sm-12 col-xs-12">
+                                                    <div id="businessHoursContainer3"></div>
+                                                </div>
+
+                                                <div class="col-md-9" style="display: none;">
+                                                    <textarea id="businessHoursData" name="businessHoursData" rows="8" cols="80" >{% if actualite %}{% if actualite[0]['heure'] %} {{ actualite[0]['heure'] }} {% endif %}{% endif %}</textarea><!-- style="display:none;" -->
+                                                    <textarea id="businessHoursOutput1" name="heure" rows="8" cols="80" style="">{% if actualite %}{% if actualite[0]['heure'] %} {{ actualite[0]['heure'] }} {% endif %}{% endif %}</textarea>
+                                                </div>
+
+
+                                                <div class="dayContainer form-group col-md-3" >
+                                                  <div data-original-title="" id="pause_state" class="colorBox RestDayState" style="width: 80px;">
+                                                    <input type="checkbox" class="invisible operationState">
+                                                  </div>
+                                                    
+                                                  <div class="weekday" style="width: 100px;">Ajouter une pause</div>
+
+                                                  <div class="operationDayTimeContainer pause_visibility">
+                                                    <div class="operationTime input-group" style="width: 70px;">
+                                                      <input type="text" name="startPause" class="startPause mini-time form-control operationTimeFrom ui-timepicker-input" value="{% if actualite %}{% if actualite[0]['startPause'] %}{{ actualite[0]['startPause'] }}{% endif %}{% endif %}" autocomplete="off">
+                                                    </div>
+                                                    <div class="operationTime input-group" style="width: 70px;">
+                                                      <input type="text" name="endPause" class="endPause mini-time form-control operationTimeTill ui-timepicker-input" value="{% if actualite %}{% if actualite[0]['endPause'] %}{{ actualite[0]['endPause'] }}{% endif %}{% endif %}" autocomplete="off">
+                                                    </div>
+                                                  </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                                  <label for="inputmessage" class="label_title">Prestations : </label>
+                                                  <br/>
+                                                  
+                                                  {% if actualite %}
+                                                      {% if actualite[0]['prestations'] %}
+                                                        <div class="field_wrapper_prestation">
+                                                            {% set brs = '0' %}
+                                                            {% for p in prestation %}
+
+                                                                {% if brs == 0 %}
+                                                                    <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                        <input type="text" class="fn  col-lg-5 col-md-5 col-sm-12 col-xs-12" name="field_name_prestation[]" placeholder="prestation 1" value="{{ p }}"/>
+                                                                    </div>
+
+                                                                {% else %}
+                                                                    <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                        <input type="text" class="fn  col-lg-5 col-md-5 col-sm-12 col-xs-12" name="field_name_prestation[]" placeholder="prestation 1" value="{{ p }}"/> 
+                                                                        <a href="javascript:void(0);" class="remove_button_prestation">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a>
+                                                                    </div>
+
+                                                                {% endif %}
+                                                                {% set brs = brs+1 %}
+                                                            {% endfor %}
+                                                            
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_prestation" title="Ajouter une prestations"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre prestation</a>
+                                                      {% else %}
+                                                        <div class="field_wrapper_prestation">
+                                                            <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                <input type="text" class="fn col-lg-5 col-md-5 col-sm-12 col-xs-12" name="field_name_prestation[]" placeholder="prestation 1" value=""/>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_prestation" title="Ajouter une prestations"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre prestation</a>
+                                                      {% endif %}
+                                                  {% else %}
+                                                    <div class="field_wrapper_prestation">
+                                                        <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                            <input type="text" class="fn col-lg-5 col-md-5 col-sm-12 col-xs-12" name="field_name_prestation[]" placeholder="prestation 1" value=""/>                                                        
+                                                        </div>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="add_button_prestation" title="Ajouter une prestations"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre prestation</a>
+                                                  {% endif %}
+                                                 <!-- <p style="color: lightsalmon;">NB: vous avez le droit sur 6 prestations ou produits</p> -->
+
+                                                </div>
+
+
+                                                <div class="col-md-6  col-sm-12 col-xs-12">
+                                                  <label for="inputmessage" class="label_title">Produits : </label>
+                                                  <br/>
+                                                  
+                                                  {% if actualite %}
+                                                      {% if actualite[0]['produits'] %}
+                                                        <div class="field_wrapper_produit">
+                                                            {% set np = '0' %}
+                                                            {% for prod in produit %}
+
+                                                                {% if np == 0 %}
+                                                                    <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                        <input type="text" class="fn col-lg-5 col-md-5 col-sm-12 col-xs-12 " name="field_name_produit[]" placeholder="produit 1" value="{{ prod }}"/>
+                                                                    </div>
+
+                                                                {% else %}
+                                                                    <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                        <input type="text" class="fn col-lg-5 col-md-5 col-sm-12 col-xs-12 " name="field_name_produit[]" placeholder="produit 1" value="{{ prod }}"/> 
+                                                                        <a href="javascript:void(0);" class="remove_button_produit">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a>
+                                                                    </div>
+
+                                                                {% endif %}
+                                                                {% set np = np+1 %}
+                                                            {% endfor %}
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_produit" title="Ajouter un produit"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter un autre produit</a>
+                                                      {% else %}
+                                                        <div class="field_wrapper_produit">
+                                                            <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                <input type="text" class="fn col-lg-5 col-md-5 col-sm-12 col-xs-12 " name="field_name_produit[]" placeholder="produit 1" value=""/>                                                            
+                                                            </div>
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_produit" title="Ajouter un produit"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter un autre produit</a>
+                                                      {% endif %}
+                                                  {% else %}
+                                                    <div class="field_wrapper_produit">
+                                                        <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                            <input type="text" class="fn col-lg-5 col-md-5 col-sm-12 col-xs-12 " name="field_name_produit[]" placeholder="produit 1" value=""/>
+                                                        </div>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="add_button_produit" title="Ajouter un produit"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter un autre produit</a>
+                                                  {% endif %}
+                                                 <!-- <p style="color: lightsalmon;">NB: vous avez le droit sur 6 produits</p> -->
+
+                                                </div>
+
+                                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                                  <label for="inputmessage" class="label_title">Marques : </label>
+                                                  <br/>
+                                                  
+                                                  {% if actualite %}
+                                                      {% if actualite[0]['marques'] %}
+                                                        <div class="field_wrapper_marque">
+                                                            {% set nm = '0' %}
+                                                            {% for m in marque %}
+
+                                                                {% if nm == 0 %}
+                                                                    <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                        <input type="text" class="fn col-lg-5 col-md-5 col-sm-12 col-xs-12" name="field_name_marque[]" placeholder="marque 1" value="{{ m }}"/>
+                                                                    </div>
+
+                                                                {% else %}
+                                                                    <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                        <input type="text" class="fn col-lg-5 col-md-5 col-sm-12 col-xs-12" name="field_name_marque[]" placeholder="marque 1" value="{{ m }}"/> 
+                                                                        <a href="javascript:void(0);" class="remove_button_marque">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a>
+                                                                    </div>
+
+                                                                {% endif %}
+                                                                {% set nm = nm+1 %}
+                                                            {% endfor %}
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_marque" title="Ajouter une marque"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre marque</a>
+                                                      {% else %}
+                                                        <div class="field_wrapper_marque">
+                                                            <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                <input type="text" class="fn col-lg-5 col-md-5 col-sm-12 col-xs-12" name="field_name_marque[]" placeholder="marque 1" value=""/>                                                            
+                                                            </div>
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_marque" title="Ajouter une marque"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre marque</a>
+                                                      {% endif %}
+                                                  {% else %}
+                                                    <div class="field_wrapper_marque">
+                                                        <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                            <input type="text" class="fn col-lg-5 col-md-5 col-sm-12 col-xs-12" name="field_name_marque[]" placeholder="marque 1" value=""/>
+                                                        </div>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="add_button_marque" title="Ajouter une marque"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre marque</a>
+                                                  {% endif %}
+                                                 <!-- <p style="color: lightsalmon;">NB: vous avez le droit sur 6 produits</p> -->
+
+                                                </div>
+
+                                                
+
+                                            </div>
+                                                {% if 1==4 %}
+
+
+                                            <div class="col-md-12 row">
+                                                  <label for="inputmessage" class="label_title_3"><span style="text-decoration: underline;"> Galerie photos :</span> <span class="span_photo"> Ajouter vos photos </span></label>
+                                                  <br/>
+                                                  <input type="hidden" name="count_image" id="count_image" value="{% if galerie_actu %} {{ galerie_actu | length }} {% else %} 1 {% endif %}">
+                                                  {% if actualite %}
+                                                      {% if galerie_actu %}
+                                                        <div class="field_wrapper_image">
+                                                            {% set nga = '0' %}
+                                                            {% for ga in galerie_actu %}
+
+                                                                    <div class="div-image-{{ ga.id }}" style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px; float: left; margin-right: 20px;">
+                                                                        <img src="{{asset('/web/uploads/images_actualites/')}}{{ ga.image }}" style="width: 100px; height: 100px;" >
+                                                                        <a href="javascript:void(0);" class="delete_image" onclick="delete_image_actu('{{ ga.id }}');">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a>
+                                                                        <p style="margin-bottom: 0px;">{{ ga.titre_image }}</p>                                                                        
+                                                                    </div>
+
+                                                            {% endfor %}
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_image" title="Ajouter une image"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre image</a>
+                                                      {% else %}
+                                                        <div class="field_wrapper_image">
+                                                            <div class="row col-12" style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                <!-- <input type="text" class="fn" name="field_name_marque[]" placeholder="marque 1" value=""/> -->
+                                                                <input type="file" class="label_field_name_images_1 fn_image col-6 form-control " name="field_name_images_1" id="field_name_images_1" style="display: none;"> 
+                                                                <label class="fn  fn_image col-lg-3 col-md-3 col-sm-12 col-xs-12 " for="field_name_images_1" id="label_field_name_images_1"><img src="{{ asset('public_statistics/images/paperclip.png') }}"> Choisissez un fichier </label>    
+                                                                <input type="text" class="fn fn_image_2 col-6" name="field_name_text_images_1" placeholder="titre image 1" value=""/>
+                                                                                                                        
+                                                            </div>
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_image" title="Ajouter une image"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre image</a>
+                                                      {% endif %}
+                                                  {% else %}
+                                                    <div class="field_wrapper_image">
+                                                        <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;" class="row col-12">
+                                                           <!--  <input type="text" class="fn" name="field_name_marque[]" placeholder="marque 1" value=""/> -->
+                                                            <input type="file" class="label_field_name_images_1 fn_image col-6 form-control " name="field_name_images_1" id="field_name_images_1" style="display: none;">
+                                                            <label class=" fn fn_image col-lg-3 col-md-3 col-sm-12 col-xs-12 " for="field_name_images_1" id="label_field_name_images_1"><img src="{{ asset('public_statistics/images/paperclip.png') }}"> Choisissez un fichier </label>
+                                                            <input type="text" class="fn  fn_image_2 col-6" name="field_name_text_images_1" placeholder="titre image 1" value=""/>
+                                                             
+                                                        </div>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="add_button_image" title="Ajouter une image"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre image</a>
+                                                  {% endif %}
+                                                 <!-- <p style="color: lightsalmon;">NB: vous avez le droit sur 6 produits</p> -->
+                                            </div>
+                                                  {% endif %}
+
+                                            <div class="col-md-12">
+                                                <label for="inputmessage" class="label_title"> Moyens de paiement : </label><span> Cocher les moyens de paiement utilisés  </span> <br/>
+                                                <label class="checkbox-inline"><input type="checkbox" class="checkb" name="paiement[]"{% if actualite %}{% if 'espece' in actualite[0]['paiement'] %} checked {% endif %}{% endif %} value="espece">Espèces</label>
+                                                <label class="checkbox-inline"><input type="checkbox" class="checkb" name="paiement[]"{% if actualite %}{% if 'cheque' in actualite[0]['paiement'] %} checked {% endif %}{% endif %} value="cheque">Chèque</label>
+                                                <label class="checkbox-inline"><input type="checkbox" class="checkb" name="paiement[]"{% if actualite %}{% if 'virement' in actualite[0]['paiement'] %} checked {% endif %}{% endif %} value="virement">Virement</label>
+                                                <!-- <label class="checkbox-inline"><input type="checkbox" class="checkb" name="paiement[]"{% if actualite %}{% if 'cb' in actualite[0]['paiement'] %} checked {% endif %}{% endif %} value="cb">Carte bancaire</label> -->
+                                            </div>
+
+
+
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                  <label for="inputmessage" class="label_title">Services + : </label><span> Ajouter vos services Plus (Exemple : livraison gratuite, garantie 5 ans...)</span>
+                                                  <br/>
+                                                  
+                                                  {% if actualite %}
+                                                      {% if actualite[0]['services_plus'] %}
+                                                        <div class="field_wrapper_service">
+                                                            {% set ns = '0' %}
+                                                            {% for m in service %}
+
+                                                                {% if ns == 0 %}
+                                                                    <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                        <input type="text" class="fn col-lg-3 col-md-6 col-sm-6 col-xs-12" name="field_name_service[]" placeholder="service 1" value="{{ m }}"/>
+                                                                    </div>
+
+                                                                {% else %}
+                                                                    <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                        <input type="text" class="fn col-lg-3 col-md-6 col-sm-6 col-xs-12" name="field_name_service[]" placeholder="service 1" value="{{ m }}"/> 
+                                                                        <a href="javascript:void(0);" class="remove_button_service">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a>
+                                                                    </div>
+
+                                                                {% endif %}
+                                                                {% set ns = ns+1 %}
+                                                            {% endfor %}
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_service" title="Ajouter une service"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre service</a>
+                                                      {% else %}
+                                                        <div class="field_wrapper_service">
+                                                            <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                                <input type="text" class="fn col-lg-3 col-md-6 col-sm-6 col-xs-12" name="field_name_service[]" placeholder="service 1" value=""/>                                                            
+                                                            </div>
+                                                        </div>
+                                                        <a href="javascript:void(0);" class="add_button_service" title="Ajouter une service"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre service</a>
+                                                      {% endif %}
+                                                  {% else %}
+                                                    <div class="field_wrapper_service">
+                                                        <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                            <input type="text" class="fn col-lg-3 col-md-6 col-sm-6 col-xs-12" name="field_name_service[]" placeholder="service 1" value=""/>
+                                                        </div>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="add_button_service" title="Ajouter une service"><img class="img_add" src="https://www.telecontact.ma/trouver/images/add-icon.png"/>Ajouter une autre service</a>
+                                                  {% endif %}
+                                                 <!-- <p style="color: lightsalmon;">NB: vous avez le droit sur 6 produits</p> -->
+
+                                                </div>                                                
+
+
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <label for="inputmessage" class="label_title_2"> Autre numéro de contact ou numéro d'urgence : </label><br/>
+                                                    <input type="text" class="fn col-lg-3 col-md-6 col-sm-12 col-xs-12" name="numero_urgence" placeholder="Numéro de téléphone" value="{% if actualite %}{{ actualite[0]['numero_urgence'] }}{% endif %}"/>
+                                                </div>
+
+
+                                                <div class="col-md-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <label for="inputmessage" class="label_title_2"> Lien site web : </label><br/>
+                                                    <input type="text" class="fn col-lg-3 col-md-6 col-sm-12 col-xs-12" name="site_web" placeholder="Site web" value="{% if actualite %}{{ actualite[0]['site_web'] }}{% endif %}"/>
+                                                </div> 
+
+
+                                                <div class="col-md-9 col-md-12 col-sm-12 col-xs-12">
+                                                    <label for="inputmessage" class="label_title_2"> Liens réseaux sociaux : </label><span> Ajouter les liens de vos pages professionnelles sur les réseaux sociaux </span><br/>
+                                                    <img class="rs_icons" src="{{ asset('public_statistics/images/facebook.png') }}" ><input type="text" class="fn rs_input form-control" name="facebook" placeholder="https://www.facebook.com/edicom" value="{% if existe_facebook %} {{ existe_facebook[0]['lien'] }} {% endif %}"/>
+                                                    <img class="rs_icons" src="{{ asset('public_statistics/images/instagram.png') }}" ><input type="text" class="fn rs_input form-control" name="instagram" placeholder="https://www.instagram.com/edicom" value="{% if existe_instagram %} {{ existe_instagram[0]['lien'] }} {% endif %}"/>
+                                                    <img class="rs_icons" src="{{ asset('public_statistics/images/linkedin.png') }}" ><input type="text" class="fn rs_input form-control" name="linkedin" placeholder="https://www.linkedin.com/edicom" value="{% if existe_linkedin %} {{ existe_linkedin[0]['lien'] }} {% endif %}"/>
+                                                    <img class="rs_icons" src="{{ asset('public_statistics/images/whatsapp.png') }}" ><input type="text" class="fn rs_input form-control" name="whatsapp" placeholder="https://www.whatsapp.com/edicom" value="{% if existe_whatsapp %} {{ existe_whatsapp[0]['lien'] }} {% endif %}"/>
+                                                </div>
+
+
+                                                <div class="col-md-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <label for="inputmessage" class="label_title_2"> Etat de Actualités:  </label> <br/>
+                                                    <label class="radio-inline"><input type="radio" class="checkb" name="valider" {% if actualite %}{% if actualite[0]['valider'] == 1 %} checked {% endif %}{% endif %} value="1">Activer</label>
+                                                        <br>
+                                                    <label class="radio-inline"><input type="radio" class="checkb" name="valider" {% if actualite %}{% if actualite[0]['valider'] == 2 %} checked {% endif %}{% endif %} value="2">Désactiver</label>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <button id="bnt-submit" type="submit" class="btn btn-primary pull-right" style="background-color: #b7b740!important;border-color: #b7b740!important;margin-top: -20px;">Mettre à jour</button>
+                                                </div>
+
+                                            </form>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
+
+ {% endif %} 
+
+
+
+
+                    
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+     </body>
+<div class="ui-timepicker-wrapper" tabindex="-1" style="position: absolute; top: 1996px; left: 420.5px; display: none;"><ul class="ui-timepicker-list"><li>00:00</li><li>00:15</li><li>00:30</li><li>00:45</li><li>01:00</li><li>01:15</li><li>01:30</li><li>01:45</li><li>02:00</li><li>02:15</li><li>02:30</li><li>02:45</li><li>03:00</li><li>03:15</li><li>03:30</li><li>03:45</li><li>04:00</li><li>04:15</li><li>04:30</li><li>04:45</li><li>05:00</li><li>05:15</li><li>05:30</li><li>05:45</li><li>06:00</li><li>06:15</li><li>06:30</li><li>06:45</li><li>07:00</li><li>07:15</li><li>07:30</li><li>07:45</li><li>08:00</li><li>08:15</li><li>08:30</li><li>08:45</li><li class="ui-timepicker-selected">09:00</li><li>09:15</li><li>09:30</li><li>09:45</li><li>10:00</li><li>10:15</li><li>10:30</li><li>10:45</li><li>11:00</li><li>11:15</li><li>11:30</li><li>11:45</li><li>12:00</li><li>12:15</li><li>12:30</li><li>12:45</li><li>13:00</li><li>13:15</li><li>13:30</li><li>13:45</li><li>14:00</li><li>14:15</li><li>14:30</li><li>14:45</li><li>15:00</li><li>15:15</li><li>15:30</li><li>15:45</li><li>16:00</li><li>16:15</li><li>16:30</li><li>16:45</li><li>17:00</li><li>17:15</li><li>17:30</li><li>17:45</li><li>18:00</li><li>18:15</li><li>18:30</li><li>18:45</li><li>19:00</li><li>19:15</li><li>19:30</li><li>19:45</li><li>20:00</li><li>20:15</li><li>20:30</li><li>20:45</li><li>21:00</li><li>21:15</li><li>21:30</li><li>21:45</li><li>22:00</li><li>22:15</li><li>22:30</li><li>22:45</li><li>23:00</li><li>23:15</li><li>23:30</li><li>23:45</li><li>24:00</li></ul></div>
+  </html>
+
+{% endblock %}
+{% block javascripts %}
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  		<script>
+
+
+     /*function popup(id, nom, date, email, titre, message){
+
+                
+
+                var id= id;
+                alert(id);alert(nom);alert(date);
+
+                $('#message').text(message);
+
+                $("#popup").css({"display": "flex","align-items": "center","justify-content": "center","position": "fixed","width": "100vw","height": "100vh","bottom": "0","right": "0","background-color": "rgba(0, 0, 0, 0.8)","z-index": "2","visibility": "hidden","opacity": "0","overflow": "hiden","transition":"0.64s ease-in-out"});
+
+
+
+
+setTimeout(function(){
+   $('#popi495588').trigger('click');
+}, 2000);
+ 
+ 
+       
+
+            };*/
+
+            $(document).ready( function () {
+
+
+
+
+
+
+
+
+    
+      
+                $('#myTable').DataTable({
+                     "language": {
+                            "decimal":        "",
+                            "emptyTable":     "aucune donnée disponible",
+                            "info":           "_TOTAL_ résultats",
+                            "infoEmpty":      "0 résultats",
+                            "infoFiltered":   "(Filtré de _MAX_ résultats totales)",
+                            "infoPostFix":    "",
+                            "thousands":      ",",
+                            "lengthMenu":     "Afficher _MENU_ résultats",
+                            "loadingRecords": "Chargement...",
+                            "processing":     "Traitement...",
+                            "search":         "Rechercher : ",
+                            "zeroRecords":    "Aucun élément à afficher",
+                            "paginate": {
+                                "first":      "Première",
+                                "last":       "Dernière",
+                                "next":       "Suivant",
+                                "previous":   "Précéndent"
+                            },
+                     }
+                 });
+
+
+            
+var businessHoursManager1 =$("#businessHoursContainer3").businessHours({
+                    postInit:function(){
+                        $('.operationTimeFrom, .operationTimeTill').timepicker({
+                            'timeFormat': 'H:i',
+                            'step': 30
+                            });
+                    },
+                    dayTmpl:'<div class="dayContainer" style="width: 80px;">' +
+                        '<div data-original-title="" class="colorBox"><input type="checkbox" class="invisible operationState"></div>' +
+                        '<div class="weekday"></div>' +
+                        '<div class="operationDayTimeContainer">' +
+                        '<div class="operationTime input-group"><span class="input-group-addon input-group-addon-from">De  </span><input type="text" name="startTime" class="mini-time form-control operationTimeFrom" value=""></div>' +
+                        '<div class="operationTime input-group"><span class="input-group-addon input-group-addon-till">à  </span><input type="text" name="endTime" class="mini-time form-control operationTimeTill" value=""></div>' +
+                        '</div></div>'
+                });
+
+         
+
+
+{% if actualite %}{% if actualite[0]['heure'] %}
+
+var businessHourss = jQuery.parseJSON($("#businessHoursData").val());
+                    $("#businessHoursContainer3").businessHours({
+                      postInit:function(){
+                        $('.operationTimeFrom, .operationTimeTill').timepicker({
+                            'timeFormat': 'H:i',
+                            'step': 30
+                            });
+                    },
+                    dayTmpl:'<div class="dayContainer" style="width: 80px;">' +
+                        '<div data-original-title="" class="colorBox"><input type="checkbox" class="invisible operationState"></div>' +
+                        '<div class="weekday"></div>' +
+                        '<div class="operationDayTimeContainer">' +
+                        '<div class="operationTime input-group"><span class="input-group-addon input-group-addon-from">De  </span><input type="text" name="startTime" class="mini-time form-control operationTimeFrom" value=""></div>' +
+                        '<div class="operationTime input-group"><span class="input-group-addon input-group-addon-till">à  </span><input type="text" name="endTime" class="mini-time form-control operationTimeTill" value=""></div>' +
+                        '</div></div>',
+                        operationTime: businessHourss
+                    });        
+
+                    $("#businessHoursOutput1").val(JSON.stringify(businessHoursManager1.serialize()));    
+                    {% endif %}{% endif %}                
+
+    $(".dayContainer").click(function() {
+    $("#businessHoursOutput1").val(JSON.stringify(businessHoursManager1.serialize()));});
+    $(".ui-timepicker-input").change(function() {
+    $("#businessHoursOutput1").val(JSON.stringify(businessHoursManager1.serialize()));});
+
+   /* CKEDITOR.replace( 'conditions' );*/
+   
+    CKEDITOR.replace( 'livraison' , {  height: 100 } ).on('key',
+    function(e){        
+        setTimeout(function(){
+            var data = document.getElementById('inputmessage').value = e.editor.getData();
+            var len = data.length;
+
+            if(len > 1200){
+                alert('merci de ne pas depasser 1200 caractères');
+            }else{
+                $('.total').empty();            
+                $('.total').append(len);
+            }
+            
+
+            /*document.getElementsByClassName('total').value(len);
+            document.getElementsByClassName('total').innerHTML = len;*/
+        },10);
+    }
+);;
+
+   /* CKEDITOR.replace( 'savoir' );*/
+/*var pos_image = document.getElementById('count_image').value;
+const fileInput = document.getElementById('field_name_image_'+pos_image);
+fileInput.onchange = () => {
+    alert('yes');
+    alert(pos_image);
+  const selectedFile = fileInput.files[0];
+  alert(selectedFile['name']);
+  console.log(selectedFile);
+}*/
+
+
+
+
+
+/*var input = $('.file_input' );
+
+    var label    = input.nextElementSibling,
+        labelVal = label.innerHTML;
+
+    input.addEventListener( 'change', function( e )
+    {
+        var fileName = '';
+        if( this.file && this.file.length = 1 ){
+            fileName = e.target.value.split( '\\' ).pop();
+        }
+
+        alert(fileName);
+
+        if( fileName )
+            label.querySelector( '.file_input' ).innerHTML = fileName;
+        else
+            label.innerHTML = labelVal;
+    });*/
+
+
+
+
+
+
+/*var inputs = document.querySelectorAll( '.inputfile' );
+Array.prototype.forEach.call( inputs, function( input )
+{
+    var label    = input.nextElementSibling,
+        labelVal = label.innerHTML;
+
+    input.addEventListener( 'change', function( e )
+    {
+        var fileName = '';
+        if( this.files && this.files.length > 1 )
+            fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+        else
+            fileName = e.target.value.split( '\\' ).pop();
+
+        if( fileName )
+            label.querySelector( 'span' ).innerHTML = fileName;
+        else
+            label.innerHTML = labelVal;
+    });
+});*/
+
+
+$("select").select2({
+    theme: "bootstrap-5",
+    selectionCssClass: "select2--small", // For Select2 v4.1
+    dropdownCssClass: "select2--small",
+});
+
+
+
+    /* prestations */
+
+    var maxField = 15; //Input fields increment limitation
+    var addButton_prestation = $('.add_button_prestation'); //Add button selector
+    var wrapper_prestation = $('.field_wrapper_prestation'); //Input field wrapper
+    //var fieldHTML_prestation = '<div style="padding-top: 5px;padding-bottom: 5px;padding-right: 5px;"><input type="text" class="fn" name="field_name_prestation[]" placeholder="prestation'+maxField+'" value=""/> <a href="javascript:void(0);" class="remove_button">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a></div>'; //New input field html 
+
+    {% if prestation %}
+    
+    var x ={{ prestation|length }};
+    
+    {% else %}
+
+    var x = 1; //Initial field counter is 1
+   
+    {% endif %}
+    
+    //Once add button is clicked
+    $(addButton_prestation).click(function(){
+        //Check maximum number of input fields
+
+        if(x < maxField){ 
+            x++; //Increment field counter
+            $(wrapper_prestation).append('<div style="padding-top: 5px;padding-bottom: 5px;padding-right: 5px;"><input type="text" class="fn col-lg-5 col-md-5 col-sm-12 col-xs-12 " name="field_name_prestation[]" placeholder="prestation '+x+'" value=""/> <a href="javascript:void(0);" class="remove_button_prestation">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a></div>'); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper_prestation).on('click', '.remove_button_prestation', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+
+
+
+    /* Produits */
+    var addButton_produit = $('.add_button_produit');
+    var wrapper_produit = $('.field_wrapper_produit');
+
+    {% if produit %}
+    
+    var y ={{ produit|length }};
+    
+    {% else %}
+
+    var y = 1;
+   
+    {% endif %}
+    
+    //Once add button is clicked
+    $(addButton_produit).click(function(){
+        //Check maximum number of input fields
+
+        if(y < maxField){ 
+            y++; //Increment field counter
+            $(wrapper_produit).append('<div style="padding-top: 5px;padding-bottom: 5px;padding-right: 5px;"><input type="text" class="fn col-lg-5 col-md-5 col-sm-12 col-xs-12" name="field_name_produit[]" placeholder="produit '+y+'" value=""/> <a href="javascript:void(0);" class="remove_button_produit">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a></div>'); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper_produit).on('click', '.remove_button_produit', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+
+
+    /* Marques */
+    var addButton_marque = $('.add_button_marque');
+    var wrapper_marque = $('.field_wrapper_marque');
+
+    {% if marque %}
+    
+    var o ={{ marque|length }};
+    
+    {% else %}
+
+    var o = 1;
+   
+    {% endif %}
+    
+    //Once add button is clicked
+    $(addButton_marque).click(function(){
+        //Check maximum number of input fields
+
+        if(o < maxField){ 
+            o++; //Increment field counter
+            $(wrapper_marque).append('<div style="padding-top: 5px;padding-bottom: 5px;padding-right: 5px;"><input type="text" class="fn col-lg-5 col-md-5 col-sm-12 col-xs-12" name="field_name_marque[]" placeholder="marque '+o+'" value=""/> <a href="javascript:void(0);" class="remove_button_marque">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a></div>'); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper_marque).on('click', '.remove_button_marque', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        o--; //Decrement field counter
+    });
+
+
+    {% if code_fichier in ['H53', 'H63', 'H55', 'H65', 'H73', 'H54', 'H56', 'H50', 'H78'] %} 
+
+        /* Images */
+        var addButton_image = $('.add_button_image');
+        var wrapper_image = $('.field_wrapper_image');
+
+        {% if galerie_actu %}
+        
+        var z ={{ galerie_actu|length }};
+        
+        {% else %}
+
+        var z = 1;
+       
+        {% endif %}
+        
+        //Once add button is clicked
+        $(addButton_image).click(function(){
+            //Check maximum number of input fields
+
+            if(z < maxField){ 
+                z++; //Increment field counter
+                $(wrapper_image).append('<div class="row col-12" style="padding-top: 5px;padding-bottom: 5px;padding-right: 5px;"><input type="file" class="label_field_name_image_'+z+' fn_image col-5 form-control" name="field_name_image_'+ z +'" id="field_name_image_'+ z +'" style="display:none;" ><label class="fn fn_image col-lg-3 col-md-5 col-sm-12 col-xs-12 " id="label_field_name_image_'+z+'" for="field_name_image_'+ z +'"><img src="/web/public_statistics/images/paperclip.png"> Choisissez un fichier </label><input type="text" class="fn fn_image_2 col-lg-3 col-md-5 col-sm-12 col-xs-12" name="field_name_text_image_'+ z +'" placeholder="titre image '+ z +'" value=""/> <a href="javascript:void(0);" class="remove_button_image col-1 icon-rem">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a></div>'); //Add field html
+                $('#count_image').val(z);
+            }
+
+        });
+        
+        //Once remove button is clicked
+        $(wrapper_image).on('click', '.remove_button_image', function(e){
+            e.preventDefault();
+            $(this).parent('div').remove(); //Remove field html
+            z--; //Decrement field counter
+        });
+
+    {% else %}
+
+        /* Images */
+        var addButton_image = $('.add_button_image');
+        var wrapper_image = $('.field_wrapper_image');
+
+        {% if galerie_actu %}
+        
+        var z ={{ galerie_actu|length }};
+        
+        {% else %}
+
+        var z = 1;
+       
+        {% endif %}
+        
+        //Once add button is clicked
+        $(addButton_image).click(function(){
+            //Check maximum number of input fields
+
+            if(z < maxField){ 
+                z++; //Increment field counter
+                $(wrapper_image).append('<div class="row col-12" style="padding-top: 5px;padding-bottom: 5px;padding-right: 5px;"><input type="file" class="label_field_name_images_'+z+' fn_image col-5 form-control" name="field_name_images_'+ z +'" id="field_name_images_'+ z +'" style="display:none;"><label class="fn fn_image col-lg-3 col-md-5 col-sm-12 col-xs-12"  id="label_field_name_images_'+z+'" for="field_name_images_'+ z +'"><img src="/web/public_statistics/images/paperclip.png"> Choisissez un fichier </label><input type="text" class="fn fn_image_2 col-lg-3 col-md-5 col-sm-12 col-xs-12" name="field_name_text_images_'+ z +'" placeholder="titre image '+ z +'" value=""/> <a href="javascript:void(0);" class="remove_button_image col-1 icon-rem">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a></div>'); //Add field html
+                $('#count_image').val(z);
+            }
+
+        });
+        
+        //Once remove button is clicked
+        $(wrapper_image).on('click', '.remove_button_image', function(e){
+            e.preventDefault();
+            $(this).parent('div').remove(); //Remove field html
+            z--; //Decrement field counter
+        });
+
+    {% endif %}
+
+
+
+    /* services */
+    var addButton_service = $('.add_button_service');
+    var wrapper_service = $('.field_wrapper_service');
+
+    {% if service %}
+    
+    var w ={{ service|length }};
+    
+    {% else %}
+
+    var w = 1;
+   
+    {% endif %}
+    
+    //Once add button is clicked
+    $(addButton_service).click(function(){
+        //Check maximum number of input fields
+
+        if(w < maxField){ 
+            w++; //Increment field counter
+            $(wrapper_service).append('<div style="padding-top: 5px;padding-bottom: 5px;padding-right: 5px;"><input type="text" class="fn col-lg-3 col-md-5 col-sm-12 col-xs-12" name="field_name_service[]" placeholder="service '+w+'" value=""/> <a href="javascript:void(0);" class="remove_button_service">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a></div>'); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper_service).on('click', '.remove_button_service', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        w--; //Decrement field counter
+    });
+
+
+
+    /* actes */
+
+    var maxField = 15; //Input fields increment limitation
+    var addButton_acte = $('.add_button_acte'); //Add button selector
+    var wrapper_acte = $('.field_wrapper_acte'); //Input field wrapper
+
+    {% if acte %}
+    
+    var v ={{ acte|length }};
+    
+    {% else %}
+
+    var v = 1; //Initial field counter is 1
+   
+    {% endif %}
+    
+    //Once add button is clicked
+    $(addButton_acte).click(function(){
+        //Check maximum number of input fields
+
+        if(v < maxField){ 
+            v++; //Increment field counter
+            $(wrapper_acte).append('<div style="padding-top: 5px;padding-bottom: 5px;padding-right: 5px;"><input type="text" class="fn col-lg-3 col-md-5 col-sm-12 col-xs-12" name="field_name_acte[]" placeholder="acte '+v+'" value=""/> <a href="javascript:void(0);" class="remove_button_acte">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a></div>'); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper_acte).on('click', '.remove_button_acte', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        v--; //Decrement field counter
+    });
+
+
+
+
+     /* zones de travail */
+
+    var maxField = 15; //Input fields increment limitation
+    var addButton_ville = $('.add_button_ville'); //Add button selector
+    var wrapper_ville = $('.field_wrapper_ville'); //Input field wrapper
+
+    {% if zones_de_travail %}
+    
+    var n ={{ zones_de_travail|length }};
+    
+    {% else %}
+
+    var n = 1; //Initial field counter is 1
+   
+    {% endif %}
+    
+    //Once add button is clicked
+    $(addButton_ville).click(function(){
+        //Check maximum number of input fields
+
+        if(n < maxField){ 
+            n++; //Increment field counter
+            $(wrapper_ville).append('<div style="padding-top: 5px;padding-bottom: 5px;padding-right: 5px;"><select class="fn col-lg-3 col-md-5 col-sm-12 col-xs-12" name="zones_de_travail[]"><option>zones_de_travail '+ n +' </option>{% for ville in villes %}<option value="{{ ville.code }}">{{ ville.ville }}</option>{% endfor %}</select> <a href="javascript:void(0);" class="remove_button_ville">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a></div>'); //Add field html
+
+            $("select").select2({
+                theme: "bootstrap-5",
+                selectionCssClass: "select2--small", // For Select2 v4.1
+                dropdownCssClass: "select2--small",
+            });
+
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper_ville).on('click', '.remove_button_ville', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        n--; //Decrement field counter
+    });
+
+
+
+   
+
+
+
+
+
+});
+ 
+
+
+ function delete_image_actu(id){
+
+        $.ajax({
+
+            url : "{{ path('delete_image_actu') }}",
+            type: "POST",
+            data : {id:id},
+
+            success:function(result){
+                $(".div-image-"+id).remove();
+            }
+
+        });
+
+ }
+
+
+
+
+$("#pause_state").click(function(){
+    if ($('.startPause').val() != null) {
+        $("#pause_state").removeClass("RestDayState");
+        $("#pause_state").addClass("WorkingDayState");
+        $(".pause_visibility").attr('style', 'display:block');
+   }else{
+        $("#pause_state").addClass("RestDayState");
+        $("#pause_state").removeClass("WorkingDayState");
+        $(".pause_visibility").attr('style', 'display:none');
+   }
+});
+
+if ($('.startPause').val() != '') {
+        $("#pause_state").removeClass("RestDayState");
+        $("#pause_state").addClass("WorkingDayState");
+        $(".pause_visibility").attr('style', 'display:block');
+        $("#pause_state").click(function(){
+          $("#pause_state").addClass("RestDayState");
+          $("#pause_state").removeClass("WorkingDayState");
+          $(".pause_visibility").attr('style', 'display:none');
+           $(".startPause").val('');
+           $(".startPause").attr('value', '');
+           $(".endPause").val('');
+           $(".endPause").attr('value', '');
+        });
+}else{
+        $("#pause_state").addClass("RestDayState");
+        $("#pause_state").removeClass("WorkingDayState");
+        $(".pause_visibility").attr('style', 'display:none');
+        $("#pause_state").click(function(){
+          $("#pause_state").removeClass("RestDayState");
+          $("#pause_state").addClass("WorkingDayState");
+          $(".pause_visibility").attr('style', 'display:block');
+        });
+}   
+
+
+/*function test(){
+    var pos_image = document.getElementById('count_image').value;
+
+
+
+    var fileInput    = document.getElementById(`field_name_image_${pos_image}`);
+    const fileInput2 = document.getElementById('field_name_image_1');
+
+    alert('yeeees');
+    alert(pos_image);
+
+  const selectedFile = fileInput.files[0];
+  alert(selectedFile['name']);
+  console.log(selectedFile);
+}*/
+
+$(document).on("change" , "[name^='field_name_image_']" , function() {
+    
+    const fileInput     = $(this);
+
+     var label = document.getElementById(fileInput[0].classList[0]);
+    
+    label.innerHTML = fileInput[0].files[0].name;
+
+    console.log("my file input : " , fileInput[0].classList[0]);
+
+
+});
+
+
+$(document).on("change" , "[name^='field_name_images_']" , function() {
+    
+    const fileInput     = $(this);   
+
+    var label = document.getElementById(fileInput[0].classList[0]);
+
+    label.innerHTML = fileInput[0].files[0].name;
+
+    console.log("my file input : " , fileInput[0].classList[0]);
+
+});
+			
+
+
+</script>
+           
+
+{% endblock %}

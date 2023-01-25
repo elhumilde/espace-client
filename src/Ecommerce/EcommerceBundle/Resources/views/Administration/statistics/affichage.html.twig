@@ -1,0 +1,719 @@
+{% extends "::layout/base_statistics.html.twig" %}
+
+
+{% block title %}
+
+
+
+{% set data_user = app.session.get('data_user') %}
+
+ Audience {{ data_user[0]['raison_sociale'] }} - Affichages {% endblock %}
+{% block stylesheets %}
+
+<style>
+    .demo { 
+        position: relative; 
+    }
+    .demo i {
+        position: absolute; bottom: 10px; right: 24px; top: auto; cursor: pointer;
+    }
+</style>
+
+{% endblock %}
+
+
+{% block body %}
+
+
+
+        
+
+                    <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                        <h4 class="page-title">{{ data_user[0]['raison_sociale'] }}<span class="page-title2" ></span> </h4>
+                        <input type="hidden" name="affichage" id="affichage" value="affichage">
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid page-zone">
+                <!-- ============================================================== -->
+                <!-- PRODUCTS YEARLY SALES -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div class="white-box">
+                            <h3 class="box-title">Carte visite</h3>
+                            <div class="d-md-flex">
+                                <ul class="list-inline d-flex ms-auto">
+                                    <!-- <li class="ps-3">
+                                        <h5><i class="fa fa-circle me-1 text-info"></i>Sessions</h5>
+                                    </li> -->
+                                    <li class="ps-3">
+                                        <!-- <h5><i class="fa fa-circle me-1 text-inverse"></i>Nbr de parution</h5> -->
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="ct-visits" style="height: 420px;">
+                            	<img src="{{ asset('public_statistics/plugins/images/preloader.gif') }}" id="loading_visit_chart">
+                                <div class="chartist-tooltip" style="top: -13px; left: -12px;">
+                                    <span class="chartist-tooltip-value">6</span>
+                                </div>
+                                <canvas id="ctx" ></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+		            <div class="col-xl-12 col-lg-12">
+		            	<h3 class="affichage_title" >Nombre de parution de la carte de viste</h3>
+		            </div>
+		        </div>
+
+                
+
+		          <div class="row parition_cv">
+		            <img src="{{ asset('public_statistics/plugins/images/preloader.gif') }}" id="loading_parution_cv">
+		          </div>
+
+
+		        <div class="row">
+		            <div class="col-xl-12 col-lg-12">
+		            	<h3 class="affichage_title mt-4" >Nombre de parution de la fiche</h3>
+		            </div>
+		        </div>
+
+                
+
+		          <div class="row parition_fiche">
+		            <!-- <div class="col-xl-4 col-lg-4">
+		              <div class="card card-stats mb-4 mb-xl-0">
+		                <div class="card-body">
+		                  <div class="row">
+		                    <div class="col">
+		                      <h5 class="card-title text-uppercase text-muted mb-0">Nb affichages</h5>
+		                      <span class="h2 font-weight-bold mb-0 parition_fiche0"></span>
+		                    </div>
+		                    <div class="col-auto">
+		                      <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+		                        <i class="fas fa-eye"></i>
+		                      </div>
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>
+		            </div>
+		            <div class="col-xl-4 col-lg-4">
+		              <div class="card card-stats mb-4 mb-xl-0">
+		                <div class="card-body">
+		                  <div class="row">
+		                    <div class="col">
+		                      <h5 class="card-title text-uppercase text-muted mb-0">Nb utilisateurs</h5>
+		                      <span class="h2 font-weight-bold mb-0 parition_fiche1"></span>
+		                    </div>
+		                    <div class="col-auto">
+		                      <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+		                        <i class="fas fa-users"></i>
+		                      </div>
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>
+		            </div> -->
+		            <img src="{{ asset('public_statistics/plugins/images/preloader.gif') }}" id="loading_parution_fiche">
+		          </div>
+
+
+                <!-- ============================================================== -->
+                <!-- Audience par type de connexion -->
+                <!-- ============================================================== -->
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-md-6 col-lg-6 col-sm-12" style="display: none;">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3 ">
+                                <h3 class="box-title mb-0">Top 5 recherches dans google</h3>
+                                <!-- <div class="col-md-3 col-sm-4 col-xs-6 ms-auto">
+                                    <select class="form-select shadow-none row border-top">
+                                        <option>March 2021</option>
+                                        <option>April 2021</option>
+                                        <option>May 2021</option>
+                                        <option>June 2021</option>
+                                        <option>July 2021</option>
+                                    </select>
+                                </div> -->
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <!-- <thead>
+                                        <tr>
+                                            <th class="border-top-0">Name</th>
+                                            <th class="border-top-0">Status</th>
+                                            <th class="border-top-0">Price</th>
+                                        </tr>
+                                    </thead> -->
+                                    <tbody id="table_t_r">
+                                      <img src="{{ asset('public_statistics/plugins/images/preloader.gif') }}" id="loading_key">                                        
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-12 ">
+                        <div class="white-box white-box-rubrique ">
+                            <div class="d-md-flex mb-3 ">
+                                <h3 class="box-title mb-0 ville_name"><!-- Nombre de parution de la rubrique à <span class="ville_name"> </span>--></h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <tbody class="rubrique_ville">
+                                                                                
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 col-lg-6 col-sm-12">
+                        <div class="white-box white-box-rubrique-maroc">
+                            <div class="d-md-flex mb-3 ">
+                                <h3 class="box-title mb-0 rub_maroc" > Nombre de parution de la rubrique au MAROC </h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <tbody class="rubrique_maroc">
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+
+
+            
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    
+	<script>
+
+
+            /*window.onbeforeunload = function(e) 
+            {
+                 e.returnValue = 'onbeforeunload'; 
+                 func(); return ''onbeforeunload''; 
+            }; 
+
+            function func() 
+            { 
+                var request = new XMLHttpRequest(); 
+                request.open("POST", "exit.php", true); 
+                request.onreadystatechange = stateChanged; 
+                request.send(null); 
+            } 
+
+            function stateChanged() 
+            { 
+
+                if (request.readyState == 4 || request.readyState == "complete") 
+                alert("Succes!"); 
+            }
+
+
+            
+
+
+            window.onbeforeunload = function(e) {
+              var dialogText = 'We are saving the status of your listing. Are you realy sure you want to leave?';
+              e.returnValue = dialogText;
+              return dialogText;
+            }
+
+
+
+
+
+
+             $(window).on('beforeunload', function() {
+                var x =logout(); return x; 
+             }); function logout(){ jQuery.ajax({ }); return 1+3; }
+
+
+            
+
+
+
+
+window.onbeforeunload = function(e) {
+  var dialogText = 'We are saving the status of your listing. Are you realy sure you want to leave?';
+  e.returnValue = dialogText;
+  return dialogText;
+};*/
+
+
+            /*window.onbeforeunload = function(){
+               return confirm('Voulez vous quitter la page ?');
+            }*/
+
+
+			/*topKeywordSearch();*/
+			function topKeywordSearch(){
+                /*$(".page-zone").css('display', 'none');*/
+				$('body').css('pointer-events', 'none');
+                $('body').attr('id' , 'overlay');
+
+				var code_firme= $("input[name=code_firme]").val();
+				var start_period= $("input[name=start-period]").val();
+				var end_period= $("input[name=end-period]").val();
+
+				/*if(start_period !== ''){*/
+					var start_period = start_period;
+					var end_period = end_period;
+				/*}else{
+					var start_period = '-1months';
+					var end_period = '-1days';
+				}*/	
+				$( "#table_t_r").empty();
+				$('#loading_key').css('display', 'flex');
+		
+				$.ajax({
+						url     : "{{path('topKeywordSearch')}}",
+						type    : 'POST',
+						data    : {code_firme: code_firme, start_period: start_period, end_period: end_period},
+						success : function(data){ 
+
+							$('#loading_key').css('display', 'none');
+							var result = data.top_keyword_search;
+							for($i=0; $i<result.length;$i++){
+								$( "#table_t_r" ).append( "<tr><td class='txt-oflo'>"+($i+1)+"</td><td style='font-weight: bold;'>"+result[$i][0]+"</td></tr>" );
+							}
+
+                            clickVisite();
+
+						},
+
+						error : function(resultat, statut, erreur){
+							
+							alert('topKeywordSearch no');
+						}
+
+					});
+
+			};
+
+
+
+            clickVisite();
+            function clickVisite(){
+                $('body').attr('id' , 'overlay');
+                document.body.style.overflow = 'hidden';
+                $("#ctx").remove();
+                $("#ct-visits").append('<canvas id="ctx" ></canvas>');
+
+                $("#ctx").hide();
+                $('body').css('pointer-events', 'none');
+
+                $('#loading_visit_chart').css('display', 'flex');
+                
+                $('.white-box-rubrique-maroc').css('display', 'none');
+                $('.white-box-rubrique').css('display', 'none');
+
+                var code_firme= $("input[name=code_firme]").val();
+                var start_period= $("input[name=start-period]").val();
+                var end_period= $("input[name=end-period]").val();
+
+                /*if(start_period !== ''){*/
+                var start_period = start_period;
+                var end_period = end_period;
+                /*}else{
+                    var start_period = '-1months';
+                    var end_period = '-1days';
+                }*/ 
+
+                $( ".parition_fiche").empty();
+                $( ".parition_cv").empty();
+                $(".page-title2").empty();
+
+                $( '#loading_parution_cv').css('display', 'flex');
+                $( '#loading_parution_fiche').css('display', 'flex');
+        
+                $.ajax({
+                        url     : "{{path('clickVisite')}}",
+                        type    : 'POST',
+                        data    : {code_firme: code_firme, start_period: start_period, end_period: end_period},
+                        success : function(data){ 
+
+                            $( '#loading_parution_cv').css('display', 'none');
+                            $( '#loading_parution_fiche').css('display', 'none');
+                            
+
+                            $(".page-title2").append(" : du "+ data.begin_period+" au "+data.end_period);
+
+
+                            if(data.apparition_rs == 0){
+                                $( ".parition_cv" ).append("<div class='col-xl-4 col-lg-4'><div class='card card-stats mb-4 mb-xl-0' style='min-height: 100px;'><div class='card-body'><div class='row'><div class='col'><h5 class='card-title text-uppercase text-muted mb-0'>Nb affichages</h5><span class='h2 font-weight-bold mb-0'>"+ 0 +"</span></div><div class='col-auto'><div class='icon icon-shape bg-danger text-white rounded-circle shadow'><i class='fas fa-eye'></i></div></div></div></div></div></div>");
+
+                                $( ".parition_cv" ).append("<div class='col-xl-4 col-lg-4'><div class='card card-stats mb-4 mb-xl-0' style='min-height: 100px;'><div class='card-body'><div class='row'><div class='col'><h5 class='card-title text-uppercase text-muted mb-0'>Nb utilisateurs</h5><span class='h2 font-weight-bold mb-0'>"+ 0 +"</span></div><div class='col-auto'><div class='icon icon-shape bg-warning text-white rounded-circle shadow'><i class='fas fa-users'></i></div></div></div></div></div></div>");
+
+                                $( ".parition_cv" ).append("<div class='col-xl-4 col-lg-4'><div class='card card-stats mb-4 mb-xl-0' style='min-height: 100px;'><div class='card-body'><div class='row'><div class='col'><h5 class='card-title text-uppercase text-muted mb-0'>Position dans la liste de réponse</h5><span class='h2 font-weight-bold mb-0'>"+ 0 +"</span></div><div class='col-auto'><div class='icon icon-shape bg-info text-white rounded-circle shadow'><i class='fas fa-list'></i></div></div></div></div></div></div>");
+                            }else{
+                            $( ".parition_cv" ).append("<div class='col-xl-4 col-lg-4'><div class='card card-stats mb-4 mb-xl-0' style='min-height: 100px;'><div class='card-body'><div class='row'><div class='col'><h5 class='card-title text-uppercase text-muted mb-0'>Nb affichages</h5><span class='h2 font-weight-bold mb-0'>"+ Math.round(data.apparition_rs[1]* 10) / 10 +"</span></div><div class='col-auto'><div class='icon icon-shape bg-danger text-white rounded-circle shadow'><i class='fas fa-eye'></i></div></div></div></div></div></div>");
+
+                            $( ".parition_cv" ).append("<div class='col-xl-4 col-lg-4'><div class='card card-stats mb-4 mb-xl-0' style='min-height: 100px;'><div class='card-body'><div class='row'><div class='col'><h5 class='card-title text-uppercase text-muted mb-0'>Nb utilisateurs</h5><span class='h2 font-weight-bold mb-0'>"+ Math.round(data.apparition_rs[2]* 10) / 10 +"</span></div><div class='col-auto'><div class='icon icon-shape bg-warning text-white rounded-circle shadow'><i class='fas fa-users'></i></div></div></div></div></div></div>");
+
+                            $( ".parition_cv" ).append("<div class='col-xl-4 col-lg-4'><div class='card card-stats mb-4 mb-xl-0' style='min-height: 100px;'><div class='card-body'><div class='row'><div class='col'><h5 class='card-title text-uppercase text-muted mb-0'>Position dans la liste de réponse</h5><span class='h2 font-weight-bold mb-0'>"+ Math.round(data.apparition_rs[3]* 10) / 10  +"</span></div><div class='col-auto'><div class='icon icon-shape bg-info text-white rounded-circle shadow'><i class='fas fa-list'></i></div></div></div></div></div></div>");
+                            }
+                            /*var result = data.fiche_apparition;
+                            for($i=0; $i<result.length-1;$i++){
+                                $( ".parition_fiche"+$i ).append( result[$i+1] );
+                            }*/
+                            if(data.apparition_rs == 0){
+                                    $( ".parition_fiche").append("<div class='col-xl-4 col-lg-4'><div class='card card-stats mb-4 mb-xl-0'><div class='card-body'><div class='row'><div class='col'><h5 class='card-title text-uppercase text-muted mb-0'>Nb affichages</h5><span class='h2 font-weight-bold mb-0'>"+ 0 +"</span></div><div class='col-auto'><div class='icon icon-shape bg-danger text-white rounded-circle shadow'><i class='fas fa-eye'></i></div></div></div></div></div></div>");
+
+
+                                    $( ".parition_fiche").append("<div class='col-xl-4 col-lg-4'><div class='card card-stats mb-4 mb-xl-0'><div class='card-body'><div class='row'><div class='col'><h5 class='card-title text-uppercase text-muted mb-0'>Nb utilisateurs</h5><span class='h2 font-weight-bold mb-0'>"+ 0 +"</span></div><div class='col-auto'><div class='icon icon-shape bg-warning text-white rounded-circle shadow'><i class='fas fa-users'></i></div></div></div></div></div>");
+                            }else{
+                                $( ".parition_fiche").append("<div class='col-xl-4 col-lg-4'><div class='card card-stats mb-4 mb-xl-0'><div class='card-body'><div class='row'><div class='col'><h5 class='card-title text-uppercase text-muted mb-0'>Nb affichages</h5><span class='h2 font-weight-bold mb-0'>"+ data.fiche_apparition[1] +"</span></div><div class='col-auto'><div class='icon icon-shape bg-danger text-white rounded-circle shadow'><i class='fas fa-eye'></i></div></div></div></div></div></div>");
+
+
+                                $( ".parition_fiche").append("<div class='col-xl-4 col-lg-4'><div class='card card-stats mb-4 mb-xl-0'><div class='card-body'><div class='row'><div class='col'><h5 class='card-title text-uppercase text-muted mb-0'>Nb utilisateurs</h5><span class='h2 font-weight-bold mb-0'>"+ data.fiche_apparition[2] +"</span></div><div class='col-auto'><div class='icon icon-shape bg-warning text-white rounded-circle shadow'><i class='fas fa-users'></i></div></div></div></div></div>");
+                            }
+
+                            
+                             rubrique() 
+
+                            
+                        },
+
+                        error : function(resultat, statut, erreur){
+                            
+                            alert('clickVisite no');
+                        }
+
+                    });
+
+            };
+        
+
+          
+           function rubrique(){
+
+            var code_firme= $("input[name=code_firme]").val();
+            $(".rubrique_ville").empty();
+            $(".ville_name").empty();
+            $( "#table_t_r").empty();
+            $('#loading_key').css('display', 'flex');
+
+                $.ajax({
+                    url  :"{{path('rubrique')}}",
+                    type : 'POST',
+                    data : {code_firme: code_firme},
+                    success : function(data){ 
+
+                            
+                            $('.white-box-rubrique').css('display', 'block');
+
+                            var result = data.list_rubrique.length;
+                            $(".ville_name").append(data.ville_name);
+                           
+                            for(var i=0; i<result; i+=2){
+                                
+                                    $(".rubrique_ville").append('<tr><td class="txt-oflo">'+ data.list_rubrique[i] +'</td><td style="font-weight: bold;">'+ (data.list_rubrique[i+1]) * 10+'</td><td><span class="text-success"></span></td></tr>');
+                                    
+                            }           
+
+                            rubriqueMaroc() ;
+                            
+                        },
+
+                        error : function(resultat, statut, erreur){
+                            
+                            alert('rubrique ko');
+
+                        }
+
+                });
+
+           }
+
+           
+           function rubriqueMaroc(){
+
+            var code_firme= $("input[name=code_firme]").val();
+            $(".rubrique_maroc").empty();
+                $.ajax({
+                    url  :"{{path('rubriqueMaroc')}}",
+                    type : 'POST',
+                    data : {code_firme: code_firme},
+                    success : function(data){ 
+
+                            $('.white-box-rubrique-maroc').css('display', 'block');
+
+                            var result = data.list_rubrique_maroc.length;
+
+                            console.log(data.list_rubrique_maroc);
+                            
+                            for(var i=0; i<result; i+=2){
+
+                                 $(".rubrique_maroc").append('<tr><td class="txt-oflo">'+ data.list_rubrique_maroc[i] +'</td><td style="font-weight: bold;">'+ (data.list_rubrique_maroc[i+1]) * 10+'</td><td><span class="text-success"></span></td></tr>');
+                                    
+                            }  
+
+                            clickVisitechart();
+                            
+                        },
+
+                        error : function(resultat, statut, erreur){
+                            
+                            alert('rubriqueMaroc ko');
+
+                        }
+
+                });
+
+           }
+            
+
+
+            function clickVisitechart(){
+        
+                var code_firme= $("input[name=code_firme]").val();
+                var start_period= $("input[name=start-period]").val();
+                var end_period= $("input[name=end-period]").val();
+
+                /*if(start_period !== ''){*/
+                    var start_period = start_period;
+                    var end_period = end_period;
+                /*}else{
+                    var start_period = '-1months';
+                    var end_period = '-1days';
+                }*/
+
+
+                $('#loading_visit_chart').css('display', 'flex');   
+
+                $.ajax({
+                        url     : "{{path('clickVisiteChart')}}",
+                        type    : 'POST',
+                        data    : {code_firme: code_firme, start_period: start_period, end_period: end_period},
+                        success : function(data){ 
+
+                            $('#loading_visit_chart').css('display', 'none');
+                            
+                            var result = data.click_visite_chart;
+                            var dates = data.dates;
+                            chartByMonth(result, dates);
+                            
+                        },
+
+                        error : function(resultat, statut, erreur){
+                            
+                            alert('clickVisitechart no');
+                        }
+
+                    });
+
+            };
+
+
+
+           async function chartByMonth(result, dates){
+
+                var a =[];
+                      for($i=0; $i<result.length;$i++){
+                          a.push(result[$i][1]);
+                      }
+                var isChartRendered = false;
+                var chart = new Chart(ctx, {
+                   type: 'line',
+                   data: {
+                      labels: dates,
+                      datasets: [{
+                         label: 'Nbr de parution',
+                         data: a,
+                         backgroundColor: 'rgba(0, 119, 290, 0.2)',
+                         borderColor: 'rgba(0, 119, 290, 0.6)',
+                         fill: true
+                      }]
+                   },
+                   options: { 
+                      // setting following option is mandatory
+                      animation: {
+                         onComplete: function() {
+                            isChartRendered = true,
+                            $('body').css('pointer-events', 'auto');
+                            $('body').removeAttr('id');
+                            download(isChartRendered)
+                         }
+                      },
+                      /*scales: {
+                          yAxes: [{
+                             ticks: {
+                                stepSize: 1
+                             }
+                          }],
+                          
+                       },*/
+                   }
+                });
+                $("#ctx").show();
+                $("#ctx").css({"height": "450px", "margin-top": "-15px"});  
+                /*$(".page-zone").css('display', 'flex');*/
+            }
+
+            
+
+
+             /*function chartByMonth(result, dates) {
+
+                      var a =[];
+                      for($i=0; $i<result.length;$i++){
+                          a.push(result[$i][1]);
+                      }
+
+                      var responsiveOptions = [
+                          ['screen and (min-width: 641px) and (max-width: 1024px)', {
+                            axisX: {
+                              labelInterpolationFnc: function(value) {
+                                return value.slice(0, 5);
+                              }
+                            }
+                          }],
+                          ['screen and (max-width: 640px)', {
+                            axisX: {
+                              labelInterpolationFnc: function(value) {
+                                return value.slice(0, 2);
+                              }
+                            }
+                          }]
+                        ];
+
+
+
+
+                        var chart = new Chartist.Line('#ct-visits', {
+                            labels: dates,
+                            series: [a]
+                        }, {
+                            chartPadding: 30,
+                            labelOffset: 50,
+                            labelDirection: 'explode',
+                            top: 0,
+                            low: 0,
+                            showPoint: true,
+                            fullWidth: true,
+                            plugins: [
+                                Chartist.plugins.tooltip()
+                            ],
+                            axisY: {
+                                labelInterpolationFnc: function (value) {
+                                    return (value / 1);
+                                }
+                            },
+                            showArea: true
+                        },responsiveOptions);
+
+                        chart.on('created', function(){
+                            setTimeout(exportAndSaveCanvas(), 13000);
+                        });
+                        
+             };*/
+
+
+            function download(isChartRendered) {
+               // if (!isChartRendered) return; return if chart not rendered
+               html2canvas(document.getElementById('captures'), {
+                  onrendered: function(canvas) {
+                     var imgData = canvas.toDataURL('image/jpeg');  
+
+                    var code_firme = $("input[name=code_firme]").val();
+                    var id_user = $("input[name=id_user]").val();
+                    var page = '2';
+
+                    
+                    var url = "{{path('uploadPdfImages')}}";
+                        $.ajax({ 
+                            type: "POST", 
+                            url: url,
+                            dataType: 'text',
+                            data: {
+                                base64data : imgData, code_firme : code_firme, page : page, id_user : id_user
+                            }
+                        });  
+                  }
+               });
+               document.body.style.overflow = 'scroll';
+            }
+
+
+            /*function exportAndSaveCanvas()  {
+
+                    html2canvas($("#captures"), { 
+                    background:'#fff',
+                    onrendered: function(canvas) {         
+                    var imgData = canvas.toDataURL('image/jpeg');  
+
+                    var code_firme = $("input[name=code_firme]").val();
+                    var id_user = $("input[name=id_user]").val();
+                    var page = '2';
+
+                    
+                    var url = "{{path('uploadPdfImages')}}";
+                        $.ajax({ 
+                            type: "POST", 
+                            url: url,
+                            dataType: 'text',
+                            data: {
+                                base64data : imgData, code_firme : code_firme, page : page, id_user : id_user
+                            }
+                        });     
+                        
+                    }
+                    });
+            } */
+
+
+               
+
+
+            
+			
+
+
+	</script>
+
+
+
+    
+{% endblock %}

@@ -1,0 +1,18 @@
+
+services:
+      setNewEmail:
+           class: Ecommerce\EcommerceBundle\Services\GetEmail
+           arguments: [@service_container,@session,@doctrine.orm.entity_manager]
+      setNewFacture:
+           class: Ecommerce\EcommerceBundle\Services\GetFacture
+           arguments: [@service_container,@session,@doctrine.orm.entity_manager]
+      twig.extension.intl:
+           class: Twig_Extensions_Extension_Intl
+           tags:
+            - { name: twig.extension }
+      ben.twig.extension.config:
+            class: Ecommerce\EcommerceBundle\Twig\ConfigExtension
+            arguments: ["@doctrine.orm.entity_manager"]
+            tags:
+            - { name: twig.extension }
+

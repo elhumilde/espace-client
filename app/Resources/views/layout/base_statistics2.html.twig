@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords"
+            content="espace client telecontact, telecontact, statistique, audience, gestion compte client telecontact, visibilité sur le site telecontact">
+        <meta name="description"
+            content="espace client telecontact est l'interface qui permet la supervision de votre audiance sur telecontact.ma ainssi que la gestion de votre compte client telecontact">
+        <meta name="robots" content="noindex,nofollow">
+        <title>{% block title %} Audience globale de Télécontact {% endblock %}</title>
+        <!-- Favicon icon -->
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('public_statistics/plugins/images/favicon.png') }}">
+        <!-- Custom CSS -->
+        <!-- 
+        chartist <link href="{{ asset('public_statistics/plugins/bower_components/chartist/dist/chartist.min.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('public_statistics/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css') }}">
+             -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.3.1/css/all.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.2.17/jquery.timepicker.min.css">
+        <!-- Custom CSS -->
+        <link href="{{ asset('public_statistics/css/style.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('public_statistics/css/style_cards.min.css') }}" rel="stylesheet">
+        <!-- date range picker js -->
+        <link href="{{ asset('public_statistics/css/daterangepicker.css') }}" rel="stylesheet">
+        <!-- date range picker js -->
+        <!-- datatable -->
+        <link href="{{ asset('public_statistics/css/datatable_style.css') }}" rel="stylesheet">
+        <!-- <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet"> -->
+        <!-- datatable -->
+        <!-- hours css -->
+        <link href="{{ asset('public_statistics/css/hours.css') }}" rel="stylesheet">
+        <!-- end hours css -->
+        <!-- start rating -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- End start rating -->
+
+        <style>
+            
+            .calendar-time{
+                display: none;
+            }
+            .sidebar-link{
+                border-bottom: 0.1rem solid #f3f3f3;
+            }
+            #loading_default, #loading_visit_chart{
+                height: 420px;
+                display: flex;
+                margin: auto;
+            }
+            #loading_table{
+                height: 420px;
+                display: flex;
+                margin: 0px auto;
+            }
+            #loading_key, #loading_devices, #loading_users, #loading_table{
+                width: 100%;
+                display: flex;
+                margin: 0px auto;
+            }
+            #loading_parution_cv, #loading_parution_fiche, #loading_record_session{
+                width: 40%;
+                display: flex;
+                margin: 0px auto;
+                height: 350px;
+
+            }
+            #config-demo{
+                font-size: 0.790rem!important;
+            }
+
+            /* compte dropdown */
+
+            .dropbtn {
+              cursor: pointer;
+            }
+
+            .dropdown {
+              position: relative;
+              display: inline-block;
+            }
+
+            .dropdown-content {
+              display: none;
+              position: absolute;
+              background-color: #f9f9f9;
+              min-width: 160px;
+              box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+              z-index: 1;
+            }
+
+            .dropdown-content a {
+              color: black;
+              padding: 12px 16px;
+              text-decoration: none;
+              display: block;
+            }
+
+            .dropdown-content a:hover {background-color: #f1f1f1}
+
+            .dropdown:hover .dropdown-content {
+              display: block;
+            }
+            .bgb{
+                background: #f2f1ff;
+                border-bottom: 1px solid white;
+                border-top: 1px solid white;
+            }
+
+
+            /* end compte dropdown */
+
+            #overlay {
+              background: #00000008;
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              top: 0;
+              left: 0;
+              opacity: .4;
+            }
+
+            .tlct-website{
+                color: #ffdd00;
+                background: black;
+                padding: 6px;
+            }
+            .tlct-website:hover{
+                background-color: #ffdd00;
+                color: black;
+                padding: 7px;
+            }
+            .rsv{
+                color: white!important;
+            }
+            .navbar-header{
+                display: none;
+            }
+             .logo_image{
+                width: 200px;
+            }
+            #main-wrapper[data-layout=horizontal] .topbar .navbar-collapse[data-navbarbg=skin5], #main-wrapper[data-layout=horizontal] .topbar[data-navbarbg=skin5], #main-wrapper[data-layout=vertical] .topbar .navbar-collapse[data-navbarbg=skin5], #main-wrapper[data-layout=vertical] .topbar[data-navbarbg=skin5] {
+                background: white;
+            }
+            .dropdown_account{
+                background: rgb(255 222 0);
+                padding: 8px 12px!important;
+                border-radius: 5px;
+            }
+            .user-div{
+                color: black;
+                font-size: 16px;
+                font-weight: bold!important;
+            }
+            .account-div{
+                padding: 10px
+            }
+            .account-div-pt{
+                padding-top : 5px;
+            }
+            .navbar-brand{
+                margin-left: 8%;
+            }
+            .navbar-nav{
+                margin-left: 19%;
+            }
+            .logo-responsive{
+                width: 150px;
+            }
+            .bg-image {
+                background-image: url({{ asset('public_statistics/plugins/images/espace-client-homepage-background2-min.png')}});
+                background-size: cover;
+                padding: 5em;
+                text-align: center;
+            }
+            .bg-image-text {
+                display: initial;
+                font-weight: 600;
+                color: white;
+                font-size: 34px;
+
+            }
+            
+            .menu {
+                list-style-type: none;
+                background-color: rgba(197,197,197,0.23) !important;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                padding: 25px;
+                padding: 25px 25px 9px 25px;
+                /*margin-top: 25px;*/
+                margin-bottom: 0px;
+            }
+            
+            .menu ul {
+                list-style-type: none;
+                padding-left: 15px;
+                color: #4c4b4b;
+            }
+            .menu li {
+                line-height: 1.8rem;
+                color: #4c4b4b;
+            }
+            .menu li a{
+                color: #4c4b4b;
+            }
+            .menu .first_level_menu{
+                font-weight: bold;
+            }
+            .menu .second_level_menu{
+                font-weight: 100;
+            }
+            .menu_line{
+                color: black;
+            }
+
+            .menu-comm {
+                list-style-type: none;
+                background-color: #fff3a3;
+                box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+                padding: 13px 25px 9px 25px;
+            }
+
+            .menu-comm ul {
+                list-style-type: none;
+                padding-left: 15px;
+                color: #4c4b4b;
+            }
+            .menu-comm li {
+                line-height: 1.8rem;
+                color: #4c4b4b;
+            }
+            .menu-comm li a{
+                color: #4c4b4b;
+            }
+            .menu-comm .first_level_menu{
+                font-weight: bold;
+            }
+            .menu-comm .second_level_menu{
+                font-weight: 100;
+            }
+            .menu_line{
+                color: black;
+            }
+            .menu_line_comm{
+                margin-bottom: 5px!important;
+                margin-top: 5px!important;
+            }
+            .white-box-top{
+                align-items: baseline;
+                padding-bottom: 10px;
+            }
+            .right-side{
+                background-color: #f8f9ff;
+                
+            }
+            .footer a {
+                color: #ffdd00;
+                font-weight: 600;
+            }
+
+
+    /* responsive */
+
+        
+
+        @media (max-width: 992px) and (min-width: 600px) {
+            .navbar-nav {
+                margin-left: 4%!important;
+            }
+
+            .in {
+                margin-right: 40px!important;
+            }
+
+            .bg-image {
+                padding: 2em;
+            }
+            .bg-image-text {
+                font-size: 18px;
+            }
+            .menu {
+                padding: 25px 3px 0px 3px;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .navbar-nav {
+                margin-left: 4%!important;
+            }
+
+            .in {
+                margin-right: 75px!important;
+            }
+
+            .bg-image {
+                padding: 2em;
+            }
+            .bg-image-text {
+                font-size: 18px;
+            }
+        }
+        @media (min-width: 1600px){
+            .col-xlg-1 {
+                width: 3.333333%;
+            }
+        }
+        @media (min-width: 992px){
+            .col-lg-1 {
+                width: 3.3333333333%;
+            }
+        }
+        @media (max-width: 767px){
+            .hp_part_icon {
+                padding: 12px 0;
+            }
+        }
+    /* end responsive */
+
+
+            
+        </style>
+
+        {% block stylesheets %}
+        {% endblock %}
+    </head>
+
+    
+    <body>
+        <div >
+        {% set utilisateur = app.session.get('utilisateur') %}
+        {% set data_user = app.session.get('data_user') %}
+        {% set data_vignette = app.session.get('data_vignette') %}
+        {% set raison_sociale_for_link = app.session.get('raison_sociale_for_link') %}
+        {% set ville = app.session.get('ville') %}
+        {% set count_comm = data_user|length %}
+        {% set cf = app.session.get('cf') %}
+        {% if app.session.get('selectedrange') != '' %}
+            {% set selectedrange = app.session.get('selectedrange') %}
+        {% else %}
+            {% set selectedrange = {'start_period': '-1months', 'end_period':'-1days'} %}
+        {% endif %}
+
+        {% set start_timestamp = selectedrange['start_period']|date_modify("+1 day")%}
+        {% set end_timestamp = selectedrange['end_period']|date_modify("+1 day")%}
+
+        <input type="hidden" name="start_timestamp" id="start_timestamp" value="{{ start_timestamp | date('U') }}">
+        <input type="hidden" name="end_timestamp" id="end_timestamp" value="{{ end_timestamp | date('U') }}">
+
+        <!-- 
+            <input name="ses_s_d" id="ses_s_d" value ="{{ selectedrange['start_period'] }}" >
+            <input name="ses_e_d" id="ses_e_d" value ="{{ selectedrange['end_period'] }}" > 
+        -->
+
+            <!-- ============================================================== -->
+            <!-- Preloader - style you can find in spinners.css -->
+            <!-- ============================================================== -->
+            <div class="preloader" >
+                <div class="lds-ripple">
+                    <div class="lds-pos"></div>
+                    <div class="lds-pos"></div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- Main wrapper - style you can find in pages.scss -->
+            <!-- ============================================================== -->
+            <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+                data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+                <!-- ============================================================== -->
+                <!-- Topbar header - style you can find in pages.scss -->
+                <!-- ============================================================== -->
+                <header class="topbar" data-navbarbg="skin5">
+                    <nav class="navbar top-navbar navbar-expand-md ">
+                        <div class="navbar-header" data-logobg="skin6">
+                            <!-- ============================================================== -->
+                            <!-- Logo -->
+                            <!-- ============================================================== -->
+
+                            {% if data_user[0]['code_firme'] is defined and data_user[0]['code_firme'] != "" %}
+
+                                <a class="navbar-brand" href="{{path('telecontact_data',{code_firme:data_user[0]['code_firme']})}}" aria-expanded="false" target="_blank">
+                                    <span class="logo-text">
+                                        <img class="logo-responsive" src="{{ asset('public_statistics/plugins/images/Logo_TLC_Noir_Jaune.png')}}" alt="homepage" />
+                                    </span>
+                                </a>  
+
+                            {% else %}
+
+                            <a class="navbar-brand" href="dashboard.html">
+                                <span class="logo-text">
+                                    <img class="logo-responsive" src="{{ asset('public_statistics/plugins/images/Logo_TLC_Noir_Jaune.png')}}" alt="homepage" />
+                                </span>
+                            </a>
+                            <!-- ============================================================== -->
+                            <!-- End Logo -->
+                            <!-- ============================================================== -->
+                            <!-- ============================================================== -->
+                            <!-- toggle and nav items -->
+                            <!-- ============================================================== -->
+                            <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
+                                href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+
+                            {% endif %}
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- End Logo -->
+                        <!-- ============================================================== -->
+                        <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+
+                            <!-- ============================================================== -->
+                            <!-- Logo -->
+                            <!-- ============================================================== -->
+
+                            {% if data_user[0]['code_firme'] is defined and data_user[0]['code_firme'] != "" and data_user[0]['code_firme'] != "0000" %}
+
+                                <a class="navbar-brand" href="{{path('homepage',{code_firme:data_user[0]['code_firme']} )}}" aria-expanded="false" target="_blank">
+                                    <span class="logo-text">
+                                        <img class="logo_image" src="{{ asset('public_statistics/plugins/images/Logo_TLC_Noir_Jaune.png')}}" alt="homepage" />
+                                    </span>
+                                </a>  
+
+                            {% else %}
+
+                            <a class="navbar-brand" href="">
+                                <span class="logo-text">
+                                    <img src="{{ asset('public_statistics/plugins/images/Logo_TLC_Noir_Jaune.png')}}" alt="homepage" />
+                                </span>
+                            </a>
+                            
+                            <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
+                                href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+
+                            {% endif %}
+
+
+
+                            <ul class="navbar-nav d-flex align-items-center">
+
+                                <!-- ============================================================== -->
+                                <!-- Search -->
+                                <!-- ============================================================== -->
+                                <li class="in tlct-website" style="margin-right: 100px; " onclick="sendToken();">
+                                        
+                                        <i class="fa fa-globe" style="font-weight: 600; font-size: 16px;text-decoration: underline;cursor: pointer;"> Accéder à www.telecontact.ma </i>
+                                        <i class="fa fa-hand-o-up" aria-hidden="true"></i>
+                                                          
+                                </li>
+                                <!-- ============================================================== -->
+                                <!-- User profile and search -->
+                                <!-- ============================================================== -->
+                                <li>
+                                    <div class="dropdown ">
+                                        <a class="profile-pic dropbtn dropdown_account">
+                                        <img src="{{ asset('public_statistics/plugins/images/users/user.png') }}" alt="user-img" width="20" class="img-circle">
+                                        {% if data_user[0]['code_commercial'] is defined %}
+                                            <span class="font-medium user-div">{{ data_user[0]['nom'] }}</span>
+                                        {% else %}
+                                            <span class="font-medium user-div">{{ data_user[0]['raison_sociale'] }}</span>
+                                        {% endif %}
+                                        </a>
+                                        <input type="hidden" name="id_user" id="id_user" value="{{ utilisateur[0]['id_user'] }}">
+                                        <div class="dropdown-content">
+                                            {% if data_user[0]['code_firme'] is defined and data_user[0]['code_firme'] != "" and data_user[0]['profile'] == 'client' %}
+                                            <a href="{{ path('monCompte',{code_firme:data_user[0]['code_firme']}) }}">Mon compte</a>
+                                            {% endif %}
+                                            <a href="{{ path('deconnexion') }}">Déconnexion</a>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <!-- ============================================================== -->
+                                <!-- User profile and search -->
+                                <!-- ============================================================== -->
+                            </ul>
+                            <input type="hidden" name="start-period" id="start-period" value="" >
+                            <input type="hidden" name="end-period" id="end-period" value="" >
+
+                        </div>
+                    </nav>
+                </header>
+                {% block slide %}
+                <div class="group-bg-image">
+                    <div class="col-lg-12 col-xlg-12 col-md-12 bg-image">
+                        <p class="bg-image-text">Bienvenue dans votre espace client Telecontact</p>
+                    </div>
+                </div>
+                {% endblock %}
+
+
+
+
+                <div class="container-fluid ">
+                <div class="row">
+
+                {% block menu %}
+
+                    {% if data_user[0]['code_firme'] is defined %}
+                        <!-- Column -->
+                        <!-- <div class="col-lg-1 col-xlg-1 col-md-1 col-sm-0 column-0">
+                        </div> -->
+                        <div class="col-lg-3 col-xlg-3 col-md-3 col-sm-12 column-0">
+                            <ul class="menu">
+                                {% if data_user[0]['code_firme'] != "" and data_user[0]['code_firme'] != "0000" %}
+                                <li class="first_level_menu">
+                                    <a target="_blank" href="{{path('homepage',{code_firme:data_user[0]['code_firme']} )}}">
+                                        <i aria-hidden="true" class="fas fa-home"></i> Mon tableau de bord
+                                    </a>
+                                </li>
+                                <li class="first_level_menu">
+                                    <a target="_blank" href="{{path('telecontact_data',{code_firme:data_user[0]['code_firme']})}}">
+                                        <i class="fas fa-chart-line" aria-hidden="true"></i> Audience globale TLC
+                                    </a>
+                                </li>
+                                <hr class="menu_line" >
+                                <li class="first_level_menu">Ma performance mesurée
+                                    <ul>
+                                        <li class="second_level_menu">
+                                            <a  target="_blank" href="{{path('affichage',{code_firme:data_user[0]['code_firme']})}}">- 
+                                                <i class="fa fa-tv" aria-hidden="true"></i> Affichage de votre référencement
+                                            </a>
+                                        </li>
+                                        <li class="second_level_menu">
+                                            <a  target="_blank" href="{{path('ads',{code_firme:data_user[0]['code_firme'] })}}">- 
+                                                <i class="fab fa-adversal" aria-hidden="true"></i> Publicité Display
+                                            </a>
+                                        </li>
+                                        <li class="second_level_menu">
+                                            <a  target="_blank" href="{{path('click',{code_firme:data_user[0]['code_firme']})}}">- 
+                                            <i class="fas fa-hand-pointer" aria-hidden="true"></i> Clics
+                                            </a>
+                                        </li>
+                                        {% if data_vignette != 0 %}
+                                        <li class="second_level_menu">
+                                            <a  target="_blank" href="{{path('vignette',{code_firme:data_vignette['code_firme']} )}}">- 
+                                            <i class="fas fa-ad" aria-hidden="true"></i> Vignette
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </li>
+                                <hr class="menu_line" >
+                                <li class="first_level_menu">Contacts générés
+                                    <ul>
+                                        <li class="second_level_menu">
+                                            <a  target="_blank" href="{{ path('devis', {code_firme:data_user[0]['code_firme']}) }}">- 
+                                            <i class="fas fa-envelope-open-text" aria-hidden="true"></i> Messages
+                                            </a>
+                                        </li>
+                                        <li class="second_level_menu">
+                                            <a  target="_blank" href="{{ path('devisTelecontact', {code_firme:data_user[0]['code_firme']}) }}">-
+                                            <i class="fas fa-bullhorn" aria-hidden="true"></i> Demandes de devis
+                                            </a>
+                                        </li>
+                                        <li class="second_level_menu">
+                                            <a  target="_blank" href="{{ path('avis_list', {code_firme:data_user[0]['code_firme']}) }}">- 
+                                            <i class="fas fa-star-half-alt" aria-hidden="true"></i> Avis
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <hr class="menu_line" >
+                                <li class="first_level_menu">Ma fiche professionnelle
+                                    <ul>
+                                        <li class="second_level_menu">
+                                            <a target="_blank" href="https://www.telecontact.ma/annonceur/{{ raison_sociale_for_link }}/{{ data_user[0]['code_firme'] }}/{{ ville }}.php">- 
+                                                <i class="fas fa-file" aria-hidden="true"></i> Voir ma fiche professionnelle
+                                            </a>
+                                        </li>  
+                                        <li class="second_level_menu">
+                                            <a target="_blank" href="{{path('actualite',{code_firme:data_user[0]['code_firme'] })}}">- 
+                                                <i class="fas fa-info-circle" aria-hidden="true"></i> Gérer mes actualités
+                                            </a>
+                                        </li>
+                                        <li class="second_level_menu" >
+                                            <a target="_blank" href="{{path('modifierSociete',{code_firme:data_user[0]['code_firme'] })}}">- 
+                                                <i class="fas fa-edit" aria-hidden="true"></i> Modifier mon établissement
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <hr class="menu_line" >
+                                {% endif %}
+                                <li class="first_level_menu">Services Telecontact
+                                    <ul>
+                                        <li class="second_level_menu" style="cursor: pointer;" onclick="sendToken();">
+                                            <!-- <a target="_blank" href="https://www.telecontact.ma/"> -->- 
+                                            <i class="fa fa-globe" aria-hidden="true"></i> Accéder au site Telecontact
+                                            <!-- </a> -->
+                                        </li>
+                                        <li class="second_level_menu">
+                                            <a target="_blank" href="https://www.business-center.telecontact.ma/">- 
+                                            <i class="fa fa-lightbulb-o" aria-hidden="true"></i> Solutions Telecontact
+                                            </a>
+                                        </li>
+                                        {% if data_user[0]['code_firme'] is defined and data_user[0]['code_firme'] != "" and data_user[0]['code_firme'] != "0000" %}
+                                        <li class="second_level_menu">
+                                            <a target="_blank" href="{{ path('ticket', {code_firme:data_user[0]['code_firme']}) }}">- 
+                                                <i class="fas fa-envelope-open-text" aria-hidden="true"></i> Nous contacter
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                        <li class="second_level_menu">
+                                            <a  target="_blank" href="{{ path('demandeDevisTelecontact') }}">-
+                                            <i class="fas fa-bullhorn" aria-hidden="true"></i> Demandes de devis
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            {% if data_user[0]['code_commercial'] is defined and data_user[0]['code_commercial'] is not empty %}
+                            <ul class="menu-comm">
+                                
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('pdf',{code_firme: data_user[0]['code_firme'],id_user:utilisateur[0]['id_user'], start:selectedrange['start_period'], end:selectedrange['end_period'] }) }}">- 
+                                            <i class="fa fa-file-pdf" aria-hidden="true"></i> Généerer PDF
+                                            </a>
+                                        </li>
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('listpdf', {code_firme: data_user[0]['code_firme']} ) }}">- 
+                                            <i class="fa fa-list" aria-hidden="true"></i> Liste des PDF
+                                            </a>
+                                        </li>
+
+                                        <hr class="menu_line menu_line_comm" >
+
+                                    {% if data_user[0]['code_commercial'] == '000' or data_user[0]['code_commercial'] == 25 or data_user[0]['code_commercial'] == 'admin' or data_user[0]['code_commercial'] == 'rania' %} 
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('clientsTelecontact') }}">- 
+                                            <i class="fas fa-user-tie" aria-hidden="true"></i> Client Télécontact
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('prospects') }}">- 
+                                            <i class="fa fa-user" aria-hidden="true"></i> Firmes
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('affectation') }}">- 
+                                            <i class="fas fa-user-tag" aria-hidden="true"></i> Mon fichier CRM
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('Allpdf') }}">- 
+                                            <i class="fa fa-list" aria-hidden="true"></i> Liste des PDFs clients
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('ticketList') }}">- 
+                                            <i class="fas fa-clipboard-check" aria-hidden="true"></i> Réclamations
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('historique_connection') }}">- 
+                                            <i class="fas fa-clipboard-check" aria-hidden="true"></i> Historique de connexion
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('SuiviCommercial') }}">- 
+                                            <i class="fa fa-folder-open" aria-hidden="true"></i> Suivi commercial
+                                            </a>
+                                        </li>
+
+                                    {% elseif data_user[0]['profile'] == 'responsable' %}
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('ResCommercial', {id_utilisateur:data_user[0]['id_utilisateur']}) }}">- 
+                                            <i class="fa fa-people-carry" aria-hidden="true"></i> Mon équipe
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('ResClients', {code_commercial:data_user[0]['code_commercial']}) }}">- 
+                                            <i class="fas fa-user-tie" aria-hidden="true"></i> Mes clients
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('prospects') }}">- 
+                                            <i class="fa fa-user" aria-hidden="true"></i> Firmes
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('affectation') }}">- 
+                                            <i class="fas fa-user-tag" aria-hidden="true"></i> Mon fichier CRM
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('Allpdf') }}">- 
+                                            <i class="fa fa-list" aria-hidden="true"></i> Liste des PDFs clients
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('ticketList') }}">- 
+                                            <i class="fas fa-clipboard-check" aria-hidden="true"></i> Réclamations
+                                            </a>
+                                        </li>
+
+                                    {% elseif data_user[0]['profile'] == 'commercial' %}
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('clientsCommercial', {code_commercial:data_user[0]['code_commercial']}) }}">- 
+                                            <i class="fas fa-user-tie" aria-hidden="true"></i> Mes Clients
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('prospects') }}">- 
+                                            <i class="fa fa-user" aria-hidden="true"></i> Firmes
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('affectation') }}">- 
+                                            <i class="fas fa-user-tag" aria-hidden="true"></i> Mon fichier CRM
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('Allpdf') }}">- 
+                                            <i class="fa fa-list" aria-hidden="true"></i> Liste des PDFs clients
+                                            </a>
+                                        </li>
+
+                                        <li class="first_level_menu">
+                                            <a target="_blank" href="{{ path('ticketList') }}">- 
+                                            <i class="fas fa-clipboard-check" aria-hidden="true"></i> Réclamations
+                                            </a>
+                                        </li>
+
+
+
+
+                                    {% endif %}
+                            </ul>
+                                
+                            {% endif %}
+
+                            
+                        </div>
+                    {% endif %}
+
+                {% endblock %}
+
+
+                {% block body %}
+                {% endblock %}
+                
+                
+
+
+           <!--  </div> -->
+           <div>
+            <!-- ============================================================== -->
+            <!-- End Wrapper -->
+            <!-- ============================================================== -->
+
+            <!--  
+                {% set data_user = app.session.get('selectedDaterange') %}
+                {% if data_user %}
+                {{ dump(data_user[0]) }}
+                {% endif %}
+            -->
+
+        
+
+
+            <script src="{{ asset('bundles/pro1googleanalytics/js/jquery.preloaders.js') }}"></script>
+            <!-- ============================================================== -->
+            <!-- All Jquery -->
+            <!-- ============================================================== -->
+            <script src="{{ asset('public_statistics/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+            <!-- Bootstrap tether Core JavaScript -->
+            <script src="{{ asset('public_statistics/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+            <script src="{{ asset('public_statistics/js/app-style-switcher.js') }}"></script>
+            <script src="{{ asset('public_statistics/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js') }}"></script>
+            <!--Wave Effects -->
+            <script src="{{ asset('public_statistics/js/waves.js') }}"></script>
+            <!--Menu sidebar -->
+            <script src="{{ asset('public_statistics/js/sidebarmenu.js') }}"></script>
+            <!--Custom JavaScript -->
+            <script src="{{ asset('public_statistics/js/custom.js') }}"></script>
+            <!--This page JavaScript -->
+            <!--chartis chart-->
+            <!-- 
+            chartist <script src="{{ asset('public_statistics/plugins/bower_components/chartist/dist/chartist.min.js') }}"></script>
+            <script src="{{ asset('public_statistics/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') }}"></script> 
+            -->
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js" integrity="sha512-Wt1bJGtlnMtGP0dqNFH1xlkLBNpEodaiQ8ZN5JLA5wpc1sUlk/O5uuOMNgvzddzkpvZ9GLyYNa8w2s7rqiTk5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.esm.min.js" integrity="sha512-2Vi/lCX8NaXlAhzc28RAoteYAiJVoz4y3Xq/IpHQCw7KU25I34fDqJSVSUml2tQRVYFnf3IMy6O59zKJh79hiw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/helpers.esm.min.js" integrity="sha512-b3xZ1Eh852+/Ltha4XJd59YP2d+I+B6NPdB4H+Wns29GX9x5pLwlp8jnQtJYog3d5Xk1SWvhT2lgJDDBvpV0ow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+            <!-- <script src="{{ asset('public_statistics/js/pages/dashboards/dashboard1.js') }}"></script> -->
+
+            <!-- date range picker js -->
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+            <script src="{{ asset('public_statistics/js/daterangepicker.js') }}"></script>
+            <!-- end date range picker js -->
+            <!-- timepicker -->
+            <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.2.17/jquery.timepicker.min.js"></script>
+            <!-- end timepicker -->
+            <!-- ckeditor -->
+            <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+            <!-- end ckeditor -->
+            <!-- hours -->
+            <script src="{{ asset('public_statistics/js/hours.js') }}"></script>
+            <!-- end hours -->
+            <!-- datatable -->
+            <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+            <!-- end datatable -->
+            <!-- html2canvas -->
+           <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.svg.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.svg.min.js"></script> -->
+
+            <!-- 
+            <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+            <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+             -->
+
+
+            <script src="{{ asset('public_statistics/js/Chart.min.js')}} "></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+
+            <!-- <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script>
+            <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script> -->
+            <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.js.map"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.min.js"></script> -->
+            <!-- end html2canvas -->
+            
+
+            <script>
+
+
+                $(document).ready(function() {
+
+                    /*var ses_s_d = $("#ses_s_d").val();
+                    var ses_e_d = $("#ses_e_d").val();*/
+
+                    $('#config-text').keyup(function() {
+                      eval($(this).val());
+                    });
+                    
+                    $('.configurator input, .configurator select').change(function() {
+                      updateConfig();
+                    });
+
+                    $('.demo i').click(function() {
+                      $(this).parent().find('input').click();
+                    });
+
+                    var today = new Date();
+                    var start_unix_timestamp = $("#start_timestamp").val();
+                    var start_date = new Date(start_unix_timestamp * 1000-(1000*60*60*24)); 
+
+                    var end_unix_timestamp = $("#end_timestamp").val();
+                    var end_date = new Date(end_unix_timestamp * 1000-(1000*60*60*24));                
+
+                    
+                    $('#startDate').daterangepicker({
+                      singleDatePicker: true,
+                      startDate: start_date
+                    });
+
+                    $('#endDate').daterangepicker({
+                      singleDatePicker: true,
+                      /*startDate: moment().subtract(1, 'days')*/
+                      startDate: end_date
+                    });
+
+                    updateConfig();
+
+                    function updateConfig() {
+
+                        
+                      var options = {};
+
+                      if ($('#singleDatePicker').is(':checked'))
+                        options.singleDatePicker = true;
+                      
+                      if ($('#showDropdowns').is(':checked'))
+                        options.showDropdowns = true;
+
+                      if ($('#showWeekNumbers').is(':checked'))
+                        options.showWeekNumbers = true;
+
+                      if ($('#showISOWeekNumbers').is(':checked'))
+                        options.showISOWeekNumbers = true;
+
+                      if ($('#timePicker').is(':checked'))
+                        options.timePicker = true;
+                      
+                      if ($('#timePicker24Hour').is(':checked'))
+                        options.timePicker24Hour = true;
+
+                      if ($('#timePickerIncrement').val().length && $('#timePickerIncrement').val() != 1)
+                        options.timePickerIncrement = parseInt($('#timePickerIncrement').val(), 10);
+
+                      if ($('#timePickerSeconds').is(':checked'))
+                        options.timePickerSeconds = true;
+                      
+                      if ($('#autoApply').is(':checked'))
+                        options.autoApply = true;
+
+                      if ($('#dateLimit').is(':checked'))
+                        options.dateLimit = { days: 7 };
+
+                      if ($('#ranges').is(':checked')) {
+                        options.ranges = {
+                          'Hier': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                          'Les 7 derniers jours': [moment().subtract(6, 'days'), moment()],
+                          'Les 30 derniers jours': [moment().subtract(29, 'days'), moment()],
+                          'Mois dernier': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                        };
+                      }
+
+                      options.locale = {
+                        
+                          format: 'DD/MM/YYYY',
+                          separator: '  -  ',
+                          applyLabel: 'Appliquer',
+                          cancelLabel: 'Annuler',
+                          fromLabel: 'de',
+                          toLabel: 'à',
+                          customRangeLabel: 'Personnalisée',
+                          daysOfWeek: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven','Sam'],
+                          monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                          firstDay: 1
+                        };
+                        
+
+                      if (!$('#linkedCalendars').is(':checked'))
+                        options.linkedCalendars = false;
+
+                      if (!$('#autoUpdateInput').is(':checked'))
+                        options.autoUpdateInput = false;
+
+                      if (!$('#showCustomRangeLabel').is(':checked'))
+                        options.showCustomRangeLabel = false;
+
+                      if ($('#alwaysShowCalendars').is(':checked'))
+                        options.alwaysShowCalendars = true;
+
+                      if ($('#parentEl').val().length)
+                        options.parentEl = $('#parentEl').val();
+
+                      if ($('#startDate').val().length) 
+                        options.startDate = $('#startDate').val();
+
+                      if ($('#endDate').val().length)
+                        options.endDate = $('#endDate').val();
+                      
+                      if ($('#minDate').val().length)
+                        options.minDate = $('#minDate').val();
+
+                      if ($('#maxDate').val().length)
+                        options.maxDate = $('#maxDate').val();
+
+                      if ($('#opens').val().length && $('#opens').val() != 'right')
+                        options.opens = $('#opens').val();
+
+                      if ($('#drops').val().length && $('#drops').val() != 'down')
+                        options.drops = $('#drops').val();
+
+                      if ($('#buttonClasses').val().length && $('#buttonClasses').val() != 'btn btn-sm')
+                        options.buttonClasses = $('#buttonClasses').val();
+
+                      if ($('#applyClass').val().length && $('#applyClass').val() != 'btn-success')
+                        options.applyClass = $('#applyClass').val();
+
+                      if ($('#cancelClass').val().length && $('#cancelClass').val() != 'btn-default')
+                        options.cancelClass = $('#cancelClass').val();
+
+                     /* $('#config-text').val("$('#demo').daterangepicker(" + JSON.stringify(options, null, '    ') + ", function(start, end, label) {\n  console.log(\"New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')\");\n});");*/
+
+                      $('#config-demo').daterangepicker(options, function(start, end, label) { console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); }).click();;
+
+                      $('#config-demo').daterangepicker(options, function(start, end, label) { 
+                        $( "#start-period" ).val( start.format('YYYY-MM-DD') );
+                        $( "#end-period" ).val( end.format('YYYY-MM-DD') );
+
+                        var affichage  = $("#affichage").val();
+                        var click      = $("#click").val();
+                        var audience   = $("#audience").val();
+                        var ads        = $("#ads").val();
+                        var vignette   = $("#vignette").val();
+                        var type       = $("#type").val();
+
+                        
+                        if(affichage !== undefined){
+
+                            /*topKeywordSearch();
+                            clickVisitechart();*/
+                            clickVisite();
+                            
+
+                        }else if(click !== undefined){
+
+                            /*clickDefaultChart();*/
+                            clickTable();
+
+                        }else if(audience !== undefined){
+
+                            audience_tlct();
+
+                        }else if(ads !== undefined){
+
+                            /*carreacceuilChart();*/
+                            
+                        }else if(vignette !== undefined && type =='rubrique'){
+
+                            vignetteRubriqueChart();
+                            
+                        }else if(vignette !== undefined && type =='region'){
+
+                            vignetteRegionChart();
+                            
+                        }
+
+                        
+                    });
+
+                     
+                    }
+ 
+                });
+
+
+                function sendToken(){
+                    /*var email    = "{{ utilisateur[0]['nom'] }}";
+                    var password = $('#password').val();
+                    var sendToken     = 1;
+                    var token = window.btoa(email + '&' + password + '&' + sendToken);
+                    console.log(email + '  ' + password + '  ' + sendToken + '  ' + token);*/
+
+                    $.ajax({
+                        url  : "{{ path('createToken') }}",
+                        method: "GET",
+                        success:function(data){                            
+                            /*window.open('http://telecontact.odiso.fr/?data='+data, '_blank');*/
+                            window.open('https://www.telecontact.ma/?data='+data, '_blank');
+                        }
+
+                    });
+                }
+
+
+            </script>
+
+            <!-- date range picker js -->
+
+            {% block javascripts %}
+            {% endblock %}
+
+        </div>
+    </body>
+</html>

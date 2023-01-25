@@ -1,0 +1,235 @@
+body .icon-retour {
+    margin: 20px;
+}
+
+section {
+    width:100%;
+    height: 800px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#fond-1 {
+    background-image:url('https://image.noelshack.com/fichiers/2018/09/1/1519644667-fond-budgetisation.jpg');
+    left: 0;
+    height: 250px;
+
+}
+
+#fond-1 .titre-1 {
+    background-color: #ff5c5c;
+    width: 300px;
+    height: 60px;
+    border-radius: 5px;
+    margin-top: 60px;
+    padding-top: 8px;
+    color: white;
+    letter-spacing: 1px;
+    font-size: 32px;
+}
+
+
+#fond-1 .titre-2 {
+    background-color: black;
+    width: 940px;
+    height: 120px;
+    border-radius: 0;
+    margin-top: 60px;
+    padding-top: 20px;
+    font-size: 26px;
+    font-weight: lighter;
+}
+
+
+#fond-1 .titre-2 .acroche {
+    color: white;
+    letter-spacing: 2px;
+    line-height: 1.4;
+}
+
+#fond-2 {
+    background-color: white;
+    left: 0;
+    height: 1300px;
+}
+
+#fond-2 .container .btn-1 {
+    background-color: #ffdb2e;
+    margin: 50px 15px 10px 0;
+    width: 280px;
+    height: 60px;
+    border: 0;
+    font-size: 25px;
+    padding: 8px 0 0 16px;
+    color: black;
+}
+
+
+#fond-2 .container .btn-1 .icone {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+}
+
+#fond-2 .container .activites {
+    margin-left: 30px;
+}
+
+#fond-2 .container .activites .btn-2 {
+    background-color: black;
+    width: 180px;
+    height: 45px;
+    color: white;
+    font-size: 20px;
+    padding-top: 7px;
+}
+
+#fond-2 .container .activites textarea {
+    width: 700px;
+    height: 150px;
+    color: black;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+
+
+.form-group{
+    display:inline-block;
+}
+
+
+#fond-2 .container .activites label {
+    float: left;
+    width: 10em;
+    margin-right: 1em;
+    text-align: left;
+    font-size: 18px;
+    display: block;
+    font-weight: normal;
+    margin-top: 20px;
+}
+
+
+
+
+
+
+
+#fond-2 .container .activites #marque input {
+    font-size: 15px;
+    margin: 15px 15px 15px 15px;
+}
+
+#fond-2 .container .activites #marque button {
+    font-size: 16px;
+    margin: 15px 15px 15px 15px;
+    color: #ffdb2e;
+    padding-top: 10px;
+    padding-left: 15px;
+    width: 230px;
+}
+
+
+#fond-2 .container .activites #exampleInputAmount {
+    margin-top: 20px;
+}
+
+#fond-2 .container .activites .btn {
+    background-color: black;
+    margin: 20px 10px 0 0;
+    width: 200px;
+    height: 40px;
+    border: 0;
+    font-size: 17px;
+    padding: 0;
+    color: white;
+    letter-spacing: 1px;
+}
+
+#fond-2 .container .activites .btn:hover {
+    background-color: #ffdb2e;
+    color: black;
+}
+
+#fond-2 .container .visibilite label{
+    background-color: #dadada;
+    padding: 10px 14px 10px 34px;
+    font-size: 16px;
+    margin: 3px;
+}
+
+#fond-2 .container .visibilite .btn {
+    width: 250px;
+    height: 40px;
+    color: white;
+    background-color: black;
+    border-radius: 0;
+    font-size: 17px;
+    margin: 10px 10px 0 10px;
+}
+
+#fond-2 .container .visibilite .btn:hover {
+    background-color: #ffdb2e;
+    color: black;
+}
+
+#fond-2 .container .visibilite #demo-1-1, #demo-2-1, #demo-2-2, #demo-2-3, #demo-2-4 {
+    width: 250px;
+    position: absolute;
+    background-color: #dadada;
+    margin: 0 10px 0 10px;
+    height: 155px;
+}
+#fond-4 .container form .btn {
+    background-color: #ffdb2e;
+    margin: 50px 0 0 15px;
+    width: 250px;
+    height: 45px;
+    border: 0;
+    font-size: 18px;
+    padding: 4px 0 0 0;
+    color: black;
+}
+
+#fond-4 .container form .black {
+    background-color: black;
+    margin: 50px 0 0 0;
+    width: 200px;
+    height: 65px;
+    border: 0;
+    font-size: 18px;
+    padding: 8px 0 0 0;
+    color: white;
+}
+
+#fond-4 .container form .btn .icone {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+}
+
+span.glyphicon-triangle-right {
+    font-size: 16px;
+    vertical-align: -2px;
+}
+
+span.glyphicon-plus-sign {
+    font-size: 16px;
+    color: #ffdb2e;
+    vertical-align: -2px;
+}
+
+.select
+{
+    width: 286px;
+    height: 40px;
+    color: white;
+    background-color: black;
+    border-radius: 0;
+    font-size: 17px;
+    margin: 10px 10px 0 0px;
+    padding-left: 24px;
+    padding-right: 10px;
+
+}

@@ -1,0 +1,413 @@
+{% extends "::layout/base_statistics.html.twig" %}
+
+
+{% block title %} Liste des PDF téléchargé {% endblock %}
+{% block stylesheets %}
+
+<style>
+    .border-top-0{
+        font-weight: 700!important;
+    }
+    .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+      background-color: #e9ecef;
+      border-color: #dee2e6;
+      color: black;
+      font-weight: bold;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: #4CAF50!important;
+        color: white!important;
+        border: 1px solid #4CAF50!important;
+    }
+    #myTable_paginate{
+        color: black!important;
+        float: left!important;
+        padding: 8px 16px!important;
+        transition: background-color .3s!important;
+        margin-top: 30px!important;
+        margin-left: 18%;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        border: 1px solid #cccccc!important;
+    }
+    #myTable_length, #myTable_filter, #myTable_info{
+        font-weight: 700;
+    }
+    #config-demo{
+        display: none;
+    }
+    #myTable_length, #myTable_filter{
+        margin-bottom: 25px;
+    }
+    .even{
+        background-color: rgb(185 217 232 / 8%)!important;
+    }
+
+     .button {
+         text-decoration: none;
+         font-size: 0.875rem;
+         font-weight: 300;
+         text-transform: uppercase;
+         display: inline-block;
+         border-radius: 1.5rem;
+         background-color: #fff;
+         color: #9191e9;
+         padding: 1rem 2rem;
+    }
+     .popup {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         position: fixed;
+         width: 100vw;
+         height: 100vh;
+         bottom: 0;
+         right: 0;
+         background-color: rgba(0, 0, 0, 0.8);
+         z-index: 2;
+         visibility: hidden;
+         opacity: 0;
+         overflow: hiden;
+         transition: 0.64s ease-in-out;
+    }
+     .popup-inner {
+         position: relative;
+         bottom: -100vw;
+         right: -100vh;
+         display: flex;
+         align-items: center;
+         max-width: 600px;
+         max-height: 550px;
+         width: 60%;
+         height: 100%;
+         background-color: #fff;
+         transform: rotate(32deg);
+         transition: 0.64s ease-in-out;
+        padding-left: 0px!important;
+        padding-right: 0px!important;
+        border-radius: 10px;
+    }
+    /* .popup__photo {
+         display: flex;
+         justify-content: flex-end;
+         align-items: flex-end;
+         width: 40%;
+         height: 100%;
+         overflow: hidden;
+    }
+     .popup__photo img {
+         width: auto;
+         height: 100%;
+    }*/
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 100%;
+         padding: 0rem;
+    }
+
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 70%;
+         padding-top: 0px!important;
+         padding: 4rem;
+    }
+     .popup__text h1 {
+         font-size: 2rem;
+         font-weight: 600;
+         margin-bottom: 2rem;
+         text-transform: uppercase;
+         color: #0a0a0a;
+    }
+     .popup__text p {
+         font-size: 16px;
+         color: #686868;
+         line-height: 1.5;
+    }
+     .popup:target {
+         visibility: visible;
+         opacity: 1;
+    }
+     .popup:target .popup-inner {
+         bottom: 0;
+         right: 0;
+         transform: rotate(0);
+    }
+     .popup__close {
+         position: absolute;
+         right: -1rem;
+         top: -1rem;
+         width: 3rem;
+         height: 3rem;
+         font-size: 0.875rem;
+         font-weight: 300;
+         border-radius: 100%;
+         background-color: #0a0a0a;
+         z-index: 4;
+         color: #fff;
+         line-height: 3rem;
+         text-align: center;
+         cursor: pointer;
+         text-decoration: none;
+    }
+    .dea{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+    }
+    .objet_popup{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+        margin-top: 50px;
+    }
+    .dea_mail{
+        font-weight: 500!important;
+        line-height: 20px!important;
+        font-size: 16px!important;
+        font-family: var(--bs-font-sans-serif)!important;
+    }
+    #message{
+        font-family: Spinnaker,sans-serif;
+        color: #4e4e4e;
+        font-size: 15px;
+        line-height: 1.428571429;
+    }
+    .popup_head{
+        padding-bottom: 25px;
+        background: #fedc01;
+        border-radius: 10px 10px 0px 0px;
+    }
+ 
+
+
+
+
+
+
+
+</style>
+
+{% endblock %}
+
+
+{% block menu %}
+    {% include "EcommerceBundle:Administration:menu.html.twig" %}
+{% endblock %}
+
+
+{% block body %}
+
+
+
+
+
+{% set data_user = app.session.get('utilisateur') %}
+
+        
+                    <div class="col-lg-12 col-md-12 col-sm-8 col-xs-12 row">
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                            <h4 class="page-title">Liste PDF téléchargé <span class="page-title2" ></span></h4>
+                        </div>
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12" >
+                            <h4 style="float: right;"></h4>
+                        </div>
+                        <input type="hidden" name="audience" id="audience" value="audience">
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <div class="d-md-flex">
+                            <!-- <ol class="breadcrumb ms-auto">
+                                <li><a href="#" class="fw-normal">Dashboard</a></li>
+                            </ol>
+                            <a href="https://www.wrappixel.com/templates/ampleadmin/" target="_blank"
+                                class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">Upgrade
+                                to Pro</a> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                
+
+
+                
+
+		        
+
+
+                <!-- ============================================================== -->
+                <!-- Audience par type de connexion -->
+                <!-- ============================================================== -->
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3">
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="myTable">
+                                    {% if data_user[0]['code_commercial'] == 000 or data_user[0]['code_commercial'] == 25 %}
+                                        <thead>
+                                            <tr>
+                                                <th class="border-top-0">Date téléchargement</th>
+                                                <th class="border-top-0">Commercial</th>
+                                                <th class="border-top-0">Raison sociale</th>
+                                                <th class="border-top-0">Période</th>
+                                                <th class="border-top-0">download</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for l in list_all %}
+                                                <tr>
+                                                    {% set date = l.date_systeme|date('U') %}
+                                                    <td  >{{ l.date_systeme|date('d-m-Y') }}</td>
+                                                    <td>{{ l.nom }} {{ l.prenom }}</td>
+                                                    <td>{{ l.rs_comp }}</td>
+                                                    <td>{{ l.start_date}} - {{l.end_date }}</td>
+                                                    <td><a href="{{ asset('public_statistics/espace_stats/pdf_uploads/'~l.nom_fichier) }}" target="_blank"><i class="fas fa-download"></i></a></td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    {% else %}
+                                        <thead>
+                                            <tr>
+                                                <th class="border-top-0">Raison sociale</th>
+                                                <th class="border-top-0">Date telechargement</th>
+                                                <th class="border-top-0">Période</th>
+                                                <th class="border-top-0">download</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for l in list %}
+                                                <tr>
+                                                    {% set date = l.date_systeme|date('U') %}
+                                                    <td date-sort="{{date}}" >{{ l.date_systeme|date('d-m-Y') }}</td>
+                                                    <td>{{ l.rs_comp }}</td>
+                                                    <td>{{ l.start_date}} - {{l.end_date }}</td>
+                                                    <td><a href="{{ asset('public_statistics/espace_stats/pdf_uploads/'~l.nom_fichier) }}" target="_blank"><i class="fas fa-download"></i></a></td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    {% endif %}
+                                </table>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+     
+
+{% endblock %}
+{% block javascripts %}
+
+  		<script>
+
+
+     /*function popup(id, nom, date, email, titre, message){
+
+                
+
+                var id= id;
+                alert(id);alert(nom);alert(date);
+
+                $('#message').text(message);
+
+                $("#popup").css({"display": "flex","align-items": "center","justify-content": "center","position": "fixed","width": "100vw","height": "100vh","bottom": "0","right": "0","background-color": "rgba(0, 0, 0, 0.8)","z-index": "2","visibility": "hidden","opacity": "0","overflow": "hiden","transition":"0.64s ease-in-out"});
+
+
+
+
+setTimeout(function(){
+   $('#popi495588').trigger('click');
+}, 2000);
+ 
+ 
+       
+
+            };*/
+
+            $(document).ready( function () {
+
+    
+      
+                $('#myTable').DataTable({
+                    "order": [1,'desc'],
+                     "language": {
+                            "decimal":        "",
+                            "emptyTable":     "aucune donnée disponible",
+                            "info":           "_TOTAL_ résultats",
+                            "infoEmpty":      "0 résultats",
+                            "infoFiltered":   "(Filtré de _MAX_ résultats totales)",
+                            "infoPostFix":    "",
+                            "thousands":      ",",
+                            "lengthMenu":     "Afficher _MENU_ résultats",
+                            "loadingRecords": "Chargement...",
+                            "processing":     "Traitement...",
+                            "search":         "Rechercher : ",
+                            "zeroRecords":    "Aucun élément à afficher",
+                            "paginate": {
+                                "first":      "Première",
+                                "last":       "Dernière",
+                                "next":       "Suivant",
+                                "previous":   "Précéndent"
+                            },
+                     }
+                 });
+
+
+             
+            });
+
+
+
+  				
+        </script>
+           
+ {% endblock %}

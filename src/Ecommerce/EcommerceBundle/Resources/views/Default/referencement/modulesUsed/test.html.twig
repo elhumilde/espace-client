@@ -1,0 +1,110 @@
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="span3">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% include 'UtilisateursBundle:Default:modulesUsed/utilisateursConnecte.html.twig' %}
+                {% else %}
+                    {% include 'UtilisateursBundle:Default:modulesUsed/utilisateurs.html.twig' %}
+                {% endif %}
+                {% render(controller('EcommerceBundle:Panier:menu')) %}
+            </div>
+            <div class="span3">
+            </div>
+            <h4> Gestion contenu</h4>
+            <h5>Catalogue</h5>
+            <div id="wrap">
+                <div class="span9">
+                    <ul class="thumbnails">
+                        <li >
+
+                            <div class="thumbnail">
+                                <h5><input class="my-activity single-checkbox" type="checkbox"  value="3500" > Catalogue 1 5 pages
+                                    <input class="my-activity single-checkbox" type="checkbox"  value="5000"> Catalogue 2 10 pages
+                                    <input class="my-activity single-checkbox" type="checkbox"  value="7500"> Catalogue 3 20 pages
+                                    <input class="my-activity single-checkbox" type="checkbox"  value="9000"> Catalogue 4 50 pages
+                                </h5>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <h5>Catalogue Référencé</h5>
+                <div class="span9">
+                    <ul class="thumbnails">
+                        <li>
+                            <div class="thumbnail">
+                                <h5><input type="checkbox"  class="my-activity single-checkbox "  value="5000"> Catalogue Référencé 1 5pages
+                                    <input type="checkbox"  class="my-activity single-checkbox"  value="6500"> Catalogue Référencé 1 5pages<br>
+                                    <input type="checkbox"  class="my-activity single-checkbox"  value="9000"> Catalogue Référencé 1 5pages
+                                    <input type="checkbox"  class="my-activity single-checkbox"  value="10500"> Catalogue Référencé 1 5pages</h5>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <h5>Vidéo</h5>
+                <div class="span9">
+                    <ul class="thumbnails">
+                        <li >
+                            <div class="thumbnail">
+                                <h5><input type="checkbox" class="my-activity single-checkbox"  value="3500">Vidéo Diffusion
+                                    <input type="checkbox" class="my-activity single-checkbox"  value="6500">Vidéo Graphique
+                                    <input type="checkbox" class="my-activity single-checkbox"  value="9500">Vidéo<br>
+
+                                    <input type="checkbox" class="my-activity single-checkbox"  value="12500">Film
+                                    <input type="checkbox" class="my-activity single-checkbox"  value="20000">Motion Design
+                                    <input type="checkbox" class="my-activity single-checkbox"  value="30000">Vidéo Premium
+                                </h5>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <h5>Pack Visibilité</h5>
+                <div class="span9">
+                    <ul class="thumbnails">
+                        <li >
+                            <div class="thumbnail">
+                                <h5><input type="checkbox" class="my-activity single-checkbox"  value="2000"> Page Web
+                                    <input type="checkbox" class="my-activity single-checkbox"  value="3000"> Pack Présesnce
+                                    <input type="checkbox" class="my-activity single-checkbox"  value="4500"> <br>
+                                    <input type="checkbox" class="my-activity single-checkbox"  value="7000"> Web +
+                                    <input type="checkbox" class="my-activity single-checkbox"  value="9500">Web Interactif
+                                    <input type="checkbox" class="my-activity single-checkbox"  value="12000"> E-commerce
+                                </h5>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <p>
+                <strong> Budget estimé<br> Gestion de contenu</strong>: <input type="text" name="total" id="total" value="0" readonly/>
+            </p>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script>
+        var limit = 1;
+        $('input.single-checkbox').on('change', function(evt) {
+            if($(this).siblings(':checked').length >= limit) {
+                this.checked = false;
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".my-activity").change(function(event) {
+                var total = 0;
+                $(".my-activity:checked").each(function() {
+                    total += parseInt($(this).val());
+                });
+                if (total == 0) {
+                    $('#total').val(0);
+                } else {
+                    $('#total').val(total);
+                }
+            });
+        });
+    </script>
+    </head>
+    <body>
+{% endblock %}

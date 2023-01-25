@@ -1,0 +1,144 @@
+
+{% set data_user = app.session.get('utilisateur') %}
+
+{% if data_user %}
+
+    {% if data_user[0]['code_commercial'] is defined %}
+
+    {% if data_user[0]['code_commercial'] == '000' or data_user[0]['code_commercial'] == 27 or data_user[0]['code_commercial'] == 'admin' or data_user[0]['code_commercial'] == 'rania' %}
+
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('clientsTelecontact') }}" aria-expanded="false">
+            <i class="fas fa-user-tie" aria-hidden="true"></i>
+            <span class="hide-menu">Clients Télécontact</span>
+        </a>
+    </li>
+
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('prospects') }}"
+             aria-expanded="false" >
+            <i class="fas fa-user" aria-hidden="true"></i>
+            <span class="hide-menu">Firmes</span>
+        </a>
+    </li>
+
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('affectation') }}"
+             aria-expanded="false" >
+            <i class="fas fa-user-tag" aria-hidden="true"></i>
+            <span class="hide-menu">Mon fichier CRM</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('Allpdf') }}" aria-expanded="false">
+            <i class="fas fa-list" aria-hidden="true"></i>
+            <span class="hide-menu">Liste des PDFs Clients</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('ticketList') }}" aria-expanded="false">
+            <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+            <span class="hide-menu">Réclamtions</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('historique_connection') }}" aria-expanded="false">
+            <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+            <span class="hide-menu">Historique de connexion</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('SuiviCommercial') }}" aria-expanded="false">
+            <i class="fas fa-folder-open" aria-hidden="true"></i>
+            <span class="hide-menu">Suivi commercial</span>
+        </a>
+    </li>
+    <!-- <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('listeComptesClient') }}" aria-expanded="false">
+            <i class="fa fa-user-cog" aria-hidden="true"></i>
+            <span class="hide-menu">Comptes client</span>
+        </a>
+    </li> -->
+    {% elseif data_user[0]['profile'] == 'responsable' or data_user[0]['profile'] == 'resCommercial' %}
+
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('ResCommercial', {id_utilisateur:data_user[0]['id_utilisateur']}) }}" aria-expanded="false">
+            <i class="fas fa-people-carry" aria-hidden="true"></i>
+            <span class="hide-menu">Mon équipe</span>
+        </a>
+    </li>
+
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('clientsCommercial', {code_commercial:data_user[0]['code_commercial']}) }}" aria-expanded="false">
+            <i class="fas fa-user-tie" aria-hidden="true"></i>
+            <span class="hide-menu">Mes Clients</span>
+        </a>
+    </li>
+
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('prospects') }}"
+             aria-expanded="false" >
+            <i class="fas fa-user" aria-hidden="true"></i>
+            <span class="hide-menu">Firmes</span>
+        </a>
+    </li>
+
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('affectation') }}"
+             aria-expanded="false" >
+            <i class="fas fa-user-tag" aria-hidden="true"></i>
+            <span class="hide-menu">Mon fichier CRM</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('Allpdf') }}" aria-expanded="false">
+            <i class="fas fa-list" aria-hidden="true"></i>
+            <span class="hide-menu">Liste des PDFs Clients</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('ticketList') }}" aria-expanded="false">
+            <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+            <span class="hide-menu">Réclamtions</span>
+        </a>
+    </li>
+    {% elseif data_user[0]['profile'] == 'commercial' %}
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('clientsCommercial', {code_commercial:data_user[0]['code_commercial']}) }}" aria-expanded="false">
+            <i class="fas fa-user-tie" aria-hidden="true"></i>
+            <span class="hide-menu">Mes Clients</span>
+        </a>
+    </li>
+
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('prospects') }}"
+             aria-expanded="false" >
+            <i class="fas fa-user" aria-hidden="true"></i>
+            <span class="hide-menu">Firmes</span>
+        </a>
+    </li>
+
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('affectation') }}"
+             aria-expanded="false" >
+            <i class="fas fa-user-tag" aria-hidden="true"></i>
+            <span class="hide-menu">Mon fichier CRM</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('Allpdf') }}" aria-expanded="false">
+            <i class="fas fa-list" aria-hidden="true"></i>
+            <span class="hide-menu">Liste des PDFs Clients</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('ticketList') }}" aria-expanded="false">
+            <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+            <span class="hide-menu">Réclamtions</span>
+        </a>
+    </li>
+
+    {% endif %}
+    {% endif %}
+{% endif %}
+

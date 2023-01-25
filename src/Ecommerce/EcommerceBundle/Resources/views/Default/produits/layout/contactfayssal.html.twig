@@ -1,0 +1,3498 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>E-contact</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="icon" type="image/x-icon" href="{{ asset('Logo-econtact-2.png') }}" />
+    <link rel="stylesheet" href="{{ asset('css/contact.css') }}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+    <style>
+        .envoyer_a
+        {
+            text-align: center;
+            background-color: #58595a;
+            padding: 0px;
+            font-size: 18px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            width: 120px;
+            height: 35px;
+            color: white!important;
+            cursor: pointer;
+        }
+        .loaders {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: url({{ asset('ajax-loader.gif') }}) center center no-repeat rgba(57, 66, 100, 0.6);
+            z-index: 500;
+        }
+        .edit-input
+        {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <br>
+    <div class="icon-retour retour">
+        <a style="color: #2eb2ff; " href="{{ path('budget_affichage') }}">< Retour  ( chemins des onglets parcourus )</a><br>
+        <a style="color: #2eb2ff; " href="{{ path('referencement_clear_session') }}">< Nouveau client</a>
+    </div>
+
+    <div class="loaders" style="display: none"></div>
+
+    <br>
+    <div class="row" align="center">
+
+
+        <span class="devis_text"><img  src="http://www.telecontact.ma/trouver/images/tete_proposition.jpg" class="img-fluid" alt="proposition de visibilité telecontact" style="height: 176px; width: 80%;"></span>
+        <span class="ordre_insertion" style="display: none"><img  src="http://www.telecontact.ma/trouver/images/tete_devis.jpg" class="img-fluid" alt="proposition de visibilité telecontact" style="height: 176px; width: 80%;"></span>
+        <span class="bn_commande_text" style="display: none"><img  src="http://www.telecontact.ma/trouver/images/tete_bon_commande.jpg" class="img-fluid" alt="proposition de visibilité telecontact" style="height: 176px; width: 80%;"></span>
+    </div>
+
+    <div class="row">
+        {% for flashMessage in app.session.flashbag.get('success') %}
+            <div class="alert alert-success fade in col-xs-6">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('error') %}
+            <div class="alert alert-danger fade in col-xs-6">
+                <a href="#"  class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <div  style="width: 85%;margin-left: 82px;">
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+                <h5> <span class=" date_h pull-right">{#{{ 'now' | date("d/m/Y") }#} {{jour['now'|date('l')]}} {{ 'now' |date("d") }} {{trans_day_hash['now'|date('F')]}} {{ 'now' |date("Y") }} </span>  </h5></div>
+        </div>
+        <h5 class="rs_firme" > Raison sociale&nbsp;&nbsp;:  {% if raison %}  {% if raison['rs']  %}
+                <label class="rs" >
+                    <span class="rs_view" >{{ raison['rs']|title }}</span>
+                </label>
+                <input type="text" id="rs"  class="edit-input" value="{{ raison['rs']|title }}" {#style="text-transform: capitalize;"#} />
+                <br>{% endif %} {% if raison['cfirme']  %}
+                Code firme &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                <label class="cfirme" >
+                    <span class="cfirme_view" >{{ raison['cfirme']|title }}</span>
+                </label>
+                <input type="text" id="cfirme" class="edit-input" value="{{ raison['cfirme'] }}" />
+
+            {% endif %}  {% endif %}</h5><br>
+        <h7 class="civi" >
+
+                <input id="civi" value="{{raison['civi']}}" style="display: none"/>
+                {#{% if raison['civi'] =='Mr' %} cher  {% endif %}#}
+                {#{% if raison['civi'] =='Mme' %} chère   {% endif %}#}
+                {#{% if raison['civi'] =='Mlle' %} chère  {% endif %}#}
+                {% if raison %}
+                    {% if raison['civi']  %}
+                        {% if raison['civi'] =='Mme' %} Madame {% endif %}
+                        {% if raison['civi'] =='Mlle' %} Mademoiselle {% endif %}
+                        {% if raison['civi'] =='Mr' %} Monsieur  {% endif %}
+                    {% endif %}
+                    {#<input id="sign" value="{{ raison['sign'] }}" style="display: none"/>#}
+                    {% if raison['sign']  %}
+
+                        <label class="sign" >
+                            <span class="sign_view" >{{ raison['sign']|title }}</span>
+                        </label>
+                        <input type="text" id="sign" class="edit-input" value="{{ raison['sign']|title }}" />
+
+
+                    {% endif %} {% endif %} ,
+
+        </h7>
+        <br><br>
+        <div align="center" class="txt_descriptif">
+            <p  >Tout d'abord, nous tenons à vous remercier pour votre confiance et nous sommes ravis de vous compter parmi nos clients.</p>
+            <p>Pour développer votre visibilité auprés des professionnels, nous vous préconisons une présence efficace sur telecontact.ma avec les solutions digitales suivantes:</p>
+        </div>
+    </div>
+
+    <table align="center" class="table table-bordered" style="margin-top: 30px;width: 70%;">
+
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" style="width: 444px;text-align: center;border-right: 2px solid white;">Produit(s)</th>
+            <th scope="col" style="width: 129px;text-align: center;border-right: 2px solid white;">P.U</th>
+            <th scope="col" style="width: 72px;text-align: center;border-right: 2px solid white;">Qté</th>
+            <th scope="col" style="width: 129px;text-align: center;">Montant HT </th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+        {% if referencement['regions_sup']==null and referencement['raniad']==null and referencement['rubd']==null and referencement['prest']==null and referencement['mari']==null and referencement['rubrique']==null and referencement['mari']==null  %}
+            <tr class="table-warning" style="display: none">
+                <th colspan="4" style=" background-color: #ffdb2e;font-size: 16px">Référencement</th>
+            </tr>
+        {% else %}
+            <tr class="table-warning" >
+                <th colspan="4" style="  background-color: #ffdb2e;font-size: 16px">Référencement</th>
+            </tr>
+        {% endif %}
+
+        <div>
+            {% if (referencement['regions_sup'] or  referencement['regions_sup']=='0' ) %}
+                {% if referencement['rania']  %}
+                    <tr>
+                        <th scope="row" ><strong style="font-size: 15px;">Carte de visite</strong><br>
+                    {% if referencement['regions_sup']!="N" %}
+                            <strong style="font-size: 14px;">Visibilité sur toutes les villes de la de région de:<br></strong>
+                            <strong style="font-weight: 400;font-size: 13px">
+
+                                    {{ referencement['regions']|sommes.libelle }}
+                                    {% if referencement['regions_sup']=="0" %}( Sur sa region) {% endif %}
+                                    {% if referencement['regions_sup']=="1" %}( +1 Région) {% endif %}
+                                    {% if referencement['regions_sup']=="3" %}( +3 Régions) {% endif %}
+                                    {% if referencement['regions_sup']=="6" %}( +6 Régions) {% endif %}
+                            </strong>
+
+                                {% else %}
+                            <strong style="font-size: 14px;">Visibilité sur le :</strong>
+                            <strong style="font-weight: 400;font-size: 13px">
+                                    {% if referencement['regions_sup']=="N" %} National {% endif %}
+                            </strong>
+                                {% endif %}
+
+
+                        </th>
+
+                        <td>{{ referencement['rania']|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{ referencement['rania']|number_format|replace(',',' ')  }}</td>
+                    </tr>
+
+                {% endif %}
+
+
+            {% else %}
+
+                {% if  referencement['raniad']  %}
+                    <tr>
+                        <th scope="row" ><strong style="font-size: 15px;">Carte de visite</strong><br>
+
+                            <strong style="font-size: 14px;">Visibilité sur la ville de : </strong>
+
+
+                            <strong style="font-weight: 400;">
+                                {{ referencement['villes']|somme.libelle }};
+
+                                {# {% if referencement['villes_sup']=="0" %}( Sur sa localité) {% endif %}#}
+                                {% if referencement['villes_sup']=="1" %} +1 autre Localité {% endif %}
+                                {% if referencement['villes_sup']=="3" %} +3 autres Localités {% endif %}
+                                {% if referencement['villes_sup']=="6" %} +6 autres Localités {% endif %}
+                                {% if referencement['villes_sup']=="9" %} +9 autres Localités {% endif %}
+                            </strong>
+
+                        </th>
+
+                        <td>{{ referencement['raniad']|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{ referencement['raniad']|number_format|replace(',',' ') }}</td>
+                    </tr>
+
+                {% endif %}
+
+
+            {% endif %}
+
+            {% if desrubref !=0 %}
+                {% if desrubref['rub1']!=null  %}
+                    <tr>
+                    {% if desrubref['package']=='non' %}
+                        <th scope="row"><strong style="font-size: 15px;">Rubrique principale : </strong><br>
+                            {#{% for rubrique in desrubref['rubrique'] %}
+                            - <h7 style="font-weight: 500;font-size: 16px;">{{ rubrique.sel|rub.libelle }}</h7>
+                            {% endfor %}#}
+                            <div style="width: 350px!important;background-color: #f9f1c9">
+                                <strong style="font-weight: 500;font-size: 14px;"> •&nbsp; <span style="font-weight: 700;font-size: 14px;">{{ desrubref['rub1']|rub.libelle }} </span></br>
+                                    {% if  desrubref['villes1'] %}    visibilité sur : {{ desrubref['villes1']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier1'] %},                                    {% for ville in desrubref['villes_panier1'] %}
+                                        {{ ville|somme.libelle }},
+                                    {% endfor %}{% endif %}</strong>
+                            </div>
+                        </th>
+
+                        <td>-</td>
+                        <td>1</td>
+                        <td>{{ ( desrubref['final']+ desrubref['localiter_supp'])|number_format|replace(',',' ')  }}</td>
+
+                        {% else %}
+
+                            <th scope="row"><strong style="font-size: 15px;">Rubrique principale : </strong><br>
+                                {#{% for rubrique in desrubref['rubrique'] %}
+                                - <h7 style="font-weight: 500;font-size: 16px;">{{ rubrique.sel|rub.libelle }}</h7>
+                                {% endfor %}#}
+                                <div style="width: 350px!important;background-color: #f9f1c9">
+                                    <strong style="font-weight: 500;font-size: 14px;"> •&nbsp; <span style="font-weight: 700;font-size: 14px;">{{ desrubref['rub1']|rub.libelle }} </span></br>
+                                        Visibilité sur
+                                        {%  if  desrubref['package_value'] %}
+                                            {%  if  desrubref['package_value']=='8450' %}
+                                                Grand Casablanca :<br>
+                                                Casablanca, Darbouazza, Titmlil, Nouacer,<br>
+                                                Bouskoura, Médiouna, Had soualem
+
+                                            {% endif %}
+                                            {%  if  desrubref['package_value']=='6100' %}
+                                                Grand Rabat :<br>
+                                                Rabat, Salé, Temara, Skhirate
+
+                                            {% endif %}
+                                            {%  if  desrubref['package_value']=='5600' %}
+                                                Grand Tanger :<br>
+                                                Tanger, Ksar el Sghir, Asila, Larache
+
+                                            {% endif %}
+                                            {%  if  desrubref['package_value']=='4500' %}
+                                                Grand Tetouan :<br>
+                                                Tetouan, Mdiq,Fnideq, martil,Chefchaouan
+
+                                            {% endif %}
+                                            {%  if  desrubref['package_value']=='5800' %}
+                                                Grand Agadir :<br>
+                                                Agadir, Ait Melloul, Inzegan, Dchira,<br> Drarga
+
+                                            {% endif %}
+                                            {% endif %}
+                                    </strong>
+                                </div>
+                            </th>
+
+                            <td>-</td>
+                            <td>1</td>
+                            <td>{{ ( desrubref['final'])|number_format|replace(',',' ')  }}</td>
+
+                            {% endif %}
+                    </tr>
+
+
+                {% endif %}
+            {% endif %}
+
+            {% if  referencement['rubrique'] >=2 %}
+                <tr>
+                    <th scope="row" ><strong style="font-size: 15px;">Rubrique(s) supplémentaire(s): </strong><br>
+                        {% if desrubref!=0 %}
+                            {% if desrubref['rub2']!=null  %}
+                             <div style="width: 350px!important;background-color: #f9f1c9">
+                                <strong style="font-weight: 500;font-size: 14px;">
+                                    •&nbsp;  <span style="font-weight: 700;font-size: 14px;">{{ desrubref['rub2']|rub.libelle  }}</span>
+
+                                    </br>
+                                    {% if  desrubref['villes2'] %}    visibilité sur : {{ desrubref['villes2']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier2'] %},                                     {% for ville in desrubref['villes_panier2'] %}
+                                        {{ ville|somme.libelle }},
+                                    {% endfor %}{% endif %}
+                                </strong><br>
+                             </div>
+                            {% endif %}
+
+                            {% if desrubref['rub3']!=null  %}
+                             <div style="width: 350px!important;background-color: #f9f1c9;margin-top: 4px;">
+                                <strong style="font-weight: 500;font-size: 14px;">   •&nbsp; <span style="font-weight: 700;font-size: 14px;"> {{ desrubref['rub3']|rub.libelle  }}</span> </br>
+                                    {% if  desrubref['villes3'] %}    visibilité sur : {{ desrubref['villes3']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier3'] %},                                     {% for ville in desrubref['villes_panier3'] %}
+                                        {{ ville|somme.libelle }},
+                                    {% endfor %} {% endif %}
+
+                                </strong>
+                             </div>
+                            {% endif %}
+
+                            {% if desrubref['rub4']!=null  %}
+                        <div style="width: 350px!important;background-color: #f9f1c9;margin-top: 4px;">
+                                <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 700;font-size: 14px;"> {{ desrubref['rub4']|rub.libelle  }} </span></br>
+                                    {% if  desrubref['villes4'] %}    visibilité sur : {{ desrubref['villes4']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier4'] %},
+                                    {% for ville in desrubref['villes_panier4'] %}
+                                        {{ ville|somme.libelle }},
+                                    {% endfor %}
+                                    {% endif %}
+                                </strong>
+                        </div>
+                            {% endif %}
+
+                            {% if desrubref['rub5']!=null  %}
+                                <div style="width: 350px!important;background-color: #f9f1c9;margin-top: 4px;">
+                                        <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 700;font-size: 14px;"> {{ desrubref['rub5']|rub.libelle  }} </span><br>
+
+                                            {% if  desrubref['villes5'] %}    visibilité sur : {{ desrubref['villes5']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier5'] %},                                     {% for ville in desrubref['villes_panier5'] %}
+                                                {{ ville|somme.libelle }},
+                                            {% endfor %}{% endif %}
+                                        </strong>
+                                </div>
+                            {% endif %}
+
+                            {% if desrubref['rub6']!=null  %}
+                                <div style="width: 350px!important;background-color: #f9f1c9;margin-top: 4px;">
+                                        <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">   •&nbsp;  <span style="font-weight: 700;font-size: 14px;">{{ desrubref['rub6']|rub.libelle  }} </span><br>
+
+
+                                            {% if  desrubref['villes6'] %}    visibilité sur : {{ desrubref['villes6']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier6'] %},                                    {% for ville in desrubref['villes_panier6'] %}
+                                                {{ ville|somme.libelle }},
+                                            {% endfor %} {% endif %}
+                                        </strong>
+                                </div>
+                            {% endif %}
+
+                            {% if desrubref['rub7']!=null    %}
+                                <div style="width: 350px!important;background-color: #f9f1c9;margin-top: 4px;">
+                                        <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 700;font-size: 14px;"> {{ desrubref['rub7']|rub.libelle  }}</span><br>
+
+
+                                            {% if  desrubref['villes7'] %}    visibilité sur : {{ desrubref['villes7']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier7'] %},                     {% for ville in desrubref['villes_panier7'] %}
+                                                {{ ville|somme.libelle }},
+                                            {% endfor %} {% endif %}
+                                        </strong>
+                                </div>
+                            {% endif %}
+
+
+                        {% endif %}
+
+                    </th>
+
+                   <td> {#{{ (referencement['rubd']/(referencement['rubrique']-1))|number_format|replace(',',' ') }}#}</td>
+                    <td></br>{{ (referencement['rubrique']-1) }}</td>
+                    <td>   {#{{ referencement['rubd']|number_format|replace(',',' ')  }}#}
+</br>
+                        {% if desrubref['rub2']!=null  %}        {{ ( desrubref['rub_supp_1']+ desrubref['localiter_supp1'])|number_format|replace(',',' ') }}</br></br>{% endif %}
+                        {% if desrubref['rub3']!=null  %}         {{ ( desrubref['rub_supp_2']+ desrubref['localiter_supp2'])|number_format|replace(',',' ') }}</br></br>{% endif %}
+                        {% if desrubref['rub4']!=null  %}        {{ ( desrubref['rub_supp_3']+ desrubref['localiter_supp3'])|number_format|replace(',',' ') }}</br></br>{% endif %}
+                        {% if desrubref['rub5']!=null  %}        {{ ( desrubref['rub_supp_4']+ desrubref['localiter_supp4'])|number_format|replace(',',' ') }}</br></br>{% endif %}
+                        {% if desrubref['rub6']!=null  %}      {{ ( desrubref['rub_supp_5']+ desrubref['localiter_supp5'])|number_format|replace(',',' ') }}</br></br>{% endif %}
+                        {% if desrubref['rub7']!=null  %}        {{ ( desrubref['rub_supp_6']+ desrubref['localiter_supp6'])|number_format|replace(',',' ') }}</br></br>{% endif %}
+
+
+
+                    </td>
+                </tr>
+
+            {% endif %}
+
+            {% if  referencement['prest']  %}
+                <tr>
+                    <th scope="row" ><strong style="font-size: 15px;">Prestation(s):  </strong><br>
+                        {% if desrubref !=0 %}
+
+                            {% if desrubref['rub1']!=null  %}
+                                {%  if (desrubref['addprest1'] !=[""] or  desrubref['prest1']!=null) %}
+                                    {% if desrubref['rub1']!=null  %}
+                                        <div style="width: 350px!important;background-color: #f9f1c9">
+                                            <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                                •&nbsp;{{ desrubref['rub1']|rub.libelle  }}<br>
+                                            </strong>
+
+                                        </div>
+                                        {% for prestation in desrubref['prest1'] %}
+                                            {% if desrubref['prest1']!=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% for addprestation in desrubref['addprest1'] %}
+                                            {%  if addprestation !=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ addprestation|capitalize}}<br>
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+
+                            {% if desrubref['rub2']!=null  %}
+                                {%  if (desrubref['addprest2'] !=[""] or  desrubref['prest2']!=null) %}
+                                    {% if desrubref['rub2']!=null  %}
+                                        <div style="width: 350px!important;background-color: #f9f1c9">
+                                            <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                                •&nbsp;{{ desrubref['rub2']|rub.libelle  }}<br>
+                                            </strong>
+
+                                        </div>
+                                        {% for prestation in desrubref['prest2'] %}
+                                            {% if desrubref['prest2']!=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% for addprestation in desrubref['addprest2'] %}
+                                            {%  if addprestation !=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ addprestation|capitalize}}<br>
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+
+                            {% endif %}
+
+                            {% if desrubref['rub3']!=null  %}
+                                {%  if (desrubref['addprest3'] !=[""] or  desrubref['prest3']!=null) %}
+                                    {% if desrubref['rub3']!=null  %}
+                                        <div style="width: 350px!important;background-color: #f9f1c9">
+                                            <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                                •&nbsp;{{ desrubref['rub3']|rub.libelle  }}<br>
+                                            </strong>
+
+                                        </div>
+                                        {% for prestation in desrubref['prest3'] %}
+                                            {% if desrubref['prest3']!=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% for addprestation in desrubref['addprest3'] %}
+                                            {%  if addprestation !=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ addprestation|capitalize}}<br>
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+
+                            {% endif %}
+
+                            {% if desrubref['rub4']!=null  %}
+                                {%  if (desrubref['addprest4'] !=[""] or  desrubref['prest4']!=null) %}
+                                    {% if desrubref['rub4']!=null  %}
+                                        <div style="width: 350px!important;background-color: #f9f1c9">
+                                            <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                                •&nbsp;{{ desrubref['rub4']|rub.libelle  }}<br>
+                                            </strong>
+
+                                        </div>
+                                        {% for prestation in desrubref['prest4'] %}
+                                            {% if desrubref['prest4']!=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% for addprestation in desrubref['addprest4'] %}
+                                            {%  if addprestation !=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ addprestation|capitalize}}<br>
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+
+                            {% endif %}
+
+                            {% if desrubref['rub5']!=null  %}
+                                {%  if (desrubref['addprest5'] !=[""] or  desrubref['prest5']!=null) %}
+                                    {% if desrubref['rub5']!=null  %}
+                                        <div style="width: 350px!important;background-color: #f9f1c9">
+                                            <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                                •&nbsp;{{ desrubref['rub5']|rub.libelle  }}<br>
+                                            </strong>
+
+                                        </div>
+                                        {% for prestation in desrubref['prest5'] %}
+                                            {% if desrubref['prest5']!=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% for addprestation in desrubref['addprest5'] %}
+                                            {%  if addprestation !=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ addprestation|capitalize}}<br>
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+
+                            {% endif %}
+
+                            {% if desrubref['rub6']!=null  %}
+                                {%  if (desrubref['addprest6'] !=[""] or  desrubref['prest6']!=null) %}
+                                    {% if desrubref['rub6']!=null  %}
+                                        <div style="width: 350px!important;background-color: #f9f1c9">
+                                            <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                                •&nbsp;{{ desrubref['rub6']|rub.libelle  }}<br>
+                                            </strong>
+
+                                        </div>
+                                        {% for prestation in desrubref['prest6'] %}
+                                            {% if desrubref['prest6']!=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% for addprestation in desrubref['addprest6'] %}
+                                            {%  if addprestation !=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ addprestation|capitalize}}<br>
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+
+                            {% endif %}
+
+                            {% if desrubref['rub7']!=null  %}
+                                {%  if (desrubref['addprest7'] !=[""] or  desrubref['prest7']!=null) %}
+                                    {% if desrubref['rub7']!=null  %}
+                                        <div style="width: 350px!important;background-color: #f9f1c9">
+                                            <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                                •&nbsp;{{ desrubref['rub7']|rub.libelle  }}<br>
+                                            </strong>
+
+                                        </div>
+                                        {% for prestation in desrubref['prest7'] %}
+                                            {% if desrubref['prest7']!=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% for addprestation in desrubref['addprest7'] %}
+                                            {%  if addprestation !=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ addprestation|capitalize}}<br>
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+
+                            {% endif %}
+
+
+
+
+                        {% endif %}
+
+
+                    </th>
+
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+
+                </tr>
+            {% endif %}
+
+            {% if  referencement['prest_sup']  %}
+                <tr>
+                    <th scope="row"><strong>Prestation(s) supplémentaire: <br> </strong>
+
+                        {% for prestsupp in desrubref['prestsupp'] %}
+                            {%  if prestsupp !=null %}
+                                <strong style="font-weight: 400;font-size: 13px;">
+                                    -&nbsp;{{ prestsupp|capitalize}}<br>
+                                </strong>
+                            {% endif %}
+                        {% endfor %}
+
+                    </th>
+
+                    <td>1 500</td>
+                    <td>{{ referencement['resulta2']}} </td>
+                    <td>{{ referencement['resulta']|number_format|replace(',',' ') }}</td>
+
+                </tr>
+            {% endif %}
+
+            {% if  referencement['mari']  %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 15px;">Marques : </strong><br>
+
+                        {% if marque!=0 %}
+                            {% if marque['marq1']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp; {{ marque['marq1']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi1'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% if marque['marq2']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp; {{ marque['marq2']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi2'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% if marque['marq3']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp; {{ marque['marq3']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi3'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+                                </div>
+
+                            {% endif %}
+
+                            {% if marque['marq4']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp; {{ marque['marq4']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi4'] %}
+                                    <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                        {{ posi}} -
+                                    </strong>
+                                    {% endfor %}:
+                                </div>
+
+
+                            {% endif %}
+
+                            {% if marque['marq5']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp;{{ marque['marq5']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi5'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+                                </div>
+
+
+                            {% endif %}
+
+                            {% if marque['marq6']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp;{{ marque['marq6']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi6'] %}
+                                    <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                        {{ posi}} -
+                                    </strong>
+                                    {% endfor %}:
+                                </div>
+
+
+                            {% endif %}
+
+                            {% if marque['marq7']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp;{{ marque['marq7']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi7'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+
+                                </div>
+
+
+                            {% endif %}
+
+                            {% if marque['marq8']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp;{{ marque['marq8']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi8'] %}
+                                    <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                        {{ posi}} -
+                                    </strong>
+                                    {% endfor %}:
+                                </div>
+
+
+                            {% endif %}
+
+                            {% if marque['marq9']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp; {{ marque['marq9']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi9'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+                                </div>
+
+
+                            {% endif %}
+
+                            {% if marque['marq10']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp; {{ marque['marq10']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi10'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+                                </div>
+
+
+                            {% endif %}
+                        {% endif %}
+
+                    </th>
+
+                    <td>1 500</td>
+                    <td>{{ referencement['marque_pack']  }}</td>
+                    <td>{{ referencement['mari']|number_format|replace(',',' ') }}</td>
+                </tr>
+            {% endif %}
+        </div>
+
+        {% if contenu['catalogue']==null and contenu['catalogue_ref']==null and contenu['video']==null and contenu['page']==null and contenu['site_web']==null   %}
+            <tr class="table-warning" style="display: none">
+                <th colspan="4" style=" background-color: #ffdb2e;">Contenu</th>
+            </tr>
+        {% else %}
+            <tr class="table-warning" >
+                <th colspan="4" style="  background-color: #ffdb2e;">Contenu</th>
+            </tr>
+        {% endif %}
+
+        <div>
+            {% if  contenu['catalogue']  %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 15px;">Catalogue {% if  contenu['catalogue']=='3500'  %} 5 pages {% endif %}  {% if  contenu['catalogue'] =='5000' %} 10 pages {% endif %}  {% if  contenu['catalogue']=='7500'  %}20 pages {% endif %}</strong></th>
+
+                    <td>{{ contenu['catalogue']|number_format|replace(',',' ')  }}</td>
+                    <td>1</td>
+                    <td>{{ contenu['catalogue']|number_format|replace(',',' ')  }}</td>
+                </tr>
+
+            {% endif %}
+
+            {% if  contenu['catalogue_ref']  %}
+
+                <tr>
+                    <th scope="row"><strong style="font-size: 14px;">Catalogue Connecté {% if  contenu['catalogue_ref']=='5000'  %} 5 pages{% endif %}{% if  contenu['catalogue_ref']=='6500'  %} 10 pages{% endif %}{% if  contenu['catalogue_ref']=='9000'  %} 20 pages{% endif %}</strong></th>
+
+                    <td>{{ contenu['catalogue_ref']|number_format|replace(',',' ')  }}</td>
+                    <td>1</td>
+                    <td>{{ contenu['catalogue_ref']|number_format|replace(',',' ')  }}</td>
+                </tr>
+
+            {% endif %}
+
+            {% if  contenu['video']  %}
+                {% for entity in contenu['video'] %}
+
+                    {% if entity == 6500 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Vidéo Graphique</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ') }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if entity == 9500 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Vidéo</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if entity == 12500 %}
+
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Film </strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{ entity|number_format|replace(',',' ') }}</td>
+                        </tr>
+
+                    {% endif %}
+                    {% if entity == 20000 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Motion Design </strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+
+                    {% endif %}
+                    {% if entity == 30000 %}
+
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Vidéo Premium </strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ') }}</td>
+                            <td>1</td>
+                            <td>{{ entity|number_format|replace(',',' ') }}</td>
+                        </tr>
+
+                    {% endif %}
+
+                    {% if entity == 3500 %}
+
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;"> Vidéo Diffusion </strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+
+                    {% endif %}
+
+                {% endfor %}
+            {% endif %}
+
+            {% if  contenu['page']  %}
+
+                {% for entity in contenu['page'] %}
+
+                    {% if entity == 2000 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Page Web</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if entity == 3000 %}
+                        <tr>
+                            <th scope="row">Pack Présence</th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ') }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if entity == 4500 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">PVI 1</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if entity == 7000 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">PVI 2</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ') }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if entity == 9500 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">PVI 3</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if entity == 12000 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">E-commerce</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ') }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                {% endfor %}
+            {% endif %}
+
+            {% if  contenu['site_web']  %}
+
+                {% for entity in contenu['site_web'] %}
+
+                    {% if entity == 7800 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Site Vitrine</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if entity == 10000 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Site Catalogue</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if entity == 26000 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Site Premium </strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endif %}
+
+        </div>
+
+        {% if affichage['thematique_name']==null and affichage['localite_name']==null and affichage['pro_du_jour']==null and affichage['promo']==null and affichage['vign_ac']==null and affichage['habil']==null and affichage['bann_up_engin']==null and affichage['bann_down_engin']==null and affichage['bann_up_customer']==null and affichage['bann_down_customer']==null   %}
+            <tr class="table-warning" style="display: none">
+                <th colspan="4" style="background-color: #ffdb2e;">Affichage</th>
+            </tr>
+        {% else %}
+            <tr class="table-warning" >
+                <th colspan="4" style="background-color: #ffdb2e;">Affichage</th>
+            </tr>
+        {% endif %}
+
+        <div>
+            {% if affichage['thematique_name'] %}
+                <tr>
+                    <th scope="row">Vignette Thématique sur :<h7 style="font-weight: 400;font-size: 16px;">{{ affichage['villes']|somme.libelle }}
+                            {#{% if affichage['regions'] =='L' %}Ma ville {% endif %}#}
+                            {% if affichage['regions'] =='0' %}Sa région{% endif %}
+                            {% if affichage['regions'] =='1' %}+1 régions {% endif %}
+                            {% if affichage['regions'] =='3' %}+3 régions{% endif %}
+                            {% if affichage['regions'] =='6' %}+6 régions{% endif %}
+                            {% if affichage['regions'] =='9' %}+9 régions{% endif %}</h7>
+
+                    <td>{{ (affichage['thematique_name'])  }}</td>
+                    <td>1</td>
+                    <td>{{ (affichage['thematique_name']) }}</td>
+                </tr>
+            {% endif %}
+
+            {% if  affichage['localite_name']  %}
+
+                <tr>
+                    <th scope="row">Vignette localité sur :<br>
+                        <h7 style="font-weight: 400;font-size: 16px;">{% if affichage['cat1']  %}Casablanca -{% endif %}
+                            {% if affichage['cat2r']  %}Rabat -{% endif %}
+                            {% if affichage['cat2f']  %}Fés -{% endif %}
+                            {% if affichage['cat2ma']  %}Marrakech -{% endif %}<br>
+                            {% if affichage['cat2me']  %}Meknés -{% endif %}
+                            {% if affichage['cat2ag']  %}Agadir -{% endif %}
+                            {% if affichage['cat2tan']  %}Tanger -{% endif %}                            
+                            {% if affichage['cat3k']  %}Kénitra -{% endif %}
+                            {% if affichage['cat3o']  %}Oujda -{% endif %}<br>
+                            {% if affichage['cat3e']  %}Essaouira -{% endif %}
+                            {% if affichage['cat3sa']  %}Safi -{% endif %}
+                            {% if affichage['cat3se']  %}Settat -{% endif %}
+                            {% if affichage['cat3te']  %}Tétouan -{% endif %}
+                            {% if affichage['cat4']  %}Autres villes -{% endif %}</h7>
+
+
+
+                    </th>
+
+                    <td>{{ affichage['localite_name'] }}</td>
+                    <td>1</td>
+                    <td>{{ affichage['localite_name'] }}</td>
+                </tr>
+            {% endif %}
+
+            {% if  affichage['pro_du_jour']  %}
+                {% if affichage['pro_du_jour']=='1' %}
+                    <tr>
+                        <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Professionnels du jour 1 mois</h7></th>
+
+                        <td>1 500</td>
+                        <td>1</td>
+                        <td>1 500</td>
+                    </tr>
+                {% endif %}
+                {% if affichage['pro_du_jour']=='3' %}
+                    <tr>
+                        <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Professionnels du jour 3 mois</h7></th>
+
+                        <td>3 500</td>
+                        <td>1</td>
+                        <td>3 500</td>
+                    </tr>
+                {% endif %}
+
+
+
+            {% endif %}
+
+            {% if  affichage['promo']  %}
+                {% if affichage['promo']=='1' %}
+                    <tr>
+                        <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">1 Promo/an</h7></th>
+
+                        <td>2 400</td>
+                        <td>1</td>
+                        <td>2 400</td>
+                    </tr>
+                {% endif %}
+
+                {% if affichage['promo']=='2' %}
+                    <tr>
+                        <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">3 Promo/an</h7></th>
+
+                        <td>5 000</td>
+                        <td>1</td>
+                        <td>5 000</td>
+                    </tr>
+                {% endif %}
+                {% if affichage['promo']=='3' %}
+                    <tr>
+                        <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">6 Promo/an</h7></th>
+
+                        <td>8 000</td>
+                        <td>1</td>
+                        <td>8 000</td>
+                    </tr>
+                {% endif %}
+
+                {% if affichage['promo']=='4' %}
+                    <tr>
+                        <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">12 Promo/an</h7></th>
+
+                        <td>12 000</td>
+                        <td>1</td>
+                        <td>12 000</td>
+                    </tr>
+                {% endif %}
+
+            {% endif %}
+
+            {% if  affichage['vign_ac']  %}
+
+                {% if affichage['vign_ac']=='V0' %}
+                    <tr>
+                        <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Vignette page d'acceuil</h7></th>
+                        <td>100/1 000</td>
+                        <td>{{ affichage['vignette_acc_video_nbr2']|number_format|replace(',',' ') }}</td>
+                        <td>{{ ((affichage['vignette_acc_video_nbr2']* 100) / 1000)|number_format|replace(',',' ')  }}  </td>
+                    </tr>
+                {% endif %}
+
+                {% if affichage['vign_ac']=='VV' %}
+                    <tr>
+                        <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Vignette Video</h7></th>
+
+                        <td>150/1 000</td>
+                        <td>{{ affichage['vignette_acc_video_nbr2']|number_format|replace(',',' ') }}</td>
+                        <td>{{ ((affichage['vignette_acc_video_nbr2']* 150) / 1000)|number_format|replace(',',' ') }} </td>
+                    </tr>
+                {% endif %}
+
+
+
+
+            {% endif %}
+
+            {% if  affichage['habil']  %}
+
+                {% if affichage['habil']=='1' %}
+                    <tr>
+                        <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Habillage Jour</h7></th>
+
+                        <td>4 000</td>
+                        <td>1</td>
+                        <td>4 000</td>
+                    </tr>
+                {% endif %}
+
+                {% if affichage['habil']=='2' %}
+                    <tr>
+                        <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Habillage Semaine</h7></th>
+
+                        <td>15 000</td>
+                        <td>1</td>
+                        <td>15 000</td>
+                    </tr>
+                {% endif %}
+
+            {% endif %}
+
+            {% if affichage['bann_up_engin']=='80' %}
+                <tr>
+                    <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Bannière En haut sur la page de résultats</h7></th>
+
+                    <td>80/1 000</td>
+                    <td>{{ (affichage['banniere_nombr2']|number_format|replace(',',' '))  }}</td>
+                    <td>{{ ((affichage['banniere_nombr2'] * 80) / 1000)|number_format|replace(',',' ') }} </td>
+                </tr>
+            {% endif %}
+
+            {% if affichage['bann_down_engin']=='90' %}
+                <tr>
+                    <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Bannière En bas sur la page de résultats</h7></th>
+                    <td>90/1 000</td>
+                    <td>{{ affichage['banniere_nombr2']|number_format|replace(',',' ') }}</td>
+                    <td>{{ ((affichage['banniere_nombr2'] * 90) / 1000)|number_format|replace(',',' ') }}</td>
+                </tr>
+            {% endif %}
+
+            {% if affichage['bann_up_customer']=='150' %}
+                <tr>
+                    <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Bannière En haut sur les fiches prospects</h7></th>
+
+                    <td>150/1 000</td>
+                    <td>{{ affichage['banniere_nombr2']|number_format|replace(',',' ') }}</td>
+                    <td>{{ ((affichage['banniere_nombr2'] * 150) / 1000)|number_format|replace(',',' ') }}  </td>
+                </tr>
+            {% endif %}
+
+            {% if affichage['bann_down_customer']=='150' %}
+                <tr>
+                    <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Bannière En bas sur les fiches prospects</h7></th>
+
+                    <td>150/1 000</td>
+                    <td>{{ affichage['banniere_nombr2']|number_format|replace(',',' ') }}</td>
+                    <td>{{ ((affichage['banniere_nombr2'] * 150) / 1000)|number_format|replace(',',' ')  }}  </td>
+                </tr>
+            {% endif %}
+        </div>
+
+        {% if profession['rubrique']==null    %}
+            <tr class="table-warning" style="display: none">
+                <th colspan="4" style="background-color: #ffdb2e;">Profession libérale</th>
+            </tr>
+        {% else %}
+            <tr class="table-warning" >
+                <th colspan="4" style="background-color: #ffdb2e;">Profession libérale</th>
+            </tr>
+        {% endif %}
+        {% if profession['parcours_diplomes'] %}
+            <tr>
+                <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Parcours - Diplômes :<br></h7>
+                    <h7 style="font-weight: 400;font-size: 15px;">{{ profession['parcours_diplomes']|nl2br}}
+                    </h7>
+                </th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        {% endif %}
+        {% if profession['villesp'] %}
+            <tr>
+                <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">visibilité sur la ville de :<br></h7>
+                    <h7 style="font-weight: 400;font-size: 15px;">
+
+                        {{ profession['villesp']|somme.libelle }}
+
+                    </h7>
+                </th>
+                <td>{{ profession['profession']|number_format|replace(',',' ') }}</td>
+                <td>1</td>
+                <td>{{ profession['profession']|number_format|replace(',',' ') }}</td>
+            </tr>
+        {% endif %}
+        {% if profession['rubrique'] %}
+            <tr>
+                <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Rubrique :<br></h7>
+                    <h7 style="font-weight: 400;font-size: 15px;">
+
+                        •&nbsp;{{ profession['rubrique']|rubprof.libelle }}
+
+                    </h7>
+                </th>
+                <td>-</td>
+                <td>1</td>
+                <td>-</td>
+            </tr>
+        {% endif %}
+
+        {% if profession['specialites'] %}
+            <tr>
+                <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Spécialités :<br></h7>
+                    <h7 style="font-weight: 400;font-size: 15px;">
+                        {% for specialite in profession['specialites'] %}
+                            {%  if specialite !=null %}
+                                -&nbsp;{{ specialite}},
+                            {% endif %}
+                        {% endfor %}
+                    </h7>
+                </th>
+                <td>-</td>
+                <td>{{ profession ['count_specialites'] }}</td>
+                <td>-</td>
+            </tr>
+        {% endif %}
+        {% if profession['services'] %}
+            <tr>
+                <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Services plus :<br></h7>
+                    <h7 style="font-weight: 400;font-size: 15px;">
+                        {% for service in profession['services'] %}
+                            {%  if service !=null %}
+                                -&nbsp;{{ service}},
+                            {% endif %}
+                        {% endfor %}
+                    </h7>
+                </th>
+                <td>-</td>
+                <td>{{ profession ['count_services'] }}</td>
+                <td>-</td>
+            </tr>
+        {% endif %}
+
+        {% if profession['certifications'] %}
+            <tr>
+                <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Cetifications :<br></h7>
+                    <h7 style="font-weight: 400;font-size: 15px;">
+                        {{ profession['certifications'] }}
+                    </h7>
+                </th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        {% endif %}
+        {% if profession['first_day'] %}
+            <tr>
+                <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Horaires d'ouverture :<br></h7>
+                    <h7 style="font-weight: 400;font-size: 15px;">
+                        {% for first_day in profession['first_day'] %}
+                            {{ first_day}}
+                        {% endfor %}:
+                        {% for hour in profession['second_day'] %}
+                            {{ hour}} -
+                        {% endfor %}
+                        <br>
+                        {% if profession['samedi']!=null  %}
+                            {{ profession['samedi'] }}
+                        {% endif %}
+                        {% for h_samedi in profession['h_samedi'] %}
+                            {{h_samedi }} -
+                        {% endfor %}
+
+                    </h7>
+                </th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        {% endif %}
+        {% if profession['langue'] %}
+            <tr>
+                <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Langues parlées :<br></h7>
+                    <h7 style="font-weight: 400;font-size: 15px;">
+                        {% if profession['langue']!=null  %}
+                            {% for profession in profession['langue'] %}
+                                <h7 style="font-weight: 400!important;font-size: 16px;!important;">
+                                    {{ profession}} -
+                                </h7>
+                            {% endfor %}
+                        {% endif %}
+                    </h7>
+                </th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        {% endif %}
+        {% if profession['paiement'] %}
+            <tr>
+                <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Mode de paiement :<br></h7>
+                    <h7 style="font-weight: 400;font-size: 15px;">
+                        {% for profession in profession['paiement'] %}
+                            {{ profession}} -
+                        {% endfor %}
+                    </h7>
+                </th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        {% endif %}
+        {% if profession['socieux'] %}
+            <tr>
+                <th scope="row"><h7 style="font-weight: 500;font-size: 16px;">Lien vers réseaux sociaux :<br></h7>
+                    <h7 style="font-weight: 400;font-size: 15px;">
+                        {{ profession['socieux'] }}
+                    </h7>
+                </th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        {% endif %}
+
+
+        </tbody>
+    </table>
+
+
+
+    <table width="30%" border="1" style="border: 1px solid #dee2e6;margin-top: -17px;margin-left: 610px;">
+
+        <tr>
+
+            <td scope="row" class="pull-right" ><h7 style="font-weight: bold;font-size: 15px;">Montant H.T &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</h7></td>
+            <td  style="text-align: center;">
+                <input type="text" id="ht_net" value="{{ somme|number_format|replace(',',' ')  }}" style="display: none;">
+                <input type="text" id="ht_brut"  style=";color: black;border: white;text-align: -webkit-center;font-weight: bold;width: 100px;height: 28px;" readonly /></td>
+
+        </tr>
+
+        <tr>
+
+
+            <td  class="visibilite-td" scope="row" class="pull-right "  style="color: #f36b60;display: none">
+                <h7 class="remise_th" style="font-weight: 500;font-size: 15px;">Remise en %</h7>
+                <h7 class=" montant_remise_th" style="font-weight: 500;font-size: 15px;margin-right: -9px;">Remise accordée</h7>
+                <h7 class="gratuite_th" style="font-weight: 500;font-size: 15px;margin-right: -9px;">Gratuité accordée</h7>
+            </td>
+            <td class="remise_th"  style="text-align: center;display: none"><input type="text" id="pourcent" {% if code['pourcentage'] %} value="{{ code['pourcentage'] }}%" {% endif %}  style=";text-align: -webkit-center;font-weight: bold;width: 100px;border: white;height: 28px;float: right;" readonly />{#<label style="margin-left: -35px;height: 0px;margin-top: -9px;">%</label>#}</td>
+            <td class="montant_remise_th"  style="text-align: center;display: none"><input type="text" id="montant_remise4" {% if code['montant_remise']|number_format|replace(',',' ') %} value="{{ code['montant_remise']|number_format|replace(',',' ') }}" {% endif %}  style=";text-align: -webkit-center;font-weight: bold;width: 100px;border: white;height: 28px;" readonly /></td>
+            <td class="gratuite_th"  style="text-align: center;display: none"><input type="text" id="montant_remise3" {% if code['montant_remise']|number_format|replace(',',' ') %} value="{{ code['montant_remise']|number_format|replace(',',' ') }}" {% endif %}  style=";text-align: -webkit-center;font-weight: bold;width: 100px;border: white;height: 28px;" readonly /></td>
+
+        </tr>
+
+        <tr>
+            <td  class="visibilite_new_ht" scope="row" class="pull-right"  style="background-color: #f36b60;color: white; display: none"><h7 style="font-weight: bold;font-size: 15px;">Nouveau Montant H.T </h7></td>
+
+            <td  class="remise_th" style="text-align: center;background-color: #f36b60 ;color: white;display: none" >         <input type="text" id="montant_r" {% if code['montant_r']|number_format|replace(',',' ') %} value="{{ code['montant_r']|number_format|replace(',',' ') }}" {% endif %}  style="background-color: #f36b60;color: white;border: #f36b60;text-align: -webkit-center;font-weight: bold;width: 100px;height: 28px;" readonly /></td>
+
+            <td  class="montant_remise_th" style="text-align: center;background-color: #f36b60 ;color: white;display: none" > <input type="text" id="montant_rem" {% if code['montant_rem']|number_format|replace(',',' ') %} value="{{ code['montant_rem']|number_format|replace(',',' ') }}" {% endif %}  style="background-color: #f36b60;color: white;border: #f36b60;text-align: -webkit-center;font-weight: bold;width: 100px;height: 28px;" readonly /></td>
+
+            <td  class="gratuite_th" style="text-align: center;background-color: #f36b60 ;color: white;display: none" >       <input type="text" id="new_ht" value="{{ (somme)|number_format|replace(',',' ')  }}" style="background-color: #f36b60;color: white;border: #f36b60;text-align: -webkit-center;font-weight: bold;width: 100px;height: 28px;" readonly /></td>
+
+        </tr>
+
+
+        <tr>
+
+            <td scope="row" class="pull-right" ><h7 style="font-weight: 500;font-size: 15px;">T.V.A 20%</h7></td>
+            <input type="text" id="tva_brut" value="{{ (somme*0.2)|number_format|replace(',',' ') }}" style="display: none">
+
+            <td class="tva"  style="text-align: center;"><input type="text" id="tva"  style=";color: black;border: white;text-align: -webkit-center;font-weight: 500;width: 100px;height: 28px;margin-left: 7px;" readonly /></td>
+
+
+        </tr>
+
+
+        <tr>
+
+            <td scope="row" class="pull-right" style="background-color: #dadada;" ><h7 style="font-weight: bold;font-size: 15px;">Montant T.T.C</h7></td>
+
+            <input type="text" id="ttc_net" value="{{ (somme)|number_format|replace(',',' ')  }}" style="display: none;">
+
+            <td class="ttc_brut" style="text-align: center;background-color: #dadada;"><input type="text" id="ttc_brut"  style=";color: black;border: white;text-align: -webkit-center;font-weight: bold;width: 100px;height: 28px;background-color: #dadada;" readonly /></td>
+
+
+
+        </tr>
+    </table>
+
+    <div style="width: auto; margin-left: 173px;margin-top: 28px;">
+
+        <h6 class="promo_remise" style="font-weight: 400;"> Remise accordée de <span style="font-weight: 600;" id="montant_remise_remise">{{ code['montant_remise']|number_format|replace(',',' ') }}</span> <span style="font-weight: 600;">MAD : </span> <span style="font-weight: 600;" id="nature_contenu_remise" >{{ code['nature_remise'] }} </span> </h6>
+        <h6 class="promo_gratuite" style="font-weight: 400;">Gratuité accordée de <span style="font-weight: 600;" id="montant_remise_gratuite">{{ code['montant_remise']|number_format|replace(',',' ') }}</span> <span style="font-weight: 600;">MAD : </span> <span style="font-weight: 600; " id="nature_contenu_gratuite">{{ code['nature_remise'] }} </span></h6>
+    </div>
+
+
+    <div class="col-lg-12">
+        <div  class="row" style="margin-left: 101px;width: 765px;margin-top: 30px;" >
+            <div class="col-xs-4 hrefpdf">
+                <a href="{{ path('facture') }}" target="_blank" class="btn  btn-sx pdf" type="button" style="width: 200px!important;margin-left: 55px;font-weight: bold;">Télécharger PDF</a>
+            </div>
+            <div class="col-xs-4">
+                <button class="btn  btn-xs modalite " type="button" onclick="showhide_m()" style="font-weight: bold;">Modalité de paiement <img class="white-triangle1" src="{{ asset('white-triangle.png') }}" ></button>
+            </div>
+            <div class="col-xs-4">
+                <button class="btn  btn-xs coderp" type="button" onclick="showhide_c()" style="width: 200px!important;margin-left: 16px;font-weight: bold;">Code R/P  <img class="white-triangle1" src="{{ asset('white-triangle.png') }}" ></button>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: none" id="modalite">
+        <div class="col-lg-12">
+            <div class="row" style="margin-left: 106px">
+                <div class="col-xs-4 ">
+                    <button class="btn  btn-xs modalite " type="button" style="margin-left: 55px; margin-top: 53px;">Modalité de paiement </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="row" style="margin-left: 162px;margin-top: 20px">
+                <div class="col-xs-4">
+                    <button class="btn  btn-xs modalite " id="modalite_preconise" type="button" style="margin-left: -1px;float: left;background-color: black;color: white;width: 308px;text-align: center;font-size: 17px!important;font-weight: bold;margin-top: -22px;" onclick="showhide_p()">Modalité de paiement préconisée <img class="white-triangle1" src="{{ asset('white-triangle.png') }}" ></button>
+
+                    <div style="display: none" id="preconise">
+                        <label class="montantttc" > Montant TTC à payer:<input type="text" name="montantttc_preconise" id="montantttc_preconise" value="{{ (somme+(somme*0.2))|number_format|replace(',',' ') }}" readonly/></label><br>
+                        <label class="label_preconise">Acompte:<span style="margin-left: 72px;">25%</span>&nbsp;<input type="text" name="accompte_preconise" id="accompte_preconise"  readonly/></label><br>
+                        <label class="label_preconise">Reste à payer:<input type="text" name="reste_preconise" id="reste_preconise"  readonly/></label><br>
+                        <label class="label_preconise">Nombre de paiement:<input type="text" name="nbr_preconise" id="nbr_preconise" value="3"  readonly/></label><br>
+                        <label class="label_preconise">Montant:<span style="margin-left: 75px;">25%</span>&nbsp;<input type="text" name="montant1_preconise" id="montant1_preconise"  readonly/></label><br>
+                        <label class="label_preconise"><span style="margin-left: 135px;">25%</span>&nbsp;<input type="text" name="montant2_preconise" id="montant2_preconise" readonly/></label><br>
+                        <label class="label_preconise"><span style="margin-left: 135px;">25%</span>&nbsp;<input type="text" name="montant3_preconise" id="montant3_preconise"  readonly/></label><br>
+                        <label class="label_preconise">date d'échéance:<input type="date" name="dateP1_preconise" id="dateP1_preconise"  readonly/></label><br>
+                        <label class="label_preconise"><input type="date" name="dateP2_preconise" id="dateP2_preconise"  readonly/></label><br>
+                        <label class="label_preconise"><input type="date" name="dateP3_preconise" id="dateP3_preconise"  readonly/></label><br>
+
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <button class="btn  btn-xs modalite " id="autre_modalite" type="button">Autre modalité de paiement </button>
+                    <div style="margin-left: 100px;margin-top: 48px;">
+                        <form id="modalite">
+                            <label class="mttc"> <input  type="text" name="montantttc_stock" id="montantttc_stock" value="{{ somme|number_format|replace(',',' ') }} "readonly style="display: none"/></label><br>
+                            <label class="mttc"> Montant TTC à payer:<input class="modalites ttc" type="text" name="montantttc_modalite" id="montantttc_modalite" value="" readonly/></label><br>
+                            <label  class="label_autre test">Acompte:<input class="modalites" type="text" name="accompte" id="accompte" {% if paiement['accompte']|number_format|replace(',',' ') %}value="{{ paiement['accompte']|number_format|replace(',',' ') }}"  {% endif %} /></label><br>
+                            <label class="label_autre">Reste à payer:<input class="modalites" type="text" name="reste" id="reste" {% if paiement['reste'] %}value="{{ paiement['reste'] }}" {% endif %} value="{{ (somme+(somme*0.2))|number_format|replace(',',' ') }}"  readonly/></label><br>
+                            <label class="label_autre test">Nombre de paiement:<input class="modalites" type="text" name="nbr" id="nbr" max="3" min="0"  {% if paiement['nbr'] %}value="{{ paiement['nbr'] }}" {% endif %} /></label><br>
+                            <label class="label_autre">Montant:<input class="modalites" type="text" name="montant1" id="montant1" {% if paiement['montant1'] %} value="{{ paiement['montant1'] }}" {% endif %} /></label><br>
+                            <label class="label_autre">        <input class="modalites" type="text" name="montant2" id="montant2" {% if paiement['montant2'] %} value="{{ paiement['montant2'] }}" {% endif %} /></label><br>
+                            <label class="label_autre">        <input class="modalites" type="text" name="montant3" id="montant3" {% if paiement['montant3'] %} value="{{ paiement['montant3'] }}" {% endif %} /></label><br>
+                            <label class="label_autre">Date d'échéance:<input class="modalites" type="date" name="dateP1" id="dateP1" {% if paiement['dateP1'] %} value="{{ paiement['dateP1'] }}" {% endif %}/></label><br>
+                            <label class="label_autre">                <input class="modalites" type="date" name="dateP2" id="dateP2" {% if paiement['dateP2'] %} value="{{ paiement['dateP2'] }}" {% endif %} /></label><br>
+                            <label class="label_autre">                <input class="modalites" type="date" name="dateP3" id="dateP3" {% if paiement['dateP3'] %} value="{{ paiement['dateP3'] }}" {% endif %} /></label><br>
+
+                            {#<label class="label_autre"><input type="date">dddd</label>#}
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div style="display: none" id="code">
+        <div class="col-lg-12">
+            <div class="row code_r_p" style="margin-left: 91px;margin-top: 51px;">
+                <div class="col-xs-4 ">
+                    <button class="btn  btn-xs coderp" type="button" style="">Code R/P</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="row" style="margin-left: 106px;margin-top: 20px">
+                <div class="col-xs-4">
+                    <button class="btn  btn-xs modalite remise_montant " type="button" >Remise en montant </button>
+                    <div>
+                        <label class="label_nture_remise"  >Nature de la remise</label>
+                        <label class="checkbox-inline" id="r_m" >
+                            <input class="code-rp checkbox checkbox_offre remise modalites "   type="checkbox" name="offre" id="offre" value="remise" {% if code['offre'] =='remise' %} checked  {% endif %} >Remise en montant
+                        </label><br>
+                        <label class="checkbox-inline" id="r_g" >
+                            <input class="code-rp checkbox_offre checkbox gratuite modalites"   type="checkbox" name="offre" id="offre" value="gratuite" {% if code['offre'] =='gratuite' %} checked  {% endif %} >Gratuité
+                        </label><br>
+                        <label class="label_descriftif_offre"> <span>Descriptif de l'offre</span><input class="code-rp nature_remise" name="nature_remise" id="nature_remise" {% if code['nature_remise']  %}  value="{{ code['nature_remise'] }}" {% endif %} type="text" />
+                        </label><br>
+
+                        <label  class="test" id="r_montant"> Montant
+
+                            <input class="code-rp montant_remise modalites " name="montant_remise" id="montant_remise" type="text"{% if code['montant_remise']|number_format|replace(',',' ')  %}  value="{{ code['montant_remise']|number_format|replace(',',' ') }}" {% endif %} />
+
+                        </label>
+
+                    </div>
+                </div>
+
+                <div class="col-xs-4">
+                    <button class="btn  btn-xs modalite remise_en_pourcentage " type="button" style="">Remise en % </button>
+                    <div style="/*margin-left: 100px;*/">
+                        <label class="checkbox-inline " id="r_p">
+                            <input class="code-rp checkbox_offre  remise_pourcentage modalites"   type="checkbox" name="offre" onchange="valueChanged()" id="offre" value="remise_pourcentage" {% if code['offre'] =='remise_pourcentage' %} checked  {% endif %} >Remise en %
+                        </label><br>
+                        <label id="input_pourcentage test" style="margin-top: 9px;"><input type="text" class="code-rp pourcentage modalites" name="pourcentage" id="pourcentage" {% if code['pourcentage']  %}  value="{{ code['pourcentage'] }}"{% endif %}/></label><br>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <br><br><br><br>
+
+    {# <section  id="fond-14" align="center">
+
+            <div class=" row" style="display: -webkit-inline-box!important;">
+                <div class=" titre col" align="center" style=" ">
+                    <p class="text-uppercase">modalité de paiement</p>
+                </div>
+            </div>
+            <br><br><br>
+            <div class="row texte">
+                <div class="col-md-12 col-sm-12 col-xs-12"align="center" >
+
+                    <form >
+
+
+                        <div class="form-group row">
+                            <label class="col-md-6 col-xs-6 col-sm-6" align="left" style="margin-top: 10px;margin-left: -73px;">Montant TTC à payer :</label>
+                            <div class="col-md-6 col-xs-6 col-sm-6" id="test">
+                                <input  class="form-control" name="montantttc" id="montantttc" value="{{ (somme+(somme*0.2))|number_format|replace(',',' ') }}"  style="font-weight: 600;" readonly >
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label  class="col-md-6 col-xs-6 col-sm-6" align="left" style="margin-top: 10px;margin-left: -73px;">Accompte :</label>
+                            <div class="col-md-6 col-xs-6 col-sm-6 test " id="test">
+                                <input type="text" class="form-control clor" name="accompte" id="accompte" {% if paiement['accompte'] %}value="{{ paiement['accompte'] }}"  {% endif %}  style="font-weight: 600;">
+                                <span   id="sp" style="color: red; width: 427px;font-size: 15px;"></span>
+                                <div class="valid-feedback feedback-icon">
+                                    <i class="fa fa-check"></i>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label  class="col-md-6 col-xs-6 col-sm-6" align="left" style="margin-top: 10px;margin-left: -73px;">Reste à payer :</label>
+                            <div class="col-md-6 col-xs-6 col-sm-6 test" id="test">
+                                <input type="text" class="form-control" name="reste" id="reste" {% if paiement['reste'] %}value="{{ paiement['reste'] }}" {% endif %} value="{{ (somme+(somme*0.2))|number_format|replace(',',' ') }}"  style="font-weight: 600;" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label  class="col-md-6 col-xs-6 col-sm-6" align="left" style="margin-top: 10px;margin-left: -73px;">Nombre de paiement :</label>
+                            <div class="col-md-6 col-xs-6 col-sm-6 " id="test">
+                                <input type="number" class="form-control " name="nbr" id="nbr" max="3" min="0"  {% if paiement['nbr'] %}value="{{ paiement['nbr'] }}" {% endif %}style="font-weight: 600;">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label  class="col-md-4 col-xs-4 col-sm-4" align="left" style="margin-top: 20px;margin-left: -73px;">Montant :</label>
+                            <div class="form-inline col-md-8 col-xs-8 col-sm-8 t " id="test">
+
+                                <input type="text" class="form-control" name="montant1" id="montant1" {% if paiement['montant1'] %} value="{{ paiement['montant1'] }}" {% endif %} style="width: 22%;font-size: 16px;margin-left: 127px/*-93px*/;display: none;font-weight: 600;" readonly>
+                                <input type="text" class="form-control" name="montant2" id="montant2" {% if paiement['montant2'] %} value="{{ paiement['montant2'] }}" {% endif %} style="width: 22%; margin-left: 3px;font-size: 16px;display: none;font-weight: 600;" readonly>
+                                <input type="text" class="form-control" name="montant3" id="montant3" {% if paiement['montant3'] %} value="{{ paiement['montant3'] }}" {% endif %} style="width: 22%; margin-left: 9px;font-size: 16px;display: none;font-weight: 600;" readonly>
+                               #}{# <input type="text" class="form-control" name="montant4" id="montant4" {% if paiement['montant4'] %} value="{{ paiement['montant4'] }}" {% endif %} style="width: 22%; margin-left: 9px;font-size: 16px;display: none;font-weight: 600;" readonly>
+                                <input type="text" class="form-control" name="montant5" id="montant5" {% if paiement['montant5'] %} value="{{ paiement['montant5'] }}" {% endif %} style="width: 22%; margin-left: 9px;font-size: 16px;display: none;font-weight: 600;" readonly>#}{#
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label  class="col-md-4 col-xs-4 col-sm-4" align="left" style="margin-top: 20px;margin-left: -73px">Date d'échéance :</label>
+                            <div class="form-inline col-md-8 col-xs-8 col-sm-8" id="test">
+                                <input type="date" class="form-control" name="dateP1" id="dateP1" {% if paiement['dateP1'] %} value="{{ paiement['dateP1'] }}" {% endif %} style="width: 22%;font-size: 12px;margin-left: 127px/*-93px*/;font-weight: 600;display: none">
+                                <input type="date" class="form-control" name="dateP2" id="dateP2" {% if paiement['dateP1'] %} value="{{ paiement['dateP1'] }}" {% endif %} style="width: 22%; margin-left: 3px;font-size: 12px;font-weight: 600;display: none">
+                                <input type="date" class="form-control" name="dateP3" id="dateP3" {% if paiement['dateP1'] %} value="{{ paiement['dateP1'] }}" {% endif %} style="width: 22%; margin-left: 9px;font-size: 12px;font-weight: 600;display: none">
+                                #}{#<input type="date" class="form-control" name="dateP4" id="dateP4" {% if paiement['dateP1'] %} value="{{ paiement['dateP1'] }}" {% endif %} style="width: 22%; margin-left: 9px;font-size: 12px;font-weight: 600;display: none">
+                                <input type="date" class="form-control" name="dateP5" id="dateP5" {% if paiement['dateP1'] %} value="{{ paiement['dateP1'] }}" {% endif %} style="width: 22%; margin-left: 9px;font-size: 12px;font-weight: 600;display: none">#}{#
+                            </div>
+                        </div>
+                        #}{#<input type="number" id="echeance"/><input type="number" id="paiement"/>#}{#
+                        #}{# <div class="form-group" >
+                             <button type="button" id="test" class="btn btn-info"  style=" color: #000;background-color: #ffdb2e;border-color: #ffdb2e;margin-top: -37px;margin-left: 337px;;position: absolute;">
+                                 test
+                             </button>
+                         </div>#}{#
+                    </form>
+
+                    <button type="button" id="now" class="btn valider  " #}{#onclick="showhide_c()" style="display: none"#}{#>Valider</button>
+
+                </div>
+            </div>
+        </section>#}
+
+    <br><br><br><br>
+
+    <form action="{{ path('referencement_commande_devis_fn_pdf') }}" method="post">
+        {#<label>Envoyer le devis&nbsp; &nbsp;</label><input class="email"  id="email" name="email_ad" placeholder="E-mail" type="email" required />&nbsp; &nbsp;
+        {#<button type="submit" id="bnk"  class="envoyer" >Envoyer</button>#}
+        <div align="center" style="margin: 0 auto;">
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3" style=" display: inline-flex;">
+                <div class="form-group">
+                    <div  >
+                        <button type="button" class="" id="dropdownMenu2" data-toggle="collapse" data-target="#demo-2-2">
+                            Référencement&nbsp;   <img class="white-triangle2" src="{{ asset('white-triangle.png') }}" >
+                        </button>
+                        <div id="demo-2-2" class="collapse bouton-2" >
+                            <div >
+                                <table >
+                                    <tr>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="joindre" value="Prestation">&nbsp;Prestation
+                                        </label><br>
+                                    </tr>
+                                    <tr>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="joindre" value="Marques">&nbsp;Marques
+                                        </label><br>
+                                    </tr>
+                                    <tr>
+                                        <label class="checkbox-inline" style="display: none;">
+                                            <input type="checkbox" name="joindre" value="Marquessss">&nbsp;Marques
+                                        </label>
+                                    </tr>
+                                    <tr>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="joindre" value="Rubrique">&nbsp;Rubrique
+                                        </label><br>
+                                    </tr>
+                                    <tr>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="joindre" value="profession">&nbsp;Profession libérale
+                                        </label><br>
+                                    </tr>
+                                    <tr>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="joindre" value="autres_professions">&nbsp;Autres professions libérales
+                                        </label><br>
+                                    </tr>
+                                    <tr>
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" name="joindre" value="Carte">&nbsp;Carte visite
+                                        </label><br>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  class="col-lg-2 col-md-3 col-sm-3 col-xs-3" style=" display: inline-flex;">
+                <div class="form-group">
+                    <div >
+                        <button type="button" class="" id="dropdownMenu2" data-toggle="collapse" data-target="#demo-2-3">
+                            Gestion de contenu&nbsp;   <img class="white-triangle2" src="{{ asset('white-triangle.png') }}" >
+                        </button>
+                        <div id="demo-2-3" class="collapse bouton-2" >
+                            <table >
+
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="site_internet">&nbsp;Site internet
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="Video_graphique">&nbsp;Vidéo graphique
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="Video_corporate">&nbsp;Vidéo corporate
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="film_interview">&nbsp;Film Interview
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="Motion_Design">&nbsp;Motion Design
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="catalogue">&nbsp;Catalogue e ligne
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="pvi">&nbsp;pvi
+                                    </label><br>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  class="col-lg-2 col-md-3 col-sm-3 col-xs-3" style=" display: inline-flex;">
+                <div class="form-group">
+                    <div >
+                        <button type="button" class="" id="dropdownMenu2" data-toggle="collapse" data-target="#demo-2-4">
+                            Affichage&nbsp;   <img class="white-triangle2" src="{{ asset('white-triangle.png') }}" >
+                        </button>
+                        <div id="demo-2-4" class="collapse bouton-2" >
+                            <table >
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="Baniere">&nbsp;Bannières classiques
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="banniere_extensible">&nbsp;Bannières extensibles
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="Vignette_th">&nbsp;Vignettes thématiques
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="Vignette_lo">&nbsp;Vignettes localites
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="Vignette_vid">&nbsp;Vignettes classiques
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="vignette_extensible">&nbsp;Vignettes extensibles
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="Professionnels">&nbsp;Professionnels du jour
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="Espace">&nbsp;Espace Promo
+                                    </label><br>
+                                </tr>
+                                <tr>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="joindre" value="Habillage">&nbsp;Habillage
+                                    </label><br>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  class="col-lg-2 col-md-3 col-sm-3 col-xs-3" style=" display: inline-flex;">
+                <div class="form-group">
+                    <div >
+                        <button type="button" class="" id="dropdownMenu2" data-toggle="collapse" data-target="#demo-2-5">
+                            Réseaux sociaux & audit&nbsp;    <img class="white-triangle2" src="{{ asset('white-triangle.png') }}" >
+                        </button>
+                        <div id="demo-2-5" class="collapse bouton-2">
+                            <div class="form-inline" >
+                                <table >
+                                    <tr>
+                                        <td>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" name="joindre" value="Facebook-Ads">&nbsp;Facebook ads
+                                            </label>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" name="joindre" value="audit">&nbsp;Audit
+                                            </label>
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  class="col-lg-2 col-md-3 col-sm-3 col-xs-3" style=" display: inline-flex;">
+                <div class="form-group">
+                    <div >
+                        <button type="button" class="" id="dropdownMenu2" data-toggle="collapse" data-target="#demo-2-6">
+                            Audience&nbsp;   <img class="white-triangle2" src="{{ asset('white-triangle.png') }}" >
+                        </button>
+                        <div id="demo-2-6" class="collapse bouton-2">
+                            <div class="form-inline" >
+                                <table >
+                                    <tr>
+                                        <td>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" name="joindre" value="Audience">&nbsp;Audience
+                                            </label>
+                                        </td>
+
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <br /><br />
+
+
+
+        <br /><br />
+        <div class="form-group col-md-8" style="margin-left: 169px;margin-top: -24px;">
+            <div class="form-inline" >
+                <div class="form-group " >
+                    <label class="checkbox-inline header" >
+                        <input type="checkbox" class="visbilite_header proposition" name="proposition" id="visbilite_header" {% if visbilite_header['proposition'] =='proposition' %} checked  {% endif %} value="proposition">&nbsp;Proposition
+                    </label>&nbsp;&nbsp;&nbsp;
+                       <label class="checkbox-inline header" >
+                            <input type="checkbox" class="visbilite_header v_reguelemnt" name="ordre" id="visbilite_header" {% if visbilite_header['ordre'] =='ordre' %} checked  {% endif %} value="ordre">&nbsp;Ordre d'insertion
+                        </label>&nbsp;&nbsp;&nbsp;
+                   <label class="checkbox-inline header" >
+                            <input type="checkbox" class="visbilite_header bon_commande" name="bon_commande" id="visbilite_header" {% if visbilite_header['bon_commande'] =='bon_commande' %} checked  {% endif %} value="bon_commande">&nbsp;Bon de commande
+                        </label>&nbsp;&nbsp;&nbsp;
+
+                        <label class="checkbox-inline header reglement " style="display:none;">
+                            <input type="checkbox" name="joindre" id="joindre" value="reguelement">&nbsp;Conditions Générales de Vente
+                        </label>
+                    {# {% if (app.user.groupe == 'televente' )  %}
+                 
+                    {% elseif (app.user.id == '4' or app.user.id == '65' )  %}
+                        <label class="checkbox-inline header" >
+                            <input type="checkbox" class="visbilite_header v_reguelemnt" name="ordre" id="visbilite_header" {% if visbilite_header['ordre'] =='ordre' %} checked  {% endif %} value="ordre">&nbsp;Ordre d'insertion
+                        </label>&nbsp;&nbsp;&nbsp;
+                        <label class="checkbox-inline header" >
+                            <input type="checkbox" class="visbilite_header bon_commande" name="bon_commande" id="visbilite_header" {% if visbilite_header['bon_commande'] =='bon_commande' %} checked  {% endif %} value="bon_commande">&nbsp;Bon de commande
+                        </label>&nbsp;&nbsp;&nbsp;
+
+                        <label class="checkbox-inline header reglement " style="display:none;">
+                            <input type="checkbox" name="joindre" id="joindre" value="reguelement">&nbsp;Conditions Générales de Vente
+                        </label>
+                    {% elseif (app.user.groupe != 'televente'  ) %}
+                        <label class="checkbox-inline header" >
+                            <input type="checkbox" class="visbilite_header v_reguelemnt" name="ordre" id="visbilite_header" {% if visbilite_header['ordre'] =='ordre' %} checked  {% endif %} value="ordre">&nbsp;Ordre d'insertion
+                        </label>&nbsp;&nbsp;&nbsp;
+
+                    {% endif %} #}
+
+                </div>
+            </div>
+        </div>
+        {% if contenu['catalogue']==null and contenu['catalogue_ref']==null and contenu['video']==null and contenu['page']==null and contenu['site_web']==null and affichage['thematique_name']==null and affichage['localite_name']==null and affichage['pro_du_jour']==null and affichage['promo']==null and affichage['vign_ac']==null and affichage['habil']==null
+        and affichage['bann_up_engin']==null and affichage['bann_down_engin']==null and affichage['bann_up_customer']==null and affichage['bann_down_customer']==null and referencement['regions_sup']==null and referencement['raniad']==null and referencement['rubd']==null and referencement['prest']==null and referencement['mari']==null and  profession['profession'] ==null and profession['parcours_diplomes'] ==null and profession['specialites'] ==null and  profession['services'] ==null and  profession['rubrique'] ==null and profession['certifications'] ==null and profession['first_day'] ==null and  profession['second_day'] ==null and profession['hour1'] ==null and profession['hour2'] ==null and profession['hour3'] ==null and profession['hour4'] ==null and profession['langue'] ==null and profession['paiement'] ==null and profession['socieux'] %}
+
+
+            <div >
+                <label style="margin-left: 179px">Envoyer le devis&nbsp; &nbsp;</label><input class="email"  id="email_a" name="email_ad" placeholder="E-mail" type="email" required />&nbsp; &nbsp;
+                <a  type="submit" id="proposition" class="envoyer_a send_email_"  disabled  onclick="prosition()">Envoyer</a>
+                <a  type="submit" id="devis" class="envoyer_a send_email_" style="display: none" disabled onclick="devis()">Envoyer</a>
+                <a  type="submit" id="bon_commande" class="envoyer_a send_email_" style="display: none" disabled onclick="bon_commande()">Envoyer</a>
+                {# <button type="button" id="now" class="btn valider  "  >Valider</button>#}
+            </div>
+        {% else %}
+            <div >
+                <label style="margin-left: 179px">Envoyer le devis&nbsp; &nbsp;</label><input class="email"  id="email"  name="email_ad" placeholder="E-mail" type="email" required />&nbsp; &nbsp;
+                <a  type="submit"  id="proposition_test_envoi"  class="envoyer_a send_email_ proposition_btn_test_envoi"  onclick="alert('Veuillez spécifier le document à envoyer');">Envoyer</a>
+                <button type="submit" id="proposition"  class="envoyer send_email_ proposition_btn"  style="display: none;">Envoyer</button>
+                <button type="submit" id="devis"  class="envoyer send_email_ devis_btn" style="display: none" >Envoyer</button>
+                <button type="submit" id="bon_commande"  class="envoyer send_email_ bon_commande_btn" style="display: none" >Envoyer</button>
+                {# <button type="button" id="now" class="btn valider  "  >Valider</button>#}
+            </div>
+        {% endif %}
+    </form>
+
+     <br><br>
+    <div style="width: 809px;margin-left: 114px">
+         <span class="devis_text">
+             <h6>NB :
+                 Devis valable jusqu’au {{ 'now' |date_modify("+15 day")|date("d/m/Y") }}
+             </h6>
+            </span>
+            <span class="bn_commande_text" style="display: none">
+
+            </span>
+            <span class="ordre_insertion" style="display: none">
+
+            </span>
+
+    </div>
+
+
+    {# <div style="width: 809px;margin-left: 114px">
+        <h6>En l'attente de votre confirmation, veillez agréer Monsieur l'expression de nos salutations les plus sincères</h6>
+        <h6>NB : Devis valable jusqu’au {{ 'now' |date_modify("+15 day")|date("d/m/y") }}  </h6>
+    </div>#}
+    <div class="row">
+        <img  src="http://www.telecontact.ma/trouver/images/Image-12.jpg" class="img-fluid" alt="proposition de visibilité telecontact" style=" height: 50px; width: 80%;margin-left: 114px!important;">
+    </div>
+
+
+</div>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.62/jquery.inputmask.bundle.js"></script>
+
+<script>
+    $(function () {
+        $(window,'.checkbox').on('change load',function () {
+            if ($('input.remise').is(':checked')) {
+                $(".promo_remise").show();
+                $(".promo_gratuite").hide();
+                /*document.getElementById('nature_contenu_gratuite').value = null;
+                 document.getElementById('montant_remise1').value = null;
+                 document.getElementById('montant_remise2').value = null;*/
+            }else
+            if ($('input.gratuite').is(':checked')) {
+                $(".promo_gratuite").show();
+                $(".promo_remise").hide();
+                /*document.getElementById('nature_contenu_remise').value = null;*/
+            }
+            else
+            {
+                $(".promo_remise").hide();
+                $(".promo_gratuite").hide();
+                /* document.getElementById('nature_contenu_remise').value = null;
+                 document.getElementById('nature_contenu_gratuite').value = null;
+                 document.getElementById('montant_remise1').value = null;
+                 document.getElementById('montant_remise2').value = null;*/
+            }
+
+        });
+    });
+    $(function () {
+        $(window,'.gratuite').on('change load',function () {
+            if ($('input.gratuite').is(':checked')) {
+                $(".gratuite_th").show();
+
+            }
+            else
+            if ($('input.remise').is(':checked'))
+            {
+                $(".gratuite_th").hide();
+
+            }
+            else
+            {
+                $(".gratuite_th").hide();
+
+
+            }
+        });
+    });
+    $(function () {
+        $(window,'.remise_pourcentage').on('change keyup keydown load',function () {
+            var pourcent = $('input.pourcentage').val()
+            if ($('input.remise_pourcentage').is(':checked') && pourcent.length != "")
+            {
+                $(".remise_th").show();
+                $(".montant_remise_th").hide();
+
+
+
+            }
+            else
+            if ($('input.gratuite').is(':checked'))
+            {
+                $(".remise_th").hide();
+
+
+
+
+
+            }
+            else
+            {
+                $(".remise_th").hide();
+
+
+
+            }
+        });
+    });
+    $(function () {
+        $(window,'.remise').on('change keyup keydown load',function () {
+            var m_r =parseInt($("#montant_remise").val().replace(/[^0-9\.]/g, ''));
+
+            if ($('input.remise').is(':checked') && m_r.length != "")
+            {
+                $(".montant_remise_th").show();
+
+            }
+            else
+            if ($('input.gratuite').is(':checked'))
+            {
+                $(".montant_remise_th").hide();
+                /*document.getElementById('nature_remise').value = null;
+                 document.getElementById('nature_contenu_gratuite').value = null;*/
+
+
+            }
+            else
+            {
+                $(".montant_remise_th").hide();
+                document.getElementById('nature_remise').value = null;
+                document.getElementById('nature_contenu_gratuite').value = null;
+
+
+            }
+        });
+    });
+
+    $(function () {
+        $(window,'.gratuite,.remise,.remise_pourcentage').on('change load',function () {
+            if ($('input.gratuite').is(':checked')|| $('input.remise').is(':checked')|| $('input.remise_pourcentage').is(':checked')) {
+                $(".visibilite_new_ht").show();
+                $(".visibilite-td").show();
+            }
+            else
+            {
+                $(".visibilite_new_ht").hide();
+                $(".visibilite-td").hide();
+
+
+            }
+        });
+    });
+    $('.rs_view').click(function () {
+        var dad = $(this).parent().parent();
+        dad.find('label.rs').hide();
+        dad.find('input[id=rs]').show().focus();
+    });
+
+    $('input[id=rs]').focusout(function() {
+        var dad = $(this).parent();
+        $(this).hide();
+        dad.find('label.rs').show();
+    });
+    $("#rs").on('change',function() {
+        var val = $(this).val();
+        /*val = val.toLowerCase().replace(/\b[a-z]/g, function (letter1) {
+            return letter1.toUpperCase();
+        });*/
+        $(".rs_view").html(val);
+    });
+    $('.cfirme_view').click(function () {
+        var dad = $(this).parent().parent();
+        dad.find('label.cfirme').hide();
+        dad.find('input[id=cfirme]').show().focus();
+    });
+
+    $('input[id=cfirme]').focusout(function() {
+        var dad = $(this).parent();
+        $(this).hide();
+        dad.find('label.cfirme').show();
+    });
+    $("#cfirme").keyup(function() {
+        var val = $(this).val();
+        $(".cfirme_view").html(val);
+    });
+
+    $('.sign_view').click(function () {
+        var dad = $(this).parent().parent();
+        dad.find('label.sign').hide();
+        dad.find('input[id=sign]').show().focus();
+    });
+
+    $('input[id=sign]').focusout(function() {
+        var dad = $(this).parent();
+        $(this).hide();
+        dad.find('label.sign').show();
+    });
+    $("#sign").keyup(function() {
+        var val = $(this).val();
+        val = val.toLowerCase().replace(/\b[a-z]/g, function (letter1) {
+            return letter1.toUpperCase();
+        });
+        $(".sign_view").html(val);
+    });
+
+    $('.pdf,#rs,#cfirme,#sign').on('click change ', function () {
+        var rs=  $(".rs_view").text();
+        var sign=  $(".sign_view").text();
+       /* rs = rs.toLowerCase().replace(/\b[a-z]/g, function (letter) {
+            return letter.toUpperCase();
+
+        });*/
+
+        var rs=  rs;
+        var firme=  $(".cfirme_view").text();
+        var sign= sign;
+        var civi = $("#civi").val();
+        var profession = 'oui';
+        var data_send = {'rs': rs,'cfirme':firme,'sign': sign,'civi':civi,'profession':profession};
+        $.ajax({
+            url: '{{ path('referencement_commande_devis_rs') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+                    console.log(successMessage);
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+
+                    $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+
+
+    });
+
+    /*$(document).on('change keyup keydown','#dateP1',function()
+     {
+
+     var phones = [{ "mask": " ##/##/####"}];
+     $('#dateP1').inputmask({
+     mask: phones,
+     });
+     });
+     $(document).on('change keyup keydown','#dateP2',function()
+     {
+
+     var phones = [{ "mask": " ##/##/####"}];
+     $('#dateP2').inputmask({
+     mask: phones,
+     greedy: false,
+     definitions: { '#': { validator: "[0-9]", cardinality: 1}} });
+     });
+     $(document).on('change keyup keydown','#dateP3',function()
+     {
+
+     var phones = [{ "mask": " ##/##/####"}];
+     $('#dateP3').inputmask({
+     mask: phones,
+     greedy: false,
+     definitions: { '#': { validator: "[0-9]", cardinality: 1}} });
+     });*/
+
+
+
+    function prosition() {
+        alert("Impossible d'envoyer un devis vide!");
+    }
+    function devis() {
+        alert("Impossible d'envoyer un ordre d'insertion vide!");
+    }
+    function bon_commande() {
+        alert("Impossible d'envoyer un bon de commande vide!");
+    }
+    $("#nature_remise").keyup(function() {
+        var val = $(this).val();
+        $("#nature_contenu_gratuite").html(val);
+        $("#nature_contenu_remise").html(val);
+    });
+
+    $('#nbr').on("keydown keyup change", function (){
+        var nbr =$('input[name=nbr]').val();
+        for(i=nbr;i <= nbr;i++)
+            $('#echeance').val(i);
+        i++;
+    });
+
+    $(window,'.remise,gratuite').on(" change load  ", function() {
+        if($('.gratuite').is(":checked") || $('.remise').is(":checked"))
+        {
+            $(".montant_remise").show();
+        }else
+        {
+            $(".montant_remise").hide();
+            document.getElementById('montant_remise').value = 0;
+        }
+    });
+
+    $(window,'.remise,gratuite').on(" change load  ", function() {
+        if ($('.gratuite').is(":checked") || $('.remise').is(":checked")) {
+            $(".nature_remise").show();
+        }else
+        {
+            $(".nature_remise").hide();
+            document.getElementById('nature_remise').value = null;
+        }
+    });
+
+    $(window,'.remise_pourcentage').on(" change load  ", function() {
+        if($('.remise_pourcentage').is(":checked"))
+        {
+            $(".pourcentage").show();
+        }
+        else
+        {
+            $(".pourcentage").hide();
+            document.getElementById('pourcentage').value = 0;
+        }
+
+    });
+
+    $('.checkbox_offre').on('change', function() {
+        $('.checkbox_offre').not(this).prop('checked', false);
+    });
+
+    function showhide_m()
+    {
+        var div = document.getElementById("modalite");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+    }
+
+    function showhide_c()
+    {
+        var div = document.getElementById("code");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+    }
+
+    function showhide_p()
+    {
+        var div = document.getElementById("preconise");
+        if (div.style.display == "none") {
+            div.style.display = "block";
+        }
+        else {
+            div.style.display = "none";
+        }
+    }
+    (function($, undefined) {
+
+        "use strict";
+
+        // When ready.
+        $(function() {
+
+            var $form = $( ".test" );
+            var $input = $form.find( "input" );
+
+            $input.on( "keyup", function( event ) {
+                // When user select text in the document, also abort.
+                var selection = window.getSelection().toString();
+                if ( selection !== '' ) {
+                    return;
+                }
+
+                // When the arrow keys are pressed, abort.
+                if ( $.inArray( event.keyCode, [38,40,37,39] ) !== -1 ) {
+                    return;
+                }
+                var $this = $( this );
+
+                // Get the value.
+                var input = $this.val();
+
+                var input = input.replace(/[\D\s\._\-]+/g, "");
+                input = input ? parseInt( input, 10 ) : 0;
+
+                $this.val( function() {
+                    return ( input === 0 ) ? "" : input.toLocaleString( "MAD" );
+                } );
+            } );
+
+        });
+    })(jQuery);
+    /* $(window).on('load',  function () {
+     if(($(".remise").is(":checked")))
+     {
+     var montant_rem = $("#montant_rem").val();
+     document.getElementById('montantttc_stock').value = montant_rem;
+     } else if(($(".remise_pourcentage").is(":checked")))
+     {
+     var montant_r = $("#montant_r").val();
+     document.getElementById('montantttc_stock').value = montant_r;
+     }else
+     {
+     var montantttc_modalite = $("#montantttc_stock").val();
+     document.getElementById('montantttc_stock').value = montantttc_modalite;
+     }
+
+     });
+     */
+
+    /*$(document).on('click',  function () {
+
+     $('.loaders').css('display','');
+     if(($(".remise").is(":checked"))) {
+     var montantttc_modalite = $("#ttc_brut").val();
+     var accompte1 = $("#accompte").val().replace(/[^0-9\.]/g, '');
+     var accompte = accompte1.replace(/[^0-9\.]/g, '');
+     var reste = $('input[name=reste]').val().replace(/[^0-9\.]/g, '');
+     console.log('resttttttttttttttttttttttttt', reste);
+     var nbr = $("#nbr").val();
+     var montant1 = $("#montant1").val().replace(/[^0-9\.]/g, '');
+     var montant2 = $("#montant2").val().replace(/[^0-9\.]/g, '');
+     var montant3 = $("#montant3").val().replace(/[^0-9\.]/g, '');
+     var dateP1 = $("#dateP1").val();
+     var dateP2 = $("#dateP2").val();
+     var dateP3 = $("#dateP3").val();
+     var data_send = {'montantttc': montantttc_modalite,'accompte': accompte1,'reste': reste,'nbr': nbr,'montant1': montant1,'montant2': montant2,'montant3': montant3,'dateP1': dateP1,'dateP2': dateP2, 'dateP3': dateP3};
+     }
+     else if(($(".remise_pourcentage").is(":checked")))
+     {
+     var montantttc_modalite = $("#ttc_brut").val();
+     /!*alert(montantttc_modalite);*!/
+     var accompte1 = $("#accompte").val().replace(/[^0-9\.]/g, '');
+     var accompte = accompte1.replace(/[^0-9\.]/g, '');
+     var reste = $('input[name=reste]').val().replace(/[^0-9\.]/g, '');
+     console.log('resttttttttttttttttttttttttt', reste);
+     var nbr = $("#nbr").val();
+     var montant1 = $("#montant1").val().replace(/[^0-9\.]/g, '');
+     var montant2 = $("#montant2").val().replace(/[^0-9\.]/g, '');
+     var montant3 = $("#montant3").val().replace(/[^0-9\.]/g, '');
+     var dateP1 = $("#dateP1").val();
+     var dateP2 = $("#dateP2").val();
+     var dateP3 = $("#dateP3").val();
+     /!*alert(reste);*!/
+     var data_send = {'montantttc': montantttc_modalite,'accompte': accompte1,'reste': reste,'nbr': nbr,'montant1': montant1,'montant2': montant2,'montant3': montant3,'dateP1': dateP1,'dateP2': dateP2, 'dateP3': dateP3};
+     }
+     else
+     {
+     var montantttc_modalite = $("#ttc_brut").val();
+     /!*alert(montantttc_modalite);*!/
+     var accompte1 = $("#accompte").val().replace(/[^0-9\.]/g, '');
+     var accompte = accompte1.replace(/[^0-9\.]/g, '');
+     var reste = $('input[name=reste]').val().replace(/[^0-9\.]/g, '');
+     console.log('resttttttttttttttttttttttttt', reste);
+     var nbr = $("#nbr").val();
+     var montant1 = $("#montant1").val().replace(/[^0-9\.]/g, '');
+     var montant2 = $("#montant2").val().replace(/[^0-9\.]/g, '');
+     var montant3 = $("#montant3").val().replace(/[^0-9\.]/g, '');
+     /!*alert(montant3);*!/
+     var dateP1 = $("#dateP1").val();
+     var dateP2 = $("#dateP2").val();
+     var dateP3 = $("#dateP3").val();
+     var data_send = {'montantttc': montantttc_modalite,'accompte': accompte1,'reste': reste,'nbr': nbr,'montant1': montant1,'montant2': montant2,'montant3': montant3,'dateP1': dateP1,'dateP2': dateP2, 'dateP3': dateP3};
+     }
+
+     $.ajax({
+     url: '{{ path('referencement_commande_devis_paiement') }}',
+     type: 'POST',
+     data: data_send,
+     statusCode: {
+     //traitement en cas de succès
+     200: function (response) {
+     var successMessage = response;
+     console.log(successMessage);
+     /!*  $('#prestation').children("option").remove();*!/
+     //on vide les champs formulaires ou on le supprime ou ...
+     //on retire le loader...
+     //                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+     $('.loaders').css('display','none');
+
+     },
+     //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+     412: function (response) {
+     var errorsForm = response.responseJSON.formErrors;
+     //on affiche les erreurs...
+     alert('error');
+
+     }
+     }
+     });
+     });*/
+
+    /*  $(window).load(function () {
+
+     $('.loaders').css('display', '');
+
+     var mont_ttc = $("#montantttc_stock").val();
+     alert(mont_ttc);
+     var montant_remise = $("#montant_remise").val();
+     var montant_remise1 = $("#montant_remise").val().replace(/[^0-9\.]/g, '');
+     var pourcentage = $("#pourcentage").val();
+     var montantttcc = $('input[name=montantttc]').val();
+     var m_ttc = parseInt(montantttcc.replace(/[^0-9\.]/g, ''));
+     var pourcentage = parseInt($('input[name=pourcentage]').val());
+     var montant_r = (m_ttc - (m_ttc * (pourcentage / 100))).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+     var montant_rem = (m_ttc - montant_remise1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+     if ($('input.remise:checked')) {
+     document.getElementById('montantttc').value = montant_rem;
+     } else if ($('input[name=pourcentage]')) {
+     document.getElementById('montantttc').value = montant_r;
+     }
+     else {
+     document.getElementById('montantttc').value = mont_ttc;
+     }
+     });*/
+
+    $(window,document).on('load', function () {
+
+
+        /*$('.loaders').css('display', '');*/
+        var nature_remise = $("#nature_remise").val();
+        var tva_brut = $("#tva_brut").val().replace(/[^0-9\.]/g, '');
+        var ttc_net = $("#ttc_net").val().replace(/[^0-9\.]/g, '');
+
+        var ht_net = $("#ht_net").val().replace(/[^0-9\.]/g, '');
+
+        var montantttcc1 = $("#montantttc_stock").val();
+        var montantttcc = $("#montantttc_stock").val().replace(/[^0-9\.]/g, '');
+        var montant_remise = $("#montant_remise").val();
+        var montant_remise1 = $("#montant_remise").val().replace(/[^0-9\.]/g, '');
+        var offre = $('input[name=offre]:checked').val();
+        var pourcentage = $("#pourcentage").val();
+        /*var montantttcc       = $('input[name=montantttc]').val();*/
+        var m_ttc = parseInt(montantttcc.replace(/[^0-9\.]/g, ''));
+        var pourcentage = parseInt($('input[name=pourcentage]').val());
+        var montant_r         =parseInt(m_ttc-(m_ttc*(pourcentage/100)));
+        var montant_rem = parseInt(m_ttc - montant_remise1);
+        var tva_r_p = parseInt((montant_r)*0.2);
+        var tva_r_m = parseInt((montant_rem)*0.2);
+        var ttc_r_m = parseInt(montant_rem)  + parseInt(tva_r_m);
+        var ttc_r_p = parseInt(montant_r)  + parseInt(tva_r_p);
+        var ttc_brut =parseInt(tva_brut)+ parseInt(ttc_net);
+        var ht_brut =parseInt(ht_net)+ parseInt(montant_remise1);
+
+
+        if (($(".remise").is(":checked"))) {
+            document.getElementById('montantttc_preconise').value = montant_rem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = montant_rem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('tva').value = tva_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ht_brut').value = ht_net.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+
+        }
+        else if (($(".remise_pourcentage").is(":checked"))) {
+            document.getElementById('montantttc_preconise').value = montant_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = montant_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('tva').value = tva_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ht_brut').value = ht_net.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+        }
+        else if (($(".gratuite").is(":checked"))) {
+            document.getElementById('ht_brut').value = ht_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('tva').value = tva_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+        }
+
+
+        else {
+            document.getElementById('montantttc_preconise').value = montantttcc1;
+            document.getElementById('montantttc_modalite').value = montantttcc1;
+            document.getElementById('tva').value = tva_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ht_brut').value = ht_net.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+        }
+
+        document.getElementById('montant_r').value = montant_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        document.getElementById('montant_rem').value = montant_rem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    });
+
+    $(document).on('keydown keyup change', '.code-rp,.remise,.gratuite,.remise_pourcentage', function () {
+
+        /*$('.loaders').css('display','');*/
+        var nature_remise     =  $("#nature_remise").val();
+        var tva_brut = $("#tva_brut").val().replace(/[^0-9\.]/g, '');
+
+        var ttc_net = $("#ttc_net").val().replace(/[^0-9\.]/g, '');
+
+        var ht_net = $("#ht_net").val().replace(/[^0-9\.]/g, '');
+
+        var montantttcc1             =  $("#montantttc_stock").val();
+        var montantttcc             =  $("#montantttc_stock").val().replace(/[^0-9\.]/g, '');
+        var montant_remise    =  $("#montant_remise").val();
+        var montant_remise1   =  $("#montant_remise").val().replace(/[^0-9\.]/g, '');
+        var offre             = $('input[name=offre]:checked').val();
+        var pourcentage       =  $("#pourcentage").val();
+        /*var montantttcc       = $('input[name=montantttc]').val();*/
+        var m_ttc             = parseInt(montantttcc.replace(/[^0-9\.]/g, ''));
+        var pourcentage       = parseInt($('input[name=pourcentage]').val());
+        var montant_r         =parseInt(m_ttc-(m_ttc*(pourcentage/100)));
+
+        var montant_rem       =parseInt(m_ttc-montant_remise1);
+
+        var tva_r_p  = parseInt((montant_r)*0.2);
+        var tva_r_m  =parseInt((montant_rem)*0.2) ;
+        var ttc_r_m  = parseInt(montant_rem)  + parseInt(tva_r_m);
+        var ttc_r_p  = parseInt(montant_r)  + parseInt(tva_r_p);
+        var ttc_brut =parseInt(tva_brut)+ parseInt(ttc_net);
+
+        var ht_brut =parseInt(ht_net)+ parseInt(montant_remise1);
+        var new_ht =parseInt(ht_brut)- parseInt(montant_remise1);
+        /*alert(ht_brut)*/
+
+
+        /*alert(tva_brut);
+         alert(ttc_net);
+         alert(ttc_brut);*/
+
+
+        if (($(".remise").is(":checked"))) {
+            document.getElementById('montantttc_preconise').value = montant_rem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = montant_rem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('tva').value = tva_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_r_m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montant_rem').value = montant_rem.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ht_brut').value = ht_net.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+
+        }
+        else if (($(".remise_pourcentage").is(":checked"))) {
+            document.getElementById('montantttc_preconise').value = montant_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = montant_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('tva').value = tva_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_r_p.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montant_r').value = montant_r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ht_brut').value = ht_net.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+        }
+        else if (($(".gratuite").is(":checked"))) {
+            document.getElementById('ht_brut').value = ht_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = montantttcc1;
+            document.getElementById('montantttc_modalite').value = montantttcc1;
+            document.getElementById('tva').value = tva_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+        }
+
+        else {
+            document.getElementById('montantttc_preconise').value = montantttcc1;
+            document.getElementById('montantttc_modalite').value = montantttcc1;
+            document.getElementById('tva').value = tva_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ttc_brut').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_modalite').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('montantttc_preconise').value = ttc_brut.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            document.getElementById('ht_brut').value = ht_net.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+        }
+
+
+
+        console.log('montant ttc',m_ttc)
+        console.log('remise',pourcentage)
+        console.log('montant remisé',montant_r)
+
+        document.getElementById('pourcent').value = pourcentage+'%';
+        /* document.getElementById('nature_contenu_remise').value = nature_remise;*/
+        /* document.getElementById('nature_contenu_gratuite').value = nature_remise;
+         document.getElementById('montant_remise1').value = montant_remise;
+         document.getElementById('montant_remise2').value = montant_remise;*/
+        document.getElementById('montant_remise3').value = montant_remise;
+        document.getElementById('montant_remise4').value = montant_remise;
+        /*document.getElementById('montant_remise5').value = montant_remise;
+         document.getElementById('montant_remise6').value = montant_remise;*/
+        $("#nature_contenu_gratuite").html(nature_remise);
+        $("#nature_contenu_remise").html(nature_remise);
+        $("#montant_remise_gratuite").html(montant_remise);
+        $("#montant_remise_remise").html(montant_remise);
+
+        var tva = $("#tva").val().replace(/[^0-9\.]/g, '');
+        /* alert(tva);*/
+
+        var data_send    = {'nature_remise':nature_remise,'montant_remise':montant_remise1,'offre':offre,'pourcentage':pourcentage,'montant_r':montant_r,'montant_rem':montant_rem,'tva':tva};
+        $.ajax({
+            url: '{{ path('referencement_commande_devis_code_rp') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+                    console.log(successMessage);
+                    /*$('.loaders').css('display','none');*/
+
+                },
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    alert('error');
+                }
+            }
+        });
+    });
+
+
+    $(window).on("load ", function() {
+
+
+        var montantttc = $('input[name=montantttc_modalite]').val();
+        var ttc = montantttc.replace(/[^0-9\.]/g, '');
+        var accompte = $('input[name=accompte]').val();
+        console.log('acompppppppppppte',accompte);
+        var  a = accompte.replace(/[^0-9\.]/g, '');
+        var  a2 = accompte.replace(/[^0-9\.]/g, '');
+        var v_a=(ttc * 25) / 100;
+        console.log("aaaa2",a2,"v_a",v_a);
+        var v_a_s=v_a.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+        var char = a;
+
+        if(char == 0){
+            $("#sp").css('display','none');
+            $(".clor").css("border", '1px solid #ced4da');
+        }
+
+        else if(char < v_a){
+            $("#sp").text('Veuillez saisir au minimum '+v_a_s+' MAD (25% du montant TTC).');
+            $("#sp").css('display','block');
+            $(".clor").css("border", "1px solid red");
+
+
+        }
+
+
+        else if(char > v_a) {
+            $("#sp").css('display','none');
+            $(".clor").css("border", "1px solid green");
+        }
+        var result = parseFloat(ttc -a)/*.toFixed(2)*/;
+        var sum=result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ",".");
+        var nbrpaiement =$('input[name=nbr]').val();
+        var nbr=nbrpaiement.replace(/[^0-9\.]/g, '');
+        var result1=parseInt( result/nbr).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+        document.getElementById('reste').value = sum;
+        var montant1 = $('input[id=echeance]').value;
+
+        if(a==ttc)
+        {
+            $('#nbr').css('display','none');  document.getElementById('nbr').value =  0;
+            document.getElementById('montant1').value = null;
+            document.getElementById('montant2').value = null;
+            document.getElementById('montant3').value = null;
+            $('#montant1,#montant2,#montant3,#dateP1,#dateP2,#dateP3').css('display','none');
+            document.getElementById('dateP1','dateP2','dateP3').value = null;
+        }
+        else{$('#nbr').css('display','block'); }
+
+        if((nbr==0) || result ==0 )
+        {
+            document.getElementById('montant1','montant2','montant3').value =  null;
+            $('#montant1,#montant2,#montant3,#dateP1,#dateP2,#dateP3').css('display','none');
+            document.getElementById('dateP1','dateP2','dateP3').value = null;
+        }else
+
+        if ((nbr==1) )
+        {
+            $('#montant2,#montant3,#dateP2,#dateP3').css('display','none');
+            $('#montant1,#dateP1').css('display','block');
+
+            document.getElementById('montant1').value = result1;
+            document.getElementById('montant2','montant3').value =  null;
+            document.getElementById('dateP2','dateP3').value = null;
+            /* var d = new Date;
+             var m=d.getMonth()
+             if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(0);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}
+             */
+        }else
+        if(nbr==2)
+        {
+            $('#montant3,#dateP3').css('display','none');
+            $('#montant1,#montant2,#dateP1,#dateP2').css('display','block');
+
+            document.getElementById('montant1').value = result1;
+            document.getElementById('montant2').value = result1;
+            document.getElementById('montant3').value =  null;
+            document.getElementById('dateP3','dateP4','dateP5').value = null;
+
+            /* var d = new Date;
+             var m=d.getMonth()
+             if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(0);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}
+             if(m==0){ d.setMonth(4); document.getElementById("dateP2").valueAsDate = d; }  else if(m==1){ d.setMonth(5);document.getElementById("dateP2").valueAsDate = d; }else if(m==2){  d.setMonth(6);document.getElementById("dateP2").valueAsDate = d;} else if(m==3){ d.setMonth(7); document.getElementById("dateP2").valueAsDate = d;}else if(m==4){ d.setMonth(8);document.getElementById("dateP2").valueAsDate = d; } else if(m==5){d.setMonth(9);document.getElementById("dateP2").valueAsDate = d;} else if(m==6){  d.setMonth(10);  document.getElementById("dateP2").valueAsDate = d;}   else if(m==7){ d.setMonth(11); document.getElementById("dateP2").valueAsDate = d; } else if(m==8){ d.setMonth(0);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(2);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(3);document.getElementById("dateP1").valueAsDate = d;}
+             */
+        }
+        else
+        if(nbr==3)
+        {
+            $('#montant4,#montant5,#dateP4,#dateP5').css('display','none');
+            $('#montant1,#montant2,#montant3,#dateP1,#dateP2,#dateP3').css('display','block');
+
+            document.getElementById('montant1').value = result1;
+            document.getElementById('montant2').value = result1;
+            document.getElementById('montant3').value = result1;
+
+
+            /* var d = new Date;
+             var m=d.getMonth()
+             if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(0);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}
+             if(m==0){ d.setMonth(4); document.getElementById("dateP2").valueAsDate = d; }  else if(m==1){ d.setMonth(5);document.getElementById("dateP2").valueAsDate = d; }else if(m==2){  d.setMonth(6);document.getElementById("dateP2").valueAsDate = d;} else if(m==3){ d.setMonth(7); document.getElementById("dateP2").valueAsDate = d;}else if(m==4){ d.setMonth(8);document.getElementById("dateP2").valueAsDate = d; } else if(m==5){d.setMonth(9);document.getElementById("dateP2").valueAsDate = d;} else if(m==6){  d.setMonth(10);  document.getElementById("dateP2").valueAsDate = d;}   else if(m==7){ d.setMonth(11); document.getElementById("dateP2").valueAsDate = d; } else if(m==8){ d.setMonth(0);document.getElementById("dateP2").valueAsDate = d;}else if(m==9){  d.setMonth(1);document.getElementById("dateP2").valueAsDate = d;}else if(m==10){d.setMonth(2);document.getElementById("dateP2").valueAsDate = d; } else if(m==11){d.setMonth(3);document.getElementById("dateP2").valueAsDate = d;}
+             if(m==0){ d.setMonth(6); document.getElementById("dateP3").valueAsDate = d; }  else if(m==1){ d.setMonth(7);document.getElementById("dateP3").valueAsDate = d; }else if(m==2){  d.setMonth(8);document.getElementById("dateP3").valueAsDate = d;} else if(m==3){ d.setMonth(9); document.getElementById("dateP3").valueAsDate = d;}else if(m==4){ d.setMonth(10);document.getElementById("dateP3").valueAsDate = d; } else if(m==5){d.setMonth(11);document.getElementById("dateP3").valueAsDate = d;} else if(m==6){  d.setMonth(0);  document.getElementById("dateP3").valueAsDate = d;}   else if(m==7){ d.setMonth(1); document.getElementById("dateP3").valueAsDate = d; } else if(m==8){ d.setMonth(2);document.getElementById("dateP3").valueAsDate = d;}else if(m==9){  d.setMonth(3);document.getElementById("dateP3").valueAsDate = d;}else if(m==10){d.setMonth(4);document.getElementById("dateP3").valueAsDate = d; } else if(m==11){d.setMonth(5);document.getElementById("dateP3").valueAsDate = d;}
+             */
+
+        }
+
+
+    });
+    function acpt()
+    {
+        $(".modalites").on("keydown keyup change ", function() {
+
+
+            var montantttc = $('input[name=montantttc_modalite]').val();
+            var ttc = montantttc.replace(/[^0-9\.]/g, '');
+            var accompte = $('input[name=accompte]').val();
+            console.log('acompppppppppppte',accompte);
+            var  a = accompte.replace(/[^0-9\.]/g, '');
+            var  a2 = accompte.replace(/[^0-9\.]/g, '');
+            var v_a=(ttc * 25) / 100;
+            console.log("aaaa2",a2,"v_a",v_a);
+            var v_a_s=v_a.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+            var char = a;
+
+            if(char == 0){
+                $("#sp").css('display','none');
+                $(".clor").css("border", '1px solid #ced4da');
+            }
+
+            else if(char < v_a){
+                $("#sp").text('Veuillez saisir au minimum '+v_a_s+' MAD (25% du montant TTC).');
+                $("#sp").css('display','block');
+                $(".clor").css("border", "1px solid red");
+
+
+            }
+
+
+            else if(char > v_a) {
+                $("#sp").css('display','none');
+                $(".clor").css("border", "1px solid green");
+            }
+            var result = parseFloat(ttc -a)/*.toFixed(2)*/;
+            var sum=result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ",".");
+            var nbrpaiement =$('input[name=nbr]').val();
+            var nbr=nbrpaiement.replace(/[^0-9\.]/g, '');
+            var result1=parseInt( result/nbr).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+            document.getElementById('reste').value = sum;
+            var montant1 = $('input[id=echeance]').value;
+
+            if(a==ttc)
+            {
+                $('#nbr').css('display','none');  document.getElementById('nbr').value =  0;
+                document.getElementById('montant1').value = null;
+                document.getElementById('montant2').value = null;
+                document.getElementById('montant3').value = null;
+                $('#montant1,#montant2,#montant3,#dateP1,#dateP2,#dateP3').css('display','none');
+                document.getElementById('dateP1','dateP2','dateP3').valueAsDate = null;
+            }
+            else{$('#nbr').css('display','block'); }
+
+            if((nbr==0) || result ==0 )
+            {
+                document.getElementById('montant1','montant2','montant3').value =  null;
+                $('#montant1,#montant2,#montant3,#dateP1,#dateP2,#dateP3').css('display','none');
+                document.getElementById('dateP1','dateP2','dateP3').valueAsDate = null;
+            }else
+
+            if ((nbr==1) )
+            {
+                $('#montant2,#montant3,#dateP2,#dateP3').css('display','none');
+                $('#montant1,#dateP1').css('display','block');
+
+                document.getElementById('montant1').value = result1;
+                document.getElementById('montant2','montant3').value =  null;
+                document.getElementById('dateP2','dateP3').value = null;
+                /* var d = new Date;
+                 var m=d.getMonth()
+                 if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(0);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}
+                 */
+            }else
+            if(nbr==2)
+            {
+                $('#montant3,#dateP3').css('display','none');
+                $('#montant1,#montant2,#dateP1,#dateP2').css('display','block');
+
+                document.getElementById('montant1').value = result1;
+                document.getElementById('montant2').value = result1;
+                document.getElementById('montant3').value =  null;
+                document.getElementById('dateP3','dateP4','dateP5').valueAsDate = null;
+
+                /* var d = new Date;
+                 var m=d.getMonth()
+                 if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(0);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}
+                 if(m==0){ d.setMonth(4); document.getElementById("dateP2").valueAsDate = d; }  else if(m==1){ d.setMonth(5);document.getElementById("dateP2").valueAsDate = d; }else if(m==2){  d.setMonth(6);document.getElementById("dateP2").valueAsDate = d;} else if(m==3){ d.setMonth(7); document.getElementById("dateP2").valueAsDate = d;}else if(m==4){ d.setMonth(8);document.getElementById("dateP2").valueAsDate = d; } else if(m==5){d.setMonth(9);document.getElementById("dateP2").valueAsDate = d;} else if(m==6){  d.setMonth(10);  document.getElementById("dateP2").valueAsDate = d;}   else if(m==7){ d.setMonth(11); document.getElementById("dateP2").valueAsDate = d; } else if(m==8){ d.setMonth(0);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(2);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(3);document.getElementById("dateP1").valueAsDate = d;}
+                 */
+            }
+            else
+            if(nbr==3)
+            {
+                $('#montant4,#montant5,#dateP4,#dateP5').css('display','none');
+                $('#montant1,#montant2,#montant3,#dateP1,#dateP2,#dateP3').css('display','block');
+
+                document.getElementById('montant1').value = result1;
+                document.getElementById('montant2').value = result1;
+                document.getElementById('montant3').value = result1;
+
+
+                /* var d = new Date;
+                 var m=d.getMonth()
+                 if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}else if(m==10){d.setMonth(0);document.getElementById("dateP1").valueAsDate = d; } else if(m==11){d.setMonth(1);document.getElementById("dateP1").valueAsDate = d;}
+                 if(m==0){ d.setMonth(4); document.getElementById("dateP2").valueAsDate = d; }  else if(m==1){ d.setMonth(5);document.getElementById("dateP2").valueAsDate = d; }else if(m==2){  d.setMonth(6);document.getElementById("dateP2").valueAsDate = d;} else if(m==3){ d.setMonth(7); document.getElementById("dateP2").valueAsDate = d;}else if(m==4){ d.setMonth(8);document.getElementById("dateP2").valueAsDate = d; } else if(m==5){d.setMonth(9);document.getElementById("dateP2").valueAsDate = d;} else if(m==6){  d.setMonth(10);  document.getElementById("dateP2").valueAsDate = d;}   else if(m==7){ d.setMonth(11); document.getElementById("dateP2").valueAsDate = d; } else if(m==8){ d.setMonth(0);document.getElementById("dateP2").valueAsDate = d;}else if(m==9){  d.setMonth(1);document.getElementById("dateP2").valueAsDate = d;}else if(m==10){d.setMonth(2);document.getElementById("dateP2").valueAsDate = d; } else if(m==11){d.setMonth(3);document.getElementById("dateP2").valueAsDate = d;}
+                 if(m==0){ d.setMonth(6); document.getElementById("dateP3").valueAsDate = d; }  else if(m==1){ d.setMonth(7);document.getElementById("dateP3").valueAsDate = d; }else if(m==2){  d.setMonth(8);document.getElementById("dateP3").valueAsDate = d;} else if(m==3){ d.setMonth(9); document.getElementById("dateP3").valueAsDate = d;}else if(m==4){ d.setMonth(10);document.getElementById("dateP3").valueAsDate = d; } else if(m==5){d.setMonth(11);document.getElementById("dateP3").valueAsDate = d;} else if(m==6){  d.setMonth(0);  document.getElementById("dateP3").valueAsDate = d;}   else if(m==7){ d.setMonth(1); document.getElementById("dateP3").valueAsDate = d; } else if(m==8){ d.setMonth(2);document.getElementById("dateP3").valueAsDate = d;}else if(m==9){  d.setMonth(3);document.getElementById("dateP3").valueAsDate = d;}else if(m==10){d.setMonth(4);document.getElementById("dateP3").valueAsDate = d; } else if(m==11){d.setMonth(5);document.getElementById("dateP3").valueAsDate = d;}
+                 */
+
+            }
+
+
+        });
+    }
+
+    /*$("#dateP3").on("change", function() {
+     var dateP3 = $("#dateP3").val();
+     var dateP4 = $("#dateP4").val();
+     var d = new Date;
+     var m=d.getMonth()
+     if(m==0){ d.setMonth(6); document.getElementById("dateP4").valueAsDate = d; }  else if(m==1){ d.setMonth(7);document.getElementById("dateP4").valueAsDate = d; }else if(m==2){  d.setMonth(8);document.getElementById("dateP4").valueAsDate = d;} else if(m==3){ d.setMonth(9); document.getElementById("dateP4").valueAsDate = d;}else if(m==4){ d.setMonth(10);document.getElementById("dateP4").valueAsDate = d; } else if(m==5){d.setMonth(11);document.getElementById("dateP4").valueAsDate = d;} else if(m==6){  d.setMonth(0);  document.getElementById("dateP4").valueAsDate = d;}   else if(m==7){ d.setMonth(1); document.getElementById("dateP4").valueAsDate = d; } else if(m==8){ d.setMonth(2);document.getElementById("dateP4").valueAsDate = d;}else if(m==9){  d.setMonth(3);document.getElementById("dateP4").valueAsDate = d;}else if(m==10){d.setMonth(4);document.getElementById("dateP4").valueAsDate = d; } else if(m==11){d.setMonth(5);document.getElementById("dateP4").valueAsDate = d;}
+
+     if(dateP3 > dateP4)
+     {
+     alert('Vous avez entré une date supérieure à la date de règlement interne de la société.');
+     }
+
+     });*/
+
+    $("#nbr,#accompte").on("keydown keyup change  load ", function() {
+        var nbrpaiement =$('input[name=nbr]').val();
+        var nbr=nbrpaiement.replace(/[^0-9\.]/g, '');
+
+        if ((nbr==1) )
+        {
+            var d = new Date;
+            var m=d.getMonth();
+            var y=d.getFullYear();
+            var year=y+1
+            if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}
+
+            else if(m==10){d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP1").valueAsDate = d;} }
+            else if(m==11){d.setMonth(1);d.setFullYear(year);var x= d.getMonth();if(x==1){document.getElementById("dateP1").valueAsDate = d;} }
+        }else
+        if(nbr==2)
+        {
+            var d = new Date;
+            var m=d.getMonth();
+            var y=d.getFullYear();
+            var year=y+1
+            if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}
+
+            else if(m==10){d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP1").valueAsDate = d;} }
+            else if(m==11){d.setMonth(1);d.setFullYear(year);var x= d.getMonth();if(x==1){document.getElementById("dateP1").valueAsDate = d;} }
+
+            if(m==0){ d.setMonth(4); document.getElementById("dateP2").valueAsDate = d; }  else if(m==1){ d.setMonth(5);document.getElementById("dateP2").valueAsDate = d; }else if(m==2){  d.setMonth(6);document.getElementById("dateP2").valueAsDate = d;} else if(m==3){ d.setMonth(7); document.getElementById("dateP2").valueAsDate = d;}else if(m==4){ d.setMonth(8);document.getElementById("dateP2").valueAsDate = d; } else if(m==5){d.setMonth(9);document.getElementById("dateP2").valueAsDate = d;} else if(m==6){  d.setMonth(10);  document.getElementById("dateP2").valueAsDate = d;}   else if(m==7){ d.setMonth(10); document.getElementById("dateP2").valueAsDate = d; }
+            else if(m==8){ d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP2").valueAsDate = d;}}
+            else if(m==9){d.setMonth(1);d.setFullYear(year);var x= d.getMonth();if(x==2){d.setMonth(1);document.getElementById("dateP2").valueAsDate = d;}}
+            else if(m==10){d.setMonth(2);d.setFullYear(year);var x= d.getMonth();if(x==2){document.getElementById("dateP2").valueAsDate = d;}}
+            else if(m==11){d.setMonth(3);d.setFullYear(year);var x= d.getMonth();if(x==3){document.getElementById("dateP2").valueAsDate = d; }}
+
+        }
+        else
+        if(nbr==3)
+        {
+            var d = new Date;
+            var m=d.getMonth();
+            var y=d.getFullYear();
+            var year=y+1
+
+            if(m==0){ d.setMonth(2); document.getElementById("dateP1").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP1").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP1").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP1").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP1").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP1").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP1").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP1").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP1").valueAsDate = d;}else if(m==9){  d.setMonth(11);document.getElementById("dateP1").valueAsDate = d;}
+
+            else if(m==10){d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP1").valueAsDate = d;} }
+            else if(m==11){d.setMonth(1);d.setFullYear(year);var x= d.getMonth();if(x==1){document.getElementById("dateP1").valueAsDate = d;} }
+
+            if(m==0){ d.setMonth(4); document.getElementById("dateP2").valueAsDate = d; }  else if(m==1){ d.setMonth(5);document.getElementById("dateP2").valueAsDate = d; }else if(m==2){  d.setMonth(6);document.getElementById("dateP2").valueAsDate = d;} else if(m==3){ d.setMonth(7); document.getElementById("dateP2").valueAsDate = d;}else if(m==4){ d.setMonth(8);document.getElementById("dateP2").valueAsDate = d; } else if(m==5){d.setMonth(9);document.getElementById("dateP2").valueAsDate = d;} else if(m==6){  d.setMonth(10);  document.getElementById("dateP2").valueAsDate = d;}   else if(m==7){ d.setMonth(10); document.getElementById("dateP2").valueAsDate = d; }
+            else if(m==8){ d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP2").valueAsDate = d;}}
+            else if(m==9){d.setMonth(1);d.setFullYear(year);var x= d.getMonth();if(x==2){d.setMonth(1);document.getElementById("dateP2").valueAsDate = d;}}
+            else if(m==10){d.setMonth(2);d.setFullYear(year);var x= d.getMonth();if(x==2){document.getElementById("dateP2").valueAsDate = d;}}
+            else if(m==11){d.setMonth(3);d.setFullYear(year);var x= d.getMonth();if(x==3){document.getElementById("dateP2").valueAsDate = d; }}
+
+            if(m==0){ d.setMonth(6); document.getElementById("dateP3").valueAsDate = d; }  else if(m==1){ d.setMonth(7);document.getElementById("dateP3").valueAsDate = d; }else if(m==2){  d.setMonth(8);document.getElementById("dateP3").valueAsDate = d;} else if(m==3){ d.setMonth(9); document.getElementById("dateP3").valueAsDate = d;}else if(m==4){ d.setMonth(10);document.getElementById("dateP3").valueAsDate = d; } else if(m==5){d.setMonth(11);document.getElementById("dateP3").valueAsDate = d;}
+            else if(m==6){  d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP3").valueAsDate = d;}}
+            else if(m==7){ d.setMonth(1); d.setFullYear(year);var x= d.getMonth();if(x==1){document.getElementById("dateP3").valueAsDate = d;}}
+            else if(m==8){ d.setMonth(2);d.setFullYear(year);var x= d.getMonth();if(x==2){document.getElementById("dateP3").valueAsDate = d;}}
+            else if(m==9){ d.setMonth(3);d.setFullYear(year);var x= d.getMonth();if(x==3){document.getElementById("dateP3").valueAsDate = d;}}
+            else if(m==10){d.setMonth(4);d.setFullYear(year);var x= d.getMonth();if(x==4){document.getElementById("dateP3").valueAsDate = d;}}
+            else if(m==11){d.setMonth(5);d.setFullYear(year);var x= d.getMonth();if(x==5){document.getElementById("dateP3").valueAsDate = d;}}
+
+        }
+
+    });
+
+    $(document).on('change keyup keydown ', '.modalites', function () {
+
+        /*$('.loaders').css('display','');*/
+        acpt();
+        var montantttc_modalite = $("#ttc_brut").val();
+        var new_ht = $("#ht_brut").val();
+        /*alert(montantttc_modalite);*/
+        var accompte1 = $("#accompte").val().replace(/[^0-9\.]/g, '');
+        var accompte = accompte1.replace(/[^0-9\.]/g, '');
+        var reste = $('input[name=reste]').val().replace(/[^0-9\.]/g, '');
+        console.log('resttttttttttttttttttttttttt', reste);
+        var nbr = $("#nbr").val();
+        var montant1 = $("#montant1").val().replace(/[^0-9\.]/g, '');
+        var montant2 = $("#montant2").val().replace(/[^0-9\.]/g, '');
+        var montant3 = $("#montant3").val().replace(/[^0-9\.]/g, '');
+        /* alert(montant1);*/
+        var dateP1 = $("#dateP1").val();
+        var dateP2 = $("#dateP2").val();
+        var dateP3 = $("#dateP3").val();
+        var data_send = {'montantttc': montantttc_modalite,'new_ht': new_ht,'accompte': accompte1,'reste': reste,'nbr': nbr,'montant1': montant1,'montant2': montant2,'montant3': montant3,'dateP1': dateP1,'dateP2': dateP2, 'dateP3': dateP3};
+
+
+
+        $.ajax({
+            url: '{{ path('referencement_commande_devis_paiement') }}',
+            type: 'POST',
+            data: data_send,
+            statusCode: {
+                //traitement en cas de succès
+                200: function (response) {
+                    var successMessage = response;
+                    console.log(successMessage);
+                    /*  $('#prestation').children("option").remove();*/
+                    //on vide les champs formulaires ou on le supprime ou ...
+                    //on retire le loader...
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                    /*$('.loaders').css('display','none');*/
+
+                },
+                //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                412: function (response) {
+                    var errorsForm = response.responseJSON.formErrors;
+                    //on affiche les erreurs...
+                    alert('error');
+
+                }
+            }
+        });
+    });
+
+    $(window, "#modalite_preconise").on("click  load ", function() {
+        var montantttc = $('input[name=montantttc_preconise]').val();
+        var nbr_preconise = $('input[name=nbr_preconise]').val();
+        var ttc = montantttc.replace(/[^0-9\.]/g, '');
+        var v_a=(ttc * 25) / 100;
+        var reste_preconise=ttc - v_a;
+        var montant_div=reste_preconise/nbr_preconise;
+        var v_a_s=v_a.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+        var reste_preo=reste_preconise.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+        var montant_divi=montant_div.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/*.toFixed(2)*/;
+        document.getElementById('accompte_preconise').value = v_a_s;
+        document.getElementById('reste_preconise').value = reste_preo;
+        document.getElementById('montant1_preconise').value = montant_divi;
+        document.getElementById('montant2_preconise').value = montant_divi;
+        document.getElementById('montant3_preconise').value = montant_divi;
+        var d = new Date;
+        var m=d.getMonth();
+        var y=d.getFullYear();
+        var year=y+1
+        if(m==0){ d.setMonth(1); document.getElementById("dateP1_preconise").valueAsDate = d; }  else if(m==1){ d.setMonth(2);document.getElementById("dateP1_preconise").valueAsDate = d; }else if(m==2){  d.setMonth(3);document.getElementById("dateP1_preconise").valueAsDate = d;} else if(m==3){ d.setMonth(4); document.getElementById("dateP1_preconise").valueAsDate = d;}else if(m==4){ d.setMonth(5);document.getElementById("dateP1_preconise").valueAsDate = d; } else if(m==5){d.setMonth(6);document.getElementById("dateP1_preconise").valueAsDate = d;} else if(m==6){  d.setMonth(7);  document.getElementById("dateP1_preconise").valueAsDate = d;}   else if(m==7){ d.setMonth(8); document.getElementById("dateP1_preconise").valueAsDate = d; } else if(m==8){ d.setMonth(9);document.getElementById("dateP1_preconise").valueAsDate = d;}
+
+        else if(m==9){d.setMonth(10);var x= d.getMonth();if(x==11){d.setMonth(10);document.getElementById("dateP1_preconise").valueAsDate = d;}}
+
+
+        else if(m==10){d.setMonth(11);document.getElementById("dateP1_preconise").valueAsDate = d; }
+        else if(m==11){ d.setMonth(0);d.setFullYear(year);var x= d.getMonth();if(x==0){document.getElementById("dateP1_preconise").valueAsDate = d;}}
+
+
+        if(m==0){ d.setMonth(2); document.getElementById("dateP2_preconise").valueAsDate = d; }  else if(m==1){ d.setMonth(3);document.getElementById("dateP2_preconise").valueAsDate = d; }else if(m==2){  d.setMonth(4);document.getElementById("dateP2_preconise").valueAsDate = d;} else if(m==3){ d.setMonth(5); document.getElementById("dateP2_preconise").valueAsDate = d;}else if(m==4){ d.setMonth(6);document.getElementById("dateP2_preconise").valueAsDate = d; } else if(m==5){d.setMonth(7);document.getElementById("dateP2_preconise").valueAsDate = d;} else if(m==6){  d.setMonth(8);  document.getElementById("dateP2_preconise").valueAsDate = d;}   else if(m==7){ d.setMonth(9); document.getElementById("dateP2_preconise").valueAsDate = d; } else if(m==8){ d.setMonth(10);document.getElementById("dateP2_preconise").valueAsDate = d;}
+
+        else if(m==9){
+
+
+            d.setMonth(11);document.getElementById("dateP2_preconise").valueAsDate = d;
+
+        }
+        else if(m==10){d.setMonth(0);d.setFullYear(year);var x= d.getMonth(); if(x==0){document.getElementById("dateP2_preconise").valueAsDate = d;}}
+
+        else if(m==11){d.setMonth(1);d.setFullYear(year);var x= d.getMonth(); if(x==1){document.getElementById("dateP2_preconise").valueAsDate = d;}}
+
+        if(m==0){ d.setMonth(3); document.getElementById("dateP3_preconise").valueAsDate = d; }  else if(m==1){ d.setMonth(4);document.getElementById("dateP3_preconise").valueAsDate = d; }else if(m==2){  d.setMonth(5);document.getElementById("dateP3_preconise").valueAsDate = d;} else if(m==3){ d.setMonth(6); document.getElementById("dateP3_preconise").valueAsDate = d;}else if(m==4){ d.setMonth(7);document.getElementById("dateP3_preconise").valueAsDate = d; } else if(m==5){d.setMonth(8);document.getElementById("dateP3_preconise").valueAsDate = d;} else if(m==6){  d.setMonth(9);  document.getElementById("dateP3_preconise").valueAsDate = d;}   else if(m==7){ d.setMonth(10); document.getElementById("dateP3_preconise").valueAsDate = d; } else if(m==8){ d.setMonth(11);document.getElementById("dateP3_preconise").valueAsDate = d;}
+
+        else if(m==9){d.setMonth(0);d.setFullYear(year);var x= d.getMonth(); if(x==0){document.getElementById("dateP3_preconise").valueAsDate = d;}}
+        else if(m==10){d.setMonth(1);d.setFullYear(year);var x= d.getMonth(); if(x==1){document.getElementById("dateP3_preconise").valueAsDate = d;}}
+        else if(m==11){d.setMonth(2);d.setFullYear(year);var x= d.getMonth(); if(x==2){document.getElementById("dateP3_preconise").valueAsDate = d;}}
+
+
+    });
+
+    /* $(function () {
+     $(window,'.checkbox').on('change load',function () {
+     if ($('input.checkbox').is(':checked')) {
+     $(".promotion").show();
+     }
+     else
+     {
+     $(".promotion").hide();
+     document.getElementById('nature_contenu_remise').value = null;
+     document.getElementById('nature_contenu_gratuite').value = null;
+     document.getElementById('montant_remise1').value = null;
+     document.getElementById('montant_remise2').value = null;
+     }
+     });
+     });*/
+
+
+    $(document).ready(function() {
+
+        function validateEmail(sEmail) {
+            var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            if (filter.test(sEmail)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+
+        $(document).on('click', '.proposition_btn', function (event) {
+            event.preventDefault();
+            $('.loaders').css('display','');
+console.log('ici');
+
+            var selectedLanguage = new Array();
+            $('input[name="joindre"]:checked').each(function() {
+
+                selectedLanguage.push(this.value);
+            });
+
+
+            var b=   $('input[id=email]').val();
+            if (validateEmail(b)) {
+                console.log(selectedLanguage);
+                var data_send = {'rs': 'rs', 'cfirme': 'firme', 'join': selectedLanguage, 'email': b};
+                $.ajax({
+                    url: '{{ path('referencement_commande_devis_mail_proposition') }}',
+                    type: 'POST',
+                    data: data_send,
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response;
+
+
+                            console.log(successMessage);
+                            /*  $('#prestation').children("option").remove();*/
+                            //on vide les champs formulaires ou on le supprime ou ...
+                            //on retire le loader...
+
+                            $('.loaders').css('display', 'none');
+                            alert('E-mail envoyée avec succès');
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+
+                        }
+                    }
+                });
+            }
+            else
+            {
+                $('.loaders').css('display', 'none');
+                alert('Veuillez saisir un email valide');
+                event.preventDefault();
+            }
+
+        });
+
+        $(document).on('click', '.devis_btn', function (event) {
+            event.preventDefault();
+            $('.loaders').css('display','');
+
+            var selectedLanguage = new Array();
+            $('input[name="joindre"]:checked').each(function() {
+
+                selectedLanguage.push(this.value);
+            });
+
+            var b=   $('input[id=email]').val();
+            if (validateEmail(b)) {
+                console.log(selectedLanguage);
+            var data_send = {'rs': 'rs','cfirme':'firme','join':selectedLanguage,'email':b};
+            $.ajax({
+                url: '{{ path('referencement_commande_devis_mail_bon_devis') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+                        var successMessage = response;
+
+
+
+                        console.log(successMessage);
+                        /*  $('#prestation').children("option").remove();*/
+                        //on vide les champs formulaires ou on le supprime ou ...
+                        //on retire le loader...
+
+                        $('.loaders').css('display','none');
+                        alert('E-mail envoyée avec succès');
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                    },
+                    //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+
+                    }
+                }
+            });
+            }
+            else
+            {
+                $('.loaders').css('display', 'none');
+                alert('Veuillez saisir un email valide');
+                event.preventDefault();
+            }
+
+
+        });
+
+
+        $(document).on('click', '.bon_commande_btn', function (event) {
+            event.preventDefault();
+            $('.loaders').css('display','');
+
+            var selectedLanguage = new Array();
+            $('input[name="joindre"]:checked').each(function() {
+
+                selectedLanguage.push(this.value);
+            });
+
+            var b=   $('input[id=email]').val();
+            if (validateEmail(b)) {
+                console.log(selectedLanguage);
+
+            var data_send = {'rs': 'rs','cfirme':'firme','join':selectedLanguage,'email':b};
+            $.ajax({
+                url: '{{ path('referencement_commande_devis_mail_bon_commande') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+                        var successMessage = response;
+
+
+
+                        console.log(successMessage);
+                        /*  $('#prestation').children("option").remove();*/
+                        //on vide les champs formulaires ou on le supprime ou ...
+                        //on retire le loader...
+
+                        $('.loaders').css('display','none');
+                        alert('E-mail envoyée avec succès');
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                    },
+                    //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+
+                    }
+                }
+            });
+            }
+            else
+            {
+                $('.loaders').css('display', 'none');
+                alert('Veuillez saisir un email valide');
+                event.preventDefault();
+            }
+
+        });
+
+
+        $(document).on('click', '#now', function () {
+            var data_send = {'rs': 'rs','cfirme':'firme'};
+            $.ajax({
+                url: '{{ path('referencement_commande_devis_fn') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+                        var successMessage = response;
+                        console.log(successMessage);
+                        /*  $('#prestation').children("option").remove();*/
+                        //on vide les champs formulaires ou on le supprime ou ...
+                        //on retire le loader...
+                       /* $('.loaders').css('display','none');*/
+                        alert('devis validé avec succès');
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                    },
+                    //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+
+                    }
+                }
+            });
+        });
+
+        $(document).on('change', '.visbilite_header', function () {
+            var proposition=  $('input[name=proposition]:checked').val();
+            var ordre=  $('input[name=ordre]:checked').val();
+            var bon_commande=  $('input[name=bon_commande]:checked').val();
+
+
+            var data_send = {'proposition': proposition,'ordre': ordre,'bon_commande': bon_commande,};
+            $.ajax({
+                url: '{{ path('referencement_commande_devis_visbilite_header') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+                        var successMessage = response;
+                        console.log(successMessage);
+                        /*  $('#prestation').children("option").remove();*/
+                        //on vide les champs formulaires ou on le supprime ou ...
+                        //on retire le loader...
+                       /* $('.loaders').css('display','none');*/
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                    },
+                    //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+
+                    }
+                }
+            });
+        });
+
+    });
+
+
+    $(window).on("load", function (){
+        var proposition = $('input.proposition:checked').val();
+
+
+        if (proposition=='proposition') {
+
+            $('#proposition').show();
+            $('#proposition_test_envoi').css('display','none');
+            $('#bon_commande').hide();
+            $('#devis').hide();
+            $('.devis_text').css('display','');
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').hide();
+        }else
+        {
+            $('#proposition').hide();
+            $('#proposition_test_envoi').css('display','');
+            $('#devis').hide();
+            $('#bon_commande').hide();
+        }
+    });
+
+    $('.v_reguelemnt').on("change ", function (){
+
+        if (($(".v_reguelemnt").is(":checked"))) {
+            $('#proposition').hide();
+            $('#proposition_test_envoi').css('display','none');
+            $('#devis').show();
+            $('#bon_commande').hide();
+            $('.reglement').hide();
+            $('#joindre').prop('disabled', 'disabled');
+            $('.devis_text').css('display','none');
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').show();
+
+        }else
+
+        if ($('.v_reguelemnt').prop('checked', false)) {
+
+            $('#proposition_test_envoi').css('display','');
+            $('#joindre').prop('checked', false);
+            $('#devis').hide();
+            $('.devis_text').css('display','');
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').hide();
+
+        }
+    });
+
+    $('.bon_commande').on("change ", function (){
+
+        if (($(".bon_commande").is(":checked"))) {
+            $('#proposition').hide();
+            $('#proposition_test_envoi').css('display','none');
+            $('#bon_commande').show();
+            $('#devis').hide();
+            $('#joindre').prop('checked', true);
+            $('#proposition').css('display','none');
+            $('.reglement').show();
+            $('#joindre').prop('disabled', 'disabled');
+            $('.devis_text').css('display','none');
+            $('.bn_commande_text').show();
+            $('.ordre_insertion').hide();
+
+        }else
+        if ($('.bon_commande').prop('checked', false)) {
+
+
+            $('#proposition_test_envoi').css('display','');
+            $('#bon_commande').hide();
+            $('#devis').hide();
+
+            $('.reglement').hide();
+            $('#joindre').prop('disabled', 'disabled');
+            $('.devis_text').css('display','');
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').hide();
+        }
+    });
+
+
+    $('.proposition').on("change ", function (){
+
+        if (($(".proposition").is(":checked"))) {
+            $('#proposition').show();
+            $('#proposition_test_envoi').css('display','none');
+            $('#bon_commande').hide();
+            $('#devis').hide();
+            $('.reglement').hide();
+            $('#joindre').prop('disabled', 'disabled');
+            $('.devis_text').css('display','');
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').hide();
+
+        }else
+        if ($('.proposition').prop('checked', false)) {
+            $('#proposition').hide();
+            $('#bon_commande').hide();
+            $('#devis').hide();
+            $('#proposition_test_envoi').css('display','');
+            $('.devis_text').css('display','');
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').hide();
+        }
+    });
+
+
+
+    $(window).on("load", function (){
+        var devis = $('input.v_reguelemnt:checked').val();
+
+
+        if (devis=='ordre') {
+            $('#proposition').hide();
+            $('#proposition_test_envoi').css('display','none');
+            $('#bon_commande').hide();
+            $('#devis').show();
+            $('.devis_text').hide();
+            $('.bn_commande_text').hide();
+            $('.ordre_insertion').show();
+        }else
+        {
+            $('#devis').hide();
+            $('#bon_commande').hide();
+
+
+        }
+    });
+
+    $(window).on("load ", function (){
+        var bon_commande = $('input.bon_commande:checked').val();
+        if (bon_commande=='bon_commande') {
+
+            $('#proposition').hide();
+            $('#bon_commande').show();
+            $('#devis').hide();
+            $('#joindre').prop('checked', true);
+            $('#proposition').css('display','none');
+            $('#proposition_test_envoi').css('display','none');
+            $('.reglement').show();
+            $('#joindre').prop('disabled', 'disabled');
+            $('.devis_text').hide();
+            $('.bn_commande_text').show();
+            $('.ordre_insertion').hide();
+
+        }else
+        if ($('.bon_commande').prop('checked', false)) {
+            /*  $('#proposition').hide();*/
+            /* $('#proposition_test_envoi').css('display','');*/
+
+            $('.reglement').hide();
+            $('#joindre').prop('disabled', 'disabled');
+
+        }
+    });
+
+
+
+
+    $('.visbilite_header').on('change', function() {
+        $('.visbilite_header').not(this).prop('checked', false);
+    });
+</script>
+
+</html>

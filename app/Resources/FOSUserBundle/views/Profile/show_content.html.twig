@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>E-contact</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    {# <script src="http://radio-virtuelle.fr/Caranille/Design/js/bootstrap.min.js"></script>
+     <script src="http://radio-virtuelle.fr/Caranille/Design/js/jquery.js"></script>#}
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('Logo-econtact-2.png') }}" />
+    <link rel="stylesheet" href="{{ asset('css/accueil.css') }}" />
+
+<style>/*
+*  MENU HORIZONTAL DASHBOARD
+*-------------------------------------------------------*/
+    #wrapperMenu {
+        width: 30%;
+        margin: 20px 50px;
+    }
+
+    .wrappernav-dashboard {
+        /*background: #d3d3d3;*/
+        /*border: 1px dashed orange;*/
+        width: 100%;
+        padding: 10px;
+        margin: 0;
+    }
+    #menu-dashboard {
+        /*border: 1px dashed red;*/
+        border-left: 1px solid #bcbcbc;
+        border-right: 1px solid #bcbcbc;
+        border-top: 1px solid #bcbcbc;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    #menu-dashboard .active a {
+        background-color: #F4BD16;
+        border-radius: 0;
+        color: #fff;
+    }
+    #menu-dashboard li {
+        border-radius: 0;
+        margin: 0;
+        padding: 0;
+        border-bottom: 1px solid #bcbcbc;
+    }
+    #menu-dashboard li > a {
+        border-radius: 0;
+        padding: 10px;
+        color: #444;
+    }
+    #menu-dashboard > li > a:hover,
+    #menu-dashboard > li > a:focus {
+        color: #fff;
+        background: #F4BD16;
+        -webkit-transition: all 1ms ease-in-out;
+        -moz-transition: all 1ms ease-in-out;
+        -ms-transition: all 1ms ease-in-out;
+        -o-transition: all 1ms ease-in-out;
+        transition: all 1ms ease-in-out;
+    }
+    #submenu {
+        background: #333;
+    }
+    #submenu li {
+        border: none;
+    }
+    #submenu li a {
+        color: #fff;
+        padding: 10px;
+        margin: 0;
+        text-indent: 20px;
+    }
+    #submenu li a:hover {
+        background: rgba(0,0,0,.5);
+    }
+</style>
+</head>
+
+
+
+
+<body>
+<div class="container-fluid" id="fond-1" style="min-width: 900px; margin: 0 auto;">
+
+    <section id="fond-1">
+        <img class="logo" src="http://www.telecontact.ma/trouver/images_econtact/Logo-econtact-2.png" alt="logo">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" >
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="float: right">
+                {% if is_granted('ROLE_ADMIN') and app.user.id != '66' %}
+                    <ul class="navbar-nav ">
+                        <di class=" mr-auto">
+                            <a class="nav-link dropdown-toggle btn suivant " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 50px">
+                                <span class="glyphicon glyphicon glyphicon-user" style="font-size:  20px"></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" {#align="right"#}>
+                                &nbsp;<a href="{{ path('fos_user_change_password') }}" role="button" {#class="btn1 "#} style="color: #4a4646">
+                                    <span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Changer PWD
+                                </a>
+                                <hr>
+                                &nbsp;<a href="{{ path('fos_user_security_logout') }}" role="button" {#class="btn1 "#}style="color: #4a4646">
+                                    <span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Déconnexion
+                                </a>
+                            </div>
+                        </di>
+                        <a href="{{ path('acceuil') }}" role="button" class="btn1 " >
+                            Back Office
+                        </a>
+                        <a href="{{ path('Email') }}" role="button" class="btn1 " >
+                            Mes DEVIS
+                        </a>
+                        <a href="{{ path('Statistic') }}" role="button" class="btn1 " style="width : 119px !important;">
+                            Mes Statistiques
+                        </a>
+                         <a href="{{ path('pro1_google_analytics_homepage') }}" target="_blank" role="button" class="btn1 " style="width : 119px !important;">
+                            Envoi Statistique
+                        </a>
+                    </ul>
+                {% elseif app.user.id == '66' %}
+                    <ul class="navbar-nav ">
+                        <di class=" mr-auto">
+                            <a class="nav-link dropdown-toggle btn suivant " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 50px">
+                                <span class="glyphicon glyphicon glyphicon-user" style="font-size:  20px"></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" {#align="right"#} style="margin-left: 82px;">
+                                &nbsp;<a href="{{ path('fos_user_change_password') }}" role="button" {#class="btn1 "#} style="color: #4a4646">
+                                    <span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Changer PWD
+                                </a>
+                                <hr>
+                                &nbsp;<a href="{{ path('fos_user_security_logout') }}" role="button" {#class="btn1 "#}style="color: #4a4646">
+                                    <span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Déconnexion
+                                </a>
+                            </div>
+                        </di>
+                        <a href="{{ path('acceuil') }}" role="button" class="btn1 " >
+                            Back Office
+                        </a>
+                        <a href="{{ path('Email') }}" role="button" class="btn1 " style="display: none" >
+                            Mes DEVIS
+                        </a>
+                                                <a href="{{ path('Statistic') }}" role="button" class="btn1 " style="width : 119px !important;">
+                            Mes Statistiques
+                        </a>
+                         <a href="{{ path('pro1_google_analytics_homepage') }}" target="_blank" role="button" class="btn1 " style="width : 119px !important;">
+                            Envoi Statistique
+                        </a>
+                    </ul>
+                {% elseif app.user.id == '4' or app.user.id == '25' or app.user.id == '32' or app.user.id == '52' or app.user.id == '4' or app.user.id == '77' or app.user.id == '9'  %}
+                    <ul class="navbar-nav ">
+                        <di class=" mr-auto">
+                            <a class="nav-link dropdown-toggle btn suivant " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 50px">
+                                <span class="glyphicon glyphicon glyphicon-user" style="font-size:  20px"></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" {#align="right"#} style="margin-left: 82px;">
+                                &nbsp;<a href="{{ path('fos_user_change_password') }}" role="button" {#class="btn1 "#} style="color: #4a4646">
+                                    <span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Changer PWD
+                                </a>
+                                <hr>
+                                &nbsp;<a href="{{ path('fos_user_security_logout') }}" role="button" {#class="btn1 "#}style="color: #4a4646">
+                                    <span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Déconnexion
+                                </a>
+                            </div>
+                        </di>
+                        <a href="{{ path('Email_group') }}" role="button" class="btn1 " >
+                            Mon groupe
+                        </a>
+                        <a href="{{ path('Email') }}" role="button" class="btn1 " >
+                            Mes DEVIS
+                        </a>
+                        <a href="{{ path('statistic_group') }}" role="button" class="btn1 " >
+                            Mon groupe stats
+                        </a>
+                        <a href="{{ path('Statistic') }}" role="button" class="btn1 " style="width : 119px !important;">
+                            Mes Statistiques
+                        </a>
+                         <a href="{{ path('pro1_google_analytics_homepage') }}" target="_blank" role="button" class="btn1 " style="width : 119px !important;">
+                            Envoi Statistique
+                        </a>
+                    </ul>
+                {% else %}
+                    <ul class="navbar-nav ">
+                        <di class=" mr-auto">
+                            <a class="nav-link dropdown-toggle btn suivant " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 50px">
+                                <span class="glyphicon glyphicon glyphicon-user" style="font-size:  20px"></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" {#align="right"#} style="margin-left: 82px;">
+                                &nbsp;<a href="{{ path('fos_user_change_password') }}" role="button" {#class="btn1 "#} style="color: #4a4646">
+                                    <span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Changer PWD
+                                </a>
+                                <hr>
+                                &nbsp;<a href="{{ path('fos_user_security_logout') }}" role="button" {#class="btn1 "#}style="color: #4a4646">
+                                    <span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;Déconnexion
+                                </a>
+                            </div>
+                        </di>
+
+                        <a href="{{ path('Email') }}" role="button" class="btn1 " >
+                            Mes DEVIS
+                        </a>
+                                                <a href="{{ path('Statistic') }}" role="button" class="btn1 " style="width : 119px !important;">
+                            Mes Statistiques
+                        </a>
+                         <a href="{{ path('pro1_google_analytics_homepage') }}" target="_blank" role="button" class="btn1 " style="width : 119px !important;">
+                            Envoi Statistique
+                        </a>
+                    </ul>
+                {% endif %}
+            </div>
+        </nav>
+        <div class="container" id="#content-1">
+
+
+            <div class="row">
+
+                <div class="col-md-3 col-sm-2 "></div>
+                <div align=center class="header col-md-6 col-sm-8 {#col-xs-12#}">
+                    <p class="text-uppercase">JE ME PRÉSENTE</p>
+                </div>
+                <div class="col-md-3 col-sm-2 "></div>
+
+            </div>
+
+
+            <div class="row" style="margin-top: 50px;">
+
+                <div align=center class="col-md-3 col-md-12">
+                    <div class="well" style="">
+
+                        {% if user.path is  not null %}
+                            <img class="avatar" src="{{ asset('uploads/' ~user.path) }}" alt="icone-avatar" width="130" height="130" style=" -moz-border-radius: 50px!important;-webkit-border-radius: 50px!important;border-radius: 100%!important; margin: 0 auto;margin-top: 50px;">
+                        {% else %}
+                            <img class="avatar" src="http://www.telecontact.ma/trouver/images_econtact/icone-avatar.png" alt="icone-avatar" width="130" height="130" style=" -moz-border-radius: 50px!important;-webkit-border-radius: 50px!important;border-radius: 100%!important; margin: 0 auto;margin-top: 50px;">
+
+                        {% endif %}
+                        {# <img class="avatar" src="{{ asset('uploads/' ~user.path) }}" alt="icone-avatar" #}{#width="80" height="80"#}{# #}{#style="
+                                            -moz-border-radius: 50px!important;
+                                            -webkit-border-radius: 50px!important;
+                                            border-radius: 100%!important; margin: 0 auto"#}{#>#}
+
+                        <h4> <p style="text-align: center;Font-Weight: Bold;"> {{ user.username }}</h4>
+                        <p class="texte1"></b>{{ user.profil|raw }}</p>
+                    </div>
+                </div>
+
+
+                <div align=center class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="titre">Expertise Métier</div>
+                    <br>
+                    <div align=center class="presentation">
+                        {{ user.description|raw }}
+                    </div>
+                </div>
+
+
+                <div align=center class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="titre">Expérience</div>
+                    <br>
+                    <div align=center class="presentation">
+                      <!--   <b>{{ user.nbrAnnee }} </b>   -->{{ user.experiececontenu|raw }}
+                    </div>
+                </div>
+
+
+                <div align=center class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="titre">
+                        Références Clients
+                    </div>
+                    <br>
+                    <div align=center class="presentation">
+                        <div class="row">
+
+                            {% for en in user.client %}
+                                <div class="col-md-6 col-sm-5">
+                                    <img style="margin: 10px 10px 10px 10px;" src="{{ asset('http://www.telecontact.ma/pubs/logos/L'~en.cfirme~'.png') }}" width="60" height="60" >
+                                </div>
+                            {% endfor %}
+                            {#{% for en in user.client %}
+                                  <div class="col-md-6">
+                                      <img style="margin: 10px 10px 10px 10px;" src="{{ asset('uploads/' ~en.path) }}" width="60" height="60" alt="logo-tijari">
+                                  </div>
+                              {% endfor %}#}
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        {#<a href="#fond-2" class="btn next"><img src="https://image.noelshack.com/fichiers/2018/13/3/1522253637-btn-suivant.png"></a>#}
+
+    </section>
+
+    <a href="#fond-2" role="button" class="btn suivant">
+        Suivant &nbsp;   <span class="glyphicon glyphicon-triangle-right"></span>
+    </a>
+</div>
+<br>
+
+
+
+<section id="fond-2">
+
+    <div align=center class="header col-xl-12 col-md-12 col-sm-12 col-xs-12">
+        <p>Précurseur du business connecté au Maroc</p>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+    <div class="container-fluid" style="background-color: white;">
+
+        <div class="container" id="#content-2">
+
+            <div class="row">
+
+
+                <div align=center class="col-xl-4 col-md-4 col-sm-12 col-xs-12 col-whith">
+                    <div class="titre">Expertise Métier</div>
+                    <div class="ligne-titre"></div>
+                    <br>
+                    <div align=center class="presentation">
+                        <ul>
+                            <li>Véritable outil de mise en relation entre professionnels au niveau national, régional ou local.</li>
+                            <br>
+                            <li>Expert en solutions de communication digitale.</li>
+                            <br>
+                            <li>Une gamme de services
+                                <br>digitaux et print :
+                                <br>- Présence digitale - Publicité digitale - Site internet - Réseaux sociaux - Affichage print
+
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div align=center class="col-xl-4 col-md-4 col-sm-12 col-xs-12 col-whith">
+
+                    <div class="exp">
+                        <div class="titre">Expérience</div>
+                        <div class="ligne-titre"></div>
+
+                        <br>
+                        <div align=center class="presentation">
+                            <ul>
+                                <li>30 ans à collaborer avec l'ensemble des professionnels du Maroc et d'innovations pour leur apporter des solutions efficaces à leur développement.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div align=center class="col-xl-4 col-md-4 col-sm-12 col-xs-12 col-whith">
+                    <div class="titre">Références Clients</div>
+                    <div class="ligne-titre"></div>
+                    <br>
+                    <div align=center class="presentation">
+                        <div class="row">
+                            <div align=center class="col-xl-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="reference">
+                                    <img src="http://www.telecontact.ma/pubs/logos/L0433800.png">
+                                </div>
+                            </div>
+                            <div align=center class="col-xl-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="reference">
+                                    <img src="http://www.telecontact.ma/pubs/logos/L3282662.png">
+                                </div>
+                            </div>
+                            <div align=center class="col-xl-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="reference">
+                                    <img src="http://www.telecontact.ma/pubs/logos/L3183186.png">
+                                </div>
+                            </div>
+                            <div align=center class="col-xl-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="reference">
+                                    <img src="http://www.telecontact.ma/pubs/logos/L3278256.png">
+                                </div>
+                            </div>
+                            <div align=center class="col-xl-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="reference">
+                                    <img src="http://www.telecontact.ma/pubs/logos/L3152313.png">
+                                </div>
+                            </div>
+                            <div align=center class="col-xl-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="reference">
+                                    <img src="http://www.telecontact.ma/pubs/logos/L3211272.png">
+                                </div>
+                            </div>
+                            <div align=center class="col-xl-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="reference">
+                                    <img src="http://www.telecontact.ma/pubs/logos/L3247196.png">
+                                </div>
+                            </div>
+                            <div align=center class="col-xl-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="reference">
+                                    <img src="http://www.telecontact.ma/pubs/logos/L3173343.png">
+                                </div>
+                            </div>
+                            <div align=center class="col-xl-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="reference">
+                                    <img src="http://www.telecontact.ma/pubs/logos/L2100086.png">
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div align="center" class="col-telecontact-ma col-xl-4 col-md-4 col-sm-12 col-xs-12 col-whith">
+                <div class="site">
+                    <p class="telecontact-ma">telecontact.ma</p>
+                    <p>Réseau d'Experts, Moteur d'Affaires</p>
+                </div>
+            </div>
+            <div align="center" class="col-xl-4 col-md-4 col-sm-12 col-xs-12 col-whith" style="padding: 16px 0 16px 0;">
+                <div class="mu-single-counter">
+                    <div id="shiva">
+                        <p class="chiffres">+</p>
+                        <span class="count chiffres">70</span>
+                        <p class="chiffres">%</p>
+                        <p class="chiffres" style="color: white;">du Chiffre d'affaires est réalisé dans le digital</p>
+                    </div>
+                </div>
+                <div class="mu-single-counter">
+                    <div id="shiva">
+                        <p class="chiffres">+</p>
+                        <span class="count chiffres">2</span>
+                        <span class="count chiffres">300</span>
+                        <p class="chiffres" style="color: white;">Entreprises  nous ont fait confiance en 2018</p>
+                    </div>
+                </div>
+
+            </div>
+            <div align="center" class="col-xl-4 col-md-4 col-sm-12 col-xs-12 col-whith" id="chiffre-conter">
+                <div class="mu-single-counter" id="align-left">
+                    <div id="shiva">
+                        <p class="chiffres">+</p>
+                        <span class="count chiffres">73</span>
+                        <span class="count chiffres">870</span>
+                        <p class="chiffres" style="color: white;">Visites / jour</p>
+                    </div>
+                </div>
+                <div class="mu-single-counter" id="align-left">
+                    <div id="shiva">
+                        <p class="chiffres">+</p>
+                        <span class="count chiffres">6</span>
+                        <p class="chiffres">,</p>
+                        <span class="count chiffres">5</span>
+                        <p class="chiffres">millions</p>
+                        <p class="chiffres" style="color: white;">Pages vus / mois</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</section>
+<div class="vide1 vide5">
+    {#<a href="#fond-7" class="btn btn5 next" #}{#style="margin-top: 250px"#}{#><img src="https://image.noelshack.com/fichiers/2018/13/3/1522253637-btn-suivant.png"></a><br>#}
+</div>
+<a href="#fond-9" role="button" class="btn suivant">
+    Suivant &nbsp;   <span class="glyphicon glyphicon-triangle-right"></span>
+</a>
+
+<br>
+
+<section  id="fond-9" align=center>
+
+    <div class="row">
+
+        <div class="col-xl-12 col-md-12 col-sm-12 col-xs-12" align=center>
+            <div class="titre-3">
+                <p>Comment consolider votre stratégie de
+                    <br><b>communication digitale ?</b></p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="container">
+            <div class="col-xl-3 col-md-3 col-sm-6 col-xs-6" align=center>
+                <img src="http://www.telecontact.ma/trouver/images_econtact/icone1.png" alt="image">
+                <div class="texte">
+                    <h4>Renforcer votre visibilité sur les moteurs de recherche</h4>
+                </div>
+                <button type="button" class="btn btn-primary">Présence digitale</button>
+                <p>Référencement de  votre entreprise par activité, raison sociale, prestations et marques</p>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-6 col-xs-6" align=center>
+                <img src="http://www.telecontact.ma/trouver/images_econtact/icone2.png" alt="image">
+                <div class="texte">
+                    <h4>Développer votre notoriété, trafic et ventes</h4>
+                </div>
+
+                <button type="button" class="btn btn-primary">Publicité digitale</button>
+                <p>Affichage dynamique de vos campagnes en ligne : Bannière, vignette, habillage</p>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-6 col-xs-6" align=center>
+                <img src="http://www.telecontact.ma/trouver/images_econtact/icone3.png" alt="image">
+                <div class="texte">
+                    <h4> Gagner en visibilité avec un site internet</h4>
+                </div>
+                <button type="button" class="btn btn-primary">Site internet</button>
+                <p>Solutions pour  site web Création d'un site internet Audit et SEO de votre site</p>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-6 col-xs-6" align=center>
+                <img src="http://www.telecontact.ma/trouver/images_econtact/icone4.png" alt="image">
+                <div class="texte">
+                    <h4>Optimiser votre communication en la relayant sur les réseaux sociaux
+                </div>
+                </h4>
+                <button type="button" class="btn btn-primary">Réseaux sociaux</button>
+                <p>Gestion de vos campagnes Facebook ADS :Social clic, social vidéo, social contact </p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+<div class="vide2 vide5">
+    {#<a href="#fond-7" class="btn btn5 next" #}{#style="margin-top: 250px"#}{#><img src="https://image.noelshack.com/fichiers/2018/13/3/1522253637-btn-suivant.png"></a><br>#}
+</div>
+<div class="ligne-separation"></div>
+
+
+<a href="#fond-10" role="button" class="btn suivant">
+    Suivant &nbsp;   <span class="glyphicon glyphicon-triangle-right"></span>
+</a>
+
+<section  id="fond-10" align=center>
+
+    <div class="row">
+
+        <div class="col-xl-12 col-md-12 col-sm-12 col-xs-12" align=center>
+            <div class="titre-3">
+                <p>Comment <b>réussir</b> sa communication
+                    <br>sur <b>internet</b> en <b>5 étapes ?</b></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="container">
+
+            <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12" align=center>
+                <button type="button" name="button" class="button" align=center>
+
+                    <div class="question">
+                        <p class="chiffre">1</p>
+                        <p>Faites le bilan de votre
+                            <br>visibilité sur internet</p>
+                    </div>
+
+                    <div class="reponse reponse-1">
+                        <p>Êtes-vous visible sur Internet ?
+                            <br>Est-ce que vos clients, prospects peuvent vous trouver ?
+                            <br>Que voient-ils de vous ? Comment faire pour le savoir ?
+                        </p>
+                    </div>
+
+                </button>
+            </div>
+
+            <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12" align=center>
+                <button type="button" name="button" class="button" align=center>
+
+                    <div class="question">
+                        <p class="chiffre">2</p>
+                        <p>Découvrez que font
+                            <br>vos concurrents</p>
+                    </div>
+
+                    <div class="reponse">
+                        <p>Qui sont vos concurrents ?
+                            <br>Comment est-ce qu'ils communiquent ?
+                            <br>Sur quelles cibles, sont-ils très visibles ?
+                            <br>Quels sont vos points forts et faibles ?
+                        </p>
+                    </div>
+
+                </button>
+            </div>
+
+            <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12" align=center>
+                <button type="button" name="button" class="button" align=center>
+
+                    <div class="question">
+                        <p class="chiffre">3</p>
+                        <p>Définissez votre besoin par
+                            <br>rapport à votre marché</p>
+                    </div>
+
+                    <div class="reponse">
+                        <p>Faire connaître votre entreprise ?
+                            <br>Trouver de nouveaux clients ?
+                            <br>Vendre sur internet, auprès de qui ?
+                            <br>Pour mettre en avant quelles activités, quels messages ?
+                        </p>
+                    </div>
+
+                </button>
+            </div>
+
+            <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12" align=center>
+                <button type="button" name="button" class="button" align=center>
+
+                    <div class="question">
+                        <p class="chiffre">4</p>
+                        <p>Testez et regardez
+                            <br>si ça marche !</p>
+                    </div>
+
+                    <div class="reponse">
+                        <p>Il n'y a pas de réponse magique !
+                            <br>Mais il y en a forcément une qui marchera pour vous ! Pensez à essayer plusieurs actions pour trouver ce qui fonctionnera le mieux.
+                        </p>
+                    </div>
+
+                </button>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xl-12 col-md-12 col-sm-12 col-xs-12" align=center>
+                    <button type="button" name="button" class="button" align=center id="button-5">
+
+                        <div class="question">
+                            <p class="chiffre">5</p>
+                            <p>Choisissez le prestataire
+                                <br>le plus efficace</p>
+                        </div>
+
+                        <div class="reponse">
+                            <p>C'est bon de pouvoir s'appuyer sur un partenaire fiable ! Un expert local, qui comprend vos problématiques métiers et qui vous propose le plan de communication le plus performant en fonction de vos besoins.
+                            </p>
+                        </div>
+
+                    </button>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    </div>
+
+
+
+</section>
+<div class="vide3 vide5">
+    {#<a href="#fond-7" class="btn btn5 next" #}{#style="margin-top: 250px"#}{#><img src="https://image.noelshack.com/fichiers/2018/13/3/1522253637-btn-suivant.png"></a><br>#}
+</div>
+
+<a href="#fond-11" role="button" class="btn suivant">
+    Suivant &nbsp;   <span class="glyphicon glyphicon-triangle-right"></span>
+</a>
+
+<section  id="fond-11" align=center>
+
+    <div class="row">
+
+        <div class="col-xl-12 col-md-12 col-sm-12 col-xs-12" align=center>
+            <div class="titre-3">
+                <p><b><samp style="color: #ffdb2e;">telecontact.ma,</samp></b> une offre complète
+                    <br>qui s'articule sur <b><samp style="color: #ffdb2e;">4 volets</samp></b></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="container">
+
+            <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12" align=center>
+                <button type="button" name="button" class="button" align=center>
+
+                    <div class="question">
+                        <p>Présence digitale</p>
+                    </div>
+
+                    <div class="reponse reponse-1">
+                        <p>Référencement de  votre entreprise par activité, raison sociale, prestations et marques
+                        </p>
+                    </div>
+
+                </button>
+            </div>
+
+            <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12" align=center>
+                <button type="button" name="button" class="button" align=center>
+
+                    <div class="question">
+                        <p>Publicité digitale</p>
+                    </div>
+
+                    <div class="reponse">
+                        <p>Affichage dynamique de vos campagnes en ligne : Bannière, vignette, habillage
+                        </p>
+                    </div>
+
+                </button>
+            </div>
+
+            <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12" align=center>
+                <button type="button" name="button" class="button" align=center>
+
+                    <div class="question">
+                        <p>Site internet & Contenu digital</p>
+                    </div>
+
+                    <div class="reponse">
+                        <p>Solutions pour  site web : Création d'un site internet Audit et SEO de votre site
+                        </p>
+                    </div>
+
+                </button>
+            </div>
+
+            <div class="col-xl-6 col-md-6 col-sm-12 col-xs-12" align=center>
+                <button type="button" name="button" class="button" align=center>
+
+                    <div class="question">
+                        <p>Réseaux Sociaux</p>
+                    </div>
+
+                    <div class="reponse">
+                        <p>Gestion de vos campagnes Facebook ADS : Social clic, social vidéo, social contact</p>
+                    </div>
+
+                </button>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+</section>
+<div class="vide4 vide5">
+    {#<a href="#fond-7" class="btn btn5 next" #}{#style="margin-top: 250px"#}{#><img src="https://image.noelshack.com/fichiers/2018/13/3/1522253637-btn-suivant.png"></a><br>#}
+</div>
+
+
+<a href="#fond-7" role="button" class="btn suivant">
+    Suivant &nbsp;   <span class="glyphicon glyphicon-triangle-right"></span>
+</a>
+
+<div class="ligne-separation" style="background-color: white"></div>
+
+
+<section  id="fond-7" align=center>
+
+
+    <div  class="container" id="content-4">
+
+        <div class="row" >
+
+            <div class="col-md-12 col-sm-12 {#col-xs-12#} "  align=center >
+                <div class="titre">
+                    <h1 class="acroche "><strong>Construisons ensemble
+
+                            les piliers de votre <span style="color: #ffdb2e">communication digitale</span>
+                        </strong></h1>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+<br>
+
+<section  id="fond-6">
+
+    <div class="container" id="content-6">
+
+        <div class="row">
+
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
+                <div class="colone-1">
+                    <div align=center>
+                        <img class="icone" style="width: 100px" src="http://www.telecontact.ma/trouver/images_econtact/Icone-3.png" alt="icone-3">
+                    </div>
+                    <div class="list-group">
+                        <a class="list-group-item active titre" style="padding-top: 20px;">Référencement </a>
+                        <a href="{{ path('prestation') }}"   target="_blank" class="list-group-item content">Prestations <span class="glyphicon glyphicon-zoom-in"></span></a></a>
+                        <a href="{{ path('marque') }}"     target="_blank" class="list-group-item content">Marques <span class="glyphicon glyphicon-zoom-in"></span></a></a>
+                        <a href="{{ path('rubrique') }}" target="_blank" class="list-group-item content">Rubriques <span class="glyphicon glyphicon-zoom-in"></span></a></a>
+                        <a href="{{ path('profession') }}" target="_blank" class="list-group-item content">Profession libérale <span class="glyphicon glyphicon-zoom-in"></span></a></a>
+                        <a href="{{ path('carte_visite') }}"  target="_blank" class="list-group-item content" id="jaune">Carte de visite
+                            &nbsp;
+
+                            <img src="http://www.telecontact.ma/trouver/images_econtact/icone-hand.png" style="float: right" alt="icone-hand">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
+                <div class="colone-2">
+                    <div align=center>
+                        <img class="icone" style="width: 100px" src="http://www.telecontact.ma/trouver/images_econtact/Icona-2.png" alt="icone-3">
+                    </div>
+                    <div class="list-group">
+                        <a class="list-group-item active titre">Gestion de Contenu</a>
+                        <a href="{{ path('site_internet') }}" target="_blank" class="list-group-item content">
+                            Site internet &nbsp;
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                        </a>
+                        <a href="{{ path('video') }} " target="_blank" class="list-group-item content">
+                            Vidéo &nbsp;
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                        </a>
+                        <a href="{{ path('catalogue_ref') }}" target="_blank" class="list-group-item content">
+                            Catalogues en ligne&nbsp;
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                        </a>
+                        <a href="{{ path('pvi') }}" target="_blank" class="list-group-item content"> PVI&nbsp;
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                        </a>
+                        <a href="{{ path('audit') }}" target="_blank" class="list-group-item content">Audit &nbsp;
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                        </a>
+                        <a href="{{ path('galerie_photos_et_references') }}" target="_blank" class="list-group-item content">
+                            <div class="col-md-12 new">
+                                <span class="label label-danger col-lg-4" style="display: block ; float: right ; margin-bottom: 4px ; margin-right: -22px">Nouveau</span>
+                            </div>
+                            Galerie photos et références
+                            <span class="glyphicon glyphicon-zoom-in" style="width: 4%"></span>
+                        </a>
+                        <a href="{{ path('catalogue_connecte') }}" target="_blank" class="list-group-item content">
+                            <div class="col-md-12 new">
+                                <span class="label label-danger col-lg-4" style="display: block ; float: right ; margin-right: -22px ; margin-bottom: 4px">Nouveau</span>
+                            </div>
+                            <span style="display: inline-block">Catalogue connecté</span>
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
+                <div class="colone-3" id="colone-3">
+                    <div align=center>
+                        <img class="icone" style="width: 100px" src="http://www.telecontact.ma/trouver/images_econtact/Icone-1.png" alt="icone-3">
+                    </div>
+                    <div class="list-group">
+                        <a class="list-group-item active titre" style="padding-top: 20px;">Affichage</a>
+
+
+                       {#<a href="{{ path('banniere') }}" target="_blank" class="list-group-item content">Bannières classiques &nbsp;   <span class="glyphicon glyphicon-zoom-in"></span></a>#}
+
+                        <a href="#colone-3" class="dropdown-toggle list-group-item content" data-toggle="collapse" data-target="#submenuuus" aria-expanded="false">
+                            <span class="icon-link2"></span>
+                            Bannières<span class="caret"></span></a>
+                        <ul class="nav collapse" id="submenuuus" role="menu" aria-labelledby="btn-1">
+                            <li class=" list-group-item "  style="padding: 0px; font-size: 16px;">
+                                <a style="font-size: 16px;" href="{{ path('banniere') }}" target="_blank" class="content">
+                                    Bannière classique &nbsp;
+                                    <span class="glyphicon glyphicon-zoom-in"></span>
+                                </a>
+                            </li>
+                            <li class=" list-group-item "  style="padding: 0px; font-size: 16px;">
+                                <a style="font-size: 16px;" href="{{ path('banniere_Extensible') }}" target="_blank" class=" content">
+                                    Bannière extensible &nbsp;
+                                    <span class="glyphicon glyphicon-zoom-in"></span>
+                                </a>
+                            </li>
+                            <li class="list-group-item" style="padding: 0px; font-size: 16px;">
+                                <a style="font-size: 16px;" href="{{ path('banniere_video') }}" target="_blank" class="content">
+                                    <div class="col-md-12 new">
+                                        <span class="label label-danger col-lg-4" style="display: block ; float: right ; margin-right: -22px ; margin-bottom: 4px">Nouveau</span>
+                                    </div>
+                                    Bannière vidéo
+                                    <span class="glyphicon glyphicon-zoom-in"></span>
+                                </a>
+                            </li>
+
+                        </ul>
+
+
+
+
+                        <a href="#colone-3" class="dropdown-toggle list-group-item content" data-toggle="collapse" data-target="#submenuuu" aria-expanded="false">
+                                <span class="icon-link2"></span>
+                                Vignettes<span class="caret"></span></a>
+                            <ul class="nav collapse" id="submenuuu" role="menu" aria-labelledby="btn-1">
+                                <li class=" list-group-item " style="padding: 0px; font-size: 16px;">  <a style="font-size: 16px;" href="{{ path('vignette_thematique') }}" target="_blank" class=" content">Vignette thématique &nbsp;   <span class="glyphicon glyphicon-zoom-in"></span></a></li>
+                                <li class=" list-group-item "  style="padding: 0px; font-size: 16px;"><a style="font-size: 16px;" href="{{ path('vignette_accueil_video') }}" target="_blank" class=" content">Vignette classique &nbsp;   <span class="glyphicon glyphicon-zoom-in"></span></a></li>
+                                <li class=" list-group-item "  style="padding: 0px; font-size: 16px;"> <a style="font-size: 16px;" href="{{ path('vignette_localte') }}" target="_blank" class=" content">Vignette localité &nbsp;   <span class="glyphicon glyphicon-zoom-in"></span></a></li>
+                                <li class=" list-group-item "  style="padding: 0px; font-size: 16px;"> <a style="font-size: 16px;" href="{{ path('vignetteExtensible') }}" target="_blank" class=" content">Vignette extensible &nbsp;   <span class="glyphicon glyphicon-zoom-in"></span></a></li>
+
+                            </ul>
+
+
+                        <a href="{{ path('professionnels') }}" target="_blank" class="list-group-item content">Professionnels du jour &nbsp;   <span class="glyphicon glyphicon-zoom-in"></span></a>
+                        <a href="{{ path('espace_promo') }}" target="_blank" class="list-group-item content">Espace Promo &nbsp;   <span class="glyphicon glyphicon-zoom-in"></span></a>
+                        <a href="{{ path('habillage') }}" target="_blank" class="list-group-item content">Habillage &nbsp;   <span class="glyphicon glyphicon-zoom-in"></span></a>
+                        <a href="{{ path('peel_off') }}" target="_blank" class="list-group-item content">
+                            <div class="col-md-12 new">
+                                <span class="label label-danger col-lg-4" style="display: block ; float: right ; margin-right: -22px ; margin-bottom: 4px">Nouveau</span>
+                            </div>
+                            Peel off
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                        </a>
+                        <a href="{{ path('cube_3d') }}" target="_blank" class="list-group-item content">
+                            <div class="col-md-12 new">
+                                <span class="label label-danger col-lg-4" style="display: block ; float: right ; margin-right: -22px ; margin-bottom: 4px">Nouveau</span>
+                            </div>
+                            Cube 3d
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
+                <div class="colone-3">
+                    <div align=center>
+                        <img class="icone" style="width: 100px" src="{{ asset('img/lien/RS.png') }}" alt="icone-3">
+                    </div>
+                    <div class="list-group">
+                        <a class="list-group-item active titre" >Réseaux sociaux </a>
+
+                        <a href="#colone-3" class="dropdown-toggle list-group-item content" data-toggle="collapse" data-target="#submenuuud" aria-expanded="false">
+                            <span class="icon-link2"></span>
+                            Facebook ads &nbsp;<span class="caret"></span></a>
+                        <ul class="nav collapse" id="submenuuud" role="menu" aria-labelledby="btn-1">
+                            <li class=" list-group-item " style="padding: 0px; font-size: 16px;">  <a style="font-size: 16px;" href="#" target="_blank" class=" content">Social clic &nbsp;   <span class="glyphicon glyphicon-zoom-in"></span></a></li>
+                            <li class=" list-group-item "  style="padding: 0px; font-size: 16px;"><a style="font-size: 16px;" href="#" target="_blank" class=" content">Social video &nbsp;   <span class="glyphicon glyphicon-zoom-in"></span></a></li>
+                            <li class=" list-group-item "  style="padding: 0px; font-size: 16px;"> <a style="font-size: 16px;" href="#" target="_blank" class=" content">Social contact &nbsp;   <span class="glyphicon glyphicon-zoom-in"></span></a></li>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+</section>
+
+<section  id="fond-8" align=center>
+
+    <div class="container" id="content-8">
+
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+
+            </div>
+
+            <div class="col-md-12 col-sm-12 col-xs-12" align="center">
+                <form >
+                    <div class="form-inline">
+                        <div class="form-group test " >
+                            <label id="from-label">Raison sociale</label>
+                            <br>
+                            <input
+                                    placeholder="raison sociale"
+                                    name="rs"
+                                    {% if raison['rs']  %}
+                                        {{raison['rs']|capitalize }}
+                                    }
+                                    value="{{ raison['rs'] }}"
+                                    {% endif %}
+                                    id="raison"
+                                    class="form-control"
+                                    type="text"
+                                    style=" height: 37px;width: 290px"
+                            />
+                        </div>
+                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div class="form-group test " >
+                            <label id="from-label" >
+                                Code Firme
+                            </label>
+                            <br>
+                            <input
+                                    id="firme"
+                                    placeholder="code firme"
+                                    name="cfirme"
+                                    {% if raison['cfirme']  %}
+                                        {{raison['cfirme']|capitalize }}
+                                    }
+                                    value="{{ raison['cfirme'] }}"
+                                    {% endif %}
+                                    class="form-control "
+                                    type="text" style=" height: 37px;width: 290px"
+                            />
+                        </div>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="form-inline">
+                        <div class="form-group test " >
+                            <label id="from-label"> Civilité</label> <br><br>
+                            <div>
+                                <label class="radio-inline">
+                                    <input type="radio" name="civi" value="Mr" {% if raison['civi'] =='Mr' %} checked  {% endif %}  checked>Monsieur
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="civi" value="Mme" {% if raison['civi'] =='Mme' %} checked  {% endif %}>Madame
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="civi" value="Mlle" {% if raison['civi'] =='Mlle' %} checked  {% endif %} >Mademoiselle
+
+                                </label>
+
+                            </div>
+                        </div>
+                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div class="form-group test" >
+                            <label id="from-label" >
+                                Nom du signataire
+                            </label>
+                            <br>
+                            <input
+                                    id="sign"
+                                    name="sign"
+                                    {% if raison['sign']  %}
+                                        {{raison['sign']|capitalize }}
+                                        value="{{ raison['sign'] }}"
+                                    {% endif %}
+                                    placeholder="Mr Albert "
+                                    class="form-control "
+                                    type="text" style=" height: 37px;width: 290px"
+                            />
+                        </div>
+                        <br>
+                    </div>
+                    <br>
+                    <div class="form-inline">
+                        <div class="form-group test" >
+                           
+                            <div style="margin-left: 191px;">
+                                <label class="radio-inline" style="font-size: large !important;font-weight: bolder !important;">
+                                    <input class="choseType" type="radio" name="choseType" id="choseType" value="internet" >Internet
+                                </label>
+                                <label class="radio-inline" style="font-size: large !important;font-weight: bolder !important;margin-left: 136px;">
+                                    <input class="choseType" type="radio" name="choseType" id="choseType" value="papier" > Papier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </label>
+                            </div>
+                        </div>
+                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <div class="form-group test" >
+
+                        </div><br>
+                    </div>
+                    <div class="form-inline professionLib">
+                        <div class="form-group test" >
+                            <label id="from-label"> profession libérale</label> <br><br>
+                            <div>
+                                <label class="radio-inline" >
+                                    <input class="profession" type="radio" name="profession" id="profession" value="oui" {% if raison['profession'] =='oui' %} checked  {% endif %} >Oui
+                                </label>
+                                <label class="radio-inline">
+                                    <input class="profession" type="radio" name="profession" id="profession" value="non" {% if raison['profession'] =='non' %} checked  {% endif %}  >Non&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </label>
+                            </div>
+                        </div>
+                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <div class="form-group test" >
+
+                        </div><br>
+                    </div>
+
+
+
+
+
+                </form>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-xs-12">
+
+            </div>
+
+            <div class="col-md-12 col-sm-12 col-xs-12" align="center">
+                <button type="button" class="btn btn-info bouton-1" data-toggle="collapse" data-target="#demo-1" >
+                    Budgétisation &nbsp;
+                    <span class="glyphicon glyphicon-triangle-bottom"></span>
+                </button>
+                <div id="demo-1" class="collapse bouton-2" >
+                    <a href="{{ path('profession_liberale') }}" role="button" class="btn btn-info prof">
+                         <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icone-3.png" >
+                         Profession libérale
+                        <span class="glyphicon glyphicon-triangle-right fleche-petit"></span>
+                     </a>
+                    <a href="{{ path('referencement_mptei') }}" role="button" class="btn btn-info ref">
+                        <img class="icone" src="http://www.telecontact.ma/trouver/images_econtact/Icone-3.png" >
+                        Référencement
+                        <span class="glyphicon glyphicon-triangle-right fleche-petit"></span>
+                    </a>
+                    <a href="{{ path('budget_gestion_contenu') }}" role="button" class="btn btn-info gest">
+                        <img class="icone" src="http://www.telecontact.ma/trouver/images_econtact/Icona-2.png" >
+                        Gestion de Contenu
+                        <span class="glyphicon glyphicon-triangle-right"></span>
+                    </a>
+                    <a href="{{ path('budget_affichage') }}" role="button" class="btn btn-info aff">
+                        <img class="icone" src="http://www.telecontact.ma/trouver/images_econtact/Icone-1.png" >
+                        Affichage
+                        <span class="glyphicon glyphicon-triangle-right"></span>
+                    </a>
+                    <a href="{{ path('gestion_contenu_papier') }}" role="button" class="btn btn-info contenuPapier">
+                         <img class="icone" src="" alt="">
+                         Gestion de Contenu  <span class="glyphicon glyphicon-triangle-right"></span>
+                     </a>
+                    <br>
+                    {# <a href="http://www.telecontact.ma/" role="button" class="btn btn-info" id="bouton-3">
+                         Budget estimé
+                     </a>#}
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+
+    $(document).ready(function() {
+
+        $(window,'input').on('keyup change load',function() {
+            console.log('here');
+            $('.bouton-1').prop('disabled',true);
+            var rs=  $("#raison").val();
+            var firme=  $("#firme").val();
+            var sign=  $("#sign").val();
+            var profession = $('input[name=profession]:checked').val();
+            var choseType = $('input[name=choseType]:checked').val();
+               
+            if (choseType =='internet')
+            {
+                $(".professionLib").show();
+                if (profession =='oui')
+                {   $(".gest").show();
+                    $(".aff").show();
+                    $(".prof").show();
+                    $(".ref").hide();
+
+                }else{
+                    $(".prof").hide();
+                    $(".ref").show()
+                    $(".gest").show();
+                    $(".aff").show();
+                }
+               $(".contenuPapier").hide();      
+            }else
+            {
+                $(".professionLib").hide();
+                $(".prof").hide();
+                $(".ref").hide();
+                $(".gest").hide();
+                $(".aff").hide();
+
+                $(".contenuPapier").show();
+                  
+            }
+            if ( firme.length==0 && rs.length==0 && sign.length==0  ) {
+                $('.bouton-1').attr('disabled', 'disabled');
+            } else
+            if (rs.length >0 && firme.length >0 && sign.length >0 ){
+                $('.bouton-1').removeAttr('disabled',false);
+            }
+            
+
+           
+        });
+
+        
+
+
+        $('input').on('keyup keydown click ', function () {
+console.log('hiho');
+            $('.loaders').css('display','');
+            var rs=  $("#raison").val();
+            var firme=  $("#firme").val();
+            var sign=  $("#sign").val();
+            var civi = $('input[name=civi]:checked').val();
+            var profession = $('input[name=profession]:checked').val();
+            var data_send = {'rs': rs,'cfirme':firme,'sign': sign,'civi':civi,'profession':profession};
+            $.ajax({
+                url: '{{ path('referencement_commande_devis_rs') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+                        var successMessage = response;
+                        console.log(successMessage);
+                        /*  $('#prestation').children("option").remove();*/
+                        //on vide les champs formulaires ou on le supprime ou ...
+                        //on retire le loader...
+
+                        $('.loaders').css('display','none');
+
+//                    window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                    },
+                    //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+
+                    }
+                }
+            });
+
+
+        });
+
+
+    });
+
+</script>
+<script type="text/javascript">
+
+
+
+
+
+
+    $(document).ready(function(){
+
+        $('#submenu li a').on('click', function(e){
+            $('#submenu').removeClass('in');
+        });
+
+    });
+
+    $('.count').each(function () {
+        $(this).prop('Counter',0).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 4000,
+            easing: 'swing',
+            step: function (now) {
+                $(this).text(Math.ceil(now));
+            }
+        });
+    });
+
+
+
+
+
+
+    function hover() {
+        $(".button").on("mouseenter", function() {
+            return $(this).addClass("hover");
+        });
+    }
+
+    function hoverOff() {
+        $(".button").on("mouseleave", function() {
+            return $(this).removeClass("hover");
+        });
+    }
+
+
+
+    hover();
+    hoverOff();
+
+
+
+
+
+
+</script>
+
+
+
+
+</body>
+
+
+</html>

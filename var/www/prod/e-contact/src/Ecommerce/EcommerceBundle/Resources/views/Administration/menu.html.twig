@@ -1,0 +1,140 @@
+<style>
+    .logo
+    {
+        margin-top: -95px;
+        height: 42px;
+        margin-left: 10px;
+    }
+    body{
+        background-color: black!important;
+        color: black;
+    }
+    .nav.side-menu>li.active, .nav.side-menu>li.current-page {
+        border-right: 5px solid #ffdb2e;
+    }
+    .left_col {
+        background: black;
+    }
+    .nav_title {
+        background: black;
+    }
+    .nav-md ul.nav.child_menu li:before {
+        background: #524f41;
+    }
+    .nav-md ul.nav.child_menu li:after {
+        border-left: 1px solid #524f41;
+        top: 45px;
+
+    }
+    .nav.side-menu>li.active>a {
+        background: linear-gradient(#000000,#2b2b2a),#2A3F54;
+    }
+    body .container.body .right_col {
+        background: white;
+    }
+    .fa-navicon:before, .fa-reorder:before, .fa-bars:before {
+
+        color: black;
+    }
+    .nav_menu {
+        float: left;
+        background: #ffffff;
+    }
+</style>
+
+<div class="bg-img">
+    <a href="{{ path("fos_user_profile_show") }}">
+        <img class="logo  img-logo" src="https://image.noelshack.com/fichiers/2018/02/1/1515423139-logo.png"  >
+    </a>
+</div>
+
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+
+
+    <div class="menu_section">
+
+        <ul class="nav side-menu">
+
+            {#{% if is_granted('ROLE_USER') %}#}
+            {% if app.user.id == '66'  %}
+                <li><a  href="{{ path('admin_acceuil') }}" ><i class="fa fa-home"></i> Accueils </a>
+                <li><a><i class="fa fa-user"></i> Utilisateurs <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="{{ path('adminUsers') }}">Consulter</a></li>
+                        <li><a href="{{ path('fos_user_registration_register') }}">Ajouter</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out"></i>Deconnexion </a></li>
+
+
+
+            {% elseif is_granted('ROLE_ADMIN') %}
+                <li><a  href="{{ path('admin_acceuil') }}" ><i class="fa fa-home"></i> Accueils </a>
+
+                <li><a><i class="fa fa-user"></i> Utilisateurs <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="{{ path('adminUsers') }}">Consulter</a></li>
+                        <li><a href="{{ path('fos_user_registration_register') }}">Ajouter</a></li>
+                    </ul>
+                </li>
+
+                <li><a><i class="fa fa-users"></i> Clients <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="{{ path('adminClient') }}">Consulter</a></li>
+                        <li><a href="{{ path('adminClient_new') }}">Ajouter</a></li>
+
+                    </ul>
+                </li>
+
+                <li><a><i class="fa fa-shopping-cart"></i> Produits <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="{{ path('adminProduits')}}">Consulter</a></li>
+                        <li><a href="{{ path('adminProduits_new')}}">Ajouter</a></li>
+
+
+
+
+                    </ul>
+                </li>
+
+                <li><a><i class="fa fa-briefcase"></i> Entreprise <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="{{ path('adminTelecontact')}}">Consulter</a></li>
+                        <li><a href="{{ path('adminNosClients')}}">Nos Clients</a></li>
+                        <li><a href="{{ path('adminNosClients_new')}}">Ajouter Client</a></li>
+
+
+                    </ul>
+                </li>
+
+               {# <li><a><i class="fa fa-paste"></i> Devis validé <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="{{ path('adminFacture')}}">Consulter</a></li>
+
+
+                    </ul>
+                </li>#}
+                <li><a><i class="fa fa-envelope"></i> Devis envoyés <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="{{ path('adminEmail')}}">Consulter</a></li>
+
+
+                    </ul>
+                </li>
+
+                <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out"></i>Deconnexion </a></li>
+
+            {% endif %}
+
+
+
+
+        </ul>
+
+    </div>
+    <div class="menu_section">
+
+
+    </div>
+
+</div>

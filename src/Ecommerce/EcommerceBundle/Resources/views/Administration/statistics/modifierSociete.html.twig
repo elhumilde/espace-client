@@ -1,0 +1,1310 @@
+{% extends "::layout/base_statistics2.html.twig" %}
+
+
+{% block title %} Modifier ma société {% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{{ asset('public_statistics/css/edit-societe.css') }}">
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.2.0/dist/select2-bootstrap-5-theme.min.css" />
+<!-- Or for RTL support -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.2.0/dist/select2-bootstrap-5-theme.rtl.min.css" /> -->
+<link rel="stylesheet" type="text/css" href="{{ asset('public_statistics/css/select2-bootstrap-5-theme.rtl.min.css') }}">
+
+<style>
+    .border-top-0{
+        font-weight: 700!important;
+    }
+    .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+      background-color: #e9ecef;
+      border-color: #dee2e6;
+      color: black;
+      font-weight: bold;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: #4CAF50!important;
+        color: white!important;
+        border: 1px solid #4CAF50!important;
+    }
+    #myTable_paginate{
+        color: black!important;
+        float: left!important;
+        padding: 8px 16px!important;
+        transition: background-color .3s!important;
+        margin-top: 30px!important;
+        margin-left: 18%;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        border: 1px solid #cccccc!important;
+    }
+    #myTable_length, #myTable_filter, #myTable_info{
+        font-weight: 700;
+    }
+    #config-demo{
+        display: none;
+    }
+    #myTable_length, #myTable_filter{
+        margin-bottom: 25px;
+    }
+    .even{
+        background-color: rgb(185 217 232 / 8%)!important;
+    }
+
+     .button {
+         text-decoration: none;
+         font-size: 0.875rem;
+         font-weight: 300;
+         text-transform: uppercase;
+         display: inline-block;
+         border-radius: 1.5rem;
+         background-color: #fff;
+         color: #9191e9;
+         padding: 1rem 2rem;
+    }
+     .popup {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         position: fixed;
+         width: 100vw;
+         height: 100vh;
+         bottom: 0;
+         right: 0;
+         background-color: rgba(0, 0, 0, 0.8);
+         z-index: 2;
+         visibility: hidden;
+         opacity: 0;
+         overflow: hiden;
+         transition: 0.64s ease-in-out;
+    }
+     .popup-inner {
+         position: relative;
+         bottom: -100vw;
+         right: -100vh;
+         display: flex;
+         align-items: center;
+         max-width: 600px;
+         max-height: 550px;
+         width: 60%;
+         height: 100%;
+         background-color: #fff;
+         transform: rotate(32deg);
+         transition: 0.64s ease-in-out;
+        padding-left: 0px!important;
+        padding-right: 0px!important;
+        border-radius: 10px;
+    }
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 100%;
+         padding: 0rem;
+    }
+
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 70%;
+         padding-top: 0px!important;
+         padding: 4rem;
+    }
+     .popup__text h1 {
+         font-size: 2rem;
+         font-weight: 600;
+         margin-bottom: 2rem;
+         text-transform: uppercase;
+         color: #0a0a0a;
+    }
+     .popup__text p {
+         font-size: 16px;
+         color: #686868;
+         line-height: 1.5;
+         overflow-y:scroll;
+         min-height: 350px!important;
+    }
+     .popup:target {
+         visibility: visible;
+         opacity: 1;
+    }
+     .popup:target .popup-inner {
+         bottom: 0;
+         right: 0;
+         transform: rotate(0);
+    }
+     .popup__close {
+         position: absolute;
+         right: -1rem;
+         top: -1rem;
+         width: 3rem;
+         height: 3rem;
+         font-size: 0.875rem;
+         font-weight: 300;
+         border-radius: 100%;
+         background-color: #0a0a0a;
+         z-index: 4;
+         color: #fff!important;
+         line-height: 3rem;
+         text-align: center;
+         cursor: pointer;
+         text-decoration: none;
+    }
+    .dea{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+    }
+    .objet_popup{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+        margin-top: 50px;
+    }
+    .dea_mail{
+        font-weight: 500!important;
+        line-height: 20px!important;
+        font-size: 16px!important;
+        font-family: var(--bs-font-sans-serif)!important;
+    }
+    #message{
+        font-family: Spinnaker,sans-serif;
+        color: #4e4e4e;
+        font-size: 15px;
+        line-height: 1.428571429;
+    }
+    .popup_head{
+        padding-bottom: 25px;
+        background: #fedc01;
+        border-radius: 10px 10px 0px 0px;
+    }
+ 
+
+
+
+
+
+
+
+
+
+
+    /* second modal */
+
+
+    /* end second modal */
+
+
+
+
+
+</style>
+
+{% endblock %}
+
+{% block slide %}
+    <div class="group-bg-image">
+        <div class="col-lg-12 col-xlg-12 col-md-12 bg-image">
+            <p class="bg-image-text">Modifier ma société</p>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block body %}
+
+
+    <div class="col-md-9 col-lg-9 col-sm-12">
+        <div class="white-box">
+            <div class="d-md-flex mb-3"></div>
+
+                <div class="row">
+                    
+                    <!-- Column -->
+                    <div class=""><!-- col-lg-8 col-xlg-9 col-md-12 -->
+
+                        <!-- <div class="block-info">
+                            <div class="col-12 ">
+                                <h4>test numero 1 1</h4>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-success" role="alert">
+                          This is a success alert—check it out!
+                        </div> -->
+                        {% if liste_validation_count or liste_dirigeant_count or liste_prestation_validation_count %}
+                        
+                            <h4 class="alert-heading">En attente de validation</h4><hr>
+                            <div class="alert alert-danger block-info" role="alert" style="padding-top: 20px; padding-bottom: 0px; overflow-y : scroll; max-height: 145px;" > 
+                            {% for v in liste_validation %}
+                                {% if v.operation == 2 %}
+                                    <div class="box_{{ v.id }}">
+                                        <div class="box_validations">
+                                           <p>Modification de la valeur <strong> {% if v.old_value != "" %}"{{ v.old_value }}" {% else %} "" {% endif %}</strong> par <strong>"{{ v.new_value }}"</strong> dans le champ <strong>"{{ v.displayed_column }}" </strong>.</p><i class="fa fa-times-circle" aria-hidden="true" onclick="delete_edit('{{ v.id }}');"  title="Annuler cette modification"></i>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                {% elseif v.operation == 1 %}
+                                    <div class="box_{{ v.id }}">
+                                        <div class="box_validations">
+                                            <p>Ajout d'un nouveau champ <strong>"{{ v.displayed_column }}" </strong> avec la valeur <strong>"{{ v.new_value }}"</strong>.</p><i class="fa fa-times-circle" aria-hidden="true" onclick="delete_edit('{{ v.id }}');"  title="Annuler de cet operation d'ajout"></i>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                {% elseif v.operation == 3 %}
+                                    <div class="box_{{ v.id }}">
+                                        <div class="box_validations">
+                                            <p>Suppression de la prestation <strong>"{{ v.old_value }}" </strong>.</p><i class="fa fa-times-circle" aria-hidden="true" onclick="delete_edit('{{ v.id }}');"  title="Annuler de cet operation de suppression prestation"></i>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                {% elseif v.operation == 4 %}
+                                    <div class="box_{{ v.id }}">
+                                        <div class="box_validations">
+                                            <p>Suppression du dirigeant <strong>"{{ v.old_value }}" </strong>.</p><i class="fa fa-times-circle" aria-hidden="true" onclick="delete_edit('{{ v.id }}');"  title="Annuler de cet operation de suppression dirigeant"></i>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% for d in liste_dirigeant %}
+                                    <div class="box_dir{{ d.id }}">
+                                        <div class="box_validations">
+                                           <p>Ajout d'un nouveau dirigeant <strong>"{{ d.civilite ~ ' ' ~ d.nom ~ ' ' ~ d.prenom}}"</strong>, <strong>{{ d.fonction }}</strong> avec  l'email <strong>"{{ d.email }}"</strong>, le(s) numero(s) : <strong>"{{ d.tel_1 }} {% if d.tel_2 %}- {{ d.tel_2 }} {% endif %}"</strong> {% if d.fax %} et le faxe : <strong>"{{ d.fax }}"</strong>{% endif %}.</p><i class="fa fa-times-circle" aria-hidden="true" onclick="delete_edit_dirigeant('{{ d.id }}');"  title="Annuler cette operation ajout dirigeant"></i>
+                                        </div>
+                                        <hr>
+                                    </div>
+                            {% endfor %}
+
+                            {% for p in liste_prestation_validation %}
+                                    <div class="box_pres{{ p.id }}">
+                                        <div class="box_validations">
+                                           <p>Ajout d'une prestation <strong>"{{ p.prestation }}"</strong> dans la rubrique <strong>"{{ p.Lib_Rubrique }}"</strong>.</p><i class="fa fa-times-circle" aria-hidden="true" onclick="delete_edit_prestation('{{ p.id }}');"  title="Annuler cette operation ajout prestation"></i>
+                                        </div>
+                                        <hr>
+                                    </div>
+                            {% endfor %}
+                          
+                        </div>
+                        {% endif %}
+
+
+                        <input type="hidden" id="code_firme" value="{{ code_firme }}">
+                        
+                        <div class="card card-edit-societe">
+                            
+                                <div class="card-body col-12 row">
+
+                                    <div class="form-group mb-12 col-lg-12 col-xlg-12 col-md-12 col-sm-12">
+                                        <h4>Informations de base</h4>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Nature :</label>
+                                        <div class="col-md-12 change-box-group select-1">
+                                            <select class="input-1 firmes code_nature nature form-control" data-live-search="true" data-live-search-style="startsWith" onchange="callCheckbox(1);" >
+                                                <option data-tokens="" value=''></option>
+                                                {% for nature in natures %}
+                                                    {% if nature.code == firme[0]['code_nature'] %}
+                                                    <option data-tokens="{{ nature.code }}" value='{{ nature.code }}' selected>{{ nature.nature }}</option>
+                                                    {% else %}
+                                                    <option data-tokens="{{ nature.code }}" value='{{ nature.code }}'>{{ nature.nature }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                            <input class="checkbox checkbox-1 image-clignote" type="checkbox" value="" id="1" onclick="validate(1);">
+                                        </div>
+                                        <label class=" label_validation label-1">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Raison sociale :</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <input type="text" class="input-2 firmes rs_comp raison_sociale form-control" name="rs_comp" value="{{ firme[0]['rs_comp'] }}" onchange="callCheckbox(2)">
+                                            <input class="checkbox checkbox-2 image-clignote" type="checkbox" value="" id="2" onclick="validate(2);"> <!-- form-check-input -->
+                                        </div>
+                                        <label class=" label_validation label-2">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Raison Sociale Abrégée :</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <input type="text" class="input-3 firmes rs_abr raison_sociale_abregée form-control" name="rs_comp" value="{{ firme[0]['rs_abr'] }}" onchange="callCheckbox(3)"> 
+                                            <input class="checkbox checkbox-3 image-clignote" type="checkbox" value="" onclick="validate(3);">
+                                        </div>
+                                            <label class=" label_validation label-3">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <!-- {#<div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Dénomination RC :</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <input type="text" class="input-4 firmes rs_rc dénomination_rc form-control" onchange="callCheckbox(4)" value="{{ firme[0]['rs_rc'] }}"> 
+                                            <input class="checkbox checkbox-4 " type="checkbox" value="" onclick="validate(4);">
+                                        </div>
+                                    </div>#} -->
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Enseigne :</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <input type="text" class="input-5 firmes rs_courte enseigne form-control" onchange="callCheckbox(5)" value="{{ firme[0]['rs_courte'] }}"> 
+                                            <input class="checkbox checkbox-5 image-clignote" type="checkbox" value="" onclick="validate(5);">
+                                        </div>
+                                        <label class=" label_validation label-5">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Activité simplifiée :</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <input type="text" class="input-6 firmes tp_40 activité_simplifiée form-control" onchange="callCheckbox(6)" value="{{ firme[0]['tp_40'] }}"> 
+                                            <input class="checkbox checkbox-6 image-clignote" type="checkbox" value="" onclick="validate(6);">
+                                        </div>
+                                        <label class=" label_validation label-6">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Activité complète:</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <input type="text" class="input-7 firmes tp_45 activité_complète form-control" onchange="callCheckbox(7)" value="{{ firme[0]['tp_45'] }}"> 
+                                            <input class="checkbox checkbox-7 image-clignote" type="checkbox" value="" onclick="validate(7);">
+                                        </div>
+                                        <label class=" label_validation label-7">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <!-- {#<div class="form-group mb-8 col-lg-8 col-xlg-8 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Présentation Kompass.com :</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <textarea type="text" class="input-8 firmes tp_48 présentation_kompass.com form-control" onchange="callCheckbox(8)">{{ firme[0]['tp_48'] }}</textarea>  
+                                            <input class="checkbox checkbox-8 " type="checkbox" value="" onclick="validate(8);">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Statut :</label>
+                                        <div class="col-md-12 change-box-group select-9">
+                                            <select name="type" class="input-9 firmes code_statut statut form-control" data-live-search="true" data-live-search-style="startsWith" onchange="callCheckbox(9)">
+                                                <option data-tokens="" value=''></option>
+                                                {% for statut in statuts %}
+                                                    {% if statut.code == firme[0]['code_statut'] %}
+                                                    <option data-tokens="{{ statut.code }}" value='Siège' selected>{{ statut.status }}</option>
+                                                    {% else %}
+                                                    <option data-tokens="{{ statut.code }}" value='Siège'>{{ statut.status }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                            <input class="checkbox checkbox-9 " type="checkbox" value="" onclick="validate(9);">
+                                        </div>
+                                    </div>#} -->
+
+                                    <div class="form-group mb-8 col-lg-8 col-xlg-8 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Adresse :</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <textarea type="text" name="adresse" class="input-10 firmes num_voie adresse form-control" onchange="callCheckbox(10)">{{ firme[0]['num_voie'] ~' '~ firme[0]['lib_voie'] ~ firme[0]['comp_voie'] ~' ' ~ firme[0]['quartier'] ~' '~ firme[0]['arrondissement'] }}</textarea>
+                                            <input class="checkbox checkbox-10 image-clignote" type="checkbox" value="" onclick="validate(10);">
+                                        </div>
+                                        <label class=" label_validation label-10">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Ville :</label>
+                                        <div class="col-md-12 change-box-group select-11">
+                                            <select class="input-11 firmes num_voie adresse form-control" name="ville" onchange="callCheckbox(11)">
+                                                <option value=''></option>
+                                                {% for v in villes_list %}
+                                                    {% if v.code == firme[0]['code_ville'] %}
+                                                    <option value="{{ v.code }}" selected >{{ v.ville }}</option>
+                                                    {% endif %}
+                                                    <option value="{{ v.code }}">{{ v.ville }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <input class="checkbox checkbox-11 image-clignote" type="checkbox" value="" onclick="validate(11);">
+                                        </div>
+                                        <label class=" label_validation label-11">cocher la case pour valider ce changement</label>
+                                    </div>                              
+                                </div>
+                        </div>
+
+
+
+
+
+                        <div class="card card-edit-societe">
+                                <div class="card-body col-12 row">
+
+                                    <div class="form-group mb-12 col-lg-12 col-xlg-12 col-md-12 col-sm-12">
+                                        <h4>Informations Juridiques</h4>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">forme juridique :</label>
+                                        <div class="col-md-12 change-box-group select-12">
+                                            <select name="type" class="input-12 firmes code_forme_jur forme_juridique form-control" data-live-search="true" data-live-search-style="startsWith" onchange="callCheckbox(12);">
+                                                <option value=''></option>
+                                                {% for fj in formes_juridiques %}
+                                                    {% if fj.code == firme[0]['code_forme_jur'] %}
+                                                    <option data-tokens="{{ fj.code }}" value='Siège' selected>{{ fj.forme_jur }}</option>
+                                                    {% else %}
+                                                    <option data-tokens="{{ fj.code }}" value='Siège'>{{ fj.forme_jur }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                            <input class="checkbox checkbox-12 image-clignote" type="checkbox" value="" onclick="validate(12);">
+                                        </div>
+                                        <label class=" label_validation label-12">cocher la case pour valider ce changement</label>
+                                    </div>
+
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Capital :</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <input type="text" class="input-13 firmes cap capital form-control" name="rs_comp" value="{{ firme[0]['cap'] }}" onchange="callCheckbox(13);">
+                                            <input class="checkbox checkbox-13 image-clignote" type="checkbox" value="" onclick="validate(13);"> 
+                                        </div>
+                                        <label class=" label_validation label-13">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Registre de Commerce :</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <input type="text" class="input-14 firmes rc registre_de_commerce form-control" name="rs_comp" value="{{ firme[0]['rc'] }}" onchange="callCheckbox(14);">
+                                            <input class="checkbox checkbox-14 image-clignote" type="checkbox" value="" onclick="validate(14);"> 
+                                        </div>
+                                        <label class=" label_validation label-14">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Ville du RC :</label>
+                                        <div class="col-md-12 change-box-group select-15">
+                                            <select class="input-15 firmes code_ville_rc ville_de_rc form-control" name="ville" onchange="callCheckbox(15);">
+                                                <option value=''></option>
+                                                {% for v in villes_list %}
+                                                    {% if v.code == firme[0]['code_ville_rc'] %}
+                                                    <option value="{{ v.code }}" selected >{{ v.ville }}</option>
+                                                    {% endif %}
+                                                    <option value="{{ v.code }}">{{ v.ville }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <input class="checkbox checkbox-15 image-clignote" type="checkbox" value="" onclick="validate(15);">
+                                        </div>
+                                        <label class=" label_validation label-15">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">ICE:</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <input type="text" class="input-16 firmes ref_ann_leg ice form-control" name="rs_comp" value="{{ firme[0]['ref_ann_leg'] }}" onchange="checkIce(16);">
+                                            <input class="checkbox checkbox-16 image-clignote" type="checkbox" value="" onclick="validate(16);"> 
+                                        </div>
+                                        <span class="validation_span span_ice-16">Le champ ice est invalid</span>
+                                        <label class=" label_validation label-16">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Identifiant fiscal :</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <input type="text" class="input-17 firmes ident_fisc identifiant_fiscal form-control" name="rs_comp" value="{{ firme[0]['ident_fisc'] }}" onchange="callCheckbox(17);">
+                                            <input class="checkbox checkbox-17 image-clignote" type="checkbox" value="" onclick="validate(17);"> 
+                                        </div>
+                                        <label class=" label_validation label-17">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Taxe professionnelle :</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <input type="text" class="input-18 firmes patente patente form-control" name="rs_comp" value="{{ firme[0]['patente'] }}" onchange="callCheckbox(18);">
+                                            <input class="checkbox checkbox-18 image-clignote" type="checkbox" value="" onclick="validate(18);"> 
+                                        </div>
+                                        <label class=" label_validation label-18">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Année création :</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <input type="text" class="input-19 firmes annee_inscr année_création form-control" name="rs_comp" value="{{ firme[0]['annee_inscr'] }}" onchange="checkYear(19);">
+                                            <input class="checkbox checkbox-19 image-clignote" type="checkbox" value="" onclick="validate(19);"> 
+                                        </div>
+                                        <span class="validation_span span_year-19">Le champ Année de création est invalid</span>
+                                        <label class=" label_validation label-19">cocher la case pour valider ce changement</label>
+                                    </div>
+
+                                    <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                        <label class="col-md-12 p-0">Cnss :</label>
+                                        <div class="col-md-12 change-box-group">
+                                            <input type="text" class="input-20 firmes cnss cnss form-control " name="rs_comp" value="{{ firme[0]['cnss'] }}" onchange="callCheckbox(20);">
+                                            <input class="checkbox checkbox-20 image-clignote" type="checkbox" value="" onclick="validate(20);"> 
+                                        </div>
+                                        <label class=" label_validation label-20">cocher la case pour valider ce changement</label>
+                                    </div>                                  
+                                   
+                                </div>
+                        </div>
+
+                        <div class="card card-edit-societe">
+                            <div class="card-body col-12 row">
+                                <div class="form-group mb-12 col-lg-12 col-xlg-12 col-md-12 col-sm-12">
+                                    <h4>Informations Financières</h4>
+                                </div>
+                                <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                    <label class="col-md-12 p-0">Tranche CA :</label>
+                                    <div class="col-md-12 change-box-group select-31">
+                                        <select class="input-31 firmes gamme_ca tranche_ca form-control" name="ville" onchange="callCheckbox(31);">
+                                            <option value=''></option>
+                                            {% for gca in gamme_ca %}
+                                                {% if gca.gamme_ca == firme[0]['gamme_ca'] %}
+                                                    <option value="{{ gca.gamme_ca }}" selected >{{ gca.libelle }}</option>
+                                                {% endif %}
+                                                    <option value="{{ gca.gamme_ca }}">{{ gca.libelle }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <input class="checkbox checkbox-31 image-clignote" type="checkbox" value="" onclick="validate(31);"> 
+                                    </div>
+                                    <label class=" label_validation label-31">cocher la case pour valider ce changement</label>
+                                </div> 
+
+                                <!-- {#<div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                    <label class="col-md-12 p-0">CA :</label>
+                                    <div class="col-md-12 change-box-group">
+                                        <input type="text" class="input-32 firmes ca ca form-control" name="rs_comp" value="{{ firme[0]['ca'] }}" onchange="callCheckbox(32);"> 
+                                        <input class="checkbox checkbox-32" type="checkbox" value="" onclick="validate(32);"> 
+                                    </div>
+                                </div>#} -->
+                            </div>
+                        </div>
+
+
+                        <div class="card card-edit-societe">
+                            
+                                <div class="card-body col-12 row">
+                                    
+                                    <div class="form-group mb-12 col-lg-12 col-xlg-12 col-md-12 col-sm-12">
+                                        <h4>Coordonnées</h4>
+                                    </div>
+
+
+
+                                    
+                                    <div class="tts_portable row" >
+                                        <input type="hidden" id="lien_portable_count" value="{{ lien_portable_count }}">
+                                        {% for tel in lien_portable %}
+                                        <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                            <label class="col-md-12 p-0">Portable {{ loop.index }} :</label>
+                                            <div class="col-md-12 change-box-group">
+                                                <input type="text" class="input-7{{ loop.index }} lien_portable portable portable form-control" value="{{ tel.portable }}" onchange="checkPhone('7{{ loop.index }}');"> 
+                                                <input class="checkbox checkbox-7{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('7{{ loop.index }}');">
+                                            </div>
+                                            <span class="validation_span span_telephone-7{{ loop.index }}">Le champ portable est invalid</span>
+                                            <label class=" label_validation label-7{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                        </div>
+                                        {% endfor %}                                        
+                                    </div>
+                                    <span class="add_new_row" onclick="add_portable();" {% if lien_portable_count == 0 %} style="margin-top: 10px;" {% endif %}><i class="fas fa-plus-circle" ></i> Ajouter portable </span>
+
+                                    <hr class="margin-hr">
+
+                                    <div class="tts_telephone row" >
+                                        <input type="hidden" id="lien_telephone_count" value="{{ lien_telephone_count }}">
+                                        {% for tel in lien_telephone %}
+                                        <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                            <label class="col-md-12 p-0">Téléphone {{ loop.index }} :</label>
+                                            <div class="col-md-12 change-box-group">
+                                                <input type="text" class="input-4{{ loop.index }} lien_telephone tel téléphone form-control" value="{{ tel.tel }}" onchange="checkPhone('4{{ loop.index }}');"> 
+                                                <input class="checkbox checkbox-4{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('4{{ loop.index }}');">
+                                            </div>
+                                            <span class="validation_span span_telephone-4{{ loop.index }}">Le champ téléphone est invalid</span>
+                                            <label class=" label_validation label-4{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <span class="add_new_row" onclick="add_tel();" {% if lien_telephone_count == 0 %} style="margin-top: 10px;" {% endif %}><i class="fas fa-plus-circle"></i> Ajouter téléphone </span>
+
+                                    <hr class="margin-hr">
+
+                                    <div class="tts_fax row" >
+                                        <input type="hidden" id="lien_fax_count" value="{{ lien_fax_count }}">
+                                        {% for f in lien_fax %}
+                                        <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                            <label class="col-md-12 p-0">Fax {{ loop.index }} :</label>
+                                            <div class="col-md-12 change-box-group">
+                                              <input type="text" class="input-8{{ loop.index }} lien_fax fax fax form-control" value="{{ f.fax }}" onchange="checkPhone('8{{ loop.index }}');"> 
+                                                <input class="checkbox checkbox-8{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('8{{ loop.index}}');">
+                                            </div>
+                                            <span class="validation_span span_telephone-8{{ loop.index }}">Le champ fax est invalid</span>
+                                            <label class=" label_validation label-8{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <span class="add_new_row" onclick="add_fax();" {% if lien_fax_count == 0 %} style="margin-top: 10px;" {% endif %}><i class="fas fa-plus-circle"></i> Ajouter fax </span>
+
+                                    <hr class="margin-hr">
+
+                                    <div class="tts_email row" >
+                                        <input type="hidden" id="lien_email_count" value="{{ lien_email_count }}">
+                                        {% for e in lien_email %}
+                                        <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                            <label class="col-md-12 p-0">Email {{ loop.index }}:</label>
+                                            <div class="col-md-12 change-box-group">
+                                                <input type="text" class="input-5{{ loop.index }} lien_email email email form-control" value="{{ e.email }}" onchange="checkEmail('5{{ loop.index }}');"> 
+                                                <input class="checkbox checkbox-5{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('5{{ loop.index }}');">
+                                            </div>
+                                            <span class="validation_span span_email-5{{ loop.index }}">Le champ email est invalid</span>
+                                            <label class=" label_validation label-5{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <span class="add_new_row" onclick="add_email();" {% if lien_email_count == 0 %} style="margin-top: 10px;" {% endif %}><i class="fas fa-plus-circle"></i> Ajouter email </span>
+
+                                    <hr class="margin-hr">
+
+                                    <div class="tts_web row" >
+                                        <input type="hidden" id="lien_web_count" value="{{ lien_web_count }}">
+                                        {% for w in lien_web %}
+
+                                        <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                            <label class="col-md-12 p-0">Site web {{ loop.index }}:</label>
+                                            <div class="col-md-12 change-box-group">
+                                           <input type="text" class="input-6{{ loop.index }} lien_web web site_web form-control" value="{{ w.web }}" onchange="callCheckbox('6{{ loop.index }}');"> 
+                                                <input class="checkbox checkbox-6{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('6{{ loop.index }}');">
+                                            </div>
+                                            <label class="label_validation label-6{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                        </div>
+
+                                        {% endfor %}
+                                    </div>
+                                    <span class="add_new_row" onclick="add_site();" {% if lien_web_count == 0 %} style="margin-top: 10px;" {% endif %}><i class="fas fa-plus-circle"></i> Ajouter site web </span>
+
+                                    <hr class="margin-hr">
+
+                                    <div class="col-md-12 col-sm-12 col-xs-12 row form-group mb-4" >
+                                        <label>Géolocalisation : <span class="span_ll_1"> * Merci de vous positionner sur la carte</span></label><br>
+                                        <div class="col-md-8 col-sm-8 col-xs-12  form-box" >
+                                            <div id="map_canvas" style="width:100%;height:240px;"> </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-4 col-xs-12 row form-box" style="margin-left: -7px;">
+                                            <div class="form-infosgenerales-input form-inline col-xs-6" style="float: left;flex-flow: unset;">
+                                                <label style="" for="entreprise_longitude">Longitude</label>
+                                                <div class="change-box-group">
+                                                    <input class="input-68 firmes longitude longitude  form-control geo-form" type="text" id="entreprise_longitude" placeholder="-7.662837633374018" value="{{ firme[0]['longitude'] }}" style="margin: 8px 8px 10px 8px;" onchange="callCheckbox(68);"/>
+                                                    <input class="checkbox checkbox-68 image-clignote" type="checkbox" value="" onclick="validate(68);"> 
+                                                </div>
+                                                <label class=" label_validation label-68">cocher la case pour valider ce changement</label>
+                                            </div>
+
+                                            <div class="form-infosgenerales-input form-inline col-xs-6" style="flex-flow: unset;">
+                                                <label style="" for="entreprise_latitude">Latitude</label>
+                                                <div class="change-box-group">
+                                                    <input class="input-69 firmes latitude latitude  form-control geo-form" type="text" id="entreprise_latitude" placeholder="33.5724925790594" value="{{ firme[0]['latitude'] }}" style="margin: 8px 8px 10px 8px; " onchange="callCheckbox(69);"/>
+                                                    <input class="checkbox checkbox-69 image-clignote" type="checkbox" value="" onclick="validate(69);"> 
+                                                </div>
+                                                <label class=" label_validation label-69">cocher la case pour valider ce changement</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                    
+                                </div>
+                            
+                        </div>
+
+
+                        <div class="card card-edit-societe">
+                            
+                                <div class="card-body col-12 row">
+                                    
+                                    <div class="form-group mb-12 col-lg-12 col-xlg-12 col-md-12 col-sm-12">
+                                        <h4>Dirigeants</h4>
+                                    </div>
+
+
+                                    <div class="tts_dirigeant row " >
+                                        <input type="hidden" id="lien_dirigeant_count" value="{{ lien_dirigeant_count }}">
+                                        {% for dirigeant in lien_dirigeant %}
+
+                                        
+                                            <h5>Dirigeant {{ loop.index }} <i class="fas fa-minus-circle dirigeant-{{ dirigeant.id }}" onclick="delete_dirigeant('{{ dirigeant.id }}');" id="{{ loop.index }}"></i> </h5>
+                                            <div class="row row-dirigeant{{ loop.index }}"></div>
+                                            <input type="hidden" class="code-personne-{{ loop.index }}" value="{{ dirigeant.code_personne }}" >
+                                            <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                                <label class="col-md-12 p-0">Sexe :</label>
+                                                <div class="col-md-12 change-box-group select-dir_sex_9{{ loop.index }}">
+                                                    <select class="input-dir_sex_9{{ loop.index }} personne sex sexe form-control" onchange="callCheckbox('dir_sex_9{{ loop.index }}');">
+                                                        <option value=""></option>
+                                                        <option value="M" {% if dirigeant.sex == 'M' %} selected {% endif %}>M</option>
+                                                        <option value="F" {% if dirigeant.sex == 'F' %} selected {% endif %}>F</option>
+                                                    </select>
+                                                    <input class="checkbox checkbox-dir_sex_9{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('dir_sex_9{{ loop.index }}');">
+                                                </div>
+                                                <label class=" label_validation label-dir_sex_9{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                            </div>
+
+                                            <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                                <label class="col-md-12 p-0">Civilité :</label>
+                                                <div class="col-md-12 change-box-group select-dir_civilite_9{{ loop.index }}">
+                                                    <select class="input-dir_civilite_9{{ loop.index }} personne civilite civilité form-control" onchange="callCheckbox('dir_civilite_9{{ loop.index }}');">
+                                                        <option value=''></option>
+                                                        {% for c in lien_civilite %}
+                                                            {% if c.code == dirigeant.civilite %}
+                                                                <option value="{{ c.code }}" selected >{{ c.civilite }}</option>
+                                                            {% endif %}
+                                                                <option value="{{ c.code }}">{{ c.civilite }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <input class="checkbox checkbox-dir_civilite_9{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('dir_civilite_9{{ loop.index }}');">
+                                                </div>
+                                                <label class=" label_validation label-dir_civilite_9{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                            </div>
+
+                                            <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                                <label class="col-md-12 p-0">Fonction :</label>
+                                                <div class="col-md-12 change-box-group select-dir_fonction_9{{ loop.index }}">
+                                                    <select class="input-dir_fonction_9{{ loop.index }} lien_dirigeant code_fonction fonction form-control" onchange="callCheckbox('dir_fonction_9{{ loop.index }}');">
+                                                        <option value=''></option>
+                                                        {% for f in lien_fonction %}
+                                                            {% if f.code == dirigeant.code_fonction %}
+                                                                <option value="{{ f.code }}" selected >{{ f.fonction }}</option>
+                                                            {% endif %}
+                                                                <option value="{{ f.code }}">{{ f.fonction }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <input class="checkbox checkbox-dir_fonction_9{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('dir_fonction_9{{ loop.index }}');">
+                                                </div>
+                                                <label class=" label_validation label-dir_fonction_9{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                            </div>
+
+                                            <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                                <label class="col-md-12 p-0">Nom :</label>
+                                                <div class="col-md-12 change-box-group">
+                                                    <input type="text" class="input-dir_nom_9{{ loop.index }} personne nom nom form-control" value="{{ dirigeant.nom }}" onchange="callCheckbox('dir_nom_9{{ loop.index }}');"> 
+                                                    <input class="checkbox checkbox-dir_nom_9{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('dir_nom_9{{ loop.index }}');">
+                                                </div>
+                                                <label class=" label_validation label-dir_nom_9{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                            </div>
+
+                                            <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                                <label class="col-md-12 p-0">Prenom :</label>
+                                                <div class="col-md-12 change-box-group">
+                                                    <input type="text" class="input-dir_prenom_9{{ loop.index }} personne prenom prenom form-control" value="{{ dirigeant.prenom }}" onchange="callCheckbox('dir_prenom_9{{ loop.index }}');"> 
+                                                    <input class="checkbox checkbox-dir_prenom_9{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('dir_prenom_9{{ loop.index }}');">
+                                                </div>
+                                                <label class=" label_validation label-dir_prenom_9{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                            </div>
+
+                                            <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                                <label class="col-md-12 p-0">Email :</label>
+                                                <div class="col-md-12 change-box-group">
+                                                    <input type="text" class="input-dir_email_9{{ loop.index }} lien_dirigeant email email form-control" value="{{ dirigeant.email }}" onchange="checkEmail('dir_email_9{{ loop.index }}');"> 
+                                                    <input class="checkbox checkbox-dir_email_9{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('dir_email_9{{ loop.index }}');">
+                                                </div>
+                                                <span class="validation_span span_email-dir_email_9{{ loop.index }}">Le champ email est invalid</span>
+                                                <label class=" label_validation label-dir_email_9{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                            </div>
+
+                                            <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                                <label class="col-md-12 p-0">Tel 1 :</label>
+                                                <div class="col-md-12 change-box-group">
+                                                    <input type="text" class="input-dir_tel_1_9{{ loop.index }} lien_dirigeant tel_1 telephone_1 form-control" value="{{ dirigeant.tel_1 }}" onchange="checkPhone('dir_tel_1_9{{ loop.index }}');"> 
+                                                    <input class="checkbox checkbox-dir_tel_1_9{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('dir_tel_1_9{{ loop.index }}');">
+                                                </div>
+                                                <span class="validation_span span_telephone-dir_tel_1_9{{ loop.index }}">Le champ telephone est invalid</span>
+                                                <label class=" label_validation label-dir_tel_1_9{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                            </div>
+
+                                            <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                                <label class="col-md-12 p-0">Tel 2 :</label>
+                                                <div class="col-md-12 change-box-group">
+                                                    <input type="text" class="input-dir_tel_2_9{{ loop.index }} lien_dirigeant tel_2 telephone_2 form-control" value="{{ dirigeant.tel_2 }}" onchange="checkPhone('dir_tel_2_9{{ loop.index }}');"> 
+                                                    <input class="checkbox checkbox-dir_tel_2_9{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('dir_tel_2_9{{ loop.index }}');">
+                                                </div>
+                                                <span class="validation_span span_telephone-dir_tel_2_9{{ loop.index }}">Le champ telephone est invalid</span>
+                                                <label class=" label_validation label-dir_tel_2_9{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                            </div>
+
+                                            <div class="form-group mb-4 col-lg-4 col-xlg-4 col-md-6 col-sm-12">
+                                                <label class="col-md-12 p-0">Fax :</label>
+                                                <div class="col-md-12 change-box-group">
+                                                    <input type="text" class="input-dir_fax_9{{ loop.index }} lien_dirigeant fax fax form-control" value="{{ dirigeant.fax }}" onchange="checkPhone('dir_fax_9{{ loop.index }}');"> 
+                                                    <input class="checkbox checkbox-dir_fax_9{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('dir_fax_9{{ loop.index }}');">
+                                                </div>
+                                                <span class="validation_span span_telephone-dir_fax_9{{ loop.index }}">Le champ fax est invalid</span>
+                                                <label class=" label_validation label-dir_fax_9{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <span class="add_new_row add_new_dirigeant" onclick="add_dirigeant();"><i class="fas fa-plus-circle" ></i> Ajouter dirigeant </span>
+                                </div>
+                            
+                        </div>
+
+
+                        <div class="card card-edit-societe ">
+                            
+                                <div class="card-body col-8 row">
+                                    
+                                    <div class="form-group mb-12 col-lg-12 col-xlg-12 col-md-12 col-sm-12">
+                                        <h4>Prestations</h4>
+                                    </div>
+
+
+                                    <div class="tts_prestation row" >
+                                        <input type="hidden" {% if liste_prestation_count %} id="liste_prestation_count" value="{{ liste_prestation_count }}" {% else %} id="liste_prestation_count" value="{{ liste_prestation_count }}" {% endif %}>
+                                        {% if liste_prestation_count != 0 %}                 
+                                        <table class="table table-hover">
+                                          <thead>
+                                            <tr>
+                                              <th scope="col">Rubrique</th>
+                                              <th scope="col">Prestation</th>
+                                              <th scope="col"></th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            {% for prestation in liste_prestation %}
+                                            <tr class="tr_{{ prestation.id }}">
+                                              <td><p>{{ prestation.Lib_Rubrique }}</p></td>
+                                              <!-- <td class="td_rub_{{ prestation.id }}" id="{{ prestation.Lib_Rubrique }}">
+                                                  <select class="input-prestation_rub{{ loop.index}} firme_prestation rubrique_id rubrique form-control prestation_rub{{ loop.index }}" onchange="changeRubrique('{{ loop.index }}');" id="{{ prestation.Code_Rubrique }}">
+                                                    <option value=""></option>
+                                                    {% for r in lien_rubrique %}
+                                                        {% if r.Code_Rubrique ==  prestation.Code_Rubrique %}
+                                                            <option value="{{ r.Code_Rubrique }}" selected>{{ r.Lib_Rubrique }}</option>
+                                                        {% else %}
+                                                            <option value="{{ r.Code_Rubrique }}">{{ r.Lib_Rubrique }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                  </select>
+                                                  <input class="checkbox checkbox-prestation_rub{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('prestation_rub{{ loop.index }}');">
+                                                  <label class=" label_validation label-prestation_rub{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                              </td> -->
+                                              <!-- <td class="td_{{ prestation.id }}" id="{{ prestation.prestation }}">{{ prestation.prestation }}</td> -->
+                                              <td class="td_{{ prestation.id }}" id="{{ prestation.prestation }}">
+                                                <input type="text" id="{{ prestation.id }}" class="input-prestation{{ loop.index }} firme_prestation prestation prestation form-control zone-prestation prestation{{ loop.index }}" value="{{ prestation.prestation }}" onchange="changePrestation('{{ loop.index }}');">
+                                                <input class="checkbox checkbox-prestation{{ loop.index }} image-clignote" type="checkbox" value="" onclick="validate('prestation{{ loop.index }}');">
+                                                <label class=" label_validation label-prestation{{ loop.index }}">cocher la case pour valider ce changement</label>
+                                              </td>
+                                              
+                                              <td><i class="fas fa-minus-circle" onclick="delete_prestation('{{ prestation.id }}');"></i></td>
+                                            </tr>
+                                            {% endfor %}
+                                          </tbody>
+                                        </table>
+                                        {% endif %}
+                                    </div>
+
+                                    <span class="add_new_row add_new_prestation" onclick="add_prestation();" style="margin-top: 0px;"><i class="fas fa-plus-circle" ></i> Ajouter prestation </span>
+
+                                </div>
+
+                                <!--{# <div class="card-body col-6 row">
+                                    
+                                    <div class="form-group mb-12 col-lg-12 col-xlg-12 col-md-12 col-sm-12">
+                                        <h4>Marques</h4>
+                                    </div>
+
+
+                                    <div class="tts_marques row" >
+                                        <input type="hidden" id="liste_prestation_count" value="{{ liste_marque_count }}">
+                                                            
+                                        <table class="table table-hover">
+                                          <thead>
+                                            <tr>
+                                              <th scope="col">Nom</th>
+                                              <th scope="col">Pays</th>
+                                              <th scope="col">Description</th>
+                                              <th scope="col"></th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            {% for marque in liste_marque %}
+                                            <tr>
+                                              <td>{{ marque.nom_marque }}</td>
+                                              <td>{{ marque.pays }}</td>
+                                              <td>{{ marque.description }}</td>
+                                              <td><i class="fas fa-minus-circle" ></i></td>
+                                            </tr>
+                                            {% endfor %}
+                                          </tbody>
+                                        </table>
+                                    </div>
+
+                                    <span class="add_new_row add_new_marque" onclick="add_marque();"><i class="fas fa-plus-circle" ></i> Ajouter marque </span>
+
+                                </div>#} -->
+                            
+                        </div>
+
+                    </div>
+                    <!-- Column -->
+                </div>
+        </div>
+    </div>  
+
+
+</div>
+</div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+    <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+    </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+</div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+     
+
+{% endblock %}
+{% block javascripts %}
+
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false&amp;key=AIzaSyCGKzvMhYdksA_GltyggA7RftPYZW75gjw"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{{ asset('public_statistics/js/edit-societe.js') }}"></script>
+
+
+
+    <script type="text/javascript">
+
+        /* enregistrer la modif du champ */    
+
+        function validate(id){
+
+            let validate = $('.checkbox-'+id);
+
+            if($(".checkbox-"+id).is(":checked")){
+                var value = $("#input-"+id).val();  
+                var data  = $('.input-'+id).attr("class").split(" ");
+
+                var id_user        = $("#id_user").val();
+                var code_firme     = $("#code_firme").val();  
+                var table          = data[1];
+                var table_row      = data[2];
+                var champ          = data[3];
+                var operation      = data[4];
+                var new_val        = $(".input-"+id).val(); 
+
+                if(table != 'firme_prestation'){
+                   var id_prestation ='';
+                }else{
+                   var id_prestation  = $(".input-"+id).attr('id'); 
+                }                
+
+
+                if(table == 'lien_dirigeant' || table == 'personne'){
+                    var lastChar = id.substr(id.length - 1);
+                    var code_personne  = $('.code-personne-'+lastChar).val(); 
+                }else{
+                    var code_personne  = '';
+                }          
+
+                $.ajax({
+                    url: "{{path('modifierSocieteData')}}",
+                    type:'POST',
+                    data: {'code_firme': code_firme, 'table' : table, 'table_row': table_row, 'champ': champ, 'new_val': new_val, 'id': id, 'operation': operation, 'code_personne': code_personne, 'id_user': id_user, 'id_prestation': id_prestation},
+                    success: function(data){
+                        $('.input-'+id).css('background-color', '#e4f5db');
+                        $('.input-'+id).css('border', '2px solid rgb(39 139 37 / 37%)');
+                        $('.select-'+id+' .select2-container--bootstrap-5 .select2-selection').css('background-color', '#e4f5db');
+                        $('.select-'+id+' .select2-container--bootstrap-5 .select2-selection').css('border', '2px solid rgb(39 139 37 / 37%)');
+                        $(".checkbox-"+id).prop("checked", false);
+                        $(".checkbox-"+id).css('display','none');
+                        $(".label-"+id).css('display','none');
+                        $(".block-info").css('display','block');
+                    }
+                }); 
+            }
+
+        }
+        /* end enregistrer la modif du champ */
+
+        /* Supprimer la modif du champ */
+        function delete_edit(id){
+            var res = confirm("Êtes-vous sûr de vouloir supprimer cette demande de modification?");
+            if(res){
+                $.ajax({
+                    url: "{{path('deleteSocieteEdit')}}",
+                    type:'POST',
+                    data:{'id': id},
+                    success:function(result){
+                        $(".box_"+id).css('display' , 'none');
+                    }
+                });
+            }
+        }
+        /* end supprimer la modif du champ */
+
+        /* save dirigeant */
+
+        function save_dirigeant(num_dirigeant){
+
+                var code_firme     = $('#code_firme').val();
+                var sexe           = $('.input-dir_sex_9'+num_dirigeant).val();
+                var civilite       = $('.input-dir_civilite_9'+num_dirigeant).val();
+                var fonction       = $('.input-dir_fonction_9'+num_dirigeant).val();
+                var nom            = $('.input-dir_nom_9'+num_dirigeant).val();
+                var prenom         = $('.input-dir_prenom_9'+num_dirigeant).val();
+                var email          = $('.input-dir_email_9'+num_dirigeant).val();
+                var tel_1          = $('.input-tel-dir_tel_1_9'+num_dirigeant).val();
+                var tel_2          = $('.input-tel-dir_tel_2_9'+num_dirigeant).val();
+                var fax            = $('.input-tel-dir_fax_9'+num_dirigeant).val();
+                
+
+                var reg   = new RegExp("^0|[1-9][0-9]*$");
+                var reg_email = new RegExp("(.+)@(.+){2,}\.(.+){2,}");
+
+                if(email == ""){
+                    $('.span_required-dir_email_9'+num_dirigeant).css('display','block');
+                }else{
+                    $('.span_required-dir_email_9'+num_dirigeant).css('display','none');
+                }
+
+                if(tel_1 == ""){
+                    $('.span_tel1_required-dir_tel_1_9'+num_dirigeant).css('display','block');
+                }else{
+                    $('.span_tel1_required-dir_tel_1_9'+num_dirigeant).css('display','none');
+                }
+
+                if(nom == ""){
+                    $('.span_required-dir_nom_9'+num_dirigeant).css('display','block');
+                }else{
+                    $('.span_required-dir_nom_9'+num_dirigeant).css('display','none');
+                }
+
+                if(prenom == ""){
+                    $('.span_required-dir_prenom_9'+num_dirigeant).css('display','block');
+                }else{
+                    $('.span_required-dir_prenom_9'+num_dirigeant).css('display','none');
+                }
+
+                if(fonction == ""){
+                    $('.span_required-dir_fonction_9'+num_dirigeant).css('display','block');
+                }else{
+                    $('.span_required-dir_fonction_9'+num_dirigeant).css('display','none');
+                }
+
+                
+                if(nom !="" && prenom !="" && fonction !="" && reg.test(tel_1) && tel_1.length >= 10 && tel_1.length <= 20&& reg_email.test(email) && (tel_2 =="" || reg.test(tel_2) && tel_2.length >= 10 && tel_2.length <= 20) && (fax =="" || reg.test(fax) && fax.length >= 10 && fax.length <= 20) ){
+
+                    $.ajax({
+                        url :"{{ path('saveDirigeant')}}",
+                        type: 'POST',
+                        data: {'sexe':sexe, 'civilite':civilite, 'fonction':fonction, 'nom':nom, 'prenom':prenom, 'email':email, 'tel_1':tel_1, 'tel_2':tel_2, 'fax':fax, 'code_firme':code_firme},
+                        success:function(result){
+                            $('.saveDirigeant'+num_dirigeant).css('display','none');
+                            $('.box_dirigeant_'+num_dirigeant).append(`<div class="alert alert-success" role="alert" style="margin-top: -25px; margin-left: 12px;">Votre demande d'ajouter un dirigeant a été bien enregistré.</div>`);
+                        }
+                    });
+                }
+
+        }
+
+        /* end save dirigeant */
+
+
+        /* delete edit dirigeant */
+
+        function delete_edit_dirigeant(id){
+            var res = confirm("Êtes-vous sûr de vouloir supprimer cette demande d'ajout dirigeant?");
+            if(res){
+                $.ajax({
+                    url: "{{path('deleteSocieteDirigeantEdit')}}",
+                    type:'POST',
+                    data:{'id': id},
+                    success:function(result){
+                        $(".box_dir"+id).css('display' , 'none');
+                    }
+                });
+            }
+        }
+
+        /* end delete edit dirigeant */
+
+
+        /* add prestation */
+
+        function add_prestation(){
+            var lien_prestation_count = $('#liste_prestation_count').val();
+            lien_prestation_count     = ++lien_prestation_count;
+            $('#liste_prestation_count').val(lien_prestation_count);
+
+            $('.tts_prestation').append(`
+                <div class="box_prestation_${lien_prestation_count} appended_dir row" >
+                    <h5>Prestation ${lien_prestation_count}</h5>
+
+                    <input type="hidden" class="code-personne-${lien_prestation_count}" value="" />
+
+                    <div class="form-group mb-12 col-lg-6 col-xlg-6 col-md-6 col-sm-12">
+                        <label class="col-md-12 p-0">Rubrique :</label>
+                        <div class="col-md-12 change-box-group">
+                            <select class="input-prestation_rubrique${lien_prestation_count} firme_prestation rubrique_id rubrique form-control" onchange="checkRubrique('prestation_rubrique${lien_dirigeant_count}');">
+                                <option value=""></option>
+                                {% for r in lien_rubrique %}
+                                    <option value="{{ r.Code_Rubrique }}">{{ r.Lib_Rubrique }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <span class="validation_span span_required-prestation_rubrique${lien_prestation_count}">le champs rubrique est obligatoire</span>
+                    </div>
+
+                    <div class="form-group mb-12 col-lg-6 col-xlg-6 col-md-6 col-sm-12">
+                        <label class="col-md-12 p-0">prestation :</label>
+                        <div class="col-md-12 change-box-group">
+                            <input type="text" class="input-prestation_prestation${lien_prestation_count} firme_prestation prestation prestation form-control" value="" onblur="checkPrestation('prestation_prestation${lien_dirigeant_count}');" >
+                        </div>
+                        <span class="validation_span span_required-prestation_prestation${lien_prestation_count}">le champs prestation est obligatoire</span>
+                    </div>
+
+                    <div class="form-group mb-12 col-lg-12 col-xlg-12 col-md-6 col-sm-12">
+                        <button type="button" class="btn btn-success savePrestation savePrestation${lien_prestation_count}" onclick="save_prestation('${lien_prestation_count}');" >Valider</button>
+                    </div>
+
+                </div>
+            `);                                                                                  
+        }
+
+        /* end add prestation */
+
+        /* save prestation */
+
+        function save_prestation(num_dirigeant){
+
+                var code_firme     = $('#code_firme').val();
+                var rubrique       = $('.input-prestation_rubrique'+num_dirigeant).val();
+                var prestation     = $('.input-prestation_prestation'+num_dirigeant).val();
+                var action         = 1;
+
+                var reg   = new RegExp("^0|[1-9][0-9]*$");
+                var reg_email = new RegExp("(.+)@(.+){2,}\.(.+){2,}");
+
+                if(rubrique == ""){
+                    $('.span_required-prestation_rubrique'+num_dirigeant).css('display','block');
+                }else{
+                    $('.span_required-prestation_rubrique'+num_dirigeant).css('display','none');
+                }
+
+                if(prestation == ""){
+                    $('.span_required-prestation_prestation'+num_dirigeant).css('display','block');
+                }else{
+                    $('.span_required-prestation_prestation'+num_dirigeant).css('display','none');
+                }
+
+                
+
+                
+                if(rubrique !="" && prestation !=""){
+                    $.ajax({
+                        url :"{{ path('savePrestation')}}",
+                        type: 'POST',
+                        data: {'rubrique':rubrique, 'prestation':prestation, 'code_firme':code_firme, 'action':action},
+                        success:function(result){
+                            $('.savePrestation'+num_dirigeant).css('display','none');
+                            $('.box_prestation_'+num_dirigeant).append(`<div class="alert alert-success" role="alert" style="margin-top: -25px; margin-left: 12px;">Votre demande d'ajout prestation a été bien enregistré.</div>`);
+                        }
+                    });
+                }
+
+        }
+
+        /* end save dirigeant */
+
+
+        /* delete edit prestation */
+
+        function delete_edit_prestation(id){
+            var res = confirm("Êtes-vous sûr de vouloir supprimer cette demande d'ajout prestation?");
+            if(res){
+                $.ajax({
+                    url: "{{path('deleteSocietePrestationEdit')}}",
+                    type:'POST',
+                    data:{'id': id},
+                    success:function(result){
+                        $(".box_pres"+id).css('display' , 'none');
+                    }
+                });
+            }
+        }
+
+        /* end delete edit prestation */
+
+        /* delete prestation */
+
+        function delete_prestation(id){
+            var res = confirm("Êtes-vous sûr de vouloir supprimer cette prestation?");
+            if(res){
+                var code_firme     = $('#code_firme').val();
+                var prestation     = $('.td_'+id).attr('id');
+                $.ajax({
+                    url: "{{path('deleteSocietePrestation')}}",
+                    type:'POST',
+                    data:{'id': id, 'code_firme':code_firme, 'prestation':prestation},
+                    success:function(result){
+                        $('.tts_prestation').append(`<div class="alert alert-success" role="alert" style="margin-top: -25px; margin-left: 12px;">Votre demande de suppression de la prestation "${prestation}" a été bien enregistré.</div>`);
+                    }
+                });
+            }
+        }
+
+        function delete_dirigeant(id){
+            var res = confirm("Êtes-vous sûr de vouloir supprimer ce dirigeant?");
+            if(res){
+                var index          = $('.dirigeant-'+id).attr('id').split('');
+                var code_firme     = $('#code_firme').val();
+                var prenom         = $('.input-dir_prenom_9'+index).val();;
+                var nom            = $('.input-dir_nom_9'+index).val();;
+                var code_personne  = $('.code-personne-'+index).val();
+                $.ajax({
+                    url: "{{path('deleteSocieteDirigeant')}}",
+                    type:'POST',
+                    data:{'id': id, 'code_firme':code_firme, 'prenom':prenom, 'nom':nom, 'code_personne':code_personne},
+                    success:function(result){
+                        $('.row-dirigeant'+index).append(`<div class="alert alert-success" role="alert" style="margin-left: 12px;">Votre demande de suppression du dirigeant "${nom} ${prenom}" a été bien enregistré.</div>`);
+                    }
+                });
+            }
+        }
+
+        /* end delete prestation */
+
+        /* edit prestation */
+        function changePrestation(index){
+
+            $(".checkbox-prestation"+index).css('display','block');
+            $(".label-prestation"+index).css('display','block'); 
+        }
+
+        function changeRubrique(index){
+
+            $(".checkbox-prestation_rub"+index).css('display','block');
+            $(".label-prestation_rub"+index).css('display','block'); 
+        }
+
+        /*function validerPrestation(index){
+
+            var prestation = $('.prestation'+index).val();
+            var id         = $('.prestation'+index).attr('id').split('  ');
+            alert(prestation);
+            alert(id); 
+
+        }*/
+        /* end edit prestation */
+
+         
+    </script>
+           
+ {% endblock %}

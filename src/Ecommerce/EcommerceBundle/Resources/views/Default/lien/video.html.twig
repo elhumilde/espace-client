@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>E-contact | Vidéos</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/video.css') }}" />
+    <style>
+        .demo_show {
+            width: 271px;
+            height: 61px;
+            background-color: #ffdb2e;
+            color: black;
+            font-size: 20px;
+            margin: 15px;
+        }
+        .glyphicon
+        {
+            color: black!important;
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+<section  id="fond-4">
+
+    <div align="center" class="container">
+
+        <div class="row">
+            <div class="col-md-12 col-ms-12 col-xs-12">
+                <div align="center">
+                    <img src="{{ asset('img/lien/Argument1.jpg') }}" alt="image" class="responsive" style="margin:20px;">
+                </div>
+
+                <form class="form-inline">
+
+                    <div class="form-group ">
+                        <button type="button" class="btn show-product" data-toggle="collapse" data-target="#demo-10">
+                            Visualiser un exemple &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                        </button>
+                        <div id="demo-10" class="collapse">
+                            <img src="{{ asset('img/lien/Argument2.jpg') }}" alt="image" class="responsive" style="margin:20px;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn show-product" data-toggle="collapse" data-target="#demo-11">
+                            Exemple en ligne &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                        </button>
+                        <div id="demo-11" class="collapse">
+                            <div class="">
+                                <div class="form-group ">
+                                    <a href="https://www.youtube.com/watch?v=0aCpFBy5oFg&feature=youtu.be" target="_blank" class="btn demo" type="button">Graphique</a>
+                                </div>
+                                <div class="form-group">
+                                    <a href="https://www.youtube.com/watch?v=SrikeKiTjSQ&feature=youtu.be" target="_blank" class="btn demo" type="button">Corporate</a>
+                                </div>
+                                <div class="form-group">
+                                    <a href="https://www.youtube.com/watch?v=KfIFcoz86x0&feature=youtu.be" target="_blank" class="btn demo" type="button">Film-Interview</a>
+                                </div>
+                                <div class="form-group">
+                                    <a href="https://www.youtube.com/watch?time_continue=1&v=Xd84YbZmlvg" target="_blank" class="btn demo" type="button">Motion design</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <button type="button" class="btn show-product" data-toggle="collapse" data-target="#demo-12">
+                        + du détails sur le produit &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                    </button>
+                    <div id="demo-12" class="collapse" align=center>
+
+                        <div class="">
+                            <div class="form-group ">
+                                <button type="button" class="btn demo" data-toggle="collapse" data-target="#demo-g">
+                                    Graphique &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                </button>
+                                <div id="demo-g" class="collapse">
+                                    <img class="responsive" src="{{ asset('img/lien/Graphique.jpg') }}" alt="image">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn demo" data-toggle="collapse" data-target="#demo-r">
+                                    Corporate &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                </button>
+                                <div id="demo-r" class="collapse">
+                                    <img class="responsive" src="{{ asset('img/lien/Corporate.jpg') }}" alt="image">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn demo" data-toggle="collapse" data-target="#demo-f">
+                                    Film-Interview &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                </button>
+                                <div id="demo-f" class="collapse">
+                                    <img class="responsive" src="{{ asset('img/lien/Film-Interview.jpg') }}" alt="image">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn demo" data-toggle="collapse" data-target="#demo-m">
+                                    Motion design &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                </button>
+                                <div id="demo-m" class="collapse">
+                                    <img class="responsive" src="{{ asset('img/lien/Motion-Design.jpg') }}" alt="image">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+</body>
+</html>

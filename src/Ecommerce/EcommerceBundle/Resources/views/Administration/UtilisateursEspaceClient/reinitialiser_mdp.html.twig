@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>{% block title %} Réinitialiser le mot de passe de votre espace client {% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% block stylesheets %}
+
+<!--===============================================================================================-->  
+    <link rel="icon" type="image/png" href="{{ asset('public_statistics/login/images/icons/favicon.ico') }}"/>
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('public_statistics/login/vendor/bootstrap/css/bootstrap.min.css') }}">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('public_statistics/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('public_statistics/login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css') }}">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('public_statistics/login/vendor/animate/animate.css') }}">
+<!--===============================================================================================-->  
+    <link rel="stylesheet" type="text/css" href="{{ asset('public_statistics/login/vendor/css-hamburgers/hamburgers.min.css') }}">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('public_statistics/login/vendor/animsition/css/animsition.min.css') }}">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('public_statistics/login/vendor/select2/select2.min.css') }}">
+<!--===============================================================================================-->  
+    <link rel="stylesheet" type="text/css" href="{{ asset('public_statistics/login/vendor/daterangepicker/daterangepicker.css') }}">
+<!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('public_statistics/login/css/util.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public_statistics/login/css/main.css') }}">
+<!--===============================================================================================-->
+
+{% endblock %}
+
+</head>
+
+{% block body %}
+
+
+        <body>
+    
+    <div class="limiter">
+        <div style="background-image: url('{{ asset('public_statistics/login/images/bg-02.jpg') }}');background-repeat: no-repeat; background-attachment: fixed; background-position: center; background-size: cover;">
+            <a href="https://www.telecontact.ma/"><img class="img-responsive" title="Telecontact" src="/trouver/images/logo_black.png" alt="logo Telecontact Les Pages Jaunes du Maroc" style="width: 16%; margin-top: 20px; margin-left: 20px;"></a>
+
+        <div class="container-login100" >
+
+            <div class="wrap-login100 p-t-30 p-b-50">
+                <form method="post" class="login100-form validate-form p-b-33 p-t-5">
+
+                    <span class="login100-form-title p-b-41">
+                    Bienvenue sur votre <p class="login100-form-title-p p-b-41"><b> espace client </b></p>
+                    </span>
+
+                    <p style="text-align: center; margin-top: 28px;">Indiquez l’adresse email utilisée lors de votre inscription. Nous vous enverrons un lien pour changer de mot de passe. </p>
+
+                    {% for flash_message in app.session.flashBag.get('danger') %}
+                        <div class="alert alert-danger" style="margin: 15px;"><i class="fa fa-exclamation-triangle"></i>
+                            {{ flash_message }}
+                        </div>
+                    {% endfor %}
+
+                    <div class="wrap-input100 validate-input" data-validate = "Enter votre login">
+                        <input class="input100" type="text" name="email" id="email" placeholder="Login">
+                        <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+                    </div>
+
+                    
+
+                    <div class="container-login100-form-btn ">
+                        <button class="login100-form-btn">
+                            Envoyer
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+
+    <div id="dropDownSelect1"></div>
+    
+    <script src="{{ asset('public_statistics/login/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('public_statistics/login/vendor/animsition/js/animsition.min.js') }}"></script>
+    <script src="{{ asset('public_statistics/login/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('public_statistics/login/js/main.js') }}"></script>
+
+
+
+
+{% endblock %}
+
+</body>
+</html>

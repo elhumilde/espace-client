@@ -1,0 +1,198 @@
+{% extends "::layout/base.html.twig" %}
+
+{% block title %}E-contact | Envoi Statistique{% endblock %}
+{% block stylesheets %}
+
+<style type="text/css">
+    #pageloader
+    {
+      background: rgba( 255, 255, 255, 0.51 );
+      display: none;
+      height: 100%;
+      position: fixed;
+      width: 100%;
+      z-index: 9999;
+    }
+
+    #pageloader img
+    {
+      left: 50%;
+      margin-left: -32px;
+      margin-top: -32px;
+      position: absolute;
+      top: 50%;
+    }
+
+</style>
+ <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Bootstrap Contact Form To Send Email On Form Submission - reusable form</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <link rel="stylesheet" href="{{ asset('bundles/pro1googleanalytics/css/form.css') }}" >
+        <script src="{{ asset('bundles/pro1googleanalytics/js/form.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" 
+        integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"
+        crossorigin="anonymous"></script>
+
+{% endblock %}
+{% block body %}
+    <a href="http://www.e-contact.telecontact.ma"  style="width : 119px !important;">
+                           < Retour Accueil
+                        </a>
+    <div id="pageloader">
+       <img src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif" alt="processing..." />
+    </div>
+     <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3" id="form_container">
+                    <h2>Statistique</h2> 
+                    
+                    <form role="form" method="POST" id="myform" name='registration'>
+                        
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label for="name"> Code firme:</label>
+                                <input type="text" class="form-control" id="code_firme" {% if code_firme is empty %} value='' {% else %} value={{code_firme}} {% endif %} name="code_firme" required>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="email"> Email:</label>
+                                <input type="email" class="form-control" {% if email is empty %} value='' {% else %} value={{email}} {% endif %} id="email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label for="name"> Nom:</label>
+                                <input type="text" class="form-control" {% if nom is empty %} value='' {% else %} value={{nom}} {% endif %} id="nom" name="nom" required>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <label for="prenom"> Prénom:</label>
+                                <input type="text" class="form-control" {% if prenom is empty %} value='' {% else %} value={{prenom}} {% endif %} id="prenom" name="prenom">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <label>Civilité:</label>
+                                <p>
+                                    Homme: <input type="radio" id="sexe" name="sex" {% if sexe is empty %}  {% else %} {% if sexe == "M" %} checked {% endif %} {% endif %} value="M" required/><br />
+                                    Femme: <input type="radio" id="sexe" name="sex" {% if sexe is empty %}  {% else %} {% if sexe == "F" %} checked {% endif %} {% endif %} value="F" required/>
+                                </p>
+                            </div>
+                           
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 form-group">
+                                <button type="button" id="envoyer" class="btn btn-lg btn-default pull-right" >Envoyer </button>
+                                <button type="button" id="prev" class="btn btn-lg btn-default pull-left" >Prévisualiser </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Posted your message successfully!</h3> </div>
+                    <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
+                </div>
+            </div>
+            <div class="div" style='width: 38px;
+		    margin-left: 269px;
+		    margin-top: 26px;'>
+		    	{% if message is empty %}  {% else %} {{ message | raw }} {% endif %}
+		    </div>
+        </div>
+
+<script>
+    $( "#envoyer" ).click(function() {
+        code = $("#code_firme").val();
+        email = $("#email").val();
+        nom = $("#nom").val();
+        sexe = $("#sexe").val();
+        if(code !== '' && email !== '' && nom !== '' && sexe !== '') {
+            $("#pageloader").fadeIn();
+            id = document.getElementById('envoyer');
+            id.disabled = "disabled";
+            id.value="Envoi...";
+        }
+	    $('#myform').attr('action', "{{ path('getInfo') }}");
+	    //submit form
+	    $('#myform').submit();
+        
+	});
+	$( "#prev" ).click(function() {
+      code = $("#code_firme").val();
+      email = $("#email").val();
+      nom = $("#nom").val();
+      sexe = $("#sexe").val();
+      if(code !== '' && email !== '' && nom !== '' && sexe !== '') {
+            $("#pageloader").fadeIn();
+            id = document.getElementById('prev');
+         id.disabled = "disabled";
+         id.value="Envoi...";
+      }
+      
+	  $('#myform').attr('action', "{{ path('getPrev') }}");
+	    //submit form
+	    $('#myform').submit();
+        
+	});
+
+	
+</script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script type='text/javascript'>
+$(document).ready(function() {
+    $("#myform").validate({
+        rules: {
+            nom: {
+                required: true
+            },
+            code_firme: {
+                required: true
+            },
+            sex: {
+                required: true
+            },
+            email: {
+		        required: true,
+		        // Specify that email should be validated
+		        // by the built-in "email" rule
+		        email: true
+			},
+ 
+        },
+        messages: {
+            nom: {
+                required: "Spécifier le nom "
+            },
+            code_firme: {
+                required: "Ce champ est requis"
+            },
+            sex: {
+                required: "Ce champ est requis"
+            },
+            email: {
+		        required: "Ce champ est requis",
+		        email:  "S'il vous plaît, mettez une adresse email valide"
+		    },
+
+        },
+        errorClass: "help-inline text-danger",
+        errorElement: "span",
+        highlight: function(element, errorClass, validClass) {
+            $(element).parents('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).parents('.form-group').removeClass('has-error');
+            $(element).parents('.form-group').addClass('has-success');
+        },
+        submitHandler: function(form) {
+      form.submit();
+    }
+    });
+
+});  
+</script>
+
+
+{% endblock %}

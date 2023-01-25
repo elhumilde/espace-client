@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Convert html to pdf</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js" integrity="sha256-gJWdmuCRBovJMD9D/TVdo4TIK8u5Sti11764sZT1DhI=" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript">
+
+function generatePDF(message){
+	var message = document.getElementById("message").value;
+	var doc = new jsPDF();
+	doc.text(20,20,message);
+	doc.save('document.pdf');
+}
+</script>
+
+</head>
+<body>
+	<button onclick="generatePDF()" id="message" value="{{message}}"> click to generate pdf </button>
+</body>
+</html>

@@ -1,0 +1,49 @@
+
+{% for l in links %}
+
+{% if loop.first %}
+
+<page backtop="1mm" backbottom="15mm" backleft="10mm" backright="10mm" footer="page;">
+    <page_header>
+        <table style="width:100%;margin-top: -15px;">
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 65%" ><img src="/var/www/prod/telecontactV2/telecontact/pubs/logos/L2107435.png"></td>
+                <td style="width: 30%" ><h4 style="color:#313131;font-weight: 700;"><br><span style="color:#313131;margin-top: 10px;font-size: 13px;"></span></h4></td>
+            </tr>
+        </table> 
+    </page_header>
+
+        <img src="{{ l }}" width="700" height="900" style="margin-top: 100px;">
+
+    <page_footer >
+        
+    </page_footer>
+
+</page>  
+
+{% else %}
+
+<page backtop="1mm" backbottom="15mm" backleft="10mm" backright="10mm" footer="page;">
+    <page_header>
+    	<table style="width:100%;margin-top: -15px;">
+    		<tr>
+    			<td style="width: 5%"></td>
+                
+    			<td style="width: 65%" ><img src={{url}}></td>
+    			<td style="width: 30%" ><h4 style="color:#313131;font-weight: 700;">{{raison_sociale}}<br><span style="color:#313131;margin-top: 10px;font-size: 13px;">MA{{code_firme}}</span></h4></td>
+    		</tr>
+    	</table> 
+    </page_header>
+
+    	<img src="{{ l }}" width="700" height="900" style="margin-top: 100px;">
+
+    <page_footer >
+        
+    </page_footer>
+
+</page>   
+
+{% endif %}
+
+{% endfor %}

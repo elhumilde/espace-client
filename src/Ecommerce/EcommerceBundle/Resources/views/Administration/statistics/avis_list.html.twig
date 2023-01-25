@@ -1,0 +1,590 @@
+{% extends "::layout/base_statistics2.html.twig" %}
+
+
+{% block title %} Liste avis {% endblock %}
+{% block stylesheets %}
+
+<style>
+    .border-top-0{
+        font-weight: 700!important;
+    }
+    .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+      background-color: #e9ecef;
+      border-color: #dee2e6;
+      color: black;
+      font-weight: bold;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: #4CAF50!important;
+        color: white!important;
+        border: 1px solid #4CAF50!important;
+    }
+    #myTable_paginate{
+        color: black!important;
+        float: left!important;
+        padding: 8px 16px!important;
+        transition: background-color .3s!important;
+        margin-top: 30px!important;
+        margin-left: 18%;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        border: 1px solid #cccccc!important;
+    }
+    #myTable_length, #myTable_filter, #myTable_info{
+        font-weight: 700;
+    }
+    #config-demo{
+        display: none;
+    }
+    #myTable_length, #myTable_filter{
+        margin-bottom: 25px;
+    }
+    .even{
+        background-color: rgb(185 217 232 / 8%)!important;
+    }
+
+     .button {
+         text-decoration: none;
+         font-size: 0.875rem;
+         font-weight: 300;
+         text-transform: uppercase;
+         display: inline-block;
+         border-radius: 1.5rem;
+         background-color: #fff;
+         color: #9191e9;
+         padding: 1rem 2rem;
+    }
+     .popup {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         position: fixed;
+         width: 100vw;
+         height: 100vh;
+         bottom: 0;
+         right: 0;
+         background-color: rgba(0, 0, 0, 0.8);
+         z-index: 2;
+         visibility: hidden;
+         opacity: 0;
+         overflow: hiden;
+         transition: 0.64s ease-in-out;
+    }
+     .popup-inner {
+         position: relative;
+         bottom: -100vw;
+         right: -100vh;
+         display: flex;
+         align-items: center;
+         max-width: 600px;
+         max-height: 550px;
+         width: 60%;
+         height: 100%;
+         background-color: #fff;
+         transform: rotate(32deg);
+         transition: 0.64s ease-in-out;
+        padding-left: 0px!important;
+        padding-right: 0px!important;
+        border-radius: 10px;
+    }
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 100%;
+         padding: 0rem;
+    }
+
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 70%;
+         padding-top: 0px!important;
+         padding: 4rem;
+    }
+     .popup__text h1 {
+         font-size: 2rem;
+         font-weight: 600;
+         margin-bottom: 2rem;
+         text-transform: uppercase;
+         color: #0a0a0a;
+    }
+     .popup__text p {
+         font-size: 16px;
+         color: #686868;
+         line-height: 1.5;
+    }
+     .popup:target {
+         visibility: visible;
+         opacity: 1;
+    }
+     .popup:target .popup-inner {
+         bottom: 0;
+         right: 0;
+         transform: rotate(0);
+    }
+     .popup__close {
+         position: absolute;
+         right: -1rem;
+         top: -1rem;
+         width: 3rem;
+         height: 3rem;
+         font-size: 0.875rem;
+         font-weight: 300;
+         border-radius: 100%;
+         background-color: #0a0a0a;
+         z-index: 4;
+         color: #fff;
+         line-height: 3rem;
+         text-align: center;
+         cursor: pointer;
+         text-decoration: none;
+    }
+    .dea{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+    }
+    .objet_popup{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+        margin-top: 50px;
+    }
+    .dea_mail{
+        font-weight: 500!important;
+        line-height: 20px!important;
+        font-size: 16px!important;
+        font-family: var(--bs-font-sans-serif)!important;
+    }
+    #message{
+        font-family: Spinnaker,sans-serif;
+        color: #4e4e4e;
+        font-size: 15px;
+        line-height: 1.428571429;
+    }
+    .popup_head{
+        padding-bottom: 25px;
+        background: #fedc01;
+        border-radius: 10px 10px 0px 0px;
+    }
+    .checked {
+      color: orange;
+    }
+ 
+
+
+
+
+
+
+
+</style>
+
+{% endblock %}
+
+{% block slide %}
+    <div class="group-bg-image">
+        <div class="col-lg-12 col-xlg-12 col-md-12 bg-image">
+            <p class="bg-image-text">Avis poster sur Telecontact.ma</p>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block body %}
+
+        
+                   <!--  <div class="col-lg-12 col-md-12 col-sm-8 col-xs-12 row">
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                            <h4 class="page-title">Avis poster sur Telecontact.ma <span class="page-title2" ></span></h4>
+                        </div>
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12" >
+                            <h4 style="float: right;">{{data_user[0]['raison_sociale']}}</h4>
+                        </div>
+                        <input type="hidden" name="audience" id="audience" value="audience">
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <div class="d-md-flex">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-md-12 col-lg-12 col-sm-12"> -->
+
+                    <div class="col-md-9 col-lg-9 col-sm-12">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3">
+                            </div>
+
+                                <div class="row">
+                                    <!-- <div class="col-md-12 col-lg-8 col-sm-12">
+                                        <div class="card white-box p-0">
+                                            <div class="card-body">
+                                                <h3 class="box-title mb-0">Recent Comments</h3>
+                                            </div>
+                                            <div class="comment-widgets">
+                                                {% for c in comments %}
+                                                <div class="d-flex flex-row comment-row p-3 mt-0">
+                                                    <div class="p-2"><img src="{{ asset('public_statistics/plugins/images/users/icon_user.jpg')}}" alt="user" width="50" class="rounded-circle"></div>
+                                                    <div class="comment-text ps-2 ps-md-3 w-100">
+                                                        <h5 class="font-medium">James Anderson</h5>
+                                                        <span class="mb-3 d-block">Lorem Ipsum is simply dummy text of the printing and type setting industry.It has survived not only five centuries. </span>
+                                                        <div class="comment-footer d-md-flex align-items-center">
+                                                             <span class="badge bg-primary rounded">Pending</span>
+                                                             
+                                                            <div class="text-muted fs-2 ms-auto mt-2 mt-md-0">April 14, 2021</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor%}
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+
+                                    {% if comments %}
+                                    <div class="col-lg-8 col-md-12 col-sm-12">
+                                        <div class="card white-box p-0">
+                                            <div class="card-heading">
+                                                <h3 class="box-title mb-0">Commentaires</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="chatonline">
+
+                                                    {% for c in comments %}
+                                                    <li style="border: 1px solid #ececec; padding: 10px;margin-bottom: 10px;">
+                                                        <div class="call-chat" style="display: none;">
+                                                            <!-- <button class="btn btn-success text-white btn-circle btn" type="button">
+                                                                <i class="fas fa-phone"></i>
+                                                            </button> -->
+                                                            <button class="btn btn-info btn-circle btn" type="button" onclick="myFunction({{c.id}})">
+                                                                <i class="fas fa-comments text-white"></i>
+                                                            </button>
+                                                        </div>
+                                                        
+                                                            <div class="ms-2">
+                                                                    
+                                                                    <div class="comment-text ps-2 ps-md-3 w-100">
+                                                                        <div class="p2">
+                                                                            <img src="{{ asset('public_statistics/plugins/images/users/icon_user.jpg')}}" alt="user-img" class="img-circle">
+                                                                        <!-- <h5 class="font-medium">James Anderson</h5> -->
+                                                                            <!-- <span class="fa fa-star checked"></span>
+                                                                            <span class="fa fa-star checked"></span>
+                                                                            <span class="fa fa-star checked"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span> -->
+                                                                            <div style="float: right;">
+                                                                                {% for i in 0..4 %}
+                                                                                    {% if i <= c.note_globale %}
+                                                                                    <span class="fa fa-star checked"></span>
+                                                                                    {% else %}
+                                                                                    <span class="fa fa-star"></span>
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            </div>
+                                                                            
+                                                                                <span class="mb-3 mt-3 d-block" >
+                                                                                    {% if c.commentaire %}
+                                                                                    <span class=" p-3 d-block" style="background: #c7c7c730;">{{ c.commentaire }} <b></b> </span>
+                                                                                    {% endif %}
+                                                                                </span>
+                                                                            
+
+                                                                        <div class="comment-footer d-md-flex align-items-center">
+
+                                                                             <!-- <select class="badge bg-primary rounded etat{{c.id_comment}}" name="etat{{ c.id_comment}}" id="{{c.id_comment}}" onchange="changestate({{c.id_comment}})" {% if c.etat == 2%} style="border-radius: 10px;background: #7ace4c!important;color: white;border: #f5365c !important;" {% elseif c.etat == 1%} style="border-radius: 10px;background: #f5365c !important;color: white;border: #f5365c !important;" {% endif %}>
+                                                                                 <option value="2" {% if c.etat == 2 %} selected {% endif %} >Traité</option>
+                                                                                 <option value="1" {% if c.etat == 1 %} selected {% endif %}>Non Traité</option>
+                                                                             </select> -->
+
+                                                                             <!-- <select class="badge bg-primary rounded visible{{c.id_comment}}" name="visible{{ c.id_comment}}" id="{{c.id_comment}}" onchange="changevisibitity({{c.id_comment}})" {% if c.publication == 2%} style="border-radius: 10px;background: #7ace4c!important;border: #f5365c !important;color: white;margin-left: 10px;;" {% elseif c.publication == 1%} style="border-radius: 10px;background: #f5365c !important;border: #f5365c !important;color: white;margin-left: 10px;" {% endif %} >
+                                                                                 <option value="2" {% if c.publication == 2 %} selected {% endif %} >Publié</option>
+                                                                                 <option value="1" {% if c.publication == 1 %} selected {% endif %}>Non publié</option>
+                                                                             </select> -->
+
+                                                                             {% if c.response %}
+
+                                                                             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{ c.id_comment}}" aria-expanded="false" aria-controls="collapseExample" style="font-size: 11px; margin-left: 10px; padding: 3px 10px 3px 10px; background: #2cabe3; border: #2cabe3;">Voir réponse</button>
+
+                                                                             {% else %}
+
+                                                                              <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{ c.id_comment}}" aria-expanded="false" aria-controls="collapseExample" style="font-size: 11px; margin-left: 10px; padding: 3px 10px 3px 10px; background: #2cabe3; border: #2cabe3;">Répondre</button>
+
+                                                                             {% endif %}
+
+                                                                             {% if c.publication == 2 %}
+                                                                             <button class="btn btn-primary" type="button"  style="font-size: 11px; margin-left: 10px; padding: 3px 10px 3px 10px;background: #7ace4c!important;color: white;border: #f5365c !important;" >Publié</button>
+                                                                             <button class="btn btn-primary visible{{c.id_comment}}" type="button" onclick="changevisibitity({{c.id_comment}})" name="visible{{ c.id_comment}}" id="{{c.id_comment}}" style="font-size: 11px; margin-left: 10px; padding: 3px 10px 3px 10px; background: #f33155; border: #f33155;">Merci de retirer</button>
+                                                                             {% elseif c.publication == 1 %}
+                                                                             <button class="btn btn-primary" type="button" style="background: #f5365c !important;color: white;border: #f5365c !important;font-size: 11px; margin-left: 10px; padding: 3px 10px 3px 10px;" >Non publié</button>
+                                                                             {% endif %}
+
+                                                                             
+
+
+                                                                             
+                                                                            
+                                                                             {% set date = c.date_creation|date('U') %}
+                                                                            <div class="text-muted fs-2 ms-auto mt-2 mt-md-0" data-sort="{{ date }}">{{ c.user }}   {{ c.date_creation|date('d-m-Y H:i:s') }}</div>
+                                                                        </div>
+
+                                                                        <div class="collapse" id="collapseExample{{ c.id_comment}}" style="padding: 15px; margin-top: 20px; margin-left: 12px;">
+                                                                          
+                                                                            <textarea class="form-control replay{{ c.id_comment}}" id="exampleFormControlTextarea1" rows="3" placeholder="Votre réponse ..." style="height: 50px;">{%if c.response %} {{c.response}} {% else %} {% endif %}</textarea>
+                                                                            <button type="button" class="btn btn-outline-primary" style="padding: 3px 10px; margin-top: 10px;" onclick="saveReplay({{ c.id_comment}})">Valider</button>
+                                                                            <button type="button" class="btn btn-outline-danger" style="padding: 3px 10px; margin-top: 10px;" onclick="deleteReplay({{ c.id_comment}})">Supprimer</button>
+                                                                            
+                                                                        </div>
+
+                                                                    </div>
+
+                                                            </div>
+
+
+                                                        </div>
+                                                    </li>
+                                                    {% endfor%}
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.col -->
+
+                                    {% else %}
+                                    <h5><b><i class="fas fa-exclamation-circle"></i></b> Il n'y a aucun commentaire pour l'instant.</h5>
+                                    {% endif %}
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+     
+
+{% endblock %}
+{% block javascripts %}
+
+  		<script>
+
+
+     /*function popup(id, nom, date, email, titre, message){
+
+                
+
+                var id= id;
+                alert(id);alert(nom);alert(date);
+
+                $('#message').text(message);
+
+                $("#popup").css({"display": "flex","align-items": "center","justify-content": "center","position": "fixed","width": "100vw","height": "100vh","bottom": "0","right": "0","background-color": "rgba(0, 0, 0, 0.8)","z-index": "2","visibility": "hidden","opacity": "0","overflow": "hiden","transition":"0.64s ease-in-out"});
+
+
+
+
+setTimeout(function(){
+   $('#popi495588').trigger('click');
+}, 2000);
+ 
+ 
+       
+
+            };*/
+
+            $(document).ready( function () {
+
+    
+      
+                $('#myTable').DataTable({
+                    "order": [5, 'desc'],
+                     "language": {
+                            "decimal":        "",
+                            "emptyTable":     "aucune donnée disponible",
+                            "info":           "_TOTAL_ résultats",
+                            "infoEmpty":      "0 résultats",
+                            "infoFiltered":   "(Filtré de _MAX_ résultats totales)",
+                            "infoPostFix":    "",
+                            "thousands":      ",",
+                            "lengthMenu":     "Afficher _MENU_ résultats",
+                            "loadingRecords": "Chargement...",
+                            "processing":     "Traitement...",
+                            "search":         "Rechercher : ",
+                            "zeroRecords":    "Aucun élément à afficher",
+                            "paginate": {
+                                "first":      "Première",
+                                "last":       "Dernière",
+                                "next":       "Suivant",
+                                "previous":   "Précéndent"
+                            },
+                     }
+                 });
+
+
+             
+            });
+
+
+
+
+
+
+            
+
+            function changestate(id){
+                
+                var id = $('.etat'+id).attr("id");
+                var etat = $(".etat"+id+" :selected").val();
+                $.ajax({
+                    type:'POST',
+                    url :'{{path("changestate")}}',
+                    dataType: "json",
+                    data: {id:id, etat:etat},
+                    statusCode: {
+                        
+                        200: function (response) {
+                            var successMessage = response.nom;
+
+                            location.reload();
+                            
+
+                        },
+                        
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            
+                        }
+                    }
+                });
+
+            }
+
+            function changevisibitity(id){
+                
+                var id = $('.visible'+id).attr("id");
+                var visibility = 1;
+                /*var visibility = $(".visible"+id+" :selected").val();*/
+                $.ajax({
+                    type:'POST',
+                    url :'{{path("changevisibitity")}}',
+                    dataType: "json",
+                    data: {id:id, visibility:visibility},
+                    statusCode: {
+                        
+                        200: function (response) {
+                            var successMessage = response.nom;
+
+                            /*location.reload();*/
+                            
+
+                        },
+                        
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            
+                        }
+                    }
+                });
+
+            }
+
+            function saveReplay(id){
+                
+                var id = $('.visible'+id).attr("id");
+                var replay = $(".replay"+id).val();
+                $.ajax({
+                    type:'POST',
+                    url :'{{path("saveReplay")}}',
+                    dataType: "json",
+                    data: {id:id, replay:replay},
+                    statusCode: {
+                        
+                        200: function (response) {
+
+                            location.reload();
+                            
+
+                        },
+                        
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            
+                        }
+                    }
+                });
+
+            }
+
+            function deleteReplay(id){
+                
+                var id = $('.visible'+id).attr("id");
+                var replay = $(".replay"+id).val();
+                $.ajax({
+                    type:'POST',
+                    url :'{{path("deleteReplay")}}',
+                    dataType: "json",
+                    data: {id:id, replay:replay},
+                    statusCode: {
+                        
+                        200: function (response) {
+
+                            location.reload();
+                            
+
+                        },
+                        
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            
+                        }
+                    }
+                });
+
+            }
+
+
+
+  				
+        </script>
+           
+ {% endblock %}

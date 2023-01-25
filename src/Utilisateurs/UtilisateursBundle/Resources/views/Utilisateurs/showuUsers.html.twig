@@ -1,0 +1,65 @@
+
+{% extends '::layout/layoutAdmin.html.twig' %}
+
+{% block body -%}
+    <h1>Client</h1>
+
+    <div class="span4" style="text-align: justify">
+        <table class="record_properties" style="text-align: justify">
+            <tbody>
+            <tr>
+            </tr>
+            <tr>
+                <th>ID  :</th>
+                <td>{{ entity.id }}</td>
+
+            </tr>
+            <tr>
+                <th>Nom   :</th>
+                <td>{{ entity.nom }}</td>
+
+            </tr>
+            <tr>
+                <th>Adresse   :</th>
+                <td>{{ entity.adresse }}</td>
+
+            </tr>
+            <tr>
+                <th>Telephone   :</th>
+                <td>{{ entity.telephone }}</td>
+
+            </tr>
+            <tr>
+                <th>Description  :</th>
+                <td>{{ entity.description}}</td>
+
+            </tr>
+            <tr>
+                <th>Année expérience evant embauche :</th>
+                <td>{{ entity.anneeExpAvtEmb }}</td>
+
+            </tr>
+            <tr>
+                <th>Nombre client d'année precidente   :</th>
+                <td>{{ entity.nbrCltAnneePrec }}</td>
+
+            </tr>
+            <tr>
+                <th>Profil  :</th>
+                <td>{{ entity.profil }}</td>
+
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('adminUsers') }}">
+                Back to the list
+            </a>
+        </li>
+
+    </ul>
+{% endblock %}

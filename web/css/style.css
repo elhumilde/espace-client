@@ -1,0 +1,262 @@
+body {
+
+}
+.img-logo{
+    display: block;
+    position: inherit;
+    margin: 0 auto;
+    margin-top: 340px;
+}
+.loading {
+    float:right;
+    margin-right:115px;
+    width:30px;
+    height:30px;
+    display:block;
+    background:url('../img/loading.gif');
+}
+
+
+.bg-grey {
+    background-color: #FAFAFA;
+    border-top: 1px solid #EEE;
+    border-bottom: 1px solid #EEE;
+}
+
+.bg-dark {
+    background-color: #1C1D21;
+}
+
+
+/* --  background image section  -- */
+
+.bg-img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.bg-img .overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: .8;
+    background: #1C1D21;
+}
+
+
+
+
+/*------------------------------------*\
+	Logo
+\*------------------------------------*/
+
+.navbar-brand {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+
+/*------------------------------------*\
+    login
+\*------------------------------------*/
+
+.login-page {
+    width: 460px;
+    padding: 0 0 0 0;
+    margin: auto;
+    margin-top: 500px;
+}
+.form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 390px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+.form button {
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    outline: 0;
+    background: #fedc32;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: black;
+    font-size: 20px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+    background: #ffc830;
+}
+.form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+}
+.form .message a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+.form .register-form {
+    display: none;
+}
+
+.container-fluid {
+    width:100%;
+    height:1000px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    background-color: white;
+}
+
+.transparence {
+    width:100%;
+    height:1000px;
+    position: absolute;
+    opacity: 0.5;
+    background-color: #1C1D21;
+    background-size: cover;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+}
+
+
+.logo {
+    margin-left: 20px;
+    margin-top: 20px;
+    z-index: 1;
+    Position: Absolute;
+}
+
+.header {
+    background-color: black;
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    display: black;
+    margin-top: 80px;
+    letter-spacing: 2px;
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+    border-radius: 5px;
+    font-size: 25px;
+}
+
+.titre {
+    width: 200px;
+    height: 40px;
+    background-color: #c8d0d5;
+    color: black;
+    border-radius: 5px;
+    font-size: 18px;
+    padding-top: 7px;
+    margin-top: 20px;
+}
+
+
+.avatar {
+    margin-top: 50px;
+}
+.well {
+    background-color: #ffdb2e;
+    border: 0
+}
+.container {
+    margin-bottom: 40px;
+}
+
+.tex {
+    text-align: left;
+    font-size: 16px;
+}
+
+.texte1 {
+    font-size: 16px;
+}
+
+#fond-1 {
+    background-image:url('https://image.noelshack.com/fichiers/2018/07/4/1518687844-background1.jpg');
+    left: 0;
+}
+
+#fond-2 {
+    background-image:url('https://image.noelshack.com/fichiers/2018/08/3/1519208528-background2.jpg');
+    left: 0;
+}
+
+#fond-3 {
+    background-color: white;
+    left: 0;
+}
+
+
+
+#marketing {
+    background-color: #ffdb2e;
+    padding:50px 0 50px 40px;
+    height: 300px;
+}
+
+#image-marketing {
+    height: 300px;
+    padding: 0;
+}
+
+.img-responsive {
+    width: 100%;
+    height: 300px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#texte-marketing {
+    padding: 50px 80px 20px 80px;
+}
+
+.rectangle {
+    width: 290px;
+    height: 70px;
+    background-color: black;
+    border-radius: 5px;
+    color: white;
+    padding-top: 15px;
+    margin-top: 20px;
+    letter-spacing: 2px;
+}
+
+

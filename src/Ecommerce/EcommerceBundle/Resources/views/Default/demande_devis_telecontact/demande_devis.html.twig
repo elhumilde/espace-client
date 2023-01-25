@@ -1,0 +1,114 @@
+{% extends "::layout/base_statistics.html.twig" %}
+
+
+{% block title %} Espace Admin {% endblock %}
+{% block stylesheets %}
+{{parent()}}
+    <link rel="stylesheet" type="text/css" href="{{asset('/css/jquery.dataTables.min.css')}}"/>
+{% endblock %}
+
+{% block menu %}
+    {% include "EcommerceBundle:Administration:menu.html.twig" %}
+{% endblock %}
+
+{% block body %}
+
+
+
+
+
+        
+                    <div class="col-lg-12 col-md-12 col-sm-8 col-xs-12 row">
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                            <h4 class="page-title">Clients Télécontact <span class="page-title2" ></span></h4>
+                        </div>
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12" >
+                            <h4 style="float: right;"></h4>
+                        </div>
+                        <input type="hidden" name="audience" id="audience" value="audience">
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <div class="d-md-flex">
+                            <!-- <ol class="breadcrumb ms-auto">
+                                <li><a href="#" class="fw-normal">Dashboard</a></li>
+                            </ol>
+                            <a href="https://www.wrappixel.com/templates/ampleadmin/" target="_blank"
+                                class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">Upgrade
+                                to Pro</a> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                
+
+
+                
+
+                  
+
+
+                <!-- ============================================================== -->
+                <!-- Audience par type de connexion -->
+                <!-- ============================================================== -->
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3">
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover text-center" id="demandeDevisTelecontact">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-top-0 text-center">Titre</th>
+                                            <th class="border-top-0 text-center">Catégorie</th>
+                                            <th class="border-top-0 text-center">Date de création</th>
+                                            <th class="border-top-0 text-center">Etat</th>
+                                            <th class="border-top-0 text-center">Réponses</th>
+                                            <th class="border-top-0 text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{asset('/js/jquery.min.js')}}"></script>
+    <script src="{{asset('/js/jquery.dataTables.min.js')}}"></script>
+    <script>
+        const URL_DEMANDE_DEVIS = "{{path('demandeDevisTelecontact')}}";
+        const URL_RESPONSES_DEVIS = "{{path('detailsDevisTelecontact' , {id:" "})}}";
+    </script>
+    <script src="{{asset('/js/publier-devis-telecontact.js')}}"></script>           
+{% endblock %}

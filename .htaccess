@@ -1,0 +1,3 @@
+RewriteEngine on
+Header set Access-Control-Allow-Origin *
+RewriteRule ^(.*)$ /web/$1 [L,QSA]

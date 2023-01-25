@@ -1,0 +1,367 @@
+{% extends "::layout/base_statistics2.html.twig" %}
+
+
+{% block title %} Accueil espace client {% endblock %}
+{% block stylesheets %}
+
+<style>
+    
+    .demo{
+        display: none;
+    }
+
+    .bg-white{
+        background-color: #ffdd00!important;
+    }
+
+    .card-body p {
+        font-weight: 600;
+    font-size: 16px;
+    }
+
+    .card-body li {
+        font-weight: 600;
+    font-size: 16px;
+    }
+
+    .page-title{
+        color: black!important;
+        font-size: 24px!important;
+        font-weight: 500!important;
+        text-align: center;
+    }
+    .column-1 .line-titre {
+        width: 15%;
+        color: black;
+        height: 2px!important;
+        opacity: 1;
+        margin: 0 auto;
+        margin-bottom: 50px;
+    }
+    .text-title{
+        font-size: 19px!important;
+        text-align: center;
+        color: rgba(80,80,80,1);
+        font-weight: 400!important;
+    }
+    .hp_part_icon{
+        text-align: center;
+    }
+    .hp_part_title{
+        font-weight: 700;
+        color: black; 
+        margin-bottom: 15px;   
+    }
+    .hp_part_text{
+        color: rgba(80,80,80,1);
+        text-align: justify!important;
+        font-size: 15px !important;
+        margin-bottom: 8px;
+    }
+    .hp_part_link{
+        color: black; 
+        text-decoration: underline;  
+    }
+    .hp_part_2{
+        margin-top: 60px;
+        background: rgba(241,242,255,1) !important;
+        padding: 25px 0px 25px 0px;
+    }
+    .column-2{
+        background: rgba(123,123,123,0.15) !important;
+        padding: 25px 6px;
+        margin-top: 20px;
+    }
+    .column-2 .title{
+        font-weight: 600;
+        color: black; 
+        margin-bottom: 15px;   
+        font-size: 20px !important;
+        text-align: center;
+    }
+    .column-2 .titre-h3{
+        color: black;
+        font-weight: 700;
+        font-size: 20px !important;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .column-2 .line-titre{
+        width: 8%;
+        color: black;
+        height: 2px!important;
+        opacity: 1;
+        margin: 0 auto;
+        margin-bottom: 50px;
+    }
+    .column-2 .hp_part_title{
+        font-weight: 700;
+        font-size: 16px;
+        color: black;
+        margin-bottom: 6px;   
+    }
+    .column-2 .hp_part_text{
+        color: black;
+        font-size: 14px !important;
+        margin-bottom: 8px;
+        font-weight: 400;
+    }
+    .column-3 .titre-h3{
+        color: black;
+        font-weight: 700;
+        font-size: 20px !important;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .column-3 .line-titre{
+        width: 8%;
+        color: black;
+        height: 2px!important;
+        opacity: 1;
+        margin: 0 auto;
+        margin-bottom: 50px;
+    }
+
+    .column-3{
+        padding: 25px 0px;
+    }
+    .box{
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        padding: 10px;
+        text-align: center;
+    }
+    .column-3 .hp_part_text {
+        color: black;
+        font-size: 15px !important;
+        text-align: center!important;
+        margin-bottom: 0px;
+        font-weight: 400;
+    }
+    .column-3 .icon{
+        margin-bottom: 25px;
+        margin-top: 10px;
+    }
+    .column-0{
+        padding-top: 30px;
+    }
+    .last{
+        align-items: end;
+    }
+
+   
+
+</style>
+
+{% endblock %}
+
+
+{% block body %}
+
+
+                    <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" >
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                            <h4 class="page-title" ><i class="fas fa-user"></i>&emsp;&emsp;Bienvenue <b>{{ data_user[0]['raison_sociale'] }}</b> dans votre <b> Espace client Telecontact </b></h4>
+                        </div>
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12" >
+                            <h4 style="float: right;"></h4>
+                        </div>
+                        <input type="hidden" name="audience" id="audience" value="audience">
+                    </div> -->
+
+                    <!-- <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <div class="d-md-flex">
+                            <ol class="breadcrumb ms-auto">
+                                <li><a href="#" class="fw-normal">Dashboard</a></li>
+                            </ol>
+                            <a href="https://www.wrappixel.com/templates/ampleadmin/" target="_blank"
+                                class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">Upgrade
+                                to Pro</a> 
+                        </div>
+                    </div>-->
+
+              
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            
+                    {% if data_user[0]['code_firme']|trim != "" and data_user[0]['code_firme']|trim != "0000" %}
+                    <!-- Column -->
+                    <div class="col-lg-8 col-xlg-8 col-md-8 col-sm-12 column-1" >
+                        <div class=""><!-- card -->
+                            <div class="card-body">
+
+                                <p class="text-title">Le détail de votre audience en terme d'<b>affichages</b>, de <b>clics</b> et <b>contacts</b> :<p>
+                                <hr class="line-titre">
+
+                                <div class="row col-12 ">
+                                    <div class="row col-sm-12 col-md-6">
+                                        <div class="col-lg-4 col-md-6 col-sm-12 hp_part_icon">
+                                            <img src="{{ asset('public_statistics/plugins/images/icone_hp_pc.png')}}" alt="icone_hp_pc" width="50">
+                                        </div>
+                                        <div class="col-lg-7 col-md-12 col-sm-12">
+                                            <h4 class="hp_part_title">Affichage de votre référencement</h4>
+                                            <p class="hp_part_text">Découvrez le nombre de fois où les internautes ont eu la possibilité de voir votre <b>carte visite</b> ou votre <b>fiche professionnelle</b>.</p>
+                                            <a target="_blank" class="hp_part_link" href="{{path('affichage',{code_firme:data_user[0]['code_firme']})}}">Visualiser les statistiques</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="row col-sm-12 col-md-6 ">
+                                        <div class="col-lg-4 col-md-6 col-sm-12 hp_part_icon">
+                                            <img src="{{ asset('public_statistics/plugins/images/icone_hp_click.png')}}" alt="icone_hp_click" width="50">
+                                        </div>
+                                        <div class="col-lg-7 col-md-12 col-sm-12">
+                                            <h4 class="hp_part_title">Clics</h4>
+                                            <p class="hp_part_text">Découvrez le nombre de fois où les internautes ont cliqué sur votre <b>carte visite</b>, <b>le contenu de votre fiche professionnelle</b> et vos <b>liens</b> pour se renseigner ou vous contacter.</p>
+                                            <a target="_blank" class="hp_part_link" href="{{path('click',{code_firme:data_user[0]['code_firme']})}}">Visualiser les statistiques</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row col-12 hp_part_2">
+                                    <div class="row col-sm-12 col-md-6">
+                                        <div class="col-lg-4 col-md-6 col-sm-12 hp_part_icon">
+                                            <img src="{{ asset('public_statistics/plugins/images/icone_hp_contact.png')}}" alt="icone_hp_contact" width="50">
+                                        </div>
+                                        <div class="col-lg-7 col-md-12 col-sm-12">
+                                            <h4 class="hp_part_title">Contacts générés</h4>
+                                            <p class="hp_part_text">Consulter tous les <b>messages</b>, <b>avis</b> et <b>demandes de devis</b> reçus par le biais de telecontact.ma.</p>
+                                            <a target="_blank" class="hp_part_link" href="{{ path('devis', {code_firme:data_user[0]['code_firme']}) }}">Consulter les messages</a><br>
+                                            <a target="_blank" class="hp_part_link" href="{{ path('avis_list', {code_firme:data_user[0]['code_firme']}) }}">Consulter les avis</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="row col-sm-12 col-md-6">
+                                        <div class="col-lg-4 col-md-6 col-sm-12 hp_part_icon">
+                                            <img src="{{ asset('public_statistics/plugins/images/icone_hp_pub.png')}}" alt="icone_hp_pub" width="50">
+                                        </div>
+                                        <div class="col-lg-7 col-md-12 col-sm-12">
+                                            <h4 class="hp_part_title">Publicité Display</h4>
+                                            <p class="hp_part_text">Suivez les résultats et performances de vos <b>publicités Display</b> ( bannières ,vignettes...) diffusées sur telecontact.ma.</p>
+                                            <a target="_blank" class="hp_part_link" href="{{path('ads',{code_firme:data_user[0]['code_firme'] })}}">Visualiser les statistiques</a>
+                                        </div>
+                                    </div>
+
+
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    {% endif %}
+
+                    <!-- Column -->
+                    <div class="col-lg-12 col-xlg-12 col-md-12 column-2 container-fluid" >
+                        <p class="title">"Nous sommes là pour vous aider à vous développer et générer plus de contacts avec des statistiques qui le prouvent"</p>
+                        <h3 class="titre-h3">Audience Telecontact</h3>
+                        <hr class="line-titre">
+                        <div class="row col-12" style="justify-content: flex-end;">
+                            <div class="col-md-4 row">
+                                <div class="col-3">
+                                    <img src="{{ asset('public_statistics/plugins/images/column-2-search.png')}}" alt="icone search" width="50">
+                                </div>
+                                <div class="col-9">
+                                    <h4 class="hp_part_title">1er site marocain consulté</h4>
+                                    <p class="hp_part_text">pour la recherche de professionnels</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 row">
+                                <div class="col-3">
+                                    <img src="{{ asset('public_statistics/plugins/images/column-2-trend.png')}}" alt="icone trend" width="50">
+                                </div>
+                                <div class="col-9">
+                                    <h4 class="hp_part_title">76 279</h4>
+                                    <p class="hp_part_text">Visites / jour</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 row">
+                                <div class="col-3">
+                                    <img src="{{ asset('public_statistics/plugins/images/column-2-search-engine.png')}}" alt="icon search-engine" width="50">
+                                </div>
+                                <div class="col-9">
+                                    <h4 class="hp_part_title">3  746 035</h4>
+                                    <p class="hp_part_text">Pages vues / mois</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+
+                    <!-- Column -->
+                    <div class="col-lg-12 col-xlg-12 col-md-12 column-3" >
+                        <h3 class="titre-h3">Réflexe marocain Telecontact</h3>
+                        <hr class="line-titre">
+                        <div class="container">
+                            <div class="row col-12 last">
+
+                                <div class="col-sm-12 col-md-3">
+                                    <div class="col-12 box">
+                                    <img class="icon" src="{{ asset('public_statistics/plugins/images/column3-search.png')}}" alt="icon-search" width="50">
+                                    <h4 class="hp_part_title">1er portail</h4>
+                                    <p class="hp_part_text">pensent à <b>telecontact.ma</b> en cherchant un <b>professionnel</b></p>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-12 col-md-3">
+                                    <div class="col-12 box">
+                                    <img class="icon" src="{{ asset('public_statistics/plugins/images/column3-audience.png')}}" alt="icon-audience" width="50">
+                                    <h4 class="hp_part_title">7 internautes sur 10</h4>
+                                    <p class="hp_part_text">pensent à <b>telecontact.ma</b> en cherchant un <b>professionnel</b></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-3 ">
+                                    <div class="col-12 box">
+                                    <img class="icon" src="{{ asset('public_statistics/plugins/images/column3-eye.png')}}" alt="icon-eye" width="50">
+                                    <h4 class="hp_part_title">9 consultations sur 10</h4>
+                                    <p class="hp_part_text">pensent à <b>telecontact.ma</b> en cherchant un <b>professionnel</b></p>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-3 ">
+                                    <div class="col-12 ">
+                                    <img src="{{ asset('public_statistics/plugins/images/Telecontact-ordinateur.png')}}" alt="Telecontact-ordinateur" width="200">
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+     
+
+{% endblock %}
+{% block javascripts %}
+
+        <script>
+
+
+   
+        </script>
+           
+ {% endblock %}

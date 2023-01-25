@@ -1,0 +1,185 @@
+body .icon-retour {
+    margin: 20px;
+}
+
+section {
+    width:100%;
+    height: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#fond-1 {
+    background-image:url('http://www.telecontact.ma/trouver/images_econtact/fond-budgetisation.jpg');
+    left: 0;
+    height: 250px;
+
+}
+
+#fond-1 .titre-1 {
+    background-color: #ff5c5c;
+    width: 300px;
+    height: 60px;
+    border-radius: 5px;
+    margin-top: 60px;
+    padding-top: 8px;
+    color: white;
+    letter-spacing: 1px;
+    font-size: 32px;
+}
+
+
+#fond-1 .titre-2 {
+    background-color: black;
+    width: 940px;
+    height: 120px;
+    border-radius: 0;
+    margin-top: 60px;
+    padding-top: 20px;
+    font-size: 26px;
+    font-weight: lighter;
+}
+
+
+#fond-1 .titre-2 .acroche {
+    color: white;
+    letter-spacing: 2px;
+    line-height: 1.4;
+}
+
+#fond-2 {
+    background-color: white;
+    left: 0;
+    height: 613px;
+}
+
+#fond-2 .container .btn-1 {
+    background-color: #ffdb2e;
+    margin: 50px 15px 10px 0;
+    width: 318px;
+    height: 49px;
+    border: 0;
+    font-size: 25px;
+    padding: 8px 0 0 0px;
+    color: black;
+}
+
+
+#fond-2 .container .btn-1 .icone {
+    width: 50px;
+    height: 49px;
+    margin-top: -8px;
+    padding: 0;
+}
+
+#fond-2 .container .produits {
+    margin-left: 20px;
+}
+
+#fond-2 .container .produits .btn-2 {
+    background-color: #ffdb2e;
+    margin: 30px 15px 10px 0;
+    width: 280px;
+    height: 40px;
+    border: 0;
+    font-size: 18px;
+    padding-left: 25px;
+    color: black;
+    text-align: left;
+}
+
+
+#fond-2 .container .produits   #demo-1, #demo-2,#demo-3, #demo-4, #demo-5 {
+    margin: -50px 0 0 300px;
+    width: 650px;
+}
+
+
+#fond-2 .container .produits label{
+    background-color: #dadada;
+    padding: 10px 14px 10px 34px;
+    font-size: 16px;
+    margin: 3px;
+    width: 160px;
+    /*width: 181px;*/
+}
+
+
+#fond-4 {
+    background-color: white;
+    height: 180px;
+    /*position: fixed;*/
+}
+
+
+#fond-4 .container form .btn {
+    background-color: #ffdb2e;
+    margin: 50px 0 0 15px;
+    width: 250px;
+    height: 45px;
+    border: 0;
+    font-size: 18px;
+    padding: 4px 0 0 0;
+    color: black;
+}
+
+#fond-4 .container div .black {
+    background-color: black;
+    margin: 50px 15px 0 0;
+    width: 200px;
+    height: 65px;
+    border: 0;
+    font-size: 18px;
+    padding: 8px 0 0 0;
+    color: white;
+    margin-bottom: 20px;
+}
+
+#fond-4 .container form .btn .icone {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+}
+
+span.glyphicon-triangle-right {
+    font-size: 16px;
+    vertical-align: 3px;
+    /*float: right;*/
+}
+span.glyphicon-triangle- {
+    float: right;
+}
+span.glyphicon-triangle-left {
+    font-size: 16px;
+    vertical-align: 3px;
+    /*float: right;*/
+}
+
+span.glyphicon glyphicon-zoom-in {
+    font-size: 16px;
+    vertical-align: -2px;
+    float: left;
+}
+
+
+/*amal*/
+@media (min-width: 992px) and (max-width: 1400px) {
+
+    .form-group {
+        margin-top: 40px;
+    }
+
+}
+
+@media (max-width: 990px){
+#fond-2 {
+        margin-top: 80px;
+    }
+
+    #fond-1 .titre-2 {
+        width: 687px;
+        height: 151px;
+
+    }
+
+}

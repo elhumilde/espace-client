@@ -1,0 +1,23 @@
+adminUsers:
+    pattern:  /aa
+    defaults: { _controller: "UtilisateursBundle:UtilisateurAdmin:index" }
+
+adminUsers_show:
+     pattern:  /{id}/show
+     defaults: { _controller: "UtilisateursBundle:UtilisateurAdmin:showUsers" }
+
+adminUsers_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "UtilisateursBundle:UtilisateurAdmin:edit" }
+adminUsers_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "UtilisateursBundle:UtilisateurAdmin:update" }
+    requirements: { _method: post|put }
+
+adminUsers_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "UtilisateursBundle:UtilisateurAdmin:delete" }
+    requirements: { _method: post|delete }
+admin_acceuil:
+    pattern:  /admin/acceuil
+    defaults: { _controller: UtilisateursBundle:UtilisateurAdmin:acceuil   }

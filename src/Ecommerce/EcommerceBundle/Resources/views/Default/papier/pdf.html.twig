@@ -1,0 +1,191 @@
+
+<style>
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        min-height: 100%;
+    }
+
+    table.content
+    {
+        /* width: 100%;
+         height: 100%;*/
+        border-collapse: collapse;
+        padding: 10px;
+        margin: 4px;
+        line-height: 2;
+    }
+    table.contentt
+    {
+        /* width: 100%;
+         height: 100%;*/
+        border-collapse: collapse;
+        padding: 10px;
+        margin: 4px;
+        line-height: 2;
+    }
+
+    /* .container {
+         width: 760px;
+         margin: auto;
+         height: 100%;
+         padding: 0px;
+     }
+     */
+    .content th
+    {
+        padding: 2px;
+        margin: 2px;
+        border: solid 1px #000000!important;
+        text-align: left;
+        height: 10px!important;
+
+    }
+
+
+
+    .content td
+    {
+        padding: 5px;
+        margin: 5px;
+        border: solid 1px #000000!important;
+        text-align: center;
+    }
+    .contentt td
+    {
+        padding: 2px;
+        margin: 2px;
+        border: solid 1px #000000!important;
+        text-align: left;
+        height: 10px!important;
+
+    }
+
+    .test
+    {
+        padding: 5px;
+        margin: 5px;
+    }
+
+    .content .row
+    {
+        border-top: solid 1px #000000;
+    }
+    /* @page {
+         size: 210mm 297mm;
+         margin-top: 1cm;
+         margin-bottom: 3cm;
+     }*/
+    .txt_descriptif {
+        font-weight: 300;
+        font-size: 12px;
+        text-align: justify;
+        line-height: 19px;
+
+    }
+</style>
+<page backtop="1mm" backbottom="15mm" backleft="10mm" backright="10mm" footer="page;">
+   
+
+    <page_footer >
+    <hr/>
+        <img  src="https://www.telecontact.ma/trouver/images/footer_econtact.png" class="img-fluid"  style="height: 50px;width:100%;" >
+    </page_footer>
+	<img  src="http://www.telecontact.ma/trouver/images/tete_proposition.jpg" class="img-fluid" alt="proposition de visibilité telecontact"  style="height: 100px;width: 111%;margin-left: -38px">
+  
+   
+
+    <div style="float: right; width: 88%; font-size: 12px;   padding: 0px; margin:0px;margin-bottom:5px; text-align: left;margin-top: 20px;">
+        <span ><b>Edition  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:  </b>32</span>
+          
+    </div>
+
+   
+         {% if panniers %} 
+	        	{% if panniers.papier1.codeFirme  %}
+        <div style="float: right; width: 88%;
+        font-size: 12px;    padding: 0px; margin:0px;margin-bottom:5px;  text-align: left;">
+        <span ><b>Code firme &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b>{{ panniers.papier1.codeFirme|title }} </span>
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               
+             <span style="float=right;" ><b>Code commerciale &nbsp;:  </b>{% if panniers %} {% if panniers.papier1.utilisateur  %} {{ panniers.papier1.utilisateur }} {% endif %}{% endif %} </span>
+        </div>
+            {% endif %}
+	    {% endif %}
+	    {% if panniers %} 
+		     	{% if panniers.papier1.rs  %}
+    <div style="float: right; width: 88%; font-size: 12px;   padding: 0px; margin:0px;margin-bottom:5px; text-align: left;">
+    <span ><b>Raison sociale : </b>{{panniers.papier1.rs|title }}</span>
+    </div>
+				{% endif %}
+		{% endif %}
+    
+
+    <div class="txt_descriptif">
+        <p >Tout d'abord, nous tenons à vous remercier pour votre confiance et nous sommes ravis de vous compter parmi nos clients.<br>
+            Pour développer votre visibilité auprés des professionnels, nous vous préconisons une présence efficace sur telecontact.ma avec les solutions digitales suivantes:</p>
+    </div>
+    <table class="table content" align="center" >
+        <thead class="thead-dark">
+	        <tr  style="background-color: black;color:white;">
+	            <th scope="col" width="350" height="5" style="text-align: center;border-right: 2px solid white;">Produit(s)</th>
+	            <th scope="col" width="65"  style="text-align: center;border-right: 2px solid white;">Type</th>
+	            <th scope="col" width="70"  style="text-align: center;border-right: 2px solid white;">Ville</th>
+	            <th scope="col"  style="text-align: center;">Montant HT</th>
+	        </tr>
+
+        </thead>
+        <tbody>
+        	 {% for pannier in panniers %}
+	            <tr class="table-warning referencement">
+	                <th colspan="4" style="background-color: #ffdb2e;font-size: 14px;">{{ pannier.format }}</th>
+	            </tr>
+	            <tr>
+	                <th scope="row"><strong style="font-size: 13px;">Rubrique principale : </strong><br>
+	                    {#{% for rubrique in desrubref['rubrique'] %}
+	                    - <h7 style="font-weight: 500;font-size: 16px;">{{ rubrique.sel|rub.libelle }}</h7>
+	                    {% endfor %}#}
+	                    <div style="width: 391px!important;background-color: #f9f1c9">
+	                        <strong style="font-weight: 400;font-size: 12px;"> •&nbsp; <strong style="font-weight: 600;font-size: 12px;">{{ pannier.rubrique[0] }}
+	                        </strong><br>
+	                         visibilité sur : {{  pannier.region[0]["region"] }}
+	                    </strong>
+	                    </div>
+	                </th>
+
+	                <td>Numérique</td>
+                        <td>{{ pannier.villeRs }}</td>
+                        <td>{{pannier.prix|number_format|replace(',',' ')}}</td>
+	     
+	            </tr>
+
+            {% endfor %}
+            <tr>
+                <td  style="border-bottom: 1px solid white;border-left:  1px solid white;"   ></td>
+
+                <td colspan="2"  scope="row"  class="pull-right"  style="background-color: #f36b60;color: white;font-weight: bold;font-size: 14px;text-align: justify">Nouveau Montant H.T &nbsp;&nbsp;&nbsp;&nbsp; </td>
+                <td   style="text-align: center;background-color: #f36b60;color: white;font-weight: bold;font-size: 15px;">{{somme|number_format|replace(',',' ')}}</td>
+            </tr>
+            <tr>
+	            <td style=" border-bottom: 1px solid white;border-left:  1px solid white;" ></td>
+	            <td colspan="2" scope="row" class="pull-right" style="font-size: 14px;font-weight: 500;text-align: justify">T.V.A</td>
+	            <td  style="text-align: center;">{{(somme*0.2)|number_format|replace(',',' ')}}</td>
+            
+            </tr> 
+            <tr>
+	            <td style="border-bottom: 1px solid white;border-left:  1px solid white;"></td>
+	            <td colspan="2" scope="row" class="pull-right" style="background-color:  #dadada;font-size: 14px;font-weight: bold;text-align: justify">Montant T.T.C</td>
+	            <td  style="text-align: center;background-color: #dadada;font-weight: bold"> {{(somme+somme*0.2)|number_format|replace(',',' ')}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+</page>

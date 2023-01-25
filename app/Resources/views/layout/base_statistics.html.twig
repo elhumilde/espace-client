@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords"
+            content="espace client telecontact, telecontact, statistique, audience, gestion compte client telecontact, visibilité sur le site telecontact">
+        <meta name="description"
+            content="espace client telecontact est l'interface qui permet la supervision de votre audiance sur telecontact.ma ainssi que la gestion de votre compte client telecontact">
+        <meta name="robots" content="noindex,nofollow">
+        <title>{% block title %} Audience globale de Télécontact {% endblock %}</title>
+        <!-- Favicon icon -->
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('public_statistics/plugins/images/favicon.png') }}">
+        <!-- Custom CSS -->
+        <!-- 
+        chartist <link href="{{ asset('public_statistics/plugins/bower_components/chartist/dist/chartist.min.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('public_statistics/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css') }}">
+             -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.3.1/css/all.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.2.17/jquery.timepicker.min.css">
+        <!-- Custom CSS -->
+        <link href="{{ asset('public_statistics/css/style.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('public_statistics/css/style_cards.min.css') }}" rel="stylesheet">
+        <!-- date range picker js -->
+        <link href="{{ asset('public_statistics/css/daterangepicker.css') }}" rel="stylesheet">
+        <!-- date range picker js -->
+        <!-- datatable -->
+        <link href="{{ asset('public_statistics/css/datatable_style.css') }}" rel="stylesheet">
+        <!-- <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet"> -->
+        <!-- datatable -->
+        <!-- hours css -->
+        <link href="{{ asset('public_statistics/css/hours.css') }}" rel="stylesheet">
+        <!-- end hours css -->
+        <!-- start rating -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- End start rating -->
+
+        <style>
+            .navbar-header{
+                background-color: #969696!important;
+            }
+            .calendar-time{
+                display: none;
+            }
+            .sidebar-link{
+                border-bottom: 0.1rem solid #f3f3f3;
+            }
+            #loading_default, #loading_visit_chart{
+                height: 420px;
+                display: flex;
+                margin: auto;
+            }
+            #loading_table{
+                height: 420px;
+                display: flex;
+                margin: 0px auto;
+            }
+            #loading_key, #loading_devices, #loading_users, #loading_table{
+                width: 100%;
+                display: flex;
+                margin: 0px auto;
+            }
+            #loading_parution_cv, #loading_parution_fiche, #loading_record_session{
+                width: 40%;
+                display: flex;
+                margin: 0px auto;
+                height: 350px;
+
+            }
+            #config-demo{
+                font-size: 0.790rem!important;
+            }
+
+            /* compte dropdown */
+
+            .dropbtn {
+              cursor: pointer;
+            }
+
+            .dropdown {
+              position: relative;
+              display: inline-block;
+            }
+
+            .dropdown-content {
+              display: none;
+              position: absolute;
+              background-color: #f9f9f9;
+              min-width: 160px;
+              box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+              z-index: 1;
+            }
+
+            .dropdown-content a {
+              color: black;
+              padding: 12px 16px;
+              text-decoration: none;
+              display: block;
+            }
+
+            .dropdown-content a:hover {background-color: #f1f1f1}
+
+            .dropdown:hover .dropdown-content {
+              display: block;
+            }
+            .bgb{
+                background: #f2f1ff;
+                border-bottom: 1px solid white;
+                border-top: 1px solid white;
+            }
+
+
+            /* end compte dropdown */
+
+            #overlay {
+              background: #00000008;
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              top: 0;
+              left: 0;
+              opacity: .4;
+            }
+
+            .tlct-website{
+                color: #ffdd00;
+            }
+            .tlct-website:hover{
+                background-color: #ffdd00;
+                color: black;
+                padding: 7px;
+            }
+            .rsv{
+                color: white!important;
+            }
+            
+        </style>
+
+        {% block stylesheets %}
+        {% endblock %}
+    </head>
+
+    
+    <body >
+        <div >
+        {% set utilisateur = app.session.get('utilisateur') %}
+        {% set data_user = app.session.get('data_user') %}
+        {% set data_vignette = app.session.get('data_vignette') %}
+        {% set count_comm = data_user|length %}
+        {% set cf = app.session.get('cf') %}
+        {% if app.session.get('selectedrange') != '' %}
+            {% set selectedrange = app.session.get('selectedrange') %}
+        {% else %}
+            {% set selectedrange = {'start_period': '-1months', 'end_period':'-1days'} %}
+        {% endif %}
+
+        {% set start_timestamp = selectedrange['start_period']|date_modify("+1 day")%}
+        {% set end_timestamp = selectedrange['end_period']|date_modify("+1 day")%}
+
+        <input type="hidden" name="start_timestamp" id="start_timestamp" value="{{ start_timestamp | date('U') }}">
+        <input type="hidden" name="end_timestamp" id="end_timestamp" value="{{ end_timestamp | date('U') }}">
+
+        <!-- 
+            <input name="ses_s_d" id="ses_s_d" value ="{{ selectedrange['start_period'] }}" >
+            <input name="ses_e_d" id="ses_e_d" value ="{{ selectedrange['end_period'] }}" > 
+        -->
+
+            <!-- ============================================================== -->
+            <!-- Preloader - style you can find in spinners.css -->
+            <!-- ============================================================== -->
+            <div class="preloader" >
+                <div class="lds-ripple">
+                    <div class="lds-pos"></div>
+                    <div class="lds-pos"></div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- Main wrapper - style you can find in pages.scss -->
+            <!-- ============================================================== -->
+            <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+                data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+                <!-- ============================================================== -->
+                <!-- Topbar header - style you can find in pages.scss -->
+                <!-- ============================================================== -->
+                <header class="topbar" data-navbarbg="skin5">
+                    <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+                        <div class="navbar-header" data-logobg="skin6">
+                            <!-- ============================================================== -->
+                            <!-- Logo -->
+                            <!-- ============================================================== -->
+
+                            {% if data_user[0]['code_firme'] is defined and data_user[0]['code_firme'] != "" %}
+
+                                <a class="navbar-brand" href="{{path('telecontact_data',{code_firme:data_user[0]['code_firme']})}}" aria-expanded="false" target="_blank">
+                                    <span class="logo-text">
+                                        <img src="{{ asset('public_statistics/plugins/images/logo_tlct.png')}}" alt="homepage" />
+                                    </span>
+                                </a>  
+
+                            {% else %}
+
+                            <a class="navbar-brand" href="dashboard.html">
+                                <span class="logo-text">
+                                    <img src="{{ asset('public_statistics/plugins/images/logo_tlct.png')}}" alt="homepage" />
+                                </span>
+                            </a>
+                            <!-- ============================================================== -->
+                            <!-- End Logo -->
+                            <!-- ============================================================== -->
+                            <!-- ============================================================== -->
+                            <!-- toggle and nav items -->
+                            <!-- ============================================================== -->
+                            <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
+                                href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+
+                            {% endif %}
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- End Logo -->
+                        <!-- ============================================================== -->
+                        <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+                           
+                            <!-- ============================================================== -->
+                            <!-- Right side toggle and nav items -->
+                            <!-- ============================================================== -->
+
+                            {% if (data_user) and (data_user[0]['profile'] != "admin") and  (data_user[0]['profile'] != "responsable") and  (data_user[0]['profile'] != "resCommercial")  and (data_user[0]['profile'] != "commercial") %}
+                            {% if data_user[0]['code_firme'] is defined and data_user[0]['code_firme'] != "" %}
+                                <ul class="navbar-nav d-flex align-items-center">
+                                    <li class=" in">
+                                            <a href="{{ path('ticket', {code_firme:data_user[0]['code_firme']}) }}" class="active">
+                                                <button class="form-control" style="border-radius: 46px; background: #e2e2e2; border-color: #e2e2e2; font-weight: 700;margin-left: 20px;font-size: 15px;"><i class="fas fa-exclamation-circle" style="font-size: 20px; margin-right: 5px;"></i>Contacter nos services</button>
+                                            </a>
+                                    </li>
+                                </ul>
+                            {% endif %}
+                            {% else %}
+                                <!-- <ul class="navbar-nav d-flex align-items-center rsv" style="color: #2f323e;display: flex!important; flex-direction: row-reverse;padding-left: 15px;">
+                                    {% if data_user %}
+                                    <li class=" in"><b>Espace client : </b> 
+                                    </li>
+                                    {% endif %}
+                                </ul> -->
+                            {% endif %}
+
+
+                            <ul class="navbar-nav ms-auto d-flex align-items-center">
+
+                                <!-- ============================================================== -->
+                                <!-- Search -->
+                                <!-- ============================================================== -->
+                                <li class="in tlct-website" style="margin-right: 100px; " onclick="sendToken();">
+                                    
+                                        
+                                            <i class="fa fa-globe" style="font-weight: 600; font-size: 16px;text-decoration: underline;cursor: pointer;"> Accéder à www.telecontact.ma </i><i class="fa fa-hand-o-up" aria-hidden="true"></i>
+                                        
+                                    
+                                </li> 
+                                <!-- ============================================================== -->
+                                <!-- User profile and search -->
+                                <!-- ============================================================== -->
+                                <li>
+                                    <div class="dropdown">
+                                    <a class="profile-pic dropbtn">
+                                        <img src="{{ asset('public_statistics/plugins/images/users/telecontact_statistics_user.png') }}" alt="user-img" width="36" class="img-circle"><span class="text-white font-medium">{{ utilisateur[0]['email'] }}</span></a>
+                                            <input type="hidden" name="id_user" id="id_user" value="{{ utilisateur[0]['id_user'] }}">
+                                            <div class="dropdown-content">
+                                              {% if data_user[0]['code_firme'] is defined and data_user[0]['code_firme'] != "" and data_user[0]['profile'] == 'client' %}
+                                              <a href="{{ path('monCompte',{code_firme:data_user[0]['code_firme']}) }}">Mon compte</a>
+                                              {% endif %}
+                                              <a href="{{ path('deconnexion') }}">Déconnection</a>
+                                            </div>
+                                    </div>
+                                </li>
+
+                                <!-- ============================================================== -->
+                                <!-- User profile and search -->
+                                <!-- ============================================================== -->
+                            </ul>
+                            <input type="hidden" name="start-period" id="start-period" value="" >
+                            <input type="hidden" name="end-period" id="end-period" value="" >
+
+                        </div>
+                    </nav>
+                </header>
+                <!-- ============================================================== -->
+                <!-- End Topbar header -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Left Sidebar - style you can find in sidebar.scss  -->
+                <!-- ============================================================== -->
+                <aside class="left-sidebar" data-sidebarbg="skin6">
+                    <!-- Sidebar scroll-->
+                    <div class="scroll-sidebar">
+                        <!-- Sidebar navigation-->
+                        <nav class="sidebar-nav">
+                            <ul id="sidebarnav">
+                                {% block menu %}
+                                   
+                                    {% if data_user[0]['code_firme'] is defined and data_user[0]['code_firme'] != "" and data_user[0]['code_firme'] != "0000" %}
+
+                                        
+                                        <li class="sidebar-item pt-2">
+                                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{path('homepage',{code_firme:data_user[0]['code_firme']} )}}" aria-expanded="false" target="_blank">
+                                                <i aria-hidden="true" class="fas fa-home"></i>
+                                                <span class="hide-menu">Accueil</span>
+                                            </a>
+                                        </li>
+                                        <li class="sidebar-item pt-2">
+                                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{path('telecontact_data',{code_firme:data_user[0]['code_firme']})}}" aria-expanded="false" target="_blank">
+                                                <i class="fas fa-chart-line" aria-hidden="true"></i>
+                                                <span class="hide-menu">Audience globale TLC</span>
+                                            </a>
+                                        </li>
+                                        <li class="sidebar-item">
+                                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{path('affichage',{code_firme:data_user[0]['code_firme']})}}" aria-expanded="false" target="_blank">
+                                                <i class="fa fa-tv" aria-hidden="true"></i>
+                                                <span class="hide-menu">Affichage votre référencement</span>
+                                            </a>
+                                        </li>
+                                        <li class="sidebar-item">
+                                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{path('click',{code_firme:data_user[0]['code_firme']})}}" aria-expanded="false" target="_blank">
+                                                <i class="fas fa-hand-pointer" aria-hidden="true"></i>
+                                                <span class="hide-menu">Affichage votre Contenu</span>
+                                            </a>
+                                        </li>
+                                        
+                                            {% if data_vignette != 0 %}
+                                            <li class="sidebar-item">
+                                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{path('vignette',{code_firme:data_vignette['code_firme']} )}}" aria-expanded="false" target="_blank">
+                                                    <i class="fas fa-ad" aria-hidden="true"></i>
+                                                    <span class="hide-menu">Vignette</span>
+                                                </a>
+                                            </li>$
+                                            {% endif %}
+
+                                            
+                                            <!-- <li class="sidebar-item">
+                                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{path('vignette',{code_firme:data_user[0]['code_firme']} )}}" aria-expanded="false" target="_blank">
+                                                    <i class="fas fa-ad" aria-hidden="true"></i>
+                                                    <span class="hide-menu">Vignette</span>
+                                                </a>
+                                            </li> -->
+
+                                            
+
+                                        <li class="sidebar-item">
+                                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{path('ads',{code_firme:data_user[0]['code_firme'] })}}" aria-expanded="false" target="_blank">
+                                                <i class="fab fa-adversal" aria-hidden="true"></i>
+                                                <span class="hide-menu">Statistique produits display<!-- Publicité --></span>
+                                            </a>
+                                        </li>
+           
+                                        <!-- <li class="sidebar-item">
+                                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('consulterDevis', {code_firme:data_user[0]['code_firme']}) }}" aria-expanded="false" target="_blank">
+                                                <i class="fas fa-envelope-open-text" aria-hidden="true"></i>
+                                                <span class="hide-menu">Devis reçus</span>
+                                            </a>
+                                        </li> -->
+
+                                        <li class="sidebar-item">
+                                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('devis', {code_firme:data_user[0]['code_firme']}) }}" aria-expanded="false" target="_blank">
+                                                <i class="fas fa-envelope-open-text" aria-hidden="true"></i>
+                                                <span class="hide-menu">Messages reçus</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="sidebar-item">
+                                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('avis_list', {code_firme:data_user[0]['code_firme']}) }}" aria-expanded="false" target="_blank">
+                                                <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                                                <span class="hide-menu">Avis</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="sidebar-item">
+                                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{path('actualite',{code_firme:data_user[0]['code_firme'] })}}" aria-expanded="false" target="_blank">
+                                                <i class="fas fa-info-circle" aria-hidden="true"></i>
+                                                <span class="hide-menu">Actualités</span>
+                                            </a>
+                                        </li>
+
+                                        <li class="sidebar-item">
+                                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('ticket', {code_firme:data_user[0]['code_firme']}) }}" aria-expanded="false" target="_blank">
+                                                <i class="fas fa-envelope-open-text" aria-hidden="true"></i>
+                                                <span class="hide-menu">Contacter nos services</span>
+                                            </a>
+                                        </li>
+
+
+                                        
+                                        
+
+                                        {% if data_user[0]['code_commercial'] is defined %}
+
+                                            <li class="sidebar-item">
+                                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('pdf',{code_firme: data_user[0]['code_firme'],id_user:utilisateur[0]['id_user'], start:selectedrange['start_period'], end:selectedrange['end_period'] }) }}"
+                                                         aria-expanded="false" target="_blank">
+                                                    <i class="fas fa-file-pdf" aria-hidden="true"></i>
+                                                    <span class="hide-menu">Généerer PDF</span>
+                                                </a>
+                                            </li>
+
+
+                                            <li class="sidebar-item">
+                                                <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('listpdf', {code_firme: data_user[0]['code_firme']} ) }}"
+                                                         aria-expanded="false" target="_blank">
+                                                    <i class="fas fa-list" aria-hidden="true"></i>
+                                                    <span class="hide-menu">Liste des PDF</span>
+                                                </a>
+                                            </li>
+
+                                            {% if data_user[0]['code_commercial'] == 000 or data_user[0]['code_commercial'] == 25 or data_user[0]['code_commercial'] == 'admin' or data_user[0]['code_commercial'] == 'rania' %} 
+
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('clientsTelecontact') }}"
+                                                        aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-user-tie" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Client Télécontact</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('prospects') }}"
+                                                        aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-user" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Firmes</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('affectation') }}"
+                                                         aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-user-tag" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Mon fichier CRM</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('Allpdf') }}"
+                                                         aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-list" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Liste des PDFs clinets</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('ticketList') }}"
+                                                         aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Réclamations</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('historique_connection') }}" aria-expanded="false">
+                                                        <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Historique de connexion</span>
+                                                    </a>
+                                                </li>
+
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('clientsTelecontact') }}"
+                                                        aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-folder-open" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Suivi commercial</span>
+                                                    </a>
+                                                </li>
+                                                <!-- <li class="sidebar-item">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('listeComptesClient') }}"
+                                                        aria-expanded="false" target="_blank">
+                                                        <i class="fa fa-users-cog" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Comptes clients</span>
+                                                    </a>
+                                                </li> -->
+                                            {% elseif data_user[0]['profile'] == 'responsable' %}
+                                                
+                                                
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('ResCommercial', {id_utilisateur:data_user[0]['id_utilisateur']}) }}"
+                                                        aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-people-carry" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Mon équipe</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('ResClients', {code_commercial:data_user[0]['code_commercial']}) }}"
+                                                        aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-user-tie" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Mes clients</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('prospects') }}"
+                                                        aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-user" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Prospects</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('affectation') }}"
+                                                         aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-user-tag" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Clients affectés</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('Allpdf') }}"
+                                                         aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-list" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Liste des PDFs clinets</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('ticketList') }}"
+                                                         aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Réclamations client</span>
+                                                    </a>
+                                                </li>
+
+                                            {% else %}
+
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('clientsCommercial', {code_commercial:data_user[0]['code_commercial']}) }}"
+                                                        aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-user-tie" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Mes Clients</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('prospects') }}"
+                                                        aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-user" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Prospects</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('affectation') }}"
+                                                         aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-user-tag" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Clients affectés</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('Allpdf') }}"
+                                                         aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-list" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Liste des PDFs clinets</span>
+                                                    </a>
+                                                </li>
+                                                <li class="sidebar-item bgb">
+                                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('ticketList') }}"
+                                                         aria-expanded="false" target="_blank">
+                                                        <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+                                                        <span class="hide-menu">Contacter nos services</span>
+                                                    </a>
+                                                </li>
+
+                                            {% endif %}
+                                                
+                                            
+                                        {% endif %}
+
+                                    {% endif %}
+
+                                    
+
+                                {% endblock %}
+
+                                {% if data_user[0]['code_firme'] is defined and data_user[0]['code_firme'] == "0000" %}
+                                        <li class="sidebar-item bgb">
+                                            <a class="sidebar-link waves-effect waves-dark sidebar-link" onclick="sendToken();"
+                                                 aria-expanded="false">
+                                                <i class="fa fa-globe" aria-hidden="true"></i>
+                                                <span class="hide-menu">Accéder au site Telecontact</span>
+                                            </a>
+                                        </li>
+                                        <li class="sidebar-item bgb">
+                                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="https://www.business-center.telecontact.ma/"
+                                                 aria-expanded="false" target="_blank">
+                                                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                                                <span class="hide-menu">Solutions Telecontact</span>
+                                            </a>
+                                        </li>
+                                        <li class="sidebar-item bgb">
+                                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('demandeDevisTelecontact') }}"
+                                                 aria-expanded="false" target="_blank">
+                                                <i class="fas fa-bullhorn" aria-hidden="true"></i>
+                                                <span class="hide-menu">Demandes de devis</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                <!--  <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="blank.html"
+                                        aria-expanded="false" target="_blank">
+                                        <i class="fa fa-columns" aria-hidden="true"></i>
+                                        <span class="hide-menu">Blank Page</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="404.html"
+                                        aria-expanded="false" target="_blank">
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                        <span class="hide-menu">Error 404</span>
+                                    </a>
+                                </li>
+                                <li class="text-center p-20 upgrade-btn">
+                                    <a href="https://www.wrappixel.com/templates/ampleadmin/"
+                                        class="btn d-grid btn-danger text-white" target="_blank">
+                                        Upgrade to Pro</a>
+                                </li> -->
+
+                                
+
+                            </ul>
+
+                        </nav>
+                        <!-- End Sidebar navigation -->
+                    </div>
+                    <!-- End Sidebar scroll-->
+                </aside>
+                <!-- ============================================================== -->
+                <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+                <!-- ============================================================== -->
+
+
+
+
+                <!-- ============================================================== -->
+                <!-- Page wrapper  -->
+                <!-- ============================================================== -->
+                <div class="page-wrapper" id="captures">
+                    <!-- ============================================================== -->
+                    <!-- Bread crumb and right sidebar toggle -->
+                    <!-- ============================================================== -->
+                    <div class="page-breadcrumb bg-white">
+                        <div class="row align-items-center" style="-webkit-flex-direction: row-reverse;">
+                            
+                            <div class="col-lg-6 col-sm-8 col-md-8 col-xs-12">
+                                <div class="d-md-flex">
+
+                                    <ol class="breadcrumb ms-auto">
+                                        {% include "EcommerceBundle:Administration/statistics:daterangepicker.html.twig" %}
+                                    </ol>
+
+                                    
+                                    <input type="hidden" name="code_firme" id="code_firme" {% if utilisateur[0]['code_firme'] is defined %} value="{{ data_user[0]['code_firme'] }}" {% elseif cf is defined %} value="{{ cf }}" {% else %} value="" {% endif %}>
+                                    <input type="hidden" name="user" id="user" {% if utilisateur[0]['code_firme'] is defined and utilisateur[0]['code_firme'] is not empty %} value="1" {% elseif cf is defined %} value="2" {% else %} value="" {% endif %}>
+                                    <input type="hidden" name="rs_comp" id="rs_comp" {% if utilisateur[0]['code_firme'] is defined and utilisateur[0]['code_firme'] is not empty %} value="{{data_user[0]['raison_sociale']}}" {% else %} value="" {% endif %}>
+                                    
+                                    <!-- <a href="https://www.wrappixel.com/templates/ampleadmin/" target="_blank"
+                                        class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">Upgrade
+                                        to Pro</a> -->
+                                </div>
+                            </div>
+
+                {% block body %}
+                {% endblock %}
+                
+                
+
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Wrapper -->
+            <!-- ============================================================== -->
+
+        
+
+
+            <script src="{{ asset('bundles/pro1googleanalytics/js/jquery.preloaders.js') }}"></script>
+            <!-- ============================================================== -->
+            <!-- All Jquery -->
+            <!-- ============================================================== -->
+            <script src="{{ asset('public_statistics/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+            <!-- Bootstrap tether Core JavaScript -->
+            <script src="{{ asset('public_statistics/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+            <script src="{{ asset('public_statistics/js/app-style-switcher.js') }}"></script>
+            <script src="{{ asset('public_statistics/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js') }}"></script>
+            <!--Wave Effects -->
+            <script src="{{ asset('public_statistics/js/waves.js') }}"></script>
+            <!--Menu sidebar -->
+            <script src="{{ asset('public_statistics/js/sidebarmenu.js') }}"></script>
+            <!--Custom JavaScript -->
+            <script src="{{ asset('public_statistics/js/custom.js') }}"></script>
+            <!--This page JavaScript -->
+            <!--chartis chart-->
+            <!-- 
+            chartist <script src="{{ asset('public_statistics/plugins/bower_components/chartist/dist/chartist.min.js') }}"></script>
+            <script src="{{ asset('public_statistics/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') }}"></script> 
+            -->
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js" integrity="sha512-Wt1bJGtlnMtGP0dqNFH1xlkLBNpEodaiQ8ZN5JLA5wpc1sUlk/O5uuOMNgvzddzkpvZ9GLyYNa8w2s7rqiTk5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.esm.min.js" integrity="sha512-2Vi/lCX8NaXlAhzc28RAoteYAiJVoz4y3Xq/IpHQCw7KU25I34fDqJSVSUml2tQRVYFnf3IMy6O59zKJh79hiw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/helpers.esm.min.js" integrity="sha512-b3xZ1Eh852+/Ltha4XJd59YP2d+I+B6NPdB4H+Wns29GX9x5pLwlp8jnQtJYog3d5Xk1SWvhT2lgJDDBvpV0ow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+            <!-- <script src="{{ asset('public_statistics/js/pages/dashboards/dashboard1.js') }}"></script> -->
+
+            <!-- date range picker js -->
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+            <script src="{{ asset('public_statistics/js/daterangepicker.js') }}"></script>
+            <!-- end date range picker js -->
+            <!-- timepicker -->
+            <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.2.17/jquery.timepicker.min.js"></script>
+            <!-- end timepicker -->
+            <!-- ckeditor -->
+            <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+            <!-- end ckeditor -->
+            <!-- hours -->
+            <script src="{{ asset('public_statistics/js/hours.js') }}"></script>
+            <!-- end hours -->
+            <!-- datatable -->
+            <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+            <!-- end datatable -->
+            <!-- html2canvas -->
+           <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.svg.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.svg.min.js"></script> -->
+
+            <!-- 
+            <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+            <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+             -->
+
+
+            <script src="{{ asset('public_statistics/js/Chart.min.js')}} "></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+
+            <!-- <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script>
+            <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script> -->
+            <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.js.map"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.min.js"></script> -->
+            <!-- end html2canvas -->
+            
+
+            <script>
+
+
+                $(document).ready(function() {
+
+                    /*var ses_s_d = $("#ses_s_d").val();
+                    var ses_e_d = $("#ses_e_d").val();*/
+
+                    $('#config-text').keyup(function() {
+                      eval($(this).val());
+                    });
+                    
+                    $('.configurator input, .configurator select').change(function() {
+                      updateConfig();
+                    });
+
+                    $('.demo i').click(function() {
+                      $(this).parent().find('input').click();
+                    });
+
+                    var today = new Date();
+                    var start_unix_timestamp = $("#start_timestamp").val();
+                    var start_date = new Date(start_unix_timestamp * 1000-(1000*60*60*24)); 
+
+                    var end_unix_timestamp = $("#end_timestamp").val();
+                    var end_date = new Date(end_unix_timestamp * 1000-(1000*60*60*24));                
+
+                    
+                    $('#startDate').daterangepicker({
+                      singleDatePicker: true,
+                      startDate: start_date
+                    });
+
+                    $('#endDate').daterangepicker({
+                      singleDatePicker: true,
+                      /*startDate: moment().subtract(1, 'days')*/
+                      startDate: end_date
+                    });
+
+                    updateConfig();
+
+                    function updateConfig() {
+
+                        
+                      var options = {};
+
+                      if ($('#singleDatePicker').is(':checked'))
+                        options.singleDatePicker = true;
+                      
+                      if ($('#showDropdowns').is(':checked'))
+                        options.showDropdowns = true;
+
+                      if ($('#showWeekNumbers').is(':checked'))
+                        options.showWeekNumbers = true;
+
+                      if ($('#showISOWeekNumbers').is(':checked'))
+                        options.showISOWeekNumbers = true;
+
+                      if ($('#timePicker').is(':checked'))
+                        options.timePicker = true;
+                      
+                      if ($('#timePicker24Hour').is(':checked'))
+                        options.timePicker24Hour = true;
+
+                      if ($('#timePickerIncrement').val().length && $('#timePickerIncrement').val() != 1)
+                        options.timePickerIncrement = parseInt($('#timePickerIncrement').val(), 10);
+
+                      if ($('#timePickerSeconds').is(':checked'))
+                        options.timePickerSeconds = true;
+                      
+                      if ($('#autoApply').is(':checked'))
+                        options.autoApply = true;
+
+                      if ($('#dateLimit').is(':checked'))
+                        options.dateLimit = { days: 7 };
+
+                      if ($('#ranges').is(':checked')) {
+                        options.ranges = {
+                          'Hier': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                          'Les 7 derniers jours': [moment().subtract(6, 'days'), moment()],
+                          'Les 30 derniers jours': [moment().subtract(29, 'days'), moment()],
+                          'Mois dernier': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                        };
+                      }
+
+                      options.locale = {
+                        
+                          format: 'DD/MM/YYYY',
+                          separator: '  -  ',
+                          applyLabel: 'Appliquer',
+                          cancelLabel: 'Annuler',
+                          fromLabel: 'de',
+                          toLabel: 'à',
+                          customRangeLabel: 'Personnalisée',
+                          daysOfWeek: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven','Sam'],
+                          monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                          firstDay: 1
+                        };
+                        
+
+                      if (!$('#linkedCalendars').is(':checked'))
+                        options.linkedCalendars = false;
+
+                      if (!$('#autoUpdateInput').is(':checked'))
+                        options.autoUpdateInput = false;
+
+                      if (!$('#showCustomRangeLabel').is(':checked'))
+                        options.showCustomRangeLabel = false;
+
+                      if ($('#alwaysShowCalendars').is(':checked'))
+                        options.alwaysShowCalendars = true;
+
+                      if ($('#parentEl').val().length)
+                        options.parentEl = $('#parentEl').val();
+
+                      if ($('#startDate').val().length) 
+                        options.startDate = $('#startDate').val();
+
+                      if ($('#endDate').val().length)
+                        options.endDate = $('#endDate').val();
+                      
+                      if ($('#minDate').val().length)
+                        options.minDate = $('#minDate').val();
+
+                      if ($('#maxDate').val().length)
+                        options.maxDate = $('#maxDate').val();
+
+                      if ($('#opens').val().length && $('#opens').val() != 'right')
+                        options.opens = $('#opens').val();
+
+                      if ($('#drops').val().length && $('#drops').val() != 'down')
+                        options.drops = $('#drops').val();
+
+                      if ($('#buttonClasses').val().length && $('#buttonClasses').val() != 'btn btn-sm')
+                        options.buttonClasses = $('#buttonClasses').val();
+
+                      if ($('#applyClass').val().length && $('#applyClass').val() != 'btn-success')
+                        options.applyClass = $('#applyClass').val();
+
+                      if ($('#cancelClass').val().length && $('#cancelClass').val() != 'btn-default')
+                        options.cancelClass = $('#cancelClass').val();
+
+                     /* $('#config-text').val("$('#demo').daterangepicker(" + JSON.stringify(options, null, '    ') + ", function(start, end, label) {\n  console.log(\"New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')\");\n});");*/
+
+                      $('#config-demo').daterangepicker(options, function(start, end, label) { console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')'); }).click();;
+
+                      $('#config-demo').daterangepicker(options, function(start, end, label) { 
+                        $( "#start-period" ).val( start.format('YYYY-MM-DD') );
+                        $( "#end-period" ).val( end.format('YYYY-MM-DD') );
+
+                        var affichage  = $("#affichage").val();
+                        var click      = $("#click").val();
+                        var audience   = $("#audience").val();
+                        var ads        = $("#ads").val();
+                        var vignette   = $("#vignette").val();
+                        var type       = $("#type").val();
+
+                        
+                        if(affichage !== undefined){
+
+                            /*topKeywordSearch();
+                            clickVisitechart();*/
+                            clickVisite();
+                            
+
+                        }else if(click !== undefined){
+
+                            /*clickDefaultChart();*/
+                            clickTable();
+
+                        }else if(audience !== undefined){
+
+                            audience_tlct();
+
+                        }else if(ads !== undefined){
+
+                            /*carreacceuilChart();*/
+                            
+                        }else if(vignette !== undefined && type =='rubrique'){
+
+                            vignetteRubriqueChart();
+                            
+                        }else if(vignette !== undefined && type =='region'){
+
+                            vignetteRegionChart();
+                            
+                        }
+
+                        
+                    });
+
+                     
+                    }
+ 
+                });
+
+
+                function sendToken(){
+                    /*var email    = "{{ utilisateur[0]['nom'] }}";
+                    var password = $('#password').val();
+                    var sendToken     = 1;
+                    var token = window.btoa(email + '&' + password + '&' + sendToken);
+                    console.log(email + '  ' + password + '  ' + sendToken + '  ' + token);*/
+
+
+                    $.ajax({
+                        url  : "{{ path('createToken') }}",
+                        method: "GET",
+                        success:function(data){
+                            console.log(data);
+                            /*window.location.href = "http://telecontact.odiso.fr/?data="+data;*/
+                            window.open('https://www.telecontact.ma/?data='+data, '_blank');
+                        }
+
+                    });
+                }
+
+
+            </script>
+
+            <!-- date range picker js -->
+
+            {% block javascripts %}
+            {% endblock %}
+
+        </div>
+    </body>
+</html>

@@ -1,0 +1,519 @@
+{% extends "::layout/base_statistics.html.twig" %}
+
+
+{% block title %} Audiance Telecontact {% endblock %}
+{% block stylesheets %}
+
+<style>
+	
+
+</style>
+
+{% endblock %}
+
+
+{% block body %}
+
+
+
+
+
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="page-breadcrumb bg-white">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                        <h4 class="page-title">Audiance globale de Télécontact du dernier mois </h4>
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <div class="d-md-flex">
+                            <!-- <ol class="breadcrumb ms-auto">
+                                <li><a href="#" class="fw-normal">Dashboard</a></li>
+                            </ol>
+                            <a href="https://www.wrappixel.com/templates/ampleadmin/" target="_blank"
+                                class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">Upgrade
+                                to Pro</a> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Three charts -->
+                <!-- ============================================================== -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="white-box analytics-info">
+                            <h3 class="box-title">Nombre de sessions</h3>
+                            <ul class="list-inline two-part d-flex align-items-center mb-0">
+                                <li>
+                                    <div id="sparklinedash"><canvas width="67" height="30"
+                                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
+                                    </div>
+                                </li>
+                                <li class="ms-auto"><span class="counter text-success">{{ data_get_record[0]['record_session'] }}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="white-box analytics-info">
+                            <h3 class="box-title">Nombre de pages vues</h3>
+                            <ul class="list-inline two-part d-flex align-items-center mb-0">
+                                <li>
+                                    <div id="sparklinedash2"><canvas width="67" height="30"
+                                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
+                                    </div>
+                                </li>
+                                <li class="ms-auto"><span class="counter text-purple">{{ data_get_record[0]['page_vue'] }}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="white-box analytics-info">
+                            <h3 class="box-title">Visiteur unique</h3>
+                            <ul class="list-inline two-part d-flex align-items-center mb-0">
+                                <li>
+                                    <div id="sparklinedash3"><canvas width="67" height="30"
+                                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
+                                    </div>
+                                </li>
+                                <li class="ms-auto"><span class="counter text-info">{{ data_get_record[0]['users'] }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- PRODUCTS YEARLY SALES -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div class="white-box">
+                            <h3 class="box-title">Vue de l'ensemble du mois</h3>
+                            <div class="d-md-flex">
+                                <ul class="list-inline d-flex ms-auto">
+                                    <!-- <li class="ps-3">
+                                        <h5><i class="fa fa-circle me-1 text-info"></i>Sessions</h5>
+                                    </li> -->
+                                    <li class="ps-3">
+                                        <h5><i class="fa fa-circle me-1 text-inverse"></i>Sessions</h5>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="ct-visits" style="height: 420px;">
+                                <div class="chartist-tooltip" style="top: -13px; left: -12px;"><span
+                                        class="chartist-tooltip-value">6</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+		          <div class="row">
+		            <div class="col-xl-3 col-lg-4">
+		              <div class="card card-stats mb-4 mb-xl-0">
+		                <div class="card-body">
+		                  <div class="row">
+		                    <div class="col">
+		                      <h5 class="card-title text-uppercase text-muted mb-0">Sessions</h5>
+		                      <span class="h2 font-weight-bold mb-0">{{ totalForAllResults }}</span>
+		                    </div>
+		                    <div class="col-auto">
+		                      <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+		                        <i class="fas fa-chart-line"></i>
+		                      </div>
+		                    </div>
+		                  </div>
+		                  <!-- <p class="mt-3 mb-0 text-muted text-sm">
+		                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> </span>
+		                    <span class="text-nowrap">depuis le mois dernier</span>
+		                  </p> -->
+		                </div>
+		              </div>
+		            </div>
+		            <div class="col-xl-3 col-lg-4">
+		              <div class="card card-stats mb-4 mb-xl-0">
+		                <div class="card-body">
+		                  <div class="row">
+		                    <div class="col">
+		                      <h5 class="card-title text-uppercase text-muted mb-0">Utilisateurs</h5>
+		                      <span class="h2 font-weight-bold mb-0">{{ total_users }}</span>
+		                    </div>
+		                    <div class="col-auto">
+		                      <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+		                        <i class="fas fa-users"></i>
+		                      </div>
+		                    </div>
+		                  </div>
+		                  <!-- <p class="mt-3 mb-0 text-muted text-sm">
+		                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> </span>
+		                    <span class="text-nowrap">depuis le mois dernier</span>
+		                  </p> -->
+		                </div>
+		              </div>
+		            </div>
+		            <div class="col-xl-3 col-lg-4">
+		              <div class="card card-stats mb-4 mb-xl-0">
+		                <div class="card-body">
+		                  <div class="row">
+		                    <div class="col">
+		                      <h5 class="card-title text-uppercase text-muted mb-0">Pages vues</h5>
+		                      <span class="h2 font-weight-bold mb-0">{{ total_pages }}</span>
+		                    </div>
+		                    <div class="col-auto">
+		                      <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+		                        <i class="fas fa-eye"></i>
+		                      </div>
+		                    </div>
+		                  </div>
+		                  <!-- <p class="mt-3 mb-0 text-muted text-sm">
+		                    <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> </span>
+		                    <span class="text-nowrap">depuis le mois dernier</span>
+		                  </p> -->
+		                </div>
+		              </div>
+		            </div>
+		            <div class="col-xl-3 col-lg-6">
+		              <div class="card card-stats mb-4 mb-xl-0">
+		                <div class="card-body">
+		                  <div class="row">
+		                    <div class="col">
+		                      <h5 class="card-title text-uppercase text-muted mb-0">Durée moyenne</h5>
+		                      <span class="h2 font-weight-bold mb-0">{{ avg_session_duration }}</span>
+		                    </div>
+		                    <div class="col-auto">
+		                      <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+		                        <i class="fas fa-stopwatch"></i>
+		                      </div>
+		                    </div>
+		                  </div>
+		                  <!-- <p class="mt-3 mb-0 text-muted text-sm">
+		                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+		                    <span class="text-nowrap">Since last month</span>
+		                  </p> -->
+		                </div>
+		              </div>
+		            </div>
+		          </div>
+
+
+                <!-- ============================================================== -->
+                <!-- Audience par type de connexion -->
+                <!-- ============================================================== -->
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-md-6 col-lg-6 col-sm-12">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3">
+                                <h3 class="box-title mb-0">Audience Télécontact par type de connexion</h3>
+                                <!-- <div class="col-md-3 col-sm-4 col-xs-6 ms-auto">
+                                    <select class="form-select shadow-none row border-top">
+                                        <option>March 2021</option>
+                                        <option>April 2021</option>
+                                        <option>May 2021</option>
+                                        <option>June 2021</option>
+                                        <option>July 2021</option>
+                                    </select>
+                                </div> -->
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <!-- <thead>
+                                        <tr>
+                                            <th class="border-top-0">Name</th>
+                                            <th class="border-top-0">Status</th>
+                                            <th class="border-top-0">Price</th>
+                                        </tr>
+                                    </thead> -->
+                                    <tbody>
+                                        <tr>
+                                            <td class="txt-oflo">{{ result_device[1][0]|capitalize }}</td>
+                                            <td style="font-weight: bold;">{{ result_device[1][1] }}</td>
+                                            <td><span class="text-success">{{ pourcentage_mobile|round(2, 'floor') }}%</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-oflo">{{ result_device[0][0]|capitalize }}</td>
+                                            <td style="font-weight: bold;">{{ result_device[0][1] }}</td>
+                                            <td><span class="text-info">{{ pourcentage_desktop|round(2, 'floor') }}%</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-oflo">{{ result_device[2][0]|capitalize }}</td>
+                                            <td style="font-weight: bold;">{{ result_device[2][1] }}</td>
+                                            <td><span class="text-warning">{{ pourcentage_tablet|round(2, 'floor') }}%</span></td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-sm-12">
+                        <div class="white-box">
+                            <div class="d-md-flex mb-3">
+                                <h3 class="box-title mb-0">Catégorie d’utilisateurs</h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <tbody>
+                                        <tr>
+                                            <td class="txt-oflo">Nouveaux visiteurs</td>
+                                            <td style="font-weight: bold;">{{ result_users[0][1] }}</td>
+                                            <td><span class="text-success"> {{ pourcentage_new|round(2, 'floor') }}%</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="txt-oflo">Visiteurs connus</td>
+                                            <td style="font-weight: bold;">{{ result_users[1][1] }}</td>
+                                            <td><span class="text-info"> {{ pourcentage_returned |round(2, 'floor')}}%</span></td>
+                                        </tr>
+                                        <tr style="height: 54px!important;">
+                                            <td class="txt-oflo"></td>
+                                            <td><span class="text-warning"></span></td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+     
+
+{% endblock %}
+{% block javascripts %}
+
+  		<script type="text/javascript">
+
+
+  				$(document).ready(function() {
+  					alert('yes');
+
+  					$.ajax({
+			          method: "POST",
+			          url: "{{ path('test') }}",
+			          success: function(data){
+			              console.log("success");   
+			              var data_get_record = data.data_get_record;
+			              console.log(data_get_record);
+			          }
+			        });
+
+  				});
+
+
+
+
+                $(function () {
+                    
+                    // ============================================================== 
+                    // Newsletter
+                    // ============================================================== 
+                    
+                   
+                    
+
+
+                    //ct-visits
+                    new Chartist.Line('#ct-visits', {
+                        labels: [{% set date = start_date %}
+                    {% for i in 1 .. sessions|length %}
+                    	{% set date = date|date_modify('+1 day')|date("m/d/Y") %}
+                    	'{{date|date("d F Y")}}',
+                    {% endfor %}],
+                        series: [
+                         [{% for session in sessions %}
+                    	'{{session[1]}}',
+                    {% endfor %}]
+                        ]
+                    }, {
+                        top: 0,
+                        low: 1,
+                        showPoint: true,
+                        fullWidth: true,
+                        plugins: [
+                            Chartist.plugins.tooltip()
+                        ],
+                        axisY: {
+                            labelInterpolationFnc: function (value) {
+                                return (value / 1) + '';
+                            }
+                        },
+                        showArea: true
+                    });
+
+                     
+
+
+                    var chart = [chart];
+
+                    var sparklineLogin = function () {
+                        $('#sparklinedash').sparkline([0, 5, 6, 10, 9, 12, 4, 9], {
+                            type: 'bar',
+                            height: '30',
+                            barWidth: '4',
+                            resize: true,
+                            barSpacing: '5',
+                            barColor: '#7ace4c'
+                        });
+                        $('#sparklinedash2').sparkline([0, 5, 6, 10, 9, 12, 4, 9], {
+                            type: 'bar',
+                            height: '30',
+                            barWidth: '4',
+                            resize: true,
+                            barSpacing: '5',
+                            barColor: '#7460ee'
+                        });
+                        $('#sparklinedash3').sparkline([0, 5, 6, 10, 9, 12, 4, 9], {
+                            type: 'bar',
+                            height: '30',
+                            barWidth: '4',
+                            resize: true,
+                            barSpacing: '5',
+                            barColor: '#11a0f8'
+                        });
+                        $('#sparklinedash4').sparkline([0, 5, 6, 10, 9, 12, 4, 9], {
+                            type: 'bar',
+                            height: '30',
+                            barWidth: '4',
+                            resize: true,
+                            barSpacing: '5',
+                            barColor: '#f33155'
+                        });
+                    }
+                    var sparkResize;
+                    $(window).on("resize", function (e) {
+                        clearTimeout(sparkResize);
+                        sparkResize = setTimeout(sparklineLogin, 500);
+                    });
+                    sparklineLogin();
+                });
+
+
+
+
+
+
+                const chartOptions = {
+  maintainAspectRatio: false,
+  legend: {
+    display: false
+  },
+  tooltips: {
+    enabled: false
+  },
+  elements: {
+    point: {
+      radius: 0
+    }
+  },
+  scales: {
+    xAxes: [
+      {
+        gridLines: false,
+        scaleLabel: false,
+        ticks: {
+          display: false
+        }
+      }
+    ],
+    yAxes: [
+      {
+        gridLines: false,
+        scaleLabel: false,
+        ticks: {
+          display: false,
+          suggestedMin: 0,
+          suggestedMax: 10
+        }
+      }
+    ]
+  }
+};
+//
+var ctx = document.getElementById("chart1").getContext("2d");
+var chart = new Chart(ctx, {
+  type: "line",
+  data: {
+    labels: [1, 2, 1, 3, 5, 4, 7],
+    datasets: [
+      {
+        backgroundColor: "rgba(101, 116, 205, 0.1)",
+        borderColor: "rgba(101, 116, 205, 0.8)",
+        borderWidth: 2,
+        data: [1, 2, 1, 3, 5, 4, 7]
+      }
+    ]
+  },
+  options: chartOptions
+});
+//
+var ctx = document.getElementById("chart2").getContext("2d");
+var chart = new Chart(ctx, {
+  type: "line",
+  data: {
+    labels: [2, 3, 2, 9, 7, 7, 4],
+    datasets: [
+      {
+        backgroundColor: "rgba(246, 109, 155, 0.1)",
+        borderColor: "rgba(246, 109, 155, 0.8)",
+        borderWidth: 2,
+        data: [2, 3, 2, 9, 7, 7, 4]
+      }
+    ]
+  },
+  options: chartOptions
+});
+//
+var ctx = document.getElementById("chart3").getContext("2d");
+var chart = new Chart(ctx, {
+  type: "line",
+  data: {
+    labels: [2, 5, 1, 3, 2, 6, 7],
+    datasets: [
+      {
+        backgroundColor: "rgba(246, 153, 63, 0.1)",
+        borderColor: "rgba(246, 153, 63, 0.8)",
+        borderWidth: 2,
+        data: [2, 5, 1, 3, 2, 6, 7]
+      }
+    ]
+  },
+  options: chartOptions
+});
+
+     
+            </script>
+           
+ {% endblock %}
+

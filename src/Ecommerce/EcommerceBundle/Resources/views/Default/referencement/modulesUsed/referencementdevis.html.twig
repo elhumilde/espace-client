@@ -1,0 +1,1361 @@
+{#
+{% extends '::layout/layoutAdmin.html.twig' %}
+
+
+{% block body -%}
+    <link rel="stylesheet" href="{{ asset('css/style-budgetisation-gestion-de-contenu.css') }}" />
+    <style>
+        .multiselect-container>li>a>label {
+            padding: 4px 20px 3px 20px;
+        }
+        .loaders {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: url(../../web/ajax-loaderd.gif) center center no-repeat rgba(57, 66, 100, 0.6);
+            z-index: 500;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css" type="text/css" />
+
+
+
+    <form id="jsForm" class="form-group" action="" method="GET">
+        <div class="loaders" style="display: none"></div>
+<input type="text" id="r_count" name="r_count" style="display:none;">
+<input type="text" id="m_count" name="m_count" style="display:none;">
+
+        <h4>Mes activités:</h4>
+        <textarea rows="4" cols="50" style="margin: 0px 0px 10px; width: 476px; height: 75px;" name="activite"></textarea><br>
+        selectionner rubrique principale  :
+        <div id="contenu_lists">
+        <div id="select_rub_prest">
+                <select #}
+{#class="selectpicker "   multiple data-max-options="1" data-live-search="true"#}{#
+ id="select-rubrique" name="sel">
+                    <option  selected >Selectionné une rubrique</option>
+                    {% for rubriqu in rubriques %}
+
+                        <option value="{{ rubriqu.id }}" >{{ rubriqu.libelle }}</option>
+                    {% endfor %}
+                </select>
+
+        <span id="prestaAjax" style="display: none">
+        <img src='../../web/ajax-loader.gif' alt='loading...'  height="25" width="25"/>
+        </span>
+        <select   id="prestation" multiple="multiple" name="prest[]">
+                    <option  selected >Selectionné une prestation</option>
+        </select> <br>
+        </div>
+        </div>
+
+
+        #}
+{# <select id="chkveg" multiple="multiple">
+
+             <option value="cheese">Cheese</option>
+             <option value="tomatoes">Tomatoes</option>
+             <option value="mozarella">Mozzarella</option>
+             <option value="mushrooms">Mushrooms</option>
+             <option value="pepperoni">Pepperoni</option>
+             <option value="onions">Onions</option>
+
+         </select>
+ #}{#
+
+
+        <button id="addrub-btn" type="button" class="btn btn-info bouton-1" data-toggle="collapse" data-target="#demo-1" >
+            Ajouter rubrique suplémentaire  </button>
+
+        &nbsp&nbsp <td>Autres</td>  <input id="addrub-btn" type="text"  placeholder="Renseigner la prestation ou le produit souhaité" data-toggle="collapse" data-target="#demo-1" name="sup">
+        </input>
+        <fieldset>
+            <legend>Vos Marques:</legend>   <h4></h4>
+            #}
+{#<div id="contenu_marq" style=" display: inline-block" >
+                <div   >
+                    <input type="text" class="form-control"style=" margin-top: 10px;" >
+                </div>
+            </div>
+
+                    <button id="addmarq-btn" type="button" class="btn btn-info bouton-1" data-toggle="collapse" data-target="#demo-1" >
+                        Ajouter une marque </button>#}{#
+
+
+            <div class="input_fields_wrap" id="set_now" >
+                <div id="marq" style=" display: inline-block" >
+                    <input type="text" name="marque" id="marque" class="form-control" style=" margin-top: 10px;"  placeholder="Ecrire votre marque">
+                </div>
+
+             </div>
+            <button class="add_field_button btn btn-info bouton-1" type="button">Ajouter une marque</button>
+             </fieldset>
+
+        <fieldset>
+            <legend>Ma visibilité sur</legend>
+            <div class="">
+                <h5></h5>
+            </div>
+
+            <input  style="display:none;" type="text" id="amal" value="">
+
+
+
+            <div class="test">
+                <ul class="thumbnails" style="margin-left: -180px">
+
+                    <li id="">
+                        <div align=center class="col-md-3" style="background-color: white; height:210px; overflow-y:scroll;">
+
+
+
+                            <div class="titre">Ville principale</div>
+                            <div class="tex">
+                                <input id="select" class="my-activitys" type="radio" name="villes" value="9">Casablanca
+
+                            </div>
+                            <div class="tex">
+                                <input id="select" class="my-activitys" type="radio" name="villes" value="10">Rabat
+
+                            </div>
+                            <div class="tex">
+                                <input id="select" class="my-activitys" type="radio" name="villes" value="14">Fes
+
+                            </div>
+                            <div class="tex">
+                                <input id="select" class="my-activitys" type="radio" name="villes" value="16">Tanger
+
+                            </div>
+                            <div class="tex">
+                                <input id="select" class="my-activitys" type="radio" name="villes" value="4">Agadir
+
+                            </div>
+
+
+                            {% for ville in villes %}
+                                <div class="tex" >
+                                    <input id="select" class="my-activitys" type="radio" name="villes"  value="{{ ville.region.coderegion }}"/>{{ ville.libelle }}
+
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </li>
+
+                    <li id="">
+                        <div align=center class="col-md-3" style="background-color: white; height:210px; overflow-y:scroll;">
+
+                            <div class="titre">Ville supplementaires</div>
+
+                            <h5><input type="radio" id="chk1" name="chk2"   class="my-activity"  value="0">Sur sa localité</h5>
+
+
+                            <h5><input type="radio" id="chk2" name="chk2"   class="my-activity"  value="1">+1 localité</h5>
+
+
+                            <h5><input type="radio" id="chk3" name="chk2"   class="my-activity"  value="3">+3 localité</h5>
+
+
+                            <h5><input type="radio" id="chk4" name="chk2"   class="my-activity"  value="6">+6 localité</h5>
+
+                            <h5><input type="radio" id="chk4" name="chk2"   class="my-activity"  value="9">+9 localité</h5>
+
+                        </div>
+                    </li>
+
+
+                    <li id="">
+                        <div align=center class="col-md-3" style="background-color: white; height:210px; overflow-y:scroll;">
+
+
+
+                            <div class="titre">Region principale</div>
+
+                            {% for  entities in entities %}
+                                <div class="tex xxx" >
+                                    <input id="select" class="regiontest" type="radio" name="regions"  value="{{ entities.coderegion }}"/>{{ entities.libelle }}
+
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </li>
+
+                    <li id="">
+                        <div align=center class="col-md-3" style="background-color: white; height:210px; overflow-y:scroll;">
+
+                            <div class="titre">Region supplementaires</div>
+
+                            <h5><input type="radio" id="chk1" name="chk1"   class="region"  value="0">Sur sa region</h5>
+
+
+                            <h5><input type="radio" id="chk2" name="chk1"   class="region"  value="1">+1 region</h5>
+
+
+                            <h5><input type="radio" id="chk3" name="chk1"   class="region"  value="3">+3 region</h5>
+
+
+                            <h5><input type="radio" id="chk4" name="chk1"   class="region"  value="6">+6 region</h5>
+
+                            <h5><input type="radio" id="chk4" name="chk1"   class="region"  value="N">National</h5>
+
+                        </div>
+                    </li>
+
+
+                </ul>
+
+                <div>
+                    <tr><td>    budget estimé</td> <td><input type="text" id="rania"   value=""></td></tr>
+                </div>
+            </div>
+        </fieldset>
+ #}
+{#<button type="button" name="test" id="ajax_test">Test</button>#}{#
+
+
+    </form>
+    #}
+{#<a type="button" name="test" id="ajax_test" target="_blank" href="{{ path('referencement_commande_getting') }}">getting</a>#}{#
+
+
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+
+        <div class="form-inline">
+            <div class="form-group pull-right">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <a href="{{ path('devis_gestion_contenu') }}" role="button" class="btn btn-info" id="ajax_test_gestion">
+                            <span class="glyphicon glyphicon-triangle-left fleche-petit"></span> <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icone-3.png" alt="icone-3">
+                            Gestion contenu
+                        </a>
+                    </div>
+                    <div class="form-group">
+                        <a href="{{ path('devis_affichage') }}" role="button" class="btn" style="width: 165px;" id="ajax_test_affichage">
+                            <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icone-1.png" alt="icone-3">
+                            Affichage   <span class="glyphicon glyphicon-triangle-right"></span>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+
+            $('#ajax_test_affichage').on('click', function (event){
+
+                event.preventDefault();
+
+                $('.loaders').css('display','');
+
+                form =$('#jsForm ');
+                var r= $('#r_count').val();
+                var  m= $('#m_count').val();
+                var mar= $('#set_now').serialize();
+
+
+                var data_send = { 'r_count': r,'m_count' : m};
+
+                $.ajax({
+                    url: '{{ path('referencement_commande') }}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response;
+
+                            console.log(successMessage.test);
+                            console.log(successMessage.m_count);
+                            console.log(successMessage.r_count);
+                            console.log(successMessage);
+                            /*  $('#prestation').children("option").remove();*/
+                            //on vide les champs formulaires ou on le supprime ou ...
+                            //on retire le loader...
+
+                            $('.loaders').css('display','none');
+
+                            window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+
+                        }
+                    }
+                });
+
+
+            });
+
+            $('#ajax_test_gestion').on('click', function (event){
+
+                event.preventDefault();
+
+                $('.loaders').css('display','');
+
+                form =$('#jsForm ');
+                var r= $('#r_count').val();
+                var  m= $('#m_count').val();
+                var mar= $('#set_now').serialize();
+
+
+                var data_send = { 'r_count': r,'m_count' : m};
+
+                $.ajax({
+                    url: '{{ path('referencement_commande') }}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response;
+
+                            console.log(successMessage.test);
+                            console.log(successMessage.m_count);
+                            console.log(successMessage.r_count);
+                            console.log(successMessage);
+                            /*  $('#prestation').children("option").remove();*/
+                            //on vide les champs formulaires ou on le supprime ou ...
+                            //on retire le loader...
+
+                            $('.loaders').css('display','none');
+
+                            window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_g_c";
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+
+                        }
+                    }
+                });
+
+
+            });
+
+            $('#ajax_test').on('click', function (){
+                $('.loaders').css('display','');
+
+                form =$('#jsForm ');
+              var r= $('#r_count').val();
+              var  m= $('#m_count').val();
+               var mar= $('#set_now').serialize();
+
+
+                var data_send = { 'r_count': r,'m_count' : m};
+
+                $.ajax({
+                    url: '{{ path('referencement_commande') }}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response;
+
+                            console.log(successMessage.test);
+                            console.log(successMessage.m_count);
+                            console.log(successMessage.r_count);
+                            console.log(successMessage);
+                            /*  $('#prestation').children("option").remove();*/
+                            //on vide les champs formulaires ou on le supprime ou ...
+                            //on retire le loader...
+
+                            $('.loaders').css('display','none');
+
+                            window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_g_c";
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+
+                        }
+                    }
+                });
+
+            });
+
+            $(function() {
+
+              /*  $('#prestation').multiselect({
+
+                    includeSelectAllOption: true
+
+                });*/
+
+                $('#chkveg').multiselect({
+
+                    includeSelectAllOption: true
+
+                });
+
+                $('#btnget').click(function() {
+
+                    alert($('#chkveg').val());
+
+                })
+
+            });
+
+            /*  var rubrique = $(this);
+              console.log(rubrique .val());*/
+
+            // declanché lorsqu'on change le choix de la rub
+            $(document).on('change', '#select-rubrique', function () {
+                var current = this;
+                var rubrique = $(this);
+
+
+                $('#prestaAjax').css('display','');
+                console.log("CHANGE rubrique AND prestation....................");
+                var select = jQuery(this);
+                var r = rubrique.val();
+                console.log('rubrique sss: ', r);
+                //     console.log('rubrique : ', r);
+                var data_send = { 'rubrique': r};
+                $.ajax({
+                    url: '{{ path('ajax') }}',
+                    type: 'POST',
+                    data: data_send,
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response;
+
+                            /*  $('#prestation').children("option").remove();*/
+
+                            $(current).siblings("select").first().find("option").remove();
+
+
+                            $.each(JSON.parse(successMessage), function(i, pres) {
+                                $(current).siblings("select").first().append(('<option  value="' +pres.id+'">'+pres.prestation+'</option>'));
+
+                                /* $(current).next().remove();*/
+
+                                $('#prestaAjax').css('display','none');
+                            });
+                            $('#prestaAjax').css('display','none');
+                            //on vide les champs formulaires ou on le supprime ou ...
+                            //on retire le loader...
+
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+                            $('#prestaAjax').css('display','none');
+                        }
+                    }
+                });
+                //   $( "#select-rubrique" ).clone().appendTo("#test");
+            });
+            //declanche lorsqu'on clique sur btn addrub-btn
+            var count = 1 ;
+            $('#addrub-btn').on('click', function (){
+                if (count < 5) {
+
+                    var duplicatedLists = $("#select_rub_prest").last().clone();
+                    duplicatedLists.find('#select-rubrique').prop('name','sel'+count);
+                    duplicatedLists.find('#prestation').prop('name','prest'+count+'[]');
+                    duplicatedLists.find('#prestation').empty();
+                    duplicatedLists.appendTo("#contenu_lists");
+                    $('#r_count').val(count);
+                    count++;
+                }
+            });
+
+
+
+
+        });
+
+        /*var result_final = 400;
+                var n = $('#marq').length;
+                    $('#addmarq-btn').on('click', function (e){
+
+                            var duplicatedLists = $("#marq").last().clone().find(":input").val('');
+
+                            duplicatedLists.appendTo("#contenu_marq").parent();
+
+                        var result = parseInt(n) * 400;
+                        result_final = result_final+ result;
+
+
+        console.log(result_final);
+
+
+
+                });*/
+
+
+        var max_fields      = 10; //maximum input boxes allowed
+        var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+        var add_button      = $(".add_field_button"); //Add button ID
+        var result_final = 400;
+
+        var n = $('#marq').length;
+        var x = 1; //initlal text box count
+        $(add_button).click(function(e){ //on add input button click
+//            e.preventDefault();
+            if(x < max_fields){ //max input box allowed
+                //text box increment
+//                $(wrapper).append('<div><input type="text" name="mytext[]"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
+
+                var duplicatedLists = $("#marq").last().clone();
+                duplicatedLists.find('#marque').prop('name','marque'+x);
+                duplicatedLists.find('#marque').prop('value','');
+                duplicatedLists.appendTo("#set_now");
+                var result = parseInt(n) * 400;
+                result_final = result_final+ result;
+                $('#m_count').val(x);
+                x++;
+            }
+            console.log(result_final);
+        });
+
+        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+            e.preventDefault(); $(this).parent('div').remove(); x--;
+            result_final = result_final - 400;
+            console.log(result_final);
+        });
+
+        #}
+{# </script>
+
+
+
+
+         <script type="text/javascript">
+             $(document).ready(function() #}
+{#}{#
+
+        cal();
+        function cal(){
+            var total = +$("#rania").val() || 0;
+            var vat = +$("#mari").val() || 0;
+            $("#fayssal").val(vat + total);
+        }
+        var sum_result =0;
+        var total = 0;
+
+        $(document).on('click', '.my-activitys', function () {
+            var o = $(this).attr("value");
+            $('.xxx input[value='+o+']').prop("checked", true);
+        });
+
+        $(document).on('click', '.my-activity', function () {
+
+            var ctar  = 'MV';
+            console.log("CHANGE rubrique AND prestation....................");
+            var select = jQuery(this);
+            var v = $('input[name=villes]:checked').val();
+            var o = $(this).attr("value");
+
+            console.log('ville : ', v, 'opt1 :',o);
+            var data_send = { 'ville': v,'opt1':o,'region':v,'ctar':ctar};
+            $.ajax({
+                url: '{{ path('ajaxRef') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+
+                        var successMessage = response.nom.VAR;
+
+
+                        $('input[id=rania]').val(successMessage);
+
+                        cal();
+
+                    },
+
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+
+                    }
+                }
+            });
+
+        });
+
+
+        $(document).on('click', '.region', function () {
+
+            var ctar  = 'ML';
+            console.log("CHANGE rubrique AND prestation....................");
+            var select = jQuery(this);
+            var v = $('input[name=villes]:checked').val();
+            var o = $(this).attr("value");
+
+            console.log('villesss : ', v, 'opt1sss :',o);
+            var data_send = { 'ville': v,'opt1':o,'region':v,'ctar':ctar};
+            $.ajax({
+                url: '{{ path('ajaxRef') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+
+                        var successMessage = response.nom.VAR;
+
+
+                        $('input[id=rania]').val(successMessage);
+                        cal();
+                        /* console.log();
+                            $('input[id=rania]').val(sum_result+successMessage);*/
+
+                    },
+
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+
+                    }
+                }
+            });
+
+        });
+
+
+        /*    $(document).on("keydown keyup", function() {
+
+                sum();
+
+
+                function sum() {
+                    var num1 = document.getElementById('num1').value;
+                    var num2 = document.getElementById('num2').value;
+                    var num3 = document.getElementById('num3').value;
+
+
+                    var result = parseInt(num1) * 3;
+                    var result2 = parseInt(num2) * 1500;
+                    var result3 = parseInt(num3) * 400;
+
+                    if (!isNaN(result)) {
+                        document.getElementById('sum').value = result;
+                        document.getElementById('sum2').value = result2;
+                        document.getElementById('sum3').value = result3;
+
+                    }
+                    document.getElementById("mari").value = result2 + result3 ;
+
+                    sum_result =  result2 + result3;
+                    cal();
+                }
+
+
+
+            });*/
+
+
+
+
+
+
+    </script>
+
+{% endblock %}
+
+
+#}
+
+
+{% block body -%}
+    <link rel="stylesheet" href="{{ asset('css/style-budgetisation-gestion-de-contenu.css') }}" />
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/style-devis-referencement.css') }}" />
+
+
+    <div class="icon-retour">
+        <a style="color: #2eb2ff;" href="{{ path('fos_user_profile_show') }}">< Retour  ( chemins des onglets parcourus )</a>
+    </div>
+
+
+
+
+    <section  id="fond-1" align=center>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12" align=center>
+                    <div class="titre-1">
+                        <p>Simulation Devis</p>
+                    </div>
+                    <div class="titre-2">
+                        <p class="acroche"><strong>Construisons ensemble</strong>
+                            <br>
+                            <strong>les piliers de votre</strong> <span style="color: #ffdb2e"><strong>communication digitale</strong></span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section  id="fond-2">
+
+
+        <form id="jsForm" class="form-inline">
+            <input type="text" id="r_count" name="r_count" style="display:none;">
+            <input type="text" id="m_count" name="m_count" style="display:none;">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+
+                        <div class="btn-1">
+                            <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icone-3.png" alt="icone-3">
+                            Référencement
+                        </div>
+                        <br>
+                        <div class="activites">
+                            <div class="btn-2" align="center">
+                                <p>Votre activité</p>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-10">
+                             <textarea name="activite" id="user-message" class="form-control" maxlength="240" cols="20" rows="10" placeholder="Texte Carte de visite ( 240 caractères )">
+                             </textarea>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+                        <br>
+
+                        <div class="activites">
+
+                            <div class="btn-2" align="center">
+                                <p>Votre activité</p>
+                            </div>
+
+                            <br>
+
+                            <div id="contenu_lists">
+                                <div id="select_rub_prest">
+                                    <select class="select" {#class="selectpicker "   multiple data-max-options="1" data-live-search="true"#} id="select-rubrique" name="sel">
+                                        <option  selected >Selectionné une rubrique</option>
+                                        {% for rubriqu in rubriques %}
+
+                                            <option style="background-color: white;color: black" value="{{ rubriqu.id }}" >{{ rubriqu.libelle }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                    <span id="prestaAjax" style="display: none">
+                                        <img src='../../web/ajax-loader.gif' alt='loading...'  height="25" width="25"/>
+                                        </span>
+
+                                    <div class="form-group testpres" style="margin-bottom: 20px!important;">
+
+                                    </div>
+
+                                    {#<select   id="prestation" multiple="multiple" name="prest[]">
+                                        <option  selected >Selectionné une prestation</option>
+                                    </select> <br>#}
+
+
+                                    {# <div id="demo-2-2" class="bouton-2 collapse in testpres " style="overflow-y: scroll; float: right" aria-expanded="true">
+
+                                     </div>#}
+
+                                    <br>
+                                </div>
+                            </div>
+                            <button id="addrub-btn" type="button" class="btn btn-info bouton-1" data-toggle="collapse" data-target="#demo-1" >
+                                Ajouter rubrique supl <span class="glyphicon glyphicon-plus-sign"></span>  </button>
+
+
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+
+
+
+                            <div class="btn-2" align="center">
+                                <p>Vos marque</p>
+                            </div>
+                            <br>
+
+                            <div class="input_fields_wrap" id="set_now" >
+                                <div id="marq" style=" display: inline-block" >
+                                    <input type="text" name="marque" id="marque" class="form-control" style=" margin-top: 10px;"  placeholder="Ecrire votre marque">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <button class="add_field_button btn btn-info bouton-1" id="exampleFormControlInput1" type="button" class="btn"   style="   margin-bottom: 22px"  >Ajouter une marque <span class="glyphicon glyphicon-plus-sign"></span></button>
+                            </div>
+
+
+                            <br>
+                            <br>
+                            <br>
+
+
+                            <div class="visibilite ">
+
+                                <div class="btn-2" align="center">
+                                    <p>Ma visibilité sur</p>
+                                </div>
+
+                                <br>
+
+                                <div class="test">
+                                    <div class="form-group" style="margin-left: -10px;">
+                                        <button type="button" class="btn" data-toggle="collapse" data-target="#demo-2-1">
+                                            Ville principale &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                        </button>
+                                        <div id="demo-2-1" class="collapse bouton-2" style="overflow-y:scroll;">
+                                            <div class="form-inline" id="dropdownMenu1" >
+                                                <label class="checkbox-inline">
+                                                    <input id="select" class="my-activitys" type="checkbox" name="villes" value="9">&nbsp; &nbsp;Casablanca
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input id="select" class="my-activitys" type="checkbox" name="villes" value="10">&nbsp; &nbsp;Rabat
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input id="select" class="my-activitys" type="checkbox" name="villes" value="14">&nbsp; &nbsp;Fes
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input id="select" class="my-activitys" type="checkbox" name="villes" value="4">&nbsp; &nbsp;Agadir
+                                                </label>
+                                                {% for ville in villes %}
+
+                                                    <label>
+                                                        <input id="select" class="my-activitys" type="checkbox" name="villes" value="{{ ville.region.coderegion }}"/>&nbsp; &nbsp;{{ ville.libelle }}
+                                                    </label>
+
+                                                {% endfor %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group" >
+                                        <button type="button" class="btn" id="dropdownMenu2" data-toggle="collapse" data-target="#demo-2-2">
+                                            Ville suppl.&nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                        </button>
+                                        <div id="demo-2-2" class="collapse bouton-2" style="overflow-y:scroll;">
+                                            <div class="form-inline" >
+                                                <label class="checkbox-inline">
+                                                    <input  type="checkbox" name="radio1" class="my-activity"  value="0"/>&nbsp; &nbsp;Sur sa localité
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input  type="checkbox" name="radio1" class="my-activity"  value="1"/>&nbsp; &nbsp;+1 Localité
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input  type="checkbox" name="radio1" class="my-activity"  value="3"/>&nbsp; &nbsp;+3 Localités
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input  type="checkbox" name="radio1" class="my-activity"  value="6"/>&nbsp; &nbsp;+6 Localités
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input  type="checkbox" name="radio1" class="my-activity"  value="9"/>&nbsp; &nbsp;+9 Localités
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" >
+                                        <button type="button" id="dropdownMenu3" class="btn" data-toggle="collapse" data-target="#demo-2-3">
+                                            Région principale &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                        </button>
+                                        <div id="demo-2-3" class="collapse bouton-2" style="overflow-y:scroll;">
+                                            <div class="form-inline" >
+                                                {% for entities in entities  %}
+                                                    <div class="tex xxx" >
+                                                        <label class="checkbox-inline">
+                                                            <input id="select" class="regiontest" type="checkbox" name="regions" value="{{ entities.coderegion }}" disabled/>&nbsp; &nbsp;{{ entities.libelle }}
+                                                        </label>
+
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" >
+                                        <button type="button"  id="dropdownMenu4" class="btn" data-toggle="collapse" data-target="#demo-2-4">
+                                            Région suppl. &nbsp;   <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                        </button>
+                                        <div id="demo-2-4" class="collapse bouton-2" style="overflow-y:scroll;">
+                                            <div class="form-inline" >
+                                                <label>
+                                                    <input  type="checkbox" name="radio" class="region"  value="0"/>&nbsp; &nbsp;Sur sa region
+                                                </label>
+                                                <label>
+                                                    <input  type="checkbox" name="radio" class="region"  value="1"/>&nbsp; &nbsp;+1 Région
+                                                </label>
+                                                <label>
+                                                    <input  type="checkbox" name="radio" class="region"  value="3"/>&nbsp; &nbsp;+3 Régions
+                                                </label>
+                                                <label>
+                                                    <input  type="checkbox" name="radio" class="region"  value="6"/>&nbsp; &nbsp;+6 Régions
+                                                </label>
+                                                <label>
+                                                    <input  type="checkbox" name="radio" class="region"  value="N"/>&nbsp; &nbsp;National
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </form>
+    </section>
+    <section  id="fond-4">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12" >
+                    <form class="form-inline">
+                        <div class="form-group pull-right">
+                            <div class="form-group">
+                                <a href="{{ path('devis_gestion_contenu') }}" role="button" class="btn" id="ajax_test_gestion">
+                                    <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icona-2.png" alt="icone-3">
+                                    Gestion de Contenu   <span class="glyphicon glyphicon-triangle-right"></span>
+                                </a>
+                            </div>
+                            <div class="form-group">
+                                <a href="{{ path('devis_affichage') }}" role="button" class="btn" style="width: 165px;" id="ajax_test_gestion">
+                                    <img class="icone" src="https://image.noelshack.com/fichiers/2018/08/5/1519379743-icone-1.png" alt="icone-3">
+                                    Affichage   <span class="glyphicon glyphicon-triangle-right"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <div>
+        <tr><td>    budget estimé</td> <td><input type="text" id="rania"   value=""></td></tr>
+    </div>
+    {#-------------------------------------------------------------------------------------------------------------------------------------------------------------------------#}
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery.js"></script>
+
+    <script type="text/javascript">
+        var selectfct = function () {
+            if($(".my-activitys").is(":checked")){
+                $('#dropdownMenu2').prop('disabled', false);
+                $('#dropdownMenu3').prop('disabled', false);
+                $('#dropdownMenu4').prop('disabled', false);
+                $("#dropdownMenu1").attr({
+                    "aria-expanded" : "true"
+                });
+            }else{
+                $('#dropdownMenu2').prop('disabled', 'disabled');
+                $('#dropdownMenu3').prop('disabled', 'disabled');
+                $('#dropdownMenu4').prop('disabled', 'disabled');
+                $("#dropdownMenu1").attr({
+                    "aria-expanded" : "false"
+                });
+            }
+        };
+        $(selectfct);
+        $(".my-activitys").click(selectfct);
+        var selectfcts = function () {
+            if($(".my-activity").is(":checked")){
+                $('.region').prop('checked', false);
+            }else{
+            }
+        };
+        $(selectfcts);
+        $(".my-activity").click(selectfcts);
+
+
+        $('.my-activitys').on('change', function() {
+            $('.my-activitys').not(this).prop('checked', false);
+        });
+        $('.my-activity').on('change', function() {
+            $('.my-activity').not(this).prop('checked', false);
+        });
+        $('.regiontest').on('change', function() {
+            $('.regiontest').not(this).prop('checked', false);
+        });
+        $('.region').on('change', function() {
+            $('.region').not(this).prop('checked', false);
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#ajax_test_affichage').on('click', function (event){
+                event.preventDefault();
+                $('.loaders').css('display','');
+                form =$('#jsForm ');
+                var r= $('#r_count').val();
+                var  m= $('#m_count').val();
+                var mar= $('#set_now').serialize();
+                var data_send = { 'r_count': r,'m_count' : m};
+                $.ajax({
+                    url: '{{ path('referencement_commande') }}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response;
+                            console.log(successMessage.test);
+                            console.log(successMessage.m_count);
+                            console.log(successMessage.r_count);
+                            console.log(successMessage);
+                            /*  $('#prestation').children("option").remove();*/
+                            //on vide les champs formulaires ou on le supprime ou ...
+                            //on retire le loader...
+                            $('.loaders').css('display','none');
+                            window.location.href = "http://localhost/ecommerce/web/app_dev.php/devis_affichage";
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+                        }
+                    }
+                });
+            });
+            $('#ajax_test_gestion').on('click', function (event){
+                event.preventDefault();
+                $('.loaders').css('display','');
+                form =$('#jsForm ');
+                var r= $('#r_count').val();
+                var  m= $('#m_count').val();
+                var mar= $('#set_now').serialize();
+                var data_send = { 'r_count': r,'m_count' : m};
+                $.ajax({
+                    url: '{{ path('referencement_commande') }}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response;
+                            console.log(successMessage.test);
+                            console.log(successMessage.m_count);
+                            console.log(successMessage.r_count);
+                            console.log(successMessage);
+                            /*  $('#prestation').children("option").remove();*/
+                            //on vide les champs formulaires ou on le supprime ou ...
+                            //on retire le loader...
+                            $('.loaders').css('display','none');
+                            window.location.href = "http://localhost/ecommerce/web/app_dev.php/user/devis_g_c";
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+                        }
+                    }
+                });
+            });
+            $('#ajax_test').on('click', function (){
+                $('.loaders').css('display','');
+                form =$('#jsForm ');
+                var r= $('#r_count').val();
+                var  m= $('#m_count').val();
+                var mar= $('#set_now').serialize();
+                var data_send = { 'r_count': r,'m_count' : m};
+                $.ajax({
+                    url: '{{ path('referencement_commande') }}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response;
+                            console.log(successMessage.test);
+                            console.log(successMessage.m_count);
+                            console.log(successMessage.r_count);
+                            console.log(successMessage);
+                            /*  $('#prestation').children("option").remove();*/
+                            //on vide les champs formulaires ou on le supprime ou ...
+                            //on retire le loader...
+                            $('.loaders').css('display','none');
+                            window.location.href = "http://localhost/ecommerce/web/app_dev.php/user/devis_g_c";
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+                        }
+                    }
+                });
+            });
+            $(function() {
+                /*  $('#prestation').multiselect({
+                 includeSelectAllOption: true
+                 });*/
+                $('#chkveg').multiselect({
+                    includeSelectAllOption: true
+                });
+                $('#btnget').click(function() {
+                    alert($('#chkveg').val());
+                })
+            });
+            /*  var rubrique = $(this);
+             console.log(rubrique .val());*/
+            // declanché lorsqu'on change le choix de la rub
+            $(document).on('change', '#select-rubrique', function () {
+                var current = this;
+                var rubrique = $(this);
+                $('#prestaAjax').css('display','');
+                console.log("CHANGE rubrique AND prestation....................");
+                var select = jQuery(this);
+                var r = rubrique.val();
+                console.log('rubrique sss: ', r);
+                //     console.log('rubrique : ', r);
+                var data_send = { 'rubrique': r};
+                $.ajax({
+                    url: '{{ path('ajax') }}',
+                    type: 'POST',
+                    data: data_send,
+                    statusCode: {
+                        //traitement en cas de succès
+                        200: function (response) {
+                            var successMessage = response;
+                            /*  $('#prestation').children("option").remove();*/
+                            $(current).siblings(".testpres").first().find("div").remove();
+                            $(current).siblings(".testpres").first().append(('<div class="dropdown"> <button class="btn dropdown-toggle" type="button" style="width: 400px;" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Listing des prestations et produits liés <span class="caret"></span></button> <ul id="div1" class="dropdown-menu testul" aria-labelledby="dropdownMenu2" style="overflow-y:scroll; width: 400px;"><li>Autre  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="rensei......."> </li></ul> </div>'));
+                            $(current).siblings(".testpres").first().find("li").remove();
+                            $.each(JSON.parse(successMessage), function(i, pres) {
+//                              $(current).siblings("select").first().append(('<option  value="' +pres.id+'">'+pres.prestation+'</option>'));
+                                //$(current).siblings(".testpres").first().append(('<button  type="button" class="btn" data-toggle="collapse" data-target="#demo-2-2" aria-expanded="true">'+ Catégorie+'<span class="glyphicon glyphicon-triangle-bottom"></span> </button><div class="form-inline"> <label class="checkbox-inline"><input class="vignette_localite" type="checkbox" value="'+pres.id+'">'+ pres.prestation+'</label></div>'));
+                                //$(current).siblings(".testpres").first().append(('<div class="form-inline"> <label class="checkbox-inline"><input class="vignette_localite" type="checkbox" value="'+pres.id+'">'+ pres.prestation+'</label></div>'));
+                                //    $(current).siblings(".testpres").first().append(('<div class="dropdown"><button class="btn dropdown-toggle" type="button" style="width: 400px;" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Listing des prestations et produits liés <span class="caret"></span></button> <ul class="dropdown-menu" aria-labelledby="dropdownMenu2" style="overflow-y:scroll; width: 400px;"> <li><input type="checkbox" name="checkbox" value="'+pres.id+'"/>'+ pres.prestation+'</li> <li>Autre <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="rensei......."> </li> </ul> </div>'));
+                                $(current).siblings(".testpres").first().find('ul').append(('<li><input type="checkbox" name="checkbox" value="'+pres.id+'"/>'+ pres.prestation+'</li>'));
+
+
+
+
+
+
+
+
+
+
+
+
+                                /* $(current).next().remove();*/
+                                $('#prestaAjax').css('display','none');
+                            });
+                            $('#prestaAjax').css('display','none');
+                            //on vide les champs formulaires ou on le supprime ou ...
+                            //on retire le loader...
+                        },
+                        //traitement en cas d'erreur (on peut aussi traiter le cas erreur 500...)
+                        412: function (response) {
+                            var errorsForm = response.responseJSON.formErrors;
+                            //on affiche les erreurs...
+                            alert('error');
+                            $('#prestaAjax').css('display','none');
+                        }
+                    }
+                });
+                //   $( "#select-rubrique" ).clone().appendTo("#test");
+            });
+            //declanche lorsqu'on clique sur btn addrub-btn
+            var count = 1 ;
+            $('#addrub-btn').on('click', function (){
+                if (count < 5) {
+                    var duplicatedLists = $("#select_rub_prest").last().clone();
+                    duplicatedLists.find('#select-rubrique').prop('name','sel'+count);
+                    duplicatedLists.find('#prestation').prop('name','prest'+count+'[]');
+                    duplicatedLists.appendTo("#contenu_lists");
+                    $('#r_count').val(count);
+                    count++;
+                }
+            });
+        });
+        /*var result_final = 400;
+         var n = $('#marq').length;
+         $('#addmarq-btn').on('click', function (e){
+         var duplicatedLists = $("#marq").last().clone().find(":input").val('');
+         duplicatedLists.appendTo("#contenu_marq").parent();
+         var result = parseInt(n) * 400;
+         result_final = result_final+ result;
+         console.log(result_final);
+         });*/
+        var max_fields      = 10; //maximum input boxes allowed
+        var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+        var add_button      = $(".add_field_button"); //Add button ID
+        var result_final = 400;
+        var n = $('#marq').length;
+        var x = 1; //initlal text box count
+        $(add_button).click(function(e){ //on add input button click
+//            e.preventDefault();
+            if(x < max_fields){ //max input box allowed
+                //text box increment
+//                $(wrapper).append('<div><input type="text" name="mytext[]"/><a href="#" class="remove_field">Remove</a></div>'); //add input box
+                var duplicatedLists = $("#marq").last().clone();
+                duplicatedLists.find('#marque').prop('name','marque'+x);
+                duplicatedLists.appendTo("#set_now");
+                var result = parseInt(n) * 400;
+                result_final = result_final+ result;
+                $('#m_count').val(x);
+                x++;
+            }
+            console.log(result_final);
+        });
+        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+            e.preventDefault(); $(this).parent('div').remove(); x--;
+            result_final = result_final - 400;
+            console.log(result_final);
+        });
+        {# </script>
+         <script type="text/javascript">
+             $(document).ready(function() {#}
+        cal();
+        function cal(){
+            var total = +$("#rania").val() || 0;
+            var vat = +$("#mari").val() || 0;
+            $("#fayssal").val(vat + total);
+        }
+        var sum_result =0;
+        var total = 0;
+        $(document).on('click', '.my-activitys', function () {
+            var o = $(this).attr("value");
+            $('.xxx input[value='+o+']').prop("checked", true);
+        });
+        $(document).on('click', '.my-activity', function () {
+            var ctar  = 'MV';
+            console.log("CHANGE rubrique AND prestation....................");
+            var select = jQuery(this);
+            var v = $('input[name=villes]:checked').val();
+            var o = $(this).attr("value");
+            console.log('ville : ', v, 'opt1 :',o);
+            var data_send = { 'ville': v,'opt1':o,'region':v,'ctar':ctar};
+            $.ajax({
+                url: '{{ path('ajaxRef') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+                        var successMessage = response.nom.VAR;
+                        $('input[id=rania]').val(successMessage);
+                        cal();
+                    },
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+                    }
+                }
+            });
+        });
+        $(document).on('click', '.region', function () {
+            var ctar  = 'ML';
+            console.log("CHANGE rubrique AND prestation....................");
+            var select = jQuery(this);
+            var v = $('input[name=villes]:checked').val();
+            var o = $(this).attr("value");
+            console.log('villesss : ', v, 'opt1sss :',o);
+            var data_send = { 'ville': v,'opt1':o,'region':v,'ctar':ctar};
+            $.ajax({
+                url: '{{ path('ajaxRef') }}',
+                type: 'POST',
+                data: data_send,
+                statusCode: {
+                    //traitement en cas de succès
+                    200: function (response) {
+                        var successMessage = response.nom.VAR;
+                        $('input[id=rania]').val(successMessage);
+                        cal();
+                        /* console.log();
+                         $('input[id=rania]').val(sum_result+successMessage);*/
+                    },
+                    412: function (response) {
+                        var errorsForm = response.responseJSON.formErrors;
+                        //on affiche les erreurs...
+                        alert('error');
+                    }
+                }
+            });
+        });
+        /*    $(document).on("keydown keyup", function() {
+         sum();
+         function sum() {
+         var num1 = document.getElementById('num1').value;
+         var num2 = document.getElementById('num2').value;
+         var num3 = document.getElementById('num3').value;
+         var result = parseInt(num1) * 3;
+         var result2 = parseInt(num2) * 1500;
+         var result3 = parseInt(num3) * 400;
+         if (!isNaN(result)) {
+         document.getElementById('sum').value = result;
+         document.getElementById('sum2').value = result2;
+         document.getElementById('sum3').value = result3;
+         }
+         document.getElementById("mari").value = result2 + result3 ;
+         sum_result =  result2 + result3;
+         cal();
+         }
+         });*/
+    </script>
+
+{% endblock %}

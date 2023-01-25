@@ -1,0 +1,820 @@
+{% extends "::layout/base_statistics2.html.twig" %}
+
+
+{% block title %} Actualités {% endblock %}
+{% block stylesheets %}
+
+<style>
+/*.input-group-addon {
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.input-group-addon, .input-group-btn {
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+.fa {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}*/
+
+     .button {
+         text-decoration: none;
+         font-size: 0.875rem;
+         font-weight: 300;
+         text-transform: uppercase;
+         display: inline-block;
+         border-radius: 1.5rem;
+         background-color: #fff;
+         color: #9191e9;
+         padding: 1rem 2rem;
+    }
+     .popup {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         position: fixed;
+         width: 100vw;
+         height: 100vh;
+         bottom: 0;
+         right: 0;
+         background-color: rgba(0, 0, 0, 0.8);
+         z-index: 2;
+         visibility: hidden;
+         opacity: 0;
+         overflow: hiden;
+         transition: 0.64s ease-in-out;
+    }
+     .popup-inner {
+         position: relative;
+         bottom: -100vw;
+         right: -100vh;
+         display: flex;
+         align-items: center;
+         max-width: 600px;
+         max-height: 550px;
+         width: 60%;
+         height: 100%;
+         background-color: #fff;
+         transform: rotate(32deg);
+         transition: 0.64s ease-in-out;
+        padding-left: 0px!important;
+        padding-right: 0px!important;
+        border-radius: 10px;
+    }
+    /* .popup__photo {
+         display: flex;
+         justify-content: flex-end;
+         align-items: flex-end;
+         width: 40%;
+         height: 100%;
+         overflow: hidden;
+    }
+     .popup__photo img {
+         width: auto;
+         height: 100%;
+    }*/
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 100%;
+         padding: 0rem;
+    }
+
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 70%;
+         padding-top: 0px!important;
+         padding: 4rem;
+    }
+     .popup__text h1 {
+         font-size: 2rem;
+         font-weight: 600;
+         margin-bottom: 2rem;
+         text-transform: uppercase;
+         color: #0a0a0a;
+    }
+     .popup__text p {
+         font-size: 16px;
+         color: #686868;
+         line-height: 1.5;
+    }
+     .popup:target {
+         visibility: visible;
+         opacity: 1;
+    }
+     .popup:target .popup-inner {
+         bottom: 0;
+         right: 0;
+         transform: rotate(0);
+    }
+     .popup__close {
+         position: absolute;
+         right: -1rem;
+         top: -1rem;
+         width: 3rem;
+         height: 3rem;
+         font-size: 0.875rem;
+         font-weight: 300;
+         border-radius: 100%;
+         background-color: #0a0a0a;
+         z-index: 4;
+         color: #fff;
+         line-height: 3rem;
+         text-align: center;
+         cursor: pointer;
+         text-decoration: none;
+    }
+    .dea{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+    }
+    .objet_popup{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+        margin-top: 50px;
+    }
+    .dea_mail{
+        font-weight: 500!important;
+        line-height: 20px!important;
+        font-size: 16px!important;
+        font-family: var(--bs-font-sans-serif)!important;
+    }
+    #message{
+        font-family: Spinnaker,sans-serif;
+        color: #4e4e4e;
+        font-size: 15px;
+        line-height: 1.428571429;
+    }
+    .popup_head{
+        padding-bottom: 25px;
+        background: #fedc01;
+        border-radius: 10px 10px 0px 0px;
+    }
+    .checkbox-inline, .radio-inline{
+        font-weight: 100!important;
+    }
+    label{
+        display: inline-block;
+        margin-bottom: 5px!important;
+        font-weight: bold!important;
+        color: black;
+        font-size: 14px;
+    }
+    .fn{
+        width: 65%;
+        height: 36px;
+        padding: 4px 8px;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+    }
+    .checkb{
+        margin-right: 5px;
+    }
+     .popup {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         position: fixed;
+         width: 100vw;
+         height: 100vh;
+         bottom: 0;
+         right: 0;
+         background-color: rgba(0, 0, 0, 0.8);
+         z-index: 2;
+         visibility: hidden;
+         opacity: 0;
+         overflow: hiden;
+         transition: 0.64s ease-in-out;
+    }
+     .popup-inner {
+         position: relative;
+         bottom: -100vw;
+         right: -100vh;
+         display: flex;
+         align-items: center;
+         /*max-width: 600px;
+         max-height: 550px;*/
+         max-width: 800px;
+         max-height: 10000px;
+         width: 60%;
+         height: 100%;
+         background-color: #fff;
+         transform: rotate(32deg);
+         transition: 0.64s ease-in-out;
+        padding-left: 0px!important;
+        padding-right: 0px!important;
+        border-radius: 10px;
+    }
+    /* .popup__photo {
+         display: flex;
+         justify-content: flex-end;
+         align-items: flex-end;
+         width: 40%;
+         height: 100%;
+         overflow: hidden;
+    }
+     .popup__photo img {
+         width: auto;
+         height: 100%;
+    }*/
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 100%;
+         padding: 0rem;
+    }
+
+     .popup__text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         width: 100%;
+         height: 70%;
+         padding-top: 0px!important;
+         padding: 4rem;
+    }
+     .popup__text h1 {
+         font-size: 2rem;
+         font-weight: 600;
+         margin-bottom: 2rem;
+         text-transform: uppercase;
+         color: #0a0a0a;
+    }
+     .popup__text p {
+         font-size: 16px;
+         color: #686868;
+         line-height: 1.5;
+    }
+     .popup:target {
+         visibility: visible;
+         opacity: 1;
+    }
+     .popup:target .popup-inner {
+         bottom: 0;
+         right: 0;
+         transform: rotate(0);
+    }
+     .popup__close {
+         position: absolute;
+         right: -1rem;
+         top: -1rem;
+         width: 3rem;
+         height: 3rem;
+         font-size: 0.875rem;
+         font-weight: 300;
+         border-radius: 100%;
+         background-color: #0a0a0a;
+         z-index: 4;
+         color: #fff;
+         line-height: 3rem;
+         text-align: center;
+         cursor: pointer;
+         text-decoration: none;
+    }
+    .dea{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+    }
+    .objet_popup{
+        font-weight: 700;
+        line-height: 30px;
+        font-size: 18px;
+        font-family: var(--bs-font-sans-serif);
+        margin-top: 50px;
+    }
+    .dea_mail{
+        font-weight: 500!important;
+        line-height: 20px!important;
+        font-size: 16px!important;
+        font-family: var(--bs-font-sans-serif)!important;
+    }
+    #message{
+        font-family: Spinnaker,sans-serif;
+        color: #4e4e4e;
+        font-size: 15px;
+        line-height: 1.428571429;
+    }
+    .popup_head{
+        padding-bottom: 25px;
+        background: #fedc01;
+        border-radius: 10px 10px 0px 0px;
+    }
+    .page-title{
+        margin-top: -18px;
+    }
+
+
+ 
+
+
+
+
+
+
+
+</style>
+
+{% endblock %}
+
+{% block slide %}
+    <div class="group-bg-image">
+        <div class="col-lg-12 col-xlg-12 col-md-12 bg-image">
+            <p class="bg-image-text">Gérer mes actualités</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+
+
+
+{% set cf = app.session.get('cf') %}
+{% set rs = app.session.get('data_user') %}
+
+
+
+
+        
+                    <!-- <div class="col-lg-12 col-md-12 col-sm-8 col-xs-12 row">
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                            <h4 class="page-title">Actualités <span class="page-title2" style="color: #777777;" >({{ rs[0]['raison_sociale'] }})</span></h4>
+                        </div>
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12" >
+                            <h4 style="float: right;"></h4>
+                        </div>
+                        <input type="hidden" name="audience" id="audience" value="audience">
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <div class="d-md-flex">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                    <div class="col-md-12 col-lg-12 col-sm-12"> -->
+
+                    <div class="col-md-9 col-lg-9 col-sm-12">
+                        <div class="white-box">
+                            
+
+
+                           <!--  <div class="container">
+                                <div class="row">
+                                  <div class="col-md-12">
+                             
+                                    <div class="alert alert-info" style="background-color: #b7b740!important;margin-top:15px;border-radius: 5px;border-color: #b7b740!important;"><h4 style="text-align:center;color: white;font-weight: 600;">Vos ACTUALITÉS sur votre fiche entreprise<h4> </div>
+                                    <hr>
+                                  </div>
+                                </div>
+                            </div>
+ -->
+                            <div class="container ">
+                              <div class="row no-margin">
+                                <div class="col-md-12">
+                                  <!-- <h4 style="text-align:justify;">Dans ce contexte inédit de confinement </h4> -->
+                                    <h4 style="text-align:justify;font-size:15px;">Ce service vous permettra d’afficher <strong>simplement </strong>sur le profil de votre entreprise, vos services et informations spécifiques, pour renseigner en temps réel, tous ceux qui vous cherchent.</h4>
+                                   <div style="margin:15px;">
+                                            <h4 style="font-size:17px;">Mettez à jour vos informations sur :</h4>        
+                                            <ul >
+                                              <li >Vos horaires et vos horaires exceptionnels </li>
+                                              <li >Les activités maintenues par téléphone, </li>
+                                              <li >Vos services réduits…  </li>
+                                             
+                                                </ul>
+
+                                                <h4 style="font-size:17px;">    Si vous proposez un nouveau service pendant cette période, informez vos clients de:</h4>        
+                                                        <ul >
+                                              <li >Vos prestations nouvelles</li>
+                                              <li >Vos service spécifiques : livraison garantie, …etc </li>
+                                              <li >Si vous proposez du e-commerce</li>
+                                            </ul>
+                                            <h4 style="font-size:17px;margin: -10px;margin-bottom: -37px; margin-top: -26px;">Affichez toute information que vous jugez utile et « bon à savoir »  <a data-toggle="modal" class="lescord btn btn-infos " data-target="#popup_edicom" data-cfir="3122067" data-title="Edicom" href="#popup_edicom" style="padding:10px; font-size: 17px;margin-left:15px;margin-bottom:25px;font-weight:bold;cursor:pointer;background-color: #e6ebef;">Exemple</a>
+                                            </h4>   
+                                    </div>
+                                </div>
+                              
+                                <div class="col-md-12"> 
+                                </div>
+                                <div id="mysendModal" class="modal fade in" tabindex="-1" role="dialog" aria-hidden="false" >
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content" style="    width: 120%;">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                                                    <h4 class="modal-title">Fiche EDICOM</h4>
+                                                </div>
+                                
+                                                <div class="modal-body">
+                                                <p><img data-src="/trouver/images/finale02.jpg" alt="Promo de Général Bureau" class="img-responsive lazyloaded" src="/trouver/images/finale02.jpg"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+
+
+                                
+                                <div class="popup" id="popup_edicom" >
+                                    <div class="popup-inner">
+                                    <div class="popup__photo">
+                                                
+                                    </div>
+                                    <div class="popup__text">
+                                        <!-- <h4>Fiche EDICOM</h4> -->
+                                        <p><img data-src="/trouver/images/finale02.jpg" alt="Promo de Général Bureau" class="img-responsive lazyloaded" src="/trouver/images/finale02.jpg" style="width: 100%;"></p>
+                                    </div>
+                                    <a class="popup__close" href="#">X</a>
+                                    </div>
+                                </div>
+                              </div><!--/*.row-->
+                            
+                              <div class="btn-results-products " style="display: none;"><a href="#mypromoModalfiche" data-toggle="modal" data-target="#mypromoModal" data-cfir="3211272" data-title="Belakhdim s.b.s"><i class="fa fa-tag"></i><span class="">  Exemple</span></a></div>
+                              <div class="container">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <hr>
+                                    <div class="alert alert-info" style="background-color: #b7b740!important;color: white;border-radius: 5px;border-color: #b7b740!important;">Merci de remplir les champs suivants : </div>
+                                    <hr>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                              <div class="container" id="bro">
+                                <form class="form-horizontal form-material" action="{{ path('actualites', { 'code_firme' : code_firme }) }}" method="POST" >
+                                    <div class="row">
+                                        <div class="form-group col-9">
+                                            <div id="businessHoursContainer3"></div>
+                                        </div>
+                                        <div class="col-md-9" style="display: none;">
+                                            <textarea id="businessHoursData" name="businessHoursData" rows="8" cols="80" >{% if actualite %}{% if actualite[0]['heure'] %} {{ actualite[0]['heure'] }} {% endif %}{% endif %}</textarea><!-- style="display:none;" -->
+                                            <textarea id="businessHoursOutput1" name="heure" rows="8" cols="80" style="">{% if actualite %}{% if actualite[0]['heure'] %} {{ actualite[0]['heure'] }} {% endif %}{% endif %}</textarea>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                          <label for="inputmessage"> Modalités de paiement :  </label> <br/>
+                                          <label class="checkbox-inline"><input type="checkbox" class="checkb" name="paiement[]"{% if actualite %}{% if 'cheque' in actualite[0]['paiement'] %} checked {% endif %}{% endif %} value="cheque">Chèque</label><br>
+                                          <label class="checkbox-inline"><input type="checkbox" class="checkb" name="paiement[]"{% if actualite %}{% if 'cb' in actualite[0]['paiement'] %} checked {% endif %}{% endif %} value="cb">Carte bancaire</label><br>
+                                          <label class="checkbox-inline"><input type="checkbox" class="checkb" name="paiement[]"{% if actualite %}{% if 'espece' in actualite[0]['paiement'] %} checked {% endif %}{% endif %} value="espece">Espèce</label><br>
+                                          <label class="checkbox-inline"><input type="checkbox" class="checkb" name="paiement[]"{% if actualite %}{% if 'autre' in actualite[0]['paiement'] %} checked {% endif %}{% endif %} value="autre">Autres</label>
+                                        </div><!--/*.col-md-12-->
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                          <label for="inputmessage">Conditions d’accueil : </label>
+                                          <textarea rows="3" placeholder="Activités maintenues ; Services réduits , N° d’appel urgence, adresse mail à contacter…." id="inputmessage" name="conditions" class="form-control">{% if actualite %}{% if actualite[0]['conditions'] %} {{ actualite[0]['conditions'] }} {% endif %}{% endif %}</textarea>
+                                          </div><!--/*.form-group-->
+                                        </div><!--/*.col-md-12-->
+
+                                          <div class="col-md-6">
+                                          <div class="form-group">
+                                          <label for="inputmessage">Présentation: </label>
+                                          <textarea rows="3" placeholder="Prestation nouvelle ; Service adapté aux circonstances ;…." id="inputmessage" name="livraison" class="form-control">{% if actualite %}{% if actualite[0]['livraison'] %} {{ actualite[0]['livraison'] }} {% endif %}{% endif %}</textarea>
+                                          </div><!--/*.form-group-->
+                                        </div><!--/*.col-md-12-->
+
+                                        <div class="col-md-6">
+                                          <div class="form-group">
+                                          <label for="inputmessage">Information, Bon à savoir : </label>
+                                          <textarea rows="3" placeholder="Stock disponible ; …." id="inputmessage" name="savoir" class="form-control">{% if actualite %}{% if actualite[0]['savoir'] %} {{ actualite[0]['savoir'] }} {% endif %}{% endif %}</textarea>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                          <label for="inputmessage">Prestations et produits : </label>
+                                          <br/>
+                                          
+                                          {% if actualite %}
+                                              {% if actualite[0]['prestations'] %}
+                                                <div class="field_wrapper">
+                                                    {% set brs = '0' %}
+                                                    {% for p in prestation %}
+
+                                                        {% if brs == 0 %}
+                                                            <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                            <input type="text" class="fn" name="field_name[]" placeholder="prestations ou service" value="{{ p }}"/>
+                                                            <a href="javascript:void(0);" class="add_button" title="Ajouter une prestations"><img src="https://www.telecontact.ma/trouver/images/add-icon.png"/></a>
+                                                            </div>
+
+                                                        {% else %}
+                                                            <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;"><input type="text" class="fn" name="field_name[]" placeholder="prestations ou service" value="{{ p }}"/> <a href="javascript:void(0);" class="remove_button">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a></div>
+
+                                                        {% endif %}
+                                                        {% set brs = brs+1 %}
+                                                    {% endfor %}
+                                                </div>
+                                              {% else %}
+                                                <div class="field_wrapper">
+                                                    <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                        <input type="text" class="fn" name="field_name[]" placeholder="prestations ou service" value=""/>
+                                                        <a href="javascript:void(0);" class="add_button" title="Ajouter une prestations"><img src="https://www.telecontact.ma/trouver/images/add-icon.png"/></a>
+                                                    </div>
+                                                </div>
+                                              {% endif %}
+                                          {% else %}
+                                            <div class="field_wrapper">
+                                                <div style="padding-top: 5px; padding-bottom: 5px; padding-right: 5px;">
+                                                    <input type="text" class="fn" name="field_name[]" placeholder="prestations ou service" value=""/>
+                                                    <a href="javascript:void(0);" class="add_button" title="Ajouter une prestations"><img src="https://www.telecontact.ma/trouver/images/add-icon.png"/></a>
+                                                </div>
+                                            </div>
+                                          {% endif %}
+                                         <p style="color: lightsalmon;">NB: vous avez le droit sur 6 prestations ou produits</p>
+
+                                         
+                                        </div>
+
+                                        <div class="col-md-4">
+
+                                            <label for="inputmessage" class="label_title_2"> Etat de Actualités:  </label> <br/>
+                                            <label class="radio-inline"><input type="radio" class="checkb" name="valider" {% if actualite %}{% if actualite[0]['valider'] == 1 %} checked {% endif %}{% endif %} value="1">Activer</label>
+                                            <br>
+                                            <label class="radio-inline"><input type="radio" class="checkb" name="valider" {% if actualite %}{% if actualite[0]['valider'] == 2 %} checked {% endif %}{% endif %} value="2">Désactiver</label>
+
+                                        </div><!--/*.col-md-12-->
+
+
+
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <button id="bnt-submit" type="submit" class="btn btn-primary pull-right" style="background-color: #b7b740!important;border-color: #b7b740!important;margin-top: -20px;">Mettre à jour</button>
+                                    </div>
+
+                                </form>
+                              </div>
+
+
+
+
+
+
+                               
+
+
+  <!-- END CONTENT -->
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div><!-- /*container -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+     </body>
+<div class="ui-timepicker-wrapper" tabindex="-1" style="position: absolute; top: 1996px; left: 420.5px; display: none;"><ul class="ui-timepicker-list"><li>00:00</li><li>00:15</li><li>00:30</li><li>00:45</li><li>01:00</li><li>01:15</li><li>01:30</li><li>01:45</li><li>02:00</li><li>02:15</li><li>02:30</li><li>02:45</li><li>03:00</li><li>03:15</li><li>03:30</li><li>03:45</li><li>04:00</li><li>04:15</li><li>04:30</li><li>04:45</li><li>05:00</li><li>05:15</li><li>05:30</li><li>05:45</li><li>06:00</li><li>06:15</li><li>06:30</li><li>06:45</li><li>07:00</li><li>07:15</li><li>07:30</li><li>07:45</li><li>08:00</li><li>08:15</li><li>08:30</li><li>08:45</li><li class="ui-timepicker-selected">09:00</li><li>09:15</li><li>09:30</li><li>09:45</li><li>10:00</li><li>10:15</li><li>10:30</li><li>10:45</li><li>11:00</li><li>11:15</li><li>11:30</li><li>11:45</li><li>12:00</li><li>12:15</li><li>12:30</li><li>12:45</li><li>13:00</li><li>13:15</li><li>13:30</li><li>13:45</li><li>14:00</li><li>14:15</li><li>14:30</li><li>14:45</li><li>15:00</li><li>15:15</li><li>15:30</li><li>15:45</li><li>16:00</li><li>16:15</li><li>16:30</li><li>16:45</li><li>17:00</li><li>17:15</li><li>17:30</li><li>17:45</li><li>18:00</li><li>18:15</li><li>18:30</li><li>18:45</li><li>19:00</li><li>19:15</li><li>19:30</li><li>19:45</li><li>20:00</li><li>20:15</li><li>20:30</li><li>20:45</li><li>21:00</li><li>21:15</li><li>21:30</li><li>21:45</li><li>22:00</li><li>22:15</li><li>22:30</li><li>22:45</li><li>23:00</li><li>23:15</li><li>23:30</li><li>23:45</li><li>24:00</li></ul></div>
+  </html>
+
+{% endblock %}
+{% block javascripts %}
+
+  		<script>
+
+
+     /*function popup(id, nom, date, email, titre, message){
+
+                
+
+                var id= id;
+                alert(id);alert(nom);alert(date);
+
+                $('#message').text(message);
+
+                $("#popup").css({"display": "flex","align-items": "center","justify-content": "center","position": "fixed","width": "100vw","height": "100vh","bottom": "0","right": "0","background-color": "rgba(0, 0, 0, 0.8)","z-index": "2","visibility": "hidden","opacity": "0","overflow": "hiden","transition":"0.64s ease-in-out"});
+
+
+
+
+setTimeout(function(){
+   $('#popi495588').trigger('click');
+}, 2000);
+ 
+ 
+       
+
+            };*/
+
+            $(document).ready( function () {
+
+
+
+
+
+
+
+
+    
+      
+                $('#myTable').DataTable({
+                     "language": {
+                            "decimal":        "",
+                            "emptyTable":     "aucune donnée disponible",
+                            "info":           "_TOTAL_ résultats",
+                            "infoEmpty":      "0 résultats",
+                            "infoFiltered":   "(Filtré de _MAX_ résultats totales)",
+                            "infoPostFix":    "",
+                            "thousands":      ",",
+                            "lengthMenu":     "Afficher _MENU_ résultats",
+                            "loadingRecords": "Chargement...",
+                            "processing":     "Traitement...",
+                            "search":         "Rechercher : ",
+                            "zeroRecords":    "Aucun élément à afficher",
+                            "paginate": {
+                                "first":      "Première",
+                                "last":       "Dernière",
+                                "next":       "Suivant",
+                                "previous":   "Précéndent"
+                            },
+                     }
+                 });
+
+
+            
+var businessHoursManager1 =$("#businessHoursContainer3").businessHours({
+                    postInit:function(){
+                        $('.operationTimeFrom, .operationTimeTill').timepicker({
+                            'timeFormat': 'H:i',
+                            'step': 30
+                            });
+                    },
+                    dayTmpl:'<div class="dayContainer" style="width: 80px;">' +
+                        '<div data-original-title="" class="colorBox"><input type="checkbox" class="invisible operationState"></div>' +
+                        '<div class="weekday"></div>' +
+                        '<div class="operationDayTimeContainer">' +
+                        '<div class="operationTime input-group"><span class="input-group-addon" style="padding-right: 10px; padding-left: 10px; background: #e6e6e6; border: 1px solid #dedcdc;"><i class="fa fa-sun-o" style="margin-top: 10px;"></i></span><input type="text" name="startTime" class="mini-time form-control operationTimeFrom" value="" style="padding-left: 6px;"></div>' +
+                        '<div class="operationTime input-group"><span class="input-group-addon" style="padding-right: 11px; padding-left: 11px; background: #e6e6e6; border: 1px solid #dedcdc;"><i class="fa fa-moon-o" style="margin-top: 10px;"></i></span><input type="text" name="endTime" class="mini-time form-control operationTimeTill" value="" style="padding-left: 6px;"></div>' +
+                        '</div></div>'
+                });
+
+         
+
+
+{% if actualite %}{% if actualite[0]['heure'] %}
+
+var businessHourss = jQuery.parseJSON($("#businessHoursData").val());
+                    $("#businessHoursContainer3").businessHours({
+                      postInit:function(){
+                        $('.operationTimeFrom, .operationTimeTill').timepicker({
+                            'timeFormat': 'H:i',
+                            'step': 30
+                            });
+                    },
+                    dayTmpl:'<div class="dayContainer" style="width: 80px;">' +
+                        '<div data-original-title="" class="colorBox"><input type="checkbox" class="invisible operationState"></div>' +
+                        '<div class="weekday"></div>' +
+                        '<div class="operationDayTimeContainer">' +
+                        '<div class="operationTime input-group"><span class="input-group-addon"><i class="fa fa-sun-o"></i></span><input type="text" name="startTime" class="mini-time form-control operationTimeFrom" value=""></div>' +
+                        '<div class="operationTime input-group"><span class="input-group-addon"><i class="fa fa-moon-o"></i></span><input type="text" name="endTime" class="mini-time form-control operationTimeTill" value=""></div>' +
+                        '</div></div>',
+                        operationTime: businessHourss
+                    });        
+
+                    $("#businessHoursOutput1").val(JSON.stringify(businessHoursManager1.serialize()));    
+                    {% endif %}{% endif %}                
+
+    $(".dayContainer").click(function() {
+    $("#businessHoursOutput1").val(JSON.stringify(businessHoursManager1.serialize()));});
+    $(".ui-timepicker-input").change(function() {
+    $("#businessHoursOutput1").val(JSON.stringify(businessHoursManager1.serialize()));});
+
+    CKEDITOR.replace( 'conditions' );
+    CKEDITOR.replace( 'livraison' );
+    CKEDITOR.replace( 'savoir' );
+
+
+
+
+    var maxField = 6; //Input fields increment limitation
+    var addButton = $('.add_button'); //Add button selector
+    var wrapper = $('.field_wrapper'); //Input field wrapper
+    var fieldHTML = '<div style="padding-top: 5px;padding-bottom: 5px;padding-right: 5px;"><input type="text" class="fn" name="field_name[]" placeholder="prestations ou service" value=""/> <a href="javascript:void(0);" class="remove_button">  <img src="https://www.telecontact.ma/trouver/images/remove-icon.png"/></a></div>'; //New input field html 
+
+    {% if prestation %}
+    
+    var x ={{ prestation|length }};
+    
+    {% else %}
+
+    var x = 1; //Initial field counter is 1
+   
+    {% endif %}
+    
+    //Once add button is clicked
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+
+        if(x < maxField){ 
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+
+
+});
+ 
+
+
+
+    
+
+  				
+        </script>
+           
+ {% endblock %}

@@ -1,0 +1,128 @@
+{% extends "::layout/base_statistics.html.twig" %}
+
+
+{% block title %} Accueil espace client {% endblock %}
+{% block stylesheets %}
+
+<style>
+    
+    .demo{
+        display: none;
+    }
+
+    .bg-white{
+        background-color: #ffdd00!important;
+    }
+
+    .card-body p {
+        font-weight: 600;
+    font-size: 16px;
+    }
+
+    .card-body li {
+        font-weight: 600;
+    font-size: 16px;
+    }
+
+    .page-title{
+        color: black!important;
+        font-size: 24px!important;
+        font-weight: 500!important;
+        text-align: center;
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block body %}
+
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" >
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                            <h4 class="page-title" ><i class="fas fa-user"></i>&emsp;&emsp;Bienvenue <b>{{ data_user[0]['raison_sociale'] }}</b> dans votre <b> Espace client Telecontact </b></h4>
+                        </div>
+                        <div class="col-lg-6 col-md-8 col-sm-8 col-xs-12" >
+                            <h4 style="float: right;"></h4>
+                        </div>
+                        <input type="hidden" name="audience" id="audience" value="audience">
+                    </div>
+
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <div class="d-md-flex">
+                            <!-- <ol class="breadcrumb ms-auto">
+                                <li><a href="#" class="fw-normal">Dashboard</a></li>
+                            </ol>
+                            <a href="https://www.wrappixel.com/templates/ampleadmin/" target="_blank"
+                                class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">Upgrade
+                                to Pro</a> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                
+
+                <div class="row">
+                    
+                    <!-- Column -->
+                    <div class="col-lg-12 col-xlg-12 col-md-12" style="margin-left: 15%; margin-right: 15%; width: 60%;">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <p>Afin de répondre  au mieux  à vos besoins  et attentes  et faciliter  la gestion  de vos services, 
+                                nous vous dédions cet <b>espace client</b>.<p>
+
+                                <p>Ici, vous pouvez :<p>
+
+                                <ul style="line-height: 32px;font-weight: 600;font-size: 15px;">
+                                    <li> Accéder l'<b>audience globale</b> de telecontact </li>
+                                    <li> Suivre vos <b>statistiques</b> et <b>performances</b> </li>
+                                    <li> Actualiser vos <b>informations</b> </li>
+                                    <li> Consulter et répondre aux <b>messages</b>, <b>avis</b> et <b>demandes devis reçus</b> </li>
+                                </ul>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <footer class="footer text-center"> 2021 © Statistics Powered By <a
+                    href="https://www.telecontact.ma/">Télécontact</a>
+            </footer>
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+
+     
+
+{% endblock %}
+{% block javascripts %}
+
+        <script>
+
+
+   
+        </script>
+           
+ {% endblock %}

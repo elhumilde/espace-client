@@ -1,0 +1,179 @@
+{#
+{% extends '::layout/layoutAdmin.html.twig'%}
+#}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link href="{{asset ('https://fonts.googleapis.com/css?family=Montserrat:400,700%7CVarela+Round') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    {# <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />#}
+    <link rel="icon" type="image/x-icon" href="{{ asset('Logo-econtact-2.png') }}" />
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style-admin.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/nprogress.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/custom.min.css') }}" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/tabletools/2.2.4/js/dataTables.tableTools.js"></script>
+    <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+
+    <title>E-contact | Devis envoyés - Group </title>
+    <style>
+        .container-fluid {
+            padding-right: -32px;
+            padding-left: 140px;
+        }
+        .container-fluid {
+            width: 94%;
+            height: 0px;
+            background-color: #f7f7f700;
+        }
+        .table thead th {
+            vertical-align: bottom;
+            color: black;
+            background-color: white;
+        }
+        .table-striped tbody {
+            background-color: #ece8ea;
+        }
+        #total
+        {
+            height: 30px;
+            width: 188px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+        }
+        #table_filter
+        {
+            color: white!important;
+        }
+    </style>
+
+</head>
+<body>
+<div class="bg-img " style=" background-image: url('https://image.noelshack.com/fichiers/2018/17/3/1524643028-commercialisti.jpg');">
+
+    <div class="overlay" style="opacity: .7;"></div>
+</div>
+
+<div class="bg-img">
+    <a href="{{ path("fos_user_profile_show") }}">
+        <img class="logo  img-logo" src="https://image.noelshack.com/fichiers/2018/02/1/1515423139-logo.png" style="width: 136px;" >
+    </a>
+</div>
+
+
+{#<div class="right_col" role="main">#}{#
+    <div class="clearfix"></div>
+    <br/>#}
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="">
+            {% block body -%}
+                <h1 style="color: white;margin-top: 90px;" align="center"> Statistiques envoyées </h1>
+                <br>
+                {% for flashMessage in app.session.flashbag.get('success') %}
+                    <div class="alert alert-success">
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+                {# <input type="number" value="{{ devisbygroup|length  }}" readonly id="total">#}
+
+
+                <table id="table" class="table table-striped table-bordered" align="center">
+                    <thead>
+                    <tr>
+                    <tr>
+                    <tr>
+                        <th>Code firme</th>
+                        <th>Nom signataire</th>
+                        <th>Nom Commerciale</th>
+                        <th>Email destinataire </th>
+                        <th>Date envoyée</th>
+                        <th>Action</th>
+                    </tr>
+                    </tr>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for entity in statisticbygroup %}
+                        <td>{{ entity.codeFirme }}</td>
+                        <td>{{ entity.sexe }} {{ entity.nom }} {{ entity.prenom }}</td>
+                        <td>{{ entity.nomCommercial }} </td>
+                        <td>{{ entity.email }}</td>
+                        <td>{{ entity.time|date('d-m-Y') }}</td>
+                        <td>
+                            <a href="{{ path('adminStatistics_show', { 'id': entity.id } ) }}" target="_blank">WEB</a>
+                        </td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+                {# <div class="navigation">
+                     {{ knp_pagination_render(devisbygroup) }}
+                 </div>#}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    $(document).ready(function() {
+
+        $.extend( jQuery.fn.dataTableExt.oSort, {
+            "date-uk-pre": function (a){
+                return parseInt(moment(a, "DD-MM-YYYY HH:ii:ss").format("X"), 10);
+            },
+            "date-uk-asc": function (a, b) {
+                return a - b;
+            },
+            "date-uk-desc": function (a, b) {
+                return b - a;
+            }
+        });
+
+        $('#table').dataTable( {
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"
+
+            },
+            "aaSorting": [[ 5, "desc" ]],
+
+            columnDefs: [
+                { type: 'date-uk', targets: 5 }
+            ],
+             dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: 'Export excel',
+                    className: 'exportExcel',
+                    filename: 'Export excel',
+                    exportOptions: {
+                        modifier: {
+                            page: 'all'
+                        }
+                    }
+                }
+            ]
+
+        });
+    } );
+</script>
+</body>
+</html>
+

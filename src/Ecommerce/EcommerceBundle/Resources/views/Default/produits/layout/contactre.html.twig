@@ -1,0 +1,2956 @@
+
+<style>
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        min-height: 100%;
+    }
+
+    table.content
+    {
+        /* width: 100%;
+         height: 100%;*/
+        border-collapse: collapse;
+        padding: 10px;
+        margin: 4px;
+        line-height: 2;
+    }
+    table.contentt
+    {
+        /* width: 100%;
+         height: 100%;*/
+        border-collapse: collapse;
+        padding: 10px;
+        margin: 4px;
+        line-height: 2;
+    }
+
+    /* .container {
+         width: 760px;
+         margin: auto;
+         height: 100%;
+         padding: 0px;
+     }
+     */
+    .content th
+    {
+        padding: 2px;
+        margin: 2px;
+        border: solid 1px #000000!important;
+        text-align: left;
+        height: 10px!important;
+
+    }
+
+
+    .content td
+    {
+        padding: 5px;
+        margin: 5px;
+        border: solid 1px #000000!important;
+        text-align: center;
+    }
+    .contentt td
+    {
+        padding: 2px;
+        margin: 2px;
+        border: solid 1px #000000!important;
+        text-align: left;
+        height: 10px!important;
+
+    }
+    .test
+    {
+        padding: 5px;
+        margin: 5px;
+    }
+
+    .content .row
+    {
+        border-top: solid 1px #000000;
+    }
+    /* @page {
+         size: 210mm 297mm;
+         margin-top: 1cm;
+         margin-bottom: 3cm;
+     }*/
+    .txt_descriptif {
+        font-weight: 300;
+        font-size: 12px;
+        text-align: justify;
+        line-height: 19px;
+
+    }
+</style>
+
+{% if  entity.id > 1866 %}
+
+<page backtop="1mm" backbottom="15mm" backleft="10mm" backright="10mm" footer="page;">
+    <page_header>
+
+    </page_header>
+
+    <page_footer >
+        <hr/>
+        <img  src="https://www.telecontact.ma/trouver/images/footer_econtact.png" class="img-fluid"  style="height: 50px;width:100%;" >
+    </page_footer>
+ 
+    {% if entity.proposition =='proposition' %}
+
+        <img  src="http://www.telecontact.ma/trouver/images/tete_proposition.jpg" class="img-fluid" alt="proposition de visibilité telecontact"  style="height: 100px;width: 111%;margin-left: -38px">
+    
+    {% elseif entity.ordre =='ordre' %}
+        <img  src="http://www.telecontact.ma/trouver/images/tete_devis.jpg" class="img-fluid" alt="devis"  style="height: 100px;width: 111%;margin-left: -38px">
+    {% elseif entity.boncommande =='bon_commande' %}
+       <div >
+    <span style="text-align:left;">
+     <img  src="  https://lirp-cdn.multiscreensite.com/792f56cf/dms3rep/multi/opt/logo-edicom-480w.png" class="img-fluid" alt="proposition de visibilité telecontact"  style="height: 100pxpx;width: 100px;">
+    </span>
+<span style="text-align:right; margin-left:462px;" >
+ <img  src="  http://www.telecontact.ma/trouver/images/telecontact-ma-logo.png" class="img-fluid" alt="proposition de visibilité telecontacts "  style="height: 100pxpx;width: 120px;">
+
+</span>
+   <hr/>
+  </div>
+    {% else %}
+        <img  src="http://www.telecontact.ma/trouver/images/tete_proposition.jpg" class="img-fluid" alt="proposition de visibilité telecontact"  style="height: 100px;width: 111%;margin-left: -38px">
+    {% endif %}
+
+ 
+
+
+    <p style="float: right; width: 88%;    text-align: right;font-size: 12px;">         {% if (entity.boncommande =='bon_commande' ) %}<b style="text-align: left;font-size: 15px;">BON DE COMMANDE</b>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {% endif %}<b>{% if entity.dateCreation %}{{jour[entity.dateCreation|date('l')]}} {{ entity.dateCreation |date("d") }} {{trans_day_hash[entity.dateCreation|date('F')]}} {{ entity.dateCreation |date("Y") }} {% endif %}</b> </p>
+       <div style="float: right; width: 88%; font-size: 12px;   padding: 0px; margin:0px;margin-bottom:5px; text-align: left;">
+        <span ><b>Edition  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:  </b>32</span>
+          {% if (entity.boncommande =='bon_commande' ) %}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <span style="float=right;" ><b>Bon de commande N°  :  </b>{{ entity.numbc }}</span>
+          {% endif %}
+    </div>
+  
+        {% if entity %} {% if entity.cfirme  %}<div style="float: right; width: 88%;
+        font-size: 12px;    padding: 0px; margin:0px;margin-bottom:5px;  text-align: left;">
+        <span ><b>Code firme &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> {{ entity.cfirme }}</span> </div> {% endif %}{% endif %}
+        {% if entity  %} {% if entity.rs  %}  <div style="float: right; width: 88%; font-size: 12px;   padding: 0px; margin:0px;margin-bottom:5px; text-align: left;">
+    <span ><b>Raison sociale : </b>{{ entity.rs }}</span> </div> {% endif %}{% endif %}
+
+  
+              {% if (entity.boncommande =='bon_commande' ) %}
+            
+              <div style="float: right; width: 88%;
+        font-size: 12px;    padding: 0px; margin:0px;margin-bottom:5px;  text-align: left;">
+<span ><b>ICE : </b></span> 
+
+               </div> 
+             
+               {% endif %}
+
+    <p style="font-size: 12px;font-weight: 400;">
+
+
+        {% if entity.civi  %}
+            {% if entity.civi =='Mr' %} cher  {% endif %}
+            {% if entity.civi =='Mlle' %} chère {% endif %}
+            {% if entity.civi =='Mme' %} chère  {% endif %}
+        {% endif %}
+        {% if entity.civi  %}
+            {% if entity.civi =='Mme' %} Madame  {% endif %}
+            {% if entity.civi =='Mlle' %}  Mademoiselle {% endif %}
+            {% if entity.civi =='Mr' %} Monsieur  {% endif %}
+        {% endif %}
+        {% if  entity.sign  %} {{ entity.sign }} {% endif %}  , </p>
+    <div class="txt_descriptif">
+        <p >Tout d'abord, nous tenons à vous remercier pour votre confiance et nous sommes ravis de vous compter parmi nos clients.<br>
+            Pour développer votre visibilité auprés des professionnels, nous vous préconisons une présence efficace sur telecontact.ma avec les solutions digitales suivantes:</p>
+    </div>
+
+    <table class="table content" align="center">
+        <thead class="thead-dark">
+        <tr  style="background-color: black;color:white;">
+            <th scope="col" width="350" height="5" style="text-align: center;border-right: 2px solid white;">Produit(s)</th>
+            <th scope="col" width="65"  style="text-align: center;border-right: 2px solid white;">P.U</th>
+            <th scope="col" width="70"  style="text-align: center;border-right: 2px solid white;">Qté</th>
+            <th scope="col"  style="text-align: center;">Montant HT</th>
+        </tr>
+
+        </thead>
+        <tbody>
+        {% if (referencement['regions_sup']!=null or referencement['raniad']!=null or referencement['rubd']!=null or referencement['prest']!=null or referencement['mari']!=null ) %}
+            <tr class="table-warning referencement">
+                <th colspan="4" style="background-color: #ffdb2e;font-size: 14px;">Référencement</th>
+            </tr>
+        {% else %}
+            <style>
+                .referencement
+                {
+                    display: none;
+                }
+            </style>
+        {% endif %}
+
+        {% if (referencement['regions_sup'] or  referencement['regions_sup']=='0' ) %}
+            {% if referencement['rania']  %}
+                <tr>
+                    <th scope="row" ><strong style="font-size: 15px;">Carte de visite</strong><br>
+
+                        {% if referencement['regions_sup']!="N" %}
+                            <strong style="font-size: 14px;">Visibilité sur toutes les villes de la de région de:<br></strong>
+                            <strong style="font-weight: 400;font-size: 13px">
+
+                                {{ referencement['regions']|sommes.libelle }}
+                                {% if referencement['regions_sup']=="0" %}( Sur sa region) {% endif %}
+                                {% if referencement['regions_sup']=="1" %}( +1 Région) {% endif %}
+                                {% if referencement['regions_sup']=="3" %}( +3 Régions) {% endif %}
+                                {% if referencement['regions_sup']=="6" %}( +6 Régions) {% endif %}
+                            </strong>
+
+                        {% else %}
+                            <strong style="font-size: 14px;">Visibilité sur le :</strong>
+                            <strong style="font-weight: 400;font-size: 13px">
+                                {% if referencement['regions_sup']=="N" %} National {% endif %}
+                            </strong>
+                        {% endif %}
+                    </th>
+
+                    <td>{{ referencement['rania']|number_format|replace(',',' ')  }}</td>
+                    <td>1</td>
+                    <td>{{ referencement['rania']|number_format|replace(',',' ')  }}</td>
+                </tr>
+
+            {% endif %}
+
+
+        {% else %}
+
+            {% if  referencement['raniad']  %}
+                <tr>
+                    <th scope="row" ><strong style="font-size: 13px;">Carte de visite</strong><br>
+
+                        <strong> Visibilité sur la ville de : </strong>
+                        <strong style="font-weight: 300;">
+                            {{ referencement['villes']|somme.libelle }};
+
+                            {# {% if referencement['villes_sup']=="0" %}( Sur sa localité) {% endif %}#}
+                            {% if referencement['villes_sup']=="1" %} +1 autre Localité {% endif %}
+                            {% if referencement['villes_sup']=="3" %} +3 autres Localités {% endif %}
+                            {% if referencement['villes_sup']=="6" %} +6 autres Localités {% endif %}
+                            {% if referencement['villes_sup']=="9" %} +9 autres Localités {% endif %}
+                        </strong>
+
+                    </th>
+
+                    <td>{{ referencement['raniad']|number_format|replace(',',' ')  }}</td>
+                    <td>1</td>
+                    <td>{{ referencement['raniad']|number_format|replace(',',' ') }}</td>
+                </tr>
+
+            {% endif %}
+
+
+        {% endif %}
+
+
+        {% if desrubref['rub1']!=null  %}
+            <tr>
+                <th scope="row"   ><strong style="font-size: 13px;">Rubrique principale : </strong><br>
+                    {#{% for rubrique in desrubref['rubrique'] %}
+                    - <h7 style="font-weight: 500;font-size: 16px;">{{ rubrique.sel|rub.libelle }}</h7>
+                    {% endfor %}#}
+                   {# <div style=";background-color: #f9f1c9">
+                        <strong style="font-weight: 400;font-size: 12px;"> •&nbsp; <strong style="font-weight: 700;font-size: 14px;">{{ desrubref['rub1']|rub.libelle }} </strong><br>
+                            {% if  desrubref['villes1'] %}    visibilité sur : {{ desrubref['villes1']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier1'] %},
+
+                                {% for ville in desrubref['villes_panier1'] %}
+                                    {% if loop.index==5 %}<br> {% endif %}
+                                     {% if loop.index==10 %}<br> {% endif %}
+                                        {% if loop.index==15 %}<br> {% endif %}
+                                    {{ ville|somme.libelle }},
+                            {% endfor %}{% endif %}
+                        </strong>
+                    </div>#}
+                    <div style="width: 391px!important;background-color: #f9f1c9">
+                        <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 700;font-size: 14px;">{{ desrubref['rub1']|rub.libelle  }}</span>
+
+                            <br>
+                            {% if  desrubref['villes1'] %}    visibilité sur : {{ desrubref['villes1']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier1'] %},
+                                {% for ville in desrubref['villes_panier1'] %}
+                                    {% if loop.index==4 %}<br> {% endif %}
+                                    {{ ville|somme.libelle }},
+                                {% endfor %}{% endif %}</strong>
+                    </div>
+                </th>
+
+                <td>-</td>
+                <td>1</td>
+                <td>{{ ( desrubref['final']+ desrubref['localiter_supp'])|number_format|replace(',',' ')  }}</td>
+            </tr>
+
+
+        {% endif %}
+
+
+        {% if  referencement['rubrique'] >=2 %}
+            <tr>
+                <th scope="row" ><strong style="font-size: 13px;">Rubrique(s) supplémentaire(s): </strong><br>
+
+                    {% if desrubref['rub2']!=null  %}
+                        <div style="width: 391px!important;background-color: #f9f1c9">
+                            <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 600;font-size: 12px;">{{ desrubref['rub2']|rub.libelle  }}</span>
+
+                                <br>
+                                {% if  desrubref['villes2'] %}    visibilité sur : {{ desrubref['villes2']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier2'] %},
+                                    {% for ville in desrubref['villes_panier2'] %}
+                                        {% if loop.index==4 %}<br> {% endif %}
+                                    {{ ville|somme.libelle }},
+                                {% endfor %}{% endif %}</strong>
+                        </div><br>
+                    {% endif %}
+                    {% if desrubref['rub3']!=null  %}
+                        <div style="width: 391px!important;background-color: #f9f1c9">
+                            <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 600;font-size: 12px;">{{ desrubref['rub3']|rub.libelle  }}</span>
+
+                                <br>
+                                {% if  desrubref['villes3'] %}    visibilité sur : {{ desrubref['villes3']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier3'] %},
+                                    {% for ville in desrubref['villes_panier3'] %}
+                                        {% if loop.index==4 %}<br> {% endif %}
+                                    {{ ville|somme.libelle }},
+                                {% endfor %}{% endif %}</strong>
+                        </div><br>
+                    {% endif %}
+                    {% if desrubref['rub4']!=null  %}
+                        <div style="width: 391px!important;background-color: #f9f1c9">
+                            <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 600;font-size: 12px;">{{ desrubref['rub4']|rub.libelle  }}</span>
+
+                                <br>
+                                {% if  desrubref['villes4'] %}    visibilité sur : {{ desrubref['villes4']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier4'] %},
+                                    {% for ville in desrubref['villes_panier4'] %}
+                                        {% if loop.index==4 %}<br> {% endif %}
+                                    {{ ville|somme.libelle }},
+                                {% endfor %}{% endif %}</strong>
+                        </div><br>
+                    {% endif %}
+                    {% if desrubref['rub5']!=null  %}
+                        <div style="width: 391px!important;background-color: #f9f1c9">
+                            <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 600;font-size: 12px;">{{ desrubref['rub5']|rub.libelle  }}</span>
+
+                                <br>
+                                {% if  desrubref['villes5'] %}    visibilité sur : {{ desrubref['villes5']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier5'] %},
+                                    {% for ville in desrubref['villes_panier5'] %}
+                                        {% if loop.index==4 %}<br> {% endif %}
+                                    {{ ville|somme.libelle }},
+                                {% endfor %}{% endif %}</strong>
+                        </div><br>
+                    {% endif %}
+                    {% if desrubref['rub6']!=null  %}
+                        <div style="width: 391px!important;background-color: #f9f1c9">
+                            <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 600;font-size: 12px;">{{ desrubref['rub6']|rub.libelle  }}</span>
+
+                                <br>
+                                {% if  desrubref['villes6'] %}    visibilité sur : {{ desrubref['villes6']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier6'] %},
+                                    {% for ville in desrubref['villes_panier6'] %}
+                                        {% if loop.index==4 %}<br> {% endif %}
+                                    {{ ville|somme.libelle }},
+                                {% endfor %}{% endif %}</strong>
+                        </div><br>
+                    {% endif %}
+                    {% if desrubref['rub7']!=null  %}
+                        <div style="width: 391px!important;background-color: #f9f1c9">
+                            <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 600;font-size: 12px;">{{ desrubref['rub6']|rub.libelle  }}</span>
+
+                                <br>
+                                {% if  desrubref['villes7'] %}    visibilité sur : {{ desrubref['villes7']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier7'] %},
+                                    {% for ville in desrubref['villes_panier7'] %}
+                                        {% if loop.index==4 %}<br> {% endif %}
+                                    {{ ville|somme.libelle }},
+                                {% endfor %}{% endif %}</strong>
+                        </div><br>
+                    {% endif %}
+
+                  {#  {% if desrubref['rub3']!=null  %}
+                        <div style="width: 391px!important;background-color: #f9f1c9">
+                            <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp;<span style="font-weight: 600;font-size: 12px;"> {{ desrubref['rub3']|rub.libelle  }}</span> <br>
+                                {% if  desrubref['villes3'] %}    visibilité sur : {{ desrubref['villes3']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier3'] %},                                     {% for ville in desrubref['villes_panier3'] %}
+                                    {{ ville|somme.libelle }},
+                                {% endfor %} {% endif %}</strong>
+                        </div><br>
+                    {% endif %}
+
+                    {% if desrubref['rub4']!=null  %}
+                        <div style="width: 391px!important;background-color: #f9f1c9">
+                            <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 600;font-size: 12px;"> {{ desrubref['rub4']|rub.libelle  }} </span><br>
+                                {% if  desrubref['villes4'] %}    visibilité sur : {{ desrubref['villes4']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier4'] %},
+                                    {% for ville in desrubref['villes_panier4'] %}
+                                        {{ ville|somme.libelle }},
+                                    {% endfor %}
+                                {% endif %}</strong></div><br>
+                    {% endif %}
+
+                    {% if desrubref['rub5']!=null  %}
+                        <div style="width: 391px!important;background-color: #f9f1c9">
+                            <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp;<span style="font-weight: 600;font-size: 12px;"> {{ desrubref['rub5']|rub.libelle  }} </span><br>
+
+                                {% if  desrubref['villes5'] %}    visibilité sur : {{ desrubref['villes5']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier5'] %},                                     {% for ville in desrubref['villes_panier5'] %}
+                                    {{ ville|somme.libelle }},
+                                {% endfor %}{% endif %}</strong></div><br>
+                    {% endif %}
+
+                    {% if desrubref['rub6']!=null  %}
+                        <div style="width: 391px!important;background-color: #f9f1c9">
+                            <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp;  <span style="font-weight: 600;font-size: 12px;">{{ desrubref['rub6']|rub.libelle  }} </span><br>
+
+
+                                {% if  desrubref['villes6'] %}    visibilité sur : {{ desrubref['villes6']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier6'] %},                                    {% for ville in desrubref['villes_panier6'] %}
+                                    {{ ville|somme.libelle }},
+                                {% endfor %} {% endif %}</strong></div><br>
+                    {% endif %}
+
+                    {% if desrubref['rub7']!=null  %}
+                        <div style="width: 391px!important;background-color: #f9f1c9">
+                            <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 600;font-size: 12px;"> {{ desrubref['rub7']|rub.libelle  }}</span><br>
+
+
+                                {% if  desrubref['villes7'] %}    visibilité sur : {{ desrubref['villes7']|somme.libelle  }} {% endif %} {% if  desrubref['villes_panier7'] %},                     {% for ville in desrubref['villes_panier7'] %}
+                                    {{ ville|somme.libelle }},
+                                {% endfor %} {% endif %}</strong>
+                        </div><br>
+                    {% endif %}#}
+{% if  entity.id == 5127 %}
+                <div style="width: 391px!important;background-color: #f9f1c9">
+                            <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 600;font-size: 12px;">Chauffage electirque</span>
+
+                                <br>
+                                visibilité sur : Casablanca </strong>
+                        </div><br>
+                <div style="width: 391px!important;background-color: #f9f1c9">
+                            <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">   •&nbsp; <span style="font-weight: 600;font-size: 12px;">Produit de beauté</span>
+
+                                <br>
+                                visibilité sur : Casablanca </strong>
+                        </div><br>
+
+
+
+{% endif %}
+                </th>
+
+                <td>-</td>
+                <td>{{ (referencement['rubrique']-1) }}</td>
+                <td><br>
+                    {% if desrubref['rub2']!=null  %}        {{ ( desrubref['rub_supp_1']+ desrubref['localiter_supp1'])|number_format|replace(',',' ') }}<br><br>{% endif %}
+                    {% if desrubref['rub3']!=null  %}        {{ ( desrubref['rub_supp_2']+ desrubref['localiter_supp2'])|number_format|replace(',',' ') }}<br><br>{% endif %}
+                    {% if desrubref['rub4']!=null  %}        {{ ( desrubref['rub_supp_3']+ desrubref['localiter_supp3'])|number_format|replace(',',' ') }}<br><br>{% endif %}
+                    {% if desrubref['rub5']!=null  %}        {{ ( desrubref['rub_supp_4']+ desrubref['localiter_supp4'])|number_format|replace(',',' ') }}<br><br>{% endif %}
+                    {% if desrubref['rub6']!=null  %}        {{ ( desrubref['rub_supp_5']+ desrubref['localiter_supp5'])|number_format|replace(',',' ') }}<br><br>{% endif %}
+                    {% if desrubref['rub7']!=null  %}        {{ ( desrubref['rub_supp_6']+ desrubref['localiter_supp6'])|number_format|replace(',',' ') }}<br><br>{% endif %}
+                    {% if  entity.id == 5127 %}
+                    2000<br><br>
+                    2000<br><br>
+                    {% endif %}
+
+                </td>
+            </tr>
+
+
+        {% endif %}
+
+        {% if  referencement['prest']  %}
+            <tr>
+                <th scope="row" ><strong style="font-size: 13px;">Prestation(s):  </strong><br>
+
+
+                    {% if desrubref['rub1']!=null  %}
+                        {%  if (desrubref['addprest1'] !=[""] or  desrubref['prest1']!=null) %}
+                            {% if desrubref['rub1']!=null  %}
+                                <div style="width: 350px!important;background-color: #f9f1c9">
+                                    <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">
+                                        •&nbsp;{{ desrubref['rub1']|rub.libelle  }}<br>
+                                    </strong>
+
+                                </div>
+                                {% for prestation in desrubref['prest1'] %}
+                                    {% if desrubref['prest1']!=null %}
+                                        <strong style="font-weight: 300;font-size: 11px;">
+                                            -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                        </strong>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for addprestation in desrubref['addprest1'] %}
+                                    {%  if addprestation !=null %}
+                                        <strong style="font-weight: 300;font-size: 11px;">
+                                            -&nbsp;{{ addprestation|capitalize}}<br>
+                                        </strong>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+
+                    {% if desrubref['rub2']!=null  %}
+                        {%  if (desrubref['addprest2'] !=[""] or  desrubref['prest2']!=null) %}
+                            {% if desrubref['rub2']!=null  %}
+                                <div style="width: 350px!important;background-color: #f9f1c9">
+                                    <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">
+                                        •&nbsp;{{ desrubref['rub2']|rub.libelle  }}<br>
+                                    </strong>
+
+                                </div>
+                                {% for prestation in desrubref['prest2'] %}
+                                    {% if desrubref['prest2']!=null %}
+                                        <strong style="font-weight: 300;font-size: 11px;">
+                                            -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                        </strong>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for addprestation in desrubref['addprest2'] %}
+                                    {%  if addprestation !=null %}
+                                        <strong style="font-weight: 300;font-size: 11px;">
+                                            -&nbsp;{{ addprestation|capitalize}}<br>
+                                        </strong>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+
+                    {% endif %}
+
+                    {% if desrubref['rub3']!=null  %}
+                        {%  if (desrubref['addprest3'] !=[""] or  desrubref['prest3']!=null) %}
+                            {% if desrubref['rub3']!=null  %}
+                                <div style="width: 350px!important;background-color: #f9f1c9">
+                                    <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">
+                                        •&nbsp;{{ desrubref['rub3']|rub.libelle  }}<br>
+                                    </strong>
+
+                                </div>
+                                {% for prestation in desrubref['prest3'] %}
+                                    {% if desrubref['prest3']!=null %}
+                                        <strong style="font-weight: 300;font-size: 11px;">
+                                            -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                        </strong>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for addprestation in desrubref['addprest3'] %}
+                                    {%  if addprestation !=null %}
+                                        <strong style="font-weight: 300;font-size: 11px;">
+                                            -&nbsp;{{ addprestation|capitalize}}<br>
+                                        </strong>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+
+                    {% endif %}
+
+                    {% if desrubref['rub4']!=null  %}
+                        {%  if (desrubref['addprest4'] !=[""] or  desrubref['prest4']!=null) %}
+                            {% if desrubref['rub4']!=null  %}
+                                <div style="width: 350px!important;background-color: #f9f1c9">
+                                    <strong style="font-weight: d00;font-size: 12px;background-color: #f9f1c9">
+                                        •&nbsp;{{ desrubref['rub4']|rub.libelle  }}<br>
+                                    </strong>
+
+                                </div>
+                                {% for prestation in desrubref['prest4'] %}
+                                    {% if desrubref['prest4']!=null %}
+                                        <strong style="font-weight: 300;font-size: 11px;">
+                                            -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                        </strong>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for addprestation in desrubref['addprest4'] %}
+                                    {%  if addprestation !=null %}
+                                        <strong style="font-weight: 300;font-size: 11px;">
+                                            -&nbsp;{{ addprestation|capitalize}}<br>
+                                        </strong>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+
+                    {% endif %}
+                    {% if  desrubref['prest6'] is defined %}
+                        {% if desrubref['rub6']!=null  %}
+                            {%  if (desrubref['addprest6'] !=[""] or  desrubref['prest6']!=null) %}
+                                {% if desrubref['rub6']!=null  %}
+                                    <div style="width: 350px!important;background-color: #f9f1c9">
+                                        <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                            •&nbsp;{{ desrubref['rub6']|rub.libelle  }}<br>
+                                        </strong>
+
+                                    </div>
+                                    {% for prestation in desrubref['prest6'] %}
+                                        {% if desrubref['prest6']!=null %}
+                                            <strong style="font-weight: 400;font-size: 13px;">
+                                                -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                            </strong>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for addprestation in desrubref['addprest6'] %}
+                                        {%  if addprestation !=null %}
+                                            <strong style="font-weight: 400;font-size: 13px;">
+                                                -&nbsp;{{ addprestation|capitalize}}<br>
+                                            </strong>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+
+                        {% endif %}
+                    {% endif %}
+                    {% if  desrubref['prest7'] is defined %}
+                        {% if desrubref['rub7']!=null  %}
+                            {%  if (desrubref['addprest7'] !=[""] or  desrubref['prest7']!=null) %}
+                                {% if desrubref['rub7']!=null  %}
+                                    <div style="width: 350px!important;background-color: #f9f1c9">
+                                        <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">
+                                            •&nbsp;{{ desrubref['rub7']|rub.libelle  }}<br>
+                                        </strong>
+
+                                    </div>
+                                    {% for prestation in desrubref['prest7'] %}
+                                        {% if desrubref['prest7']!=null %}
+                                            <strong style="font-weight: 300;font-size: 11px;">
+                                                -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                            </strong>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for addprestation in desrubref['addprest7'] %}
+                                        {%  if addprestation !=null %}
+                                            <strong style="font-weight: 300;font-size: 11px;">
+                                                -&nbsp;{{ addprestation|capitalize}}<br>
+                                            </strong>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+
+                        {% endif %}
+
+                    {% endif %}
+
+{% if  entity.id == 5127 %}
+
+        <div style="width: 350px!important;background-color: #f9f1c9">
+                                        <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">
+                                            •&nbsp;Chauffage electrique<br>
+                                        </strong>
+
+                                    </div>
+                                           <strong style="font-weight: 300;font-size: 11px;">
+                                                 -&nbsp; Sèche cheveux<br>
+                                                 -&nbsp; lisseur<br>
+                                                 -&nbsp; poele et casserole<br>                                                
+                                            </strong>
+
+                     <div style="width: 350px!important;background-color: #f9f1c9">
+                                        <strong style="font-weight: 400;font-size: 12px;background-color: #f9f1c9">
+                                            •&nbsp;Produit de beauté<br>
+                                        </strong>
+
+                                    </div>
+                                           <strong style="font-weight: 300;font-size: 11px;">
+                                                 -&nbsp; batteur de cuisine<br>
+                                                 -&nbsp; lisseur<br>
+                                                 -&nbsp; ustensiles de cuisine<br>                                                
+                                            </strong>                               
+      {% endif %}
+
+                </th>
+
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+
+            </tr>
+
+        {% endif %}
+        {% if  referencement['prest_sup']  %}
+            <tr>
+                <th scope="row"><strong>Prestation(s) supplémentaire: <br> </strong>
+                    {% if  desrubref['prestsupp'] is defined %}
+                        {% for prestsupp in desrubref['prestsupp'] %}
+                            {%  if prestsupp !=null %}
+                                <strong style="font-weight: 300;font-size: 11px;">
+                                    -&nbsp;{{ prestsupp|capitalize}}<br>
+                                </strong>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                </th>
+
+                <td>1 500</td>
+                {% if  referencement['resulta2'] is defined %}
+                    <td>{{ referencement['resulta2']}} </td>
+                {% else %}
+                    <td>{{ referencement['prest_sup']|number_format|replace(',',' ') }}</td>
+                {% endif %}
+                <td>{{ referencement['resulta']|number_format|replace(',',' ') }}</td>
+
+            </tr>
+        {% endif %}
+        {% if  referencement['mari']  %}
+            <tr>
+                <th scope="row"><strong style="font-size: 13px;">Marques : </strong><br>
+                    {% if marque!=0 %}
+
+                        {% if marque['marq1']!=null  %}
+                            <div>
+                                <strong style="font-weight: 400!important;font-size: 12px!important;background-color: #f9f1c9">
+                                    •&nbsp; {{ marque['marq1']  }}:
+                                </strong>
+                                {% for posi in marque['posi1'] %}
+                                    <strong style="font-weight: 300!important;font-size: 11px;!important;">
+                                        {{ posi}} -
+                                    </strong>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% if marque['marq2']!=null  %}
+                            <div>
+                                <strong style="font-weight: 400!important;font-size: 12px!important;background-color: #f9f1c9">
+                                    •&nbsp; {{ marque['marq2']  }}:
+                                </strong>
+                                {% for posi in marque['posi2'] %}
+                                    <strong style="font-weight: 300!important;font-size: 11px;!important;">
+                                        {{ posi}} -
+                                    </strong>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% if marque['marq3']!=null  %}
+                            <div>
+                                <strong style="font-weight: 400!important;font-size: 12px!important;background-color: #f9f1c9">
+                                    •&nbsp; {{ marque['marq3']  }}:
+                                </strong>
+                                {% for posi in marque['posi3'] %}
+                                    <strong style="font-weight: 300!important;font-size: 11px;!important;">
+                                        {{ posi}} -
+                                    </strong>
+                                {% endfor %}
+                            </div>
+
+                        {% endif %}
+
+                        {% if marque['marq4']!=null  %}
+                            <div>
+                                <strong style="font-weight: 400!important;font-size: 12px!important;background-color: #f9f1c9">
+                                    •&nbsp; {{ marque['marq4']  }}:
+                                </strong>
+                                {% for posi in marque['posi4'] %}
+                                <strong style="font-weight: 300!important;font-size: 11px;!important;">
+                                    {{ posi}} -
+                                </strong>
+                                {% endfor %}:
+                            </div>
+
+
+                        {% endif %}
+
+                        {% if marque['marq5']!=null  %}
+                            <div>
+                                <strong style="font-weight: 400!important;font-size: 12px!important;background-color: #f9f1c9">
+                                    •&nbsp;{{ marque['marq5']  }}:
+                                </strong>
+                                {% for posi in marque['posi5'] %}
+                                    <strong style="font-weight: 300!important;font-size: 11px;!important;">
+                                        {{ posi}} -
+                                    </strong>
+                                {% endfor %}
+                            </div>
+
+
+                        {% endif %}
+
+                        {% if marque['marq6']!=null  %}
+                            <div>
+                                <strong style="font-weight: 400!important;font-size: 12px!important;background-color: #f9f1c9">
+                                    •&nbsp;{{ marque['marq6']  }}:
+                                </strong>
+                                {% for posi in marque['posi6'] %}
+                                <strong style="font-weight: 300!important;font-size: 11px;!important;">
+                                    {{ posi}} -
+                                </strong>
+                                {% endfor %}:
+                            </div>
+
+
+                        {% endif %}
+
+                        {% if marque['marq7']!=null  %}
+                            <div>
+                                <strong style="font-weight: 400!important;font-size: 12px!important;background-color: #f9f1c9">
+                                    •&nbsp;{{ marque['marq7']  }}:
+                                </strong>
+                                {% for posi in marque['posi7'] %}
+                                    <strong style="font-weight: 300!important;font-size: 11px;!important;">
+                                        {{ posi}} -
+                                    </strong>
+                                {% endfor %}
+
+                            </div>
+
+
+                        {% endif %}
+
+                        {% if marque['marq8']!=null  %}
+                            <div>
+                                <strong style="font-weight: 400!important;font-size: 12px!important;background-color: #f9f1c9">
+                                    •&nbsp;{{ marque['marq8']  }}:
+                                </strong>
+                                {% for posi in marque['posi8'] %}
+                                <strong style="font-weight: 300!important;font-size: 11px;!important;">
+                                    {{ posi}} -
+                                </strong>
+                                {% endfor %}:
+                            </div>
+
+
+                        {% endif %}
+
+                        {% if marque['marq9']!=null  %}
+                            <div>
+                                <strong style="font-weight: 400!important;font-size: 12px!important;background-color: #f9f1c9">
+                                    •&nbsp; {{ marque['marq9']  }}:
+                                </strong>
+                                {% for posi in marque['posi9'] %}
+                                    <strong style="font-weight: 300!important;font-size: 11px;!important;">
+                                        {{ posi}} -
+                                    </strong>
+                                {% endfor %}
+                            </div>
+
+
+                        {% endif %}
+
+                        {% if marque['marq10']!=null  %}
+                            <div>
+                                <strong style="font-weight: 400!important;font-size: 12px!important;background-color: #f9f1c9">
+                                    •&nbsp; {{ marque['marq10']  }}:
+                                </strong>
+                                {% for posi in marque['posi10'] %}
+                                    <strong style="font-weight: 300!important;font-size: 11px;!important;">
+                                        {{ posi}} -
+                                    </strong>
+                                {% endfor %}
+                            </div>
+
+
+                        {% endif %}
+                    {% endif %}
+
+
+                </th>
+
+                <td>1 500</td>
+                <td>{{ referencement['marque_pack']  }}</td>
+                <td>{{ referencement['mari']|number_format|replace(',',' ') }}</td>
+            </tr>
+        {% endif %}
+
+        {% if (contenu['catalogue']!=null or contenu['catalogue_ref']!=null or contenu['video']!=null or contenu['page']!=null or contenu['site_web']!=null)   %}
+            <tr class="table-warning catalogue" >
+                <th colspan="4" style=" background-color: #ffdb2e;font-size: 14px;">Contenu</th>
+            </tr>
+        {% else %}
+            <style>
+                .catalogue
+                {
+                    display: none;
+                }
+            </style>
+        {% endif %}
+
+        {% if  contenu['catalogue']  %}
+            <tr>
+                <th scope="row"><strong style="font-size: 12px;">Catalogue {% if  contenu['catalogue']=='3500'  %} 5 pages {% endif %}  {% if  contenu['catalogue'] =='5000' %} 10 pages {% endif %}  {% if  contenu['catalogue']=='7500'  %} {% endif %}</strong></th>
+
+                <td>{{ contenu['catalogue']|number_format|replace(',',' ')  }}</td>
+                <td>1</td>
+                <td>{{ contenu['catalogue']|number_format|replace(',',' ')  }}</td>
+            </tr>
+
+        {% endif %}
+
+        {% if  contenu['catalogue_ref']  %}
+
+            <tr>
+                <th scope="row"><strong style="font-size: 12px;">Catalogue Connecté {% if  contenu['catalogue_ref']=='5000'  %} 5 pages{% endif %}{% if  contenu['catalogue_ref']=='6500'  %} 10 pages{% endif %}{% if  contenu['catalogue_ref']=='9000'  %} 20 pages{% endif %}</strong></th>
+
+                <td>{{ contenu['catalogue_ref']|number_format|replace(',',' ')  }}</td>
+                <td>1</td>
+                <td>{{ contenu['catalogue_ref']|number_format|replace(',',' ')  }}</td>
+            </tr>
+
+        {% endif %}
+
+        {% if  contenu['video']  %}
+            {% for entity in contenu['video'] %}
+
+                {% if entity == 6500 %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;">Vidéo Graphique</strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ') }}</td>
+                        <td>1</td>
+                        <td>{{entity|number_format|replace(',',' ')  }}</td>
+                    </tr>
+                {% endif %}
+                {% if entity == 9500 %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;">Vidéo</strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if entity == 12500 %}
+
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;">Film </strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{ entity|number_format|replace(',',' ') }}</td>
+                    </tr>
+
+                {% endif %}
+                {% if entity == 20000 %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;">Motion Design </strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                    </tr>
+
+                {% endif %}
+                {% if entity == 30000 %}
+
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;">Vidéo Premium </strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ') }}</td>
+                        <td>1</td>
+                        <td>{{ entity|number_format|replace(',',' ') }}</td>
+                    </tr>
+
+                {% endif %}
+
+                {% if entity == 3500 %}
+
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;"> Vidéo Diffusion </strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                    </tr>
+
+                {% endif %}
+
+            {% endfor %}
+        {% endif %}
+
+        {% if  contenu['page']  %}
+
+            {% for entity in contenu['page'] %}
+
+                {% if entity == 2000 %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;">Page Web</strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{entity|number_format|replace(',',' ')  }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if entity == 3000 %}
+                    <tr>
+                        <th scope="row">Pack Présence</th>
+
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{entity|number_format|replace(',',' ') }}</td>
+                    </tr>
+                {% endif %}
+                {% if entity == 4500 %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;">PVI 1</strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{entity|number_format|replace(',',' ')  }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if entity == 7000 %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;">PVI 2</strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ') }}</td>
+                        <td>1</td>
+                        <td>{{entity|number_format|replace(',',' ')  }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if entity == 9500 %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;">PVI 3</strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{entity|number_format|replace(',',' ')  }}</td>
+                    </tr>
+                {% endif %}
+                {% if entity == 12000 %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;">E-commerce</strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ') }}</td>
+                        <td>1</td>
+                        <td>{{entity|number_format|replace(',',' ')  }}</td>
+                    </tr>
+                {% endif %}
+
+            {% endfor %}
+        {% endif %}
+
+        {% if  contenu['site_web']  %}
+
+            {% for entity in contenu['site_web'] %}
+
+                {% if entity == 7800 %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;">Site Vitrine</strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{entity|number_format|replace(',',' ')  }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if entity == 10000 %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;">Site Catalogue</strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{entity|number_format|replace(',',' ')  }}</td>
+                    </tr>
+                {% endif %}
+
+                {% if entity == 20000 %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 12px;">Site Premium </strong></th>
+
+                        <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{entity|number_format|replace(',',' ')  }}</td>
+                    </tr>
+                {% endif %}
+
+            {% endfor %}
+
+        {% endif %}
+
+        {% if( affichage['thematique_name']!=null or affichage['localite_name']!=null or affichage['pro_du_jour']!=null or affichage['promo']!=null or affichage['vign_ac']!=null or affichage['habil']!=null or affichage['bann_up_engin']!=null or affichage['bann_down_engin']!=null or affichage['bann_up_customer']!=null or affichage['bann_down_customer']!=null   ) %}
+            <tr class="table-warning affichage">
+                <th colspan="4" style="  background-color: #ffdb2e;font-size: 13px">Affichage</th>
+
+            </tr>
+        {% else %}
+            <style>
+                .affichage
+                {
+                    display: none;
+                }
+            </style>
+        {% endif %}
+
+        {% if affichage['thematique_name'] %}
+            <tr>
+                <th scope="row"><strong style="font-size: 12px;">Vignette Thématique a :</strong>
+                    <strong style="font-weight: 300;">
+                        {{ affichage['villes']|somme.libelle }}
+                        {#{% if affichage['regions'] =='L' %}Ma ville  {% endif %}#}
+                        {% if affichage['regions'] =='0' %}Sa région {% endif %}
+                        {% if affichage['regions'] =='1' %}+1 autre région {% endif %}
+                        {% if affichage['regions'] =='3' %}+3 autres régions{% endif %}
+                        {% if affichage['regions'] =='6' %}+6 autres régions{% endif %}
+                        {% if affichage['regions'] =='9' %}+9 autres régions{% endif %}
+                    </strong>
+
+                </th>
+
+                <td>{{ (affichage['thematique_name'])|number_format|replace(',',' ')  }}</td>
+                <td>1</td>
+                <td>{{ (affichage['thematique_name'])|number_format|replace(',',' ')  }}</td>
+            </tr>
+        {% endif %}
+
+        {% if  affichage['localite_name']  %}
+
+            <tr>
+                <th scope="row" ><strong style="font-size: 12px;">Vignette localité a :<br></strong>
+                    <strong style="font-weight: 300;">
+                        {% if affichage['cat1']  %}Casablanca -{% endif %}
+                        {% if affichage['cat2r']  %}Rabat -{% endif %}
+                        {% if affichage['cat2f']  %}Fés -{% endif %}<br>
+                        {% if affichage['cat2ma']  %}Marrakech -{% endif %}
+                        {% if affichage['cat2me']  %}Meknés -{% endif %}
+                        {% if affichage['cat2ag']  %}Agadir -{% endif %}<br>
+                        {% if affichage['cat3k']  %}Kénitra -{% endif %}
+                        {% if affichage['cat3o']  %}Oujda -{% endif %}
+                        {% if affichage['cat3e']  %}Essaouira -{% endif %}<br>
+                        {% if affichage['cat3sa']  %}Safi -{% endif %}
+                        {% if affichage['cat3se']  %}Settat -{% endif %}
+                        {% if affichage['cat3te']  %}Tétouan -{% endif %}
+                        {% if affichage['cat4']  %}Autres villes -{% endif %}
+                    </strong>
+                </th>
+
+                <td>{{ affichage['localite_name']|number_format|replace(',',' ')  }}</td>
+                <td>1</td>
+                <td>{{ affichage['localite_name']|number_format|replace(',',' ')  }}</td>
+            </tr>
+        {% endif %}
+
+        {% if  affichage['pro_du_jour']  %}
+            {% if affichage['pro_du_jour']=='1' %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 12px;">Professionnels du jour 1 mois</strong></th>
+
+                    <td>1 500</td>
+                    <td>1</td>
+                    <td>1 500</td>
+                </tr>
+            {% endif %}
+            {% if affichage['pro_du_jour']=='3' %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 12px;">Professionnels du jour 3 mois</strong></th>
+
+                    <td>3 000</td>
+                    <td>1</td>
+                    <td>3 000</td>
+                </tr>
+            {% endif %}
+
+
+
+        {% endif %}
+
+        {% if  affichage['promo']  %}
+            {% if affichage['promo']=='1' %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 12px;">1 Promo/an</strong></th>
+
+                    <td>2 400</td>
+                    <td>1</td>
+                    <td>2 400</td>
+                </tr>
+            {% endif %}
+
+            {% if affichage['promo']=='2' %}
+                <tr>
+                    <th scope="row">3 Promo/an</th>
+
+                    <td>5 000</td>
+                    <td>1</td>
+                    <td>5 000</td>
+                </tr>
+            {% endif %}
+            {% if affichage['promo']=='3' %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 12px;">6 Promo/an</strong></th>
+
+                    <td>8 000</td>
+                    <td>1</td>
+                    <td>8 000</td>
+                </tr>
+            {% endif %}
+
+            {% if affichage['promo']=='4' %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 12px;">12 Promo/an</strong></th>
+
+                    <td>12 000</td>
+                    <td>1</td>
+                    <td>12 000</td>
+                </tr>
+            {% endif %}
+
+        {% endif %}
+
+        {% if  affichage['vign_ac']  %}
+
+            {% if affichage['vign_ac']=='V0' %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 12px;">Vignette page d'acceuil</strong></th>
+
+                    <td>100/1 000</td>
+                    <td>{{ affichage['vignette_acc_video_nbr2']|number_format|replace(',',' ') }}</td>
+                    <td>{{ ((affichage['vignette_acc_video_nbr2']* 100) / 1000)|number_format|replace(',',' ')  }}  </td>
+                </tr>
+            {% endif %}
+
+            {% if affichage['vign_ac']=='VV' %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 12px;">Vignette Video</strong></th>
+
+                    <td>150/1 000</td>
+                    <td>{{ affichage['vignette_acc_video_nbr2']|number_format|replace(',',' ') }}</td>
+                    <td>{{ ((affichage['vignette_acc_video_nbr2']* 150) / 1000)|number_format|replace(',',' ')  }}  </td>
+                </tr>
+            {% endif %}
+
+
+
+
+        {% endif %}
+
+        {% if  affichage['habil']  %}
+
+            {% if affichage['habil']=='1' %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 12px;">Habillage Jour</strong></th>
+
+                    <td>4 000</td>
+                    <td>1</td>
+                    <td>4 000</td>
+                </tr>
+            {% endif %}
+
+            {% if affichage['habil']=='2' %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 12px;">Habillage Semaine</strong></th>
+
+                    <td>15 000</td>
+                    <td>1</td>
+                    <td>15 000</td>
+                </tr>
+            {% endif %}
+
+
+        {% endif %}
+
+        {% if affichage['bann_up_engin']=='80' %}
+            <tr>
+                <th scope="row"><strong style="font-weight: 400;font-size: 13px;">Bannière En haut sur la page de résultats</strong></th>
+
+                <td>80/1 000</td>
+                <td>{{ (affichage['banniere_nombr2']|number_format|replace(',',' '))  }}</td>
+                <td>{{ ((affichage['banniere_nombr2'] * 80) / 1000)|number_format|replace(',',' ')  }}  </td>
+            </tr>
+        {% endif %}
+
+        {% if affichage['bann_down_engin']=='90' %}
+            <tr>
+                <th scope="row"><strong style="font-weight: 400;font-size: 13px;">Bannière En bas sur la page de résultats</strong></th>
+                <td>90/1 000</td>
+                <td>{{ affichage['banniere_nombr2']|number_format|replace(',',' ') }}</td>
+                <td>{{ ((affichage['banniere_nombr2'] * 90) / 1000)|number_format|replace(',',' ') }}</td>
+            </tr>
+        {% endif %}
+
+        {% if affichage['bann_up_customer']=='150' %}
+            <tr>
+                <th scope="row"><strong style="font-weight: 400;font-size: 13px;">Bannière En haut sur les fiches prospects</strong></th>
+
+                <td>150/1 000</td>
+                <td>{{ affichage['banniere_nombr2']|number_format|replace(',',' ') }}</td>
+                <td>{{ ((affichage['banniere_nombr2'] * 150) / 1000)|number_format|replace(',',' ') }}  </td>
+            </tr>
+        {% endif %}
+
+        {% if affichage['bann_down_customer']=='150' %}
+            <tr>
+                <th scope="row"><strong style="font-weight: 400;font-size: 13px;">Bannière En bas sur les fiches prospects</strong></th>
+
+                <td>150/1 000</td>
+                <td>{{ affichage['banniere_nombr2']|number_format|replace(',',' ') }}</td>
+                <td>{{ ((affichage['banniere_nombr2'] * 150) / 1000)|number_format|replace(',',' ')  }}  </td>
+            </tr>
+        {% endif %}
+
+
+
+        {% if entity.id > 2428 %}
+            {% if profession['rubrique']==null    %}
+               {# <tr class="table-warning" style="display: none">
+                    <th colspan="4" style="background-color: #ffdb2e;">Profession libérale</th>
+                </tr>#}
+            {% else %}
+                <tr class="table-warning" >
+                    <th colspan="4" style="background-color: #ffdb2e;">Profession libérale</th>
+                </tr>
+            {% endif %}
+            {% if profession['parcours_diplomes'] %}
+                <tr>
+                    <th scope="row"><strong style="font-weight: 500;font-size: 16px;">Parcours - Diplômes :<br></strong>
+                        <strong style="font-weight: 400;font-size: 15px;">{{ profession['parcours_diplomes']|wrap|nl2br}}
+                        </strong>
+                    </th>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            {% endif %}
+            {% if profession['villesp'] %}
+                <tr>
+                    <th scope="row"><strong style="font-weight: 400;font-size: 15px;">visibilité sur la ville de :<br></strong>
+                        <strong style="font-weight: 400;font-size: 14px;">
+
+                            {{ profession['villesp']|somme.libelle }}
+
+                        </strong>
+                    </th>
+                    <td>{{ profession['profession']|number_format|replace(',',' ') }}</td>
+                    <td>1</td>
+                    <td>{{ profession['profession']|number_format|replace(',',' ') }}</td>
+                </tr>
+            {% endif %}
+            {% if profession['rubrique'] %}
+                <tr>
+                    <th scope="row"><strong style="font-weight: 400;font-size: 15px;">Rubrique :<br></strong>
+                        <strong style="font-weight: 400;font-size: 14px;">
+
+                            {{ profession['rubrique']|rubprof.libelle }}
+
+                        </strong>
+                    </th>
+                    <td>-</td>
+                    <td>1</td>
+                    <td>-</td>
+                </tr>
+            {% endif %}
+
+            {% if profession['specialites'] %}
+                <tr>
+                    <th scope="row"><strong style="font-weight: 400;font-size: 15px;">Spécialités :<br></strong>
+                        <strong style="font-weight: 400;font-size: 14px;">
+                            {% for specialite in profession['specialites'] %}
+                                {%  if specialite !=null %}
+                                    -&nbsp;{{ specialite}}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </strong>
+                    </th>
+                    <td>-</td>
+                    <td>{{ profession ['count_specialites'] }}</td>
+                    <td>-</td>
+                </tr>
+            {% endif %}
+            {% if profession['services'] %}
+                <tr>
+                    <th scope="row"><strong style="font-weight: 400;font-size: 15px;">Services plus :<br></strong>
+                        <strong style="font-weight: 400;font-size: 14px;">
+                            {% for service in profession['services'] %}
+                                {%  if service !=null %}
+                                    -&nbsp;{{ service}}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </strong>
+                    </th>
+                    <td>-</td>
+                    <td>{{ profession ['count_services'] }}</td>
+                    <td>-</td>
+                </tr>
+            {% endif %}
+
+            {% if profession['certifications'] %}
+                <tr>
+                    <th scope="row"><strong style="font-weight: 400;font-size: 15px;">Cetifications :<br></strong>
+                        <strong style="font-weight: 400;font-size: 14px;">
+                            {{ profession['certifications'] }}
+                        </strong>
+                    </th>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            {% endif %}
+            {% if profession['first_day'] %}
+                <tr>
+                    <th scope="row"><strong style="font-weight: 400;font-size: 15px;">Horaires d'ouverture :<br></strong>
+                        <strong style="font-weight: 400;font-size: 14px;">
+                            {% for first_day in profession['first_day'] %}
+                                {{ first_day}}
+                            {% endfor %}:
+                            {% for hour in profession['second_day'] %}
+                                {{ hour}} -
+                            {% endfor %}
+                            <br>
+                            {% if profession['samedi']!=null  %}
+                                {{ profession['samedi'] }}
+                            {% endif %}
+                            {% for h_samedi in profession['h_samedi'] %}
+                                {{h_samedi }} -
+                            {% endfor %}
+
+                        </strong>
+                    </th>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            {% endif %}
+            {% if profession['langue'] %}
+                <tr>
+                    <th scope="row"><strong style="font-weight: 400;font-size: 15px;">Langues parlées :<br></strong>
+                        <strong style="font-weight: 400;font-size: 14px;">
+                            {% if profession['langue']!=null  %}
+                                {% for profession in profession['langue'] %}
+                                    <strong style="font-weight: 400!important;font-size: 16px;!important;">
+                                        {{ profession}} -
+                                    </strong>
+                                {% endfor %}
+                            {% endif %}
+                        </strong>
+                    </th>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            {% endif %}
+            {% if profession['paiement'] %}
+                <tr>
+                    <th scope="row"><strong style="font-weight: 400;font-size: 15px;">Mode de paiement :<br></strong>
+                        <strong style="font-weight: 400;font-size: 14px;">
+                            {% for profession in profession['paiement'] %}
+                                {{ profession}} -
+                            {% endfor %}
+                        </strong>
+                    </th>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            {% endif %}
+            {% if profession['socieux'] %}
+                <tr>
+                    <th scope="row"><strong style="font-weight: 400;font-size: 15px;">Lien vers réseaux sociaux :<br></strong>
+                        <strong style="font-weight: 400;font-size: 14px;">
+                            {{ profession['socieux'] }}
+                        </strong>
+                    </th>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            {% endif %}
+
+        {% endif %}
+        {#{% if (profession['profession'] =='3000')  %}
+            <tr class="table-warning profesion">
+                <th colspan="4" style="background-color: #ffdb2e;">Profession libérale</th>
+
+            </tr>
+        {% else %}
+            <style>
+                .profesion
+                {
+                    display: none;
+                }
+            </style>
+
+        {% endif %}
+
+        {% if profession['prix'] %}
+            <tr>
+                #}{# <th scope="row" ><strong style="font-size: 15px;">Carte de visite</strong><br>
+
+                     <strong> Visibilité sur la ville de : </strong>
+                     #}{#
+                <th scope="row"><strong style="font-size: 15px;"> Visibilité sur la ville de :<br></strong>{{ profession['villesp']|somme.libelle }};
+                    <strong style="font-weight: 400;">
+                        {% if profession['profession'] =='3000' %}Profession libérale {% endif %}
+                    </strong>
+                </th>
+
+                <td>{{ (profession['profession'])|number_format|replace(',',' ')   }}</td>
+                <td>1</td>
+                <td>{{ (profession['profession'])|number_format|replace(',',' ')   }}</td>
+            </tr>
+        {% endif %}#}
+
+
+        {#{% if (code['offre']=='remise' or  code['offre']=='gratuite')  %}
+        <tr class="table-warning promotion " style="" >
+            <th class="promotion" colspan="4" style="background-color: #f36b60;color: white;">Promotion</th>
+        </tr>
+        {% else %}
+        <style>
+            .promotion
+            {
+                display: none;
+            }
+        </style>
+
+        {% endif %}#}
+
+
+{% if  entity.id == 5127 %}
+
+        <tr>
+            <td style="border-bottom: 1px solid white; border-left:  1px solid white;"></td>
+
+
+            <td colspan="2" scope="row" class="pull-right" style="font-weight: bold;font-size: 14px;text-align: justify">Montant H.T  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</td>
+                <td  style="text-align: center;">76 400</td>
+         
+        </tr>
+
+
+
+  {% else %}
+ 
+
+        <tr>
+            <td style="border-bottom: 1px solid white; border-left:  1px solid white;"></td>
+
+
+            <td colspan="2" scope="row" class="pull-right" style="font-weight: bold;font-size: 14px;text-align: justify">Montant H.T  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</td>
+            {% if code!=0 and code['offre']=='gratuite'  %}
+                <td  style="text-align: center;">{{ paiement['new_ht'] }}</td>
+            {% else %}
+                <td  style="text-align: center;">{{ somme|number_format|replace(',',' ')  }}</td>
+            {% endif %}
+
+        </tr>
+{% endif %}
+        {% if code!=0 and (code['offre']=='remise' or code['offre']=='gratuite' or code['offre']=='remise_pourcentage') %}
+            <tr>
+                <td style="border-bottom: 1px solid white;border-left:  1px solid white;"   ></td>
+
+
+                {% if code['offre']=='remise' %}
+                    <td colspan="2" scope="row" class="pull-right remise_th"  style="color: #f36b60;font-weight: bold;font-size: 14px;text-align: justify">Remise accordée</td>
+                    <td   style="text-align: center;">{{ code['montant_remise']|number_format|replace(',',' ') }}</td>
+
+
+                {% elseif code['offre']=='gratuite' %}
+                    <td colspan="2" class="pull-right " scope="row"   style="color: #f36b60;font-weight: bold;font-size: 14px;text-align: justify">Gratuité accordée</td>
+                    <td   style="text-align: center;display: none">{{ code['montant_remise']|number_format|replace(',',' ') }}</td>
+
+
+                {% elseif code['offre']=='remise_pourcentage' %}
+                    <td colspan="2" class="pull-right " scope="row"   style="color: #f36b60;font-weight: bold;font-size: 14px;text-align: justify">Remise en %</td>
+                    <td   style="text-align: center;">{{ code['pourcentage']~'%' }}</td>
+                {% endif %}
+
+            </tr>
+        {% endif %}
+
+        {% if code!=0 and (code['offre']=='remise' or code['offre']=='gratuite' or code['offre']=='remise_pourcentage') %}
+            <tr>
+                <td  style="border-bottom: 1px solid white;border-left:  1px solid white;"   ></td>
+
+                <td colspan="2"  scope="row"  class="pull-right"  style="background-color: #f36b60;color: white;font-weight: bold;font-size: 14px;text-align: center;text-align: justify">Nouveau Montant H.T &nbsp;&nbsp;&nbsp;&nbsp; </td>
+
+                {% if code['offre']=='remise' %}
+                    <td   style="text-align: center;background-color: #f36b60 ;font-weight: bold;color: white;font-size: 14px;" > {{ code['montant_rem']|number_format|replace(',',' ') }}</td>
+                {% endif %}
+                {% if code['offre']=='gratuite' %}
+                    <td   style="text-align: center;background-color: #f36b60 ;font-weight: bold;color: white;font-size: 14px;" >{{ somme|number_format|replace(',',' ')  }}</td>
+                {% endif %}
+                {% if code['offre']=='remise_pourcentage' %}
+                    <td   style="text-align: center;background-color: #f36b60;color: white;font-weight: 500;font-size: 15px;">{{ code['montant_r']|number_format|replace(',',' ') }}</td>
+                {% endif %}
+            </tr>
+        {% endif %}
+
+        <tr>
+            <td style="border-bottom: 1px solid white;border-left:  1px solid white;" ></td>
+            <td colspan="2" scope="row" class="pull-right" style="font-size: 14px;font-weight: bold;text-align: justify">T.V.A</td>
+            {% if code!=0 and (code['offre']=='remise' or code['offre']=='remise_pourcentage') %}
+                <td  style="text-align: center;">{{ code['tva']|number_format|replace(',',' ') }}</td>
+            {% else %}
+                <td  style="text-align: center;">{{ (somme*0.2)|number_format|replace(',',' ') }}</td>
+            {% endif %}
+        </tr>
+
+        <tr>
+            <td style="border-bottom: 1px solid white;border-left:  1px solid white;"   ></td>
+            <td colspan="2" scope="row" class="pull-right" style="background-color:  #dadada;font-size: 14px;font-weight: bold;text-align: justify">Montant T.T.C</td>
+            {% if code!=0 and (code['offre']=='remise' or code['offre']=='remise_pourcentage') %}
+                <td  style="text-align: center;background-color:  #dadada;">{{ paiement['montantttc'] }}</td>
+            {% else %}
+                <td  style="text-align: center;background-color: #dadada">{{ (somme+(somme*0.2))|number_format|replace(',',' ')  }} </td>
+            {% endif %}
+        </tr>
+
+        </tbody>
+    </table>
+
+    <div class="test">
+        {% if code['offre']=='remise' %}
+            <span style="font-weight: 600;font-size: 14px">Remise accordée de <strong >{{ code['montant_remise']|number_format|replace(',',' ') }} MAD.</strong> <strong  >{{ code['nature_remise'] }} </strong> </span>
+        {% endif %}
+        {% if code['offre']=='gratuite' %}
+            <span style="font-weight: 600;font-size: 14px">Gratuité accordée de <strong >{{ code['montant_remise']|number_format|replace(',',' ') }} MAD.</strong> <strong  >{{ code['nature_remise'] }} </strong> </span>
+
+        {% endif %}
+    </div>
+
+    {% if paiement['nbr']!=0 %}
+
+        <div> <p class="test"><strong>MODALITÉS DE PAIEMENT:</strong></p>
+            <table class="table content test" {#style="margin-top: 50px"#} >
+                <thead class="thead-dark">
+                <tr  style="background-color: black;color:white;">
+                    <th scope="col" >Montant T.T.C &nbsp;</th>
+                    <th scope="col" >Acompte &nbsp; &nbsp;&nbsp;&nbsp;</th>
+                    <th scope="col" >Reste &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th scope="col" >Montant &nbsp; &nbsp;&nbsp;&nbsp;</th>
+                    <th scope="col" >Date d'écheance</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ paiement['montantttc'] }}</td>
+                    <td>{{ paiement['accompte']|number_format|replace(',',' ') }}</td>
+                    <td>{{ paiement['reste']|number_format|replace(',',' ') }}</td>
+                    {% if paiement['nbr']==1  %}
+                        <td>{{ paiement['montant1']|number_format|replace(',',' ') }}</td>
+                        <td>{{ paiement['dateP1']|number_format|replace(',',' ') }}</td>
+                    {% elseif paiement['nbr']==2 %}
+                        <td>{{ paiement['montant1']|number_format|replace(',',' ') }}<br>{{ paiement['montant2']|number_format|replace(',',' ') }}</td>
+                        <td>{{ paiement['dateP1']|date("d/m/Y") }}<br>{{ paiement['dateP2']|date("d/m/Y") }}</td>
+
+                    {% elseif paiement['nbr']==3 %}
+                        <td>{{ paiement['montant1']|number_format|replace(',',' ') }}<br>{{ paiement['montant2']|number_format|replace(',',' ') }}<br>{{ paiement['montant3']|number_format|replace(',',' ') }}</td>
+                        <td>{{ paiement['dateP1']|date("d/m/Y") }}<br>{{ paiement['dateP2']|date("d/m/Y") }}<br>{{ paiement['dateP3']|date("d/m/Y") }}</td>
+
+                    {% endif %}
+
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        {#<div class="test"> </div>#}
+    {% else %}
+        <style>
+            .test
+            {
+                display: none;
+            }
+        </style>
+
+    {% endif %}
+
+           {% if (entity.boncommande =='bon_commande' ) %} 
+
+        <div class="txt_descriptif" style="margin-bottom:0px;">
+        <p > Je reconnais avoir accepté la présente commande et avoir pris connaissance des conditions générales de vente jointe</p>
+              </div>
+
+
+            <table class="table content test" {#style="margin-top: 50px"#}  style="margin-left:350px;margin-top:0px;">
+                
+                <tbody>
+                <tr>
+                    <td style="text-align:center;margin-right:15%;margin-bottom:20%;">
+                      
+                         <p style="text-align:center; font-weight: 350;font-size: 11px; line-height: 14px;margin-top:0px;">Bon pour accord<br/>Date, cachet et signature client
+                                                 </p> 
+                         <p><img  src="https://www.telecontact.ma/trouver/images/capture_yes.png" class="img-fluid" alt="proposition de visibilité telecontact" width="2px" ></p> 
+                        
+                          
+                    </td>
+                   
+
+                </tr>
+                                <tr>
+                   
+                   
+
+                </tr>
+                </tbody>
+            </table>
+
+<br/><br/>
+ <table class="table content test" {#style="margin-top: 50px"#}  style="">
+                
+                <tbody>
+                <tr>
+                    <td style="text-align:center;margin-right:15%;margin-bottom:20%;">
+                      
+                         <p style="text-align:justify; font-weight: 350;font-size: 12px; line-height: 16px;margin-top:0px;" >Règlement par virement : BCP Almoukaouama - Rib : 190 780 21211 3030639 000 1 41 <br/>
+                         Règelement par chèque à l'ordre de : EDICOM SA
+                                                 </p> 
+                               
+                          
+                    </td>
+                   
+
+                </tr>
+                                <tr>
+                   
+                   
+
+                </tr>
+                </tbody>
+            </table>
+
+    {% endif %}
+
+
+    {% if entity.proposition =='proposition' %}
+        <p>NB :
+            Devis valable jusqu’au <b>{{ 'now' |date_modify("+15 day")|date("d/m/Y") }}</b>
+        </p>
+    {% elseif entity.ordre =='ordre' %}
+
+    {% elseif entity.boncommande =='bon_commande' %}
+
+    {% else %}
+        <p>NB :
+            Devis valable jusqu’au <b>{{ 'now' |date_modify("+15 day")|date("d/m/Y") }}</b>
+        </p>
+    {% endif %}
+
+
+
+
+</page>
+{% else %}
+
+
+    <page backtop="1mm" backbottom="10mm" backleft="10mm" backright="10mm" footer="page;">
+        <page_header>
+
+        </page_header>
+
+        <page_footer >
+            <img  src="http://www.telecontact.ma/trouver/images/Image-12.jpg" class="img-fluid"  style="height: 50px;width:100%;" >
+        </page_footer>
+
+        {% if entity.proposition =='proposition' %}
+            <img  src="http://www.telecontact.ma/trouver/images/tete_proposition.jpg" class="img-fluid" alt="proposition de visibilité telecontact"  style="height: 100px;width: 111%;margin-left: -38px">
+        {% elseif entity.ordre =='ordre' %}
+            <img  src="http://www.telecontact.ma/trouver/images/tete_devis.jpg" class="img-fluid" alt="devis"  style="height: 100px;width: 111%;margin-left: -38px">
+        {% elseif entity.boncommande =='bon_commande' %}
+            <img  src="http://www.telecontact.ma/trouver/images/tete_bon_commande.jpg" class="img-fluid" alt="bon de commande"  style="height: 100px;width: 111%;margin-left: -38px">
+        {% else %}
+            <img  src="http://www.telecontact.ma/trouver/images/tete_proposition.jpg" class="img-fluid" alt="proposition de visibilité telecontact"  style="height: 100px;width: 111%;margin-left: -38px">
+        {% endif %}
+
+        <p style="float: right; width: 88%;    text-align: right;font-size: 16px;"> <b>{% if entity.dateCreation %}{{jour[entity.dateCreation|date('l')]}} {{ entity.dateCreation |date("d") }} {{trans_day_hash[entity.dateCreation|date('F')]}} {{ entity.dateCreation |date("Y") }} {% endif %}</b> </p>
+        <p>
+            {% if entity  %} {% if entity.rs  %}  <div style="float: right; width: 88%; font-size: 16px;   padding: 0px; margin:0px; text-align: left;">
+        <span ><b>Raison sociale : </b>{{ entity.rs }}</span> </div> {% endif %}{% endif %}<br>
+        {% if entity %} {% if entity.cfirme  %}<div style="float: right; width: 88%;
+        font-size: 16px;    padding: 0px; margin:0px;  text-align: left;">
+            <span ><b>Code firme &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> {{ entity.cfirme }}</span> </div> {% endif %}{% endif %}
+        </p>
+
+        <p style="font-size: 15px;font-weight: 400;">
+
+
+            {% if entity.civi  %}
+                {% if entity.civi =='Mr' %} cher  {% endif %}
+                {% if entity.civi =='Mlle' %} chère {% endif %}
+                {% if entity.civi =='Mme' %} chère  {% endif %}
+            {% endif %}
+            {% if entity.civi  %}
+                {% if entity.civi =='Mme' %} Madame  {% endif %}
+                {% if entity.civi =='Mlle' %}  Mademoiselle {% endif %}
+                {% if entity.civi =='Mr' %} Monsieur  {% endif %}
+            {% endif %}
+            {% if  entity.sign  %} {{ entity.sign }} {% endif %}  , </p>
+        <div class="txt_descriptif">
+            <p >Tout d'abord, nous tenons à vous remercier pour votre confiance et nous sommes ravis de vous compter parmi nos clients.<br>
+                Pour développer votre visibilité auprés des professionnels, nous vous préconisons une présence efficace sur telecontact.ma avec les solutions digitales suivantes:</p>
+        </div>
+
+        <table class="table content" align="center">
+            <thead class="thead-dark">
+            <tr  style="background-color: black;color:white;">
+                <th scope="col" width="350" height="5" style="text-align: center;border-right: 2px solid white;">Produit(s)</th>
+                <th scope="col" width="65"  style="text-align: center;border-right: 2px solid white;">P.U</th>
+                <th scope="col" width="70"  style="text-align: center;border-right: 2px solid white;">Qté</th>
+                <th scope="col"  style="text-align: center;">Montant HT</th>
+            </tr>
+
+            </thead>
+            <tbody>
+            {% if (referencement['regions_sup']!=null or referencement['raniad']!=null or referencement['rubd']!=null or referencement['prest']!=null or referencement['mari']!=null ) %}
+                <tr class="table-warning referencement">
+                    <th colspan="4" style="background-color: #ffdb2e;font-size: 12px;">Référencement</th>
+                </tr>
+            {% else %}
+                <style>
+                    .referencement
+                    {
+                        display: none;
+                    }
+                </style>
+            {% endif %}
+
+            {% if (referencement['regions_sup'] or  referencement['regions_sup']=='0' ) %}
+                {% if referencement['rania']  %}
+                    <tr>
+                        <th scope="row" ><strong style="font-size: 15px;">Carte de visite</strong><br>
+
+                            {% if referencement['regions_sup']!="N" %}
+                                <strong style="font-size: 14px;">Visibilité sur toutes les villes de la de région de:<br></strong>
+                                <strong style="font-weight: 400;font-size: 13px">
+
+                                    {{ referencement['regions']|sommes.libelle }}
+                                    {% if referencement['regions_sup']=="0" %}( Sur sa region) {% endif %}
+                                    {% if referencement['regions_sup']=="1" %}( +1 Région) {% endif %}
+                                    {% if referencement['regions_sup']=="3" %}( +3 Régions) {% endif %}
+                                    {% if referencement['regions_sup']=="6" %}( +6 Régions) {% endif %}
+                                </strong>
+
+                            {% else %}
+                                <strong style="font-size: 14px;">Visibilité sur le :</strong>
+                                <strong style="font-weight: 400;font-size: 13px">
+                                    {% if referencement['regions_sup']=="N" %} National {% endif %}
+                                </strong>
+                            {% endif %}
+                        </th>
+
+                        <td>{{ referencement['rania']|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{ referencement['rania']|number_format|replace(',',' ')  }}</td>
+                    </tr>
+
+                {% endif %}
+
+
+            {% else %}
+
+                {% if  referencement['raniad']  %}
+                    <tr>
+                        <th scope="row" ><strong style="font-size: 15px;">Carte de visite</strong><br>
+
+                            <strong> Visibilité sur la ville de : </strong>
+                            <strong style="font-weight: 400;">
+                                {{ referencement['villes']|somme.libelle }};
+
+                                {# {% if referencement['villes_sup']=="0" %}( Sur sa localité) {% endif %}#}
+                                {% if referencement['villes_sup']=="1" %} +1 autre Localité {% endif %}
+                                {% if referencement['villes_sup']=="3" %} +3 autres Localités {% endif %}
+                                {% if referencement['villes_sup']=="6" %} +6 autres Localités {% endif %}
+                                {% if referencement['villes_sup']=="9" %} +9 autres Localités {% endif %}
+                            </strong>
+
+                        </th>
+
+                        <td>{{ referencement['raniad']|number_format|replace(',',' ')  }}</td>
+                        <td>1</td>
+                        <td>{{ referencement['raniad']|number_format|replace(',',' ') }}</td>
+                    </tr>
+
+                {% endif %}
+
+
+            {% endif %}
+
+            {% if desrubref !=0 %}
+                {% if desrubref['rub1']!=null  %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 15px;">Rubrique principale : </strong><br>
+                            {#{% for rubrique in desrubref['rubrique'] %}
+                            - <h7 style="font-weight: 500;font-size: 16px;">{{ rubrique.sel|rub.libelle }}</h7>
+                            {% endfor %}#}
+                            <div style="width: 350px!important;background-color: #f9f1c9">
+                                <strong style="font-weight: 500;font-size: 14px;"> •&nbsp; {{ desrubref['rub1']|rub.libelle }}</strong>
+                            </div>
+                        </th>
+
+                        <td>-</td>
+                        <td>1</td>
+                        <td>-</td>
+                    </tr>
+
+
+                {% endif %}
+            {% endif %}
+
+
+            {% if  referencement['rubrique'] >=2 %}
+                <tr>
+                <th scope="row" ><strong style="font-size: 15px;">Rubrique(s) supplémentaire(s): </strong><br>
+                {% if desrubref!=0 %}
+                    {% if desrubref['rub2']!=null  %}
+                        <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">   •&nbsp; {{ desrubref['rub2']|rub.libelle  }}<br></strong>
+                    {% endif %}
+
+                    {% if desrubref['rub3']!=null  %}
+                        <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">   •&nbsp; {{ desrubref['rub3']|rub.libelle  }}<br></strong>
+                    {% endif %}
+
+                    {% if desrubref['rub4']!=null  %}
+                        <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">   •&nbsp; {{ desrubref['rub4']|rub.libelle  }}<br></strong>
+                    {% endif %}
+
+                    {% if desrubref['rub5']!=null  %}
+                        <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">   •&nbsp; {{ desrubref['rub5']|rub.libelle  }}<br></strong>
+                    {% endif %}
+                    {% if  desrubref['prest6'] is defined %}
+                        {% if desrubref['rub6']!=null  %}
+                            <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">   •&nbsp; {{ desrubref['rub6']|rub.libelle  }}<br></strong>
+                        {% endif %}
+                    {% endif %}
+                    {% if  desrubref['prest7'] is defined %}
+                        {% if desrubref['rub7']!=null  %}
+                            <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">   •&nbsp; {{ desrubref['rub7']|rub.libelle  }}<br></strong>
+                        {% endif %}
+                    {% endif %}
+
+                    </th>
+
+                    <td>{{ (referencement['rubd']/(referencement['rubrique']-1))|number_format|replace(',',' ') }}</td>
+                    <td>{{ (referencement['rubrique']-1) }}</td>
+                    <td>{{ referencement['rubd']|number_format|replace(',',' ')  }}</td>
+                    </tr>
+
+                {% endif %} {% endif %}
+
+            {% if  referencement['prest']  %}
+                <tr>
+                    <th scope="row" ><strong style="font-size: 15px;">Prestation(s):  </strong><br>
+
+
+                        {% if desrubref['rub1']!=null  %}
+                            {%  if (desrubref['addprest1'] !=[""] or  desrubref['prest1']!=null) %}
+                                {% if desrubref['rub1']!=null  %}
+                                    <div style="width: 350px!important;background-color: #f9f1c9">
+                                        <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                            •&nbsp;{{ desrubref['rub1']|rub.libelle  }}<br>
+                                        </strong>
+
+                                    </div>
+                                    {% for prestation in desrubref['prest1'] %}
+                                        {% if desrubref['prest1']!=null %}
+                                            <strong style="font-weight: 400;font-size: 13px;">
+                                                -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                            </strong>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for addprestation in desrubref['addprest1'] %}
+                                        {%  if addprestation !=null %}
+                                            <strong style="font-weight: 400;font-size: 13px;">
+                                                -&nbsp;{{ addprestation|capitalize}}<br>
+                                            </strong>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+
+                        {% if desrubref['rub2']!=null  %}
+                            {%  if (desrubref['addprest2'] !=[""] or  desrubref['prest2']!=null) %}
+                                {% if desrubref['rub2']!=null  %}
+                                    <div style="width: 350px!important;background-color: #f9f1c9">
+                                        <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                            •&nbsp;{{ desrubref['rub2']|rub.libelle  }}<br>
+                                        </strong>
+
+                                    </div>
+                                    {% for prestation in desrubref['prest2'] %}
+                                        {% if desrubref['prest2']!=null %}
+                                            <strong style="font-weight: 400;font-size: 13px;">
+                                                -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                            </strong>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for addprestation in desrubref['addprest2'] %}
+                                        {%  if addprestation !=null %}
+                                            <strong style="font-weight: 400;font-size: 13px;">
+                                                -&nbsp;{{ addprestation|capitalize}}<br>
+                                            </strong>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+
+                        {% endif %}
+
+                        {% if desrubref['rub3']!=null  %}
+                            {%  if (desrubref['addprest3'] !=[""] or  desrubref['prest3']!=null) %}
+                                {% if desrubref['rub3']!=null  %}
+                                    <div style="width: 350px!important;background-color: #f9f1c9">
+                                        <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                            •&nbsp;{{ desrubref['rub3']|rub.libelle  }}<br>
+                                        </strong>
+
+                                    </div>
+                                    {% for prestation in desrubref['prest3'] %}
+                                        {% if desrubref['prest3']!=null %}
+                                            <strong style="font-weight: 400;font-size: 13px;">
+                                                -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                            </strong>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for addprestation in desrubref['addprest3'] %}
+                                        {%  if addprestation !=null %}
+                                            <strong style="font-weight: 400;font-size: 13px;">
+                                                -&nbsp;{{ addprestation|capitalize}}<br>
+                                            </strong>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+
+                        {% endif %}
+
+                        {% if desrubref['rub4']!=null  %}
+                            {%  if (desrubref['addprest4'] !=[""] or  desrubref['prest4']!=null) %}
+                                {% if desrubref['rub4']!=null  %}
+                                    <div style="width: 350px!important;background-color: #f9f1c9">
+                                        <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                            •&nbsp;{{ desrubref['rub4']|rub.libelle  }}<br>
+                                        </strong>
+
+                                    </div>
+                                    {% for prestation in desrubref['prest4'] %}
+                                        {% if desrubref['prest4']!=null %}
+                                            <strong style="font-weight: 400;font-size: 13px;">
+                                                -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                            </strong>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% for addprestation in desrubref['addprest4'] %}
+                                        {%  if addprestation !=null %}
+                                            <strong style="font-weight: 400;font-size: 13px;">
+                                                -&nbsp;{{ addprestation|capitalize}}<br>
+                                            </strong>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %}
+
+                        {% endif %}
+                        {% if  desrubref['prest6'] is defined %}
+                            {% if desrubref['rub6']!=null  %}
+                                {%  if (desrubref['addprest6'] !=[""] or  desrubref['prest6']!=null) %}
+                                    {% if desrubref['rub6']!=null  %}
+                                        <div style="width: 350px!important;background-color: #f9f1c9">
+                                            <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                                •&nbsp;{{ desrubref['rub6']|rub.libelle  }}<br>
+                                            </strong>
+
+                                        </div>
+                                        {% for prestation in desrubref['prest6'] %}
+                                            {% if desrubref['prest6']!=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% for addprestation in desrubref['addprest6'] %}
+                                            {%  if addprestation !=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ addprestation|capitalize}}<br>
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+
+                            {% endif %}
+                        {% endif %}
+                        {% if  desrubref['prest7'] is defined %}
+                            {% if desrubref['rub7']!=null  %}
+                                {%  if (desrubref['addprest7'] !=[""] or  desrubref['prest7']!=null) %}
+                                    {% if desrubref['rub7']!=null  %}
+                                        <div style="width: 350px!important;background-color: #f9f1c9">
+                                            <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                                •&nbsp;{{ desrubref['rub7']|rub.libelle  }}<br>
+                                            </strong>
+
+                                        </div>
+                                        {% for prestation in desrubref['prest7'] %}
+                                            {% if desrubref['prest7']!=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ prestation|prest.prestation|capitalize}}<br>
+
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% for addprestation in desrubref['addprest7'] %}
+                                            {%  if addprestation !=null %}
+                                                <strong style="font-weight: 400;font-size: 13px;">
+                                                    -&nbsp;{{ addprestation|capitalize}}<br>
+                                                </strong>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+
+                            {% endif %}
+
+                        {% endif %}
+
+
+                        <div style="width: 350px!important;background-color: #f9f1c9">
+                                            <strong style="font-weight: 500;font-size: 14px;background-color: #f9f1c9">
+                                                •&nbsp;{{ desrubref['rub7']|rub.libelle  }}<br>
+                                            </strong>
+
+                                        </div>
+
+
+
+                    </th>
+
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+
+                </tr>
+
+            {% endif %}
+            {% if  referencement['prest_sup']  %}
+                <tr>
+                    <th scope="row"><strong>Prestation(s) supplémentaire: <br> </strong>
+                        {% if  desrubref['prestsupp'] is defined %}
+                            {% for prestsupp in desrubref['prestsupp'] %}
+                                {%  if prestsupp !=null %}
+                                    <strong style="font-weight: 400;font-size: 13px;">
+                                        -&nbsp;{{ prestsupp|capitalize}}<br>
+                                    </strong>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                    </th>
+
+                    <td>1 500</td>
+                    {% if  referencement['resulta2'] is defined %}
+                        <td>{{ referencement['resulta2']}} </td>
+                    {% else %}
+                        <td>{{ referencement['prest_sup']|number_format|replace(',',' ') }}</td>
+                    {% endif %}
+                    <td>{{ referencement['resulta']|number_format|replace(',',' ') }}</td>
+
+                </tr>
+            {% endif %}
+            {% if  referencement['mari']  %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 15px;">Marques : </strong><br>
+                        {% if marque!=0 %}
+
+                            {% if marque['marq1']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp; {{ marque['marq1']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi1'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% if marque['marq2']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp; {{ marque['marq2']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi2'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% if marque['marq3']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp; {{ marque['marq3']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi3'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+                                </div>
+
+                            {% endif %}
+
+                            {% if marque['marq4']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp; {{ marque['marq4']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi4'] %}
+                                    <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                        {{ posi}} -
+                                    </strong>
+                                    {% endfor %}:
+                                </div>
+
+
+                            {% endif %}
+
+                            {% if marque['marq5']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp;{{ marque['marq5']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi5'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+                                </div>
+
+
+                            {% endif %}
+
+                            {% if marque['marq6']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp;{{ marque['marq6']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi6'] %}
+                                    <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                        {{ posi}} -
+                                    </strong>
+                                    {% endfor %}:
+                                </div>
+
+
+                            {% endif %}
+
+                            {% if marque['marq7']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp;{{ marque['marq7']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi7'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+
+                                </div>
+
+
+                            {% endif %}
+
+                            {% if marque['marq8']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp;{{ marque['marq8']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi8'] %}
+                                    <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                        {{ posi}} -
+                                    </strong>
+                                    {% endfor %}:
+                                </div>
+
+
+                            {% endif %}
+
+                            {% if marque['marq9']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp; {{ marque['marq9']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi9'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+                                </div>
+
+
+                            {% endif %}
+
+                            {% if marque['marq10']!=null  %}
+                                <div>
+                                    <strong style="font-weight: 500!important;font-size: 14px!important;background-color: #f9f1c9">
+                                        •&nbsp; {{ marque['marq10']  }}:
+                                    </strong>
+                                    {% for posi in marque['posi10'] %}
+                                        <strong style="font-weight: 400!important;font-size: 13px;!important;">
+                                            {{ posi}} -
+                                        </strong>
+                                    {% endfor %}
+                                </div>
+
+
+                            {% endif %}
+                        {% endif %}
+
+
+                    </th>
+
+                    <td>1 500</td>
+                    <td>{{ referencement['marque_pack']  }}</td>
+                    <td>{{ referencement['mari']|number_format|replace(',',' ') }}</td>
+                </tr>
+            {% endif %}
+
+            {% if (contenu['catalogue']!=null or contenu['catalogue_ref']!=null or contenu['video']!=null or contenu['page']!=null or contenu['site_web']!=null)   %}
+                <tr class="table-warning catalogue" >
+                    <th colspan="4" style=" background-color: #ffdb2e;font-size: 16px;">Contenu</th>
+                </tr>
+            {% else %}
+                <style>
+                    .catalogue
+                    {
+                        display: none;
+                    }
+                </style>
+            {% endif %}
+
+            {% if  contenu['catalogue']  %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 15px;">Catalogue {% if  contenu['catalogue']=='3500'  %} 5 pages {% endif %}  {% if  contenu['catalogue'] =='5000' %} 10 pages {% endif %}  {% if  contenu['catalogue']=='7500'  %} {% endif %}</strong></th>
+
+                    <td>{{ contenu['catalogue']|number_format|replace(',',' ')  }}</td>
+                    <td>1</td>
+                    <td>{{ contenu['catalogue']|number_format|replace(',',' ')  }}</td>
+                </tr>
+
+            {% endif %}
+
+            {% if  contenu['catalogue_ref']  %}
+
+                <tr>
+                    <th scope="row"><strong style="font-size: 14px;">Catalogue Referencé {% if  contenu['catalogue_ref']=='5000'  %} 5 pages{% endif %}{% if  contenu['catalogue_ref']=='6500'  %} 10 pages{% endif %}{% if  contenu['catalogue_ref']=='9000'  %} 20 pages{% endif %}</strong></th>
+
+                    <td>{{ contenu['catalogue_ref']|number_format|replace(',',' ')  }}</td>
+                    <td>1</td>
+                    <td>{{ contenu['catalogue_ref']|number_format|replace(',',' ')  }}</td>
+                </tr>
+
+            {% endif %}
+
+            {% if  contenu['video']  %}
+                {% for entity in contenu['video'] %}
+
+                    {% if entity == 6500 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Vidéo Graphique</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ') }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if entity == 9500 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Vidéo</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if entity == 12500 %}
+
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Film </strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{ entity|number_format|replace(',',' ') }}</td>
+                        </tr>
+
+                    {% endif %}
+                    {% if entity == 20000 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Motion Design </strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+
+                    {% endif %}
+                    {% if entity == 30000 %}
+
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Vidéo Premium </strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ') }}</td>
+                            <td>1</td>
+                            <td>{{ entity|number_format|replace(',',' ') }}</td>
+                        </tr>
+
+                    {% endif %}
+
+                    {% if entity == 3500 %}
+
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;"> Vidéo Diffusion </strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+
+                    {% endif %}
+
+                {% endfor %}
+            {% endif %}
+
+            {% if  contenu['page']  %}
+
+                {% for entity in contenu['page'] %}
+
+                    {% if entity == 2000 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Page Web</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if entity == 3000 %}
+                        <tr>
+                            <th scope="row">Pack Présence</th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ') }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if entity == 4500 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">PVI 1</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if entity == 7000 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">PVI 2</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ') }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if entity == 9500 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">PVI 3</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if entity == 12000 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">E-commerce</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ') }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                {% endfor %}
+            {% endif %}
+
+            {% if  contenu['site_web']  %}
+
+                {% for entity in contenu['site_web'] %}
+
+                    {% if entity == 7800 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Site Vitrine</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if entity == 10000 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Site Catalogue</strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                    {% if entity == 20000 %}
+                        <tr>
+                            <th scope="row"><strong style="font-size: 15px;">Site Premium </strong></th>
+
+                            <td>{{ entity|number_format|replace(',',' ')  }}</td>
+                            <td>1</td>
+                            <td>{{entity|number_format|replace(',',' ')  }}</td>
+                        </tr>
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endif %}
+
+            {% if( affichage['thematique_name']!=null or affichage['localite_name']!=null or affichage['pro_du_jour']!=null or affichage['promo']!=null or affichage['vign_ac']!=null or affichage['habil']!=null or affichage['bann_up_engin']!=null or affichage['bann_down_engin']!=null or affichage['bann_up_customer']!=null or affichage['bann_down_customer']!=null   ) %}
+                <tr class="table-warning affichage">
+                    <th colspan="4" style="  background-color: #ffdb2e;font-size: 16px">Affichage</th>
+
+                </tr>
+            {% else %}
+                <style>
+                    .affichage
+                    {
+                        display: none;
+                    }
+                </style>
+            {% endif %}
+
+            {% if affichage['thematique_name'] %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 15px;">Vignette Thématique a :</strong>
+                        <strong style="font-weight: 400;">
+                            {{ affichage['villes']|somme.libelle }}
+                            {#{% if affichage['regions'] =='L' %}Ma ville  {% endif %}#}
+                            {% if affichage['regions'] =='0' %}Sa région {% endif %}
+                            {% if affichage['regions'] =='1' %}+1 autre région {% endif %}
+                            {% if affichage['regions'] =='3' %}+3 autres régions{% endif %}
+                            {% if affichage['regions'] =='6' %}+6 autres régions{% endif %}
+                            {% if affichage['regions'] =='9' %}+9 autres régions{% endif %}
+                        </strong>
+
+                    </th>
+
+                    <td>{{ (affichage['thematique_name'])|number_format|replace(',',' ')  }}</td>
+                    <td>1</td>
+                    <td>{{ (affichage['thematique_name'])|number_format|replace(',',' ')  }}</td>
+                </tr>
+            {% endif %}
+
+            {% if  affichage['localite_name']  %}
+
+                <tr>
+                    <th scope="row" ><strong style="font-size: 15px;">Vignette localité a :<br></strong>
+                        <strong style="font-weight: 400;">
+                            {% if affichage['cat1']  %}Casablanca -{% endif %}
+                            {% if affichage['cat2r']  %}Rabat -{% endif %}
+                            {% if affichage['cat2f']  %}Fés -{% endif %}<br>
+                            {% if affichage['cat2ma']  %}Marrakech -{% endif %}
+                            {% if affichage['cat2me']  %}Meknés -{% endif %}
+                            {% if affichage['cat2ag']  %}Agadir -{% endif %}<br>
+                            {% if affichage['cat3k']  %}Kénitra -{% endif %}
+                            {% if affichage['cat3o']  %}Oujda -{% endif %}
+                            {% if affichage['cat3e']  %}Essaouira -{% endif %}<br>
+                            {% if affichage['cat3sa']  %}Safi -{% endif %}
+                            {% if affichage['cat3se']  %}Settat -{% endif %}
+                            {% if affichage['cat3te']  %}Tétouan -{% endif %}
+                            {% if affichage['cat4']  %}Autres villes -{% endif %}
+                        </strong>
+                    </th>
+
+                    <td>{{ affichage['localite_name']|number_format|replace(',',' ')  }}</td>
+                    <td>1</td>
+                    <td>{{ affichage['localite_name']|number_format|replace(',',' ')  }}</td>
+                </tr>
+            {% endif %}
+
+            {% if  affichage['pro_du_jour']  %}
+                {% if affichage['pro_du_jour']=='1' %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 15px;">Professionnels du jour 1 mois</strong></th>
+
+                        <td>1 500</td>
+                        <td>1</td>
+                        <td>1 500</td>
+                    </tr>
+                {% endif %}
+                {% if affichage['pro_du_jour']=='3' %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 15px;">Professionnels du jour 3 mois</strong></th>
+
+                        <td>3 000</td>
+                        <td>1</td>
+                        <td>3 000</td>
+                    </tr>
+                {% endif %}
+
+
+
+            {% endif %}
+
+            {% if  affichage['promo']  %}
+                {% if affichage['promo']=='1' %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 15px;">1 Promo/an</strong></th>
+
+                        <td>2 400</td>
+                        <td>1</td>
+                        <td>2 400</td>
+                    </tr>
+                {% endif %}
+
+                {% if affichage['promo']=='2' %}
+                    <tr>
+                        <th scope="row">3 Promo/an</th>
+
+                        <td>5 000</td>
+                        <td>1</td>
+                        <td>5 000</td>
+                    </tr>
+                {% endif %}
+                {% if affichage['promo']=='3' %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 15px;">6 Promo/an</strong></th>
+
+                        <td>8 000</td>
+                        <td>1</td>
+                        <td>8 000</td>
+                    </tr>
+                {% endif %}
+
+                {% if affichage['promo']=='4' %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 15px;">12 Promo/an</strong></th>
+
+                        <td>12 000</td>
+                        <td>1</td>
+                        <td>12 000</td>
+                    </tr>
+                {% endif %}
+
+            {% endif %}
+
+            {% if  affichage['vign_ac']  %}
+
+                {% if affichage['vign_ac']=='V0' %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 15px;">Vignette page d'acceuil</strong></th>
+
+                        <td>100/1 000</td>
+                        <td>{{ affichage['vignette_acc_video_nbr'] }}</td>
+                        <td>{{ (affichage['vignette_acc_video_nbr']* 100)|number_format|replace(',',' ')  }}  </td>
+                    </tr>
+                {% endif %}
+
+                {% if affichage['vign_ac']=='VV' %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 15px;">Vignette Video</strong></th>
+
+                        <td>150/1 000</td>
+                        <td>{{ affichage['vignette_acc_video_nbr'] }}</td>
+                        <td>{{ (affichage['vignette_acc_video_nbr']* 150)|number_format|replace(',',' ') }} </td>
+                    </tr>
+                {% endif %}
+
+
+
+
+            {% endif %}
+
+            {% if  affichage['habil']  %}
+
+                {% if affichage['habil']=='1' %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 15px;">Habillage Jour</strong></th>
+
+                        <td>4 000</td>
+                        <td>1</td>
+                        <td>4 000</td>
+                    </tr>
+                {% endif %}
+
+                {% if affichage['habil']=='2' %}
+                    <tr>
+                        <th scope="row"><strong style="font-size: 15px;">Habillage Semaine</strong></th>
+
+                        <td>15 000</td>
+                        <td>1</td>
+                        <td>15 000</td>
+                    </tr>
+                {% endif %}
+
+
+            {% endif %}
+
+            {% if affichage['bann_up_engin']=='80' %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 15px;">Bannière En haut sur la page de résultats</strong></th>
+
+                    <td>80 / 1 000</td>
+                    <td>{{ affichage['banniere_nombr']|number_format|replace(',',' ') }}</td>
+                    <td>{{ (affichage['banniere_nombr'] * 80)|number_format|replace(',',' ') }}  </td>
+                </tr>
+            {% endif %}
+
+            {% if affichage['bann_down_engin']=='90' %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 15px;">Bannière En bas sur la page de résultats</strong></th>
+
+                    <td>90 / 1 000</td>
+                    <td>{{ affichage['banniere_nombr']|number_format|replace(',',' ') }}</td>
+                    <td>{{ (affichage['banniere_nombr'] * 90)|number_format|replace(',',' ') }}</td>
+                </tr>
+            {% endif %}
+
+            {% if affichage['bann_up_customer']=='150' %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 15px;">Bannière En haut sur les fiches prospects</strong></th>
+
+                    <td>150 / 1 000</td>
+                    <td>{{ affichage['banniere_nombr']|number_format|replace(',',' ') }}</td>
+                    <td>{{ affichage['banniere_nombr'] * 150 }}  </td>
+                </tr>
+            {% endif %}
+
+            {% if affichage['bann_down_customer']=='150' %}
+                <tr>
+                    <th scope="row"><strong style="font-size: 15px;">Bannière En bas sur les fiches prospects</strong></th>
+
+                    <td>150 / 1 000</td>
+                    <td>{{ affichage['banniere_nombr']|number_format|replace(',',' ') }}</td>
+                    <td>{{ (affichage['banniere_nombr'] * 150)|number_format|replace(',',' ') }}  </td>
+                </tr>
+            {% endif %}
+
+            {% if (profession['profession'] =='3000')  %}
+                <tr class="table-warning profesion">
+                    <th colspan="4" style="background-color: #ffdb2e;">Profession libérale</th>
+
+                </tr>
+            {% else %}
+                <style>
+                    .profesion
+                    {
+                        display: none;
+                    }
+                </style>
+
+            {% endif %}
+
+            {% if profession['prix'] %}
+                <tr>
+                    {# <th scope="row" ><strong style="font-size: 15px;">Carte de visite</strong><br>
+
+                         <strong> Visibilité sur la ville de : </strong>
+                         #}
+                    <th scope="row"><strong style="font-size: 15px;"> Visibilité sur la ville de :<br></strong>{{ profession['villesp']|somme.libelle }};
+                        <strong style="font-weight: 400;">
+                            {% if profession['profession'] =='3000' %}Profession libérale {% endif %}
+                        </strong>
+                    </th>
+
+                    <td>{{ (profession['profession'])|number_format|replace(',',' ')   }}</td>
+                    <td>1</td>
+                    <td>{{ (profession['profession'])|number_format|replace(',',' ')   }}</td>
+                </tr>
+            {% endif %}
+
+
+            {#{% if (code['offre']=='remise' or  code['offre']=='gratuite')  %}
+            <tr class="table-warning promotion " style="" >
+                <th class="promotion" colspan="4" style="background-color: #f36b60;color: white;">Promotion</th>
+            </tr>
+            {% else %}
+            <style>
+                .promotion
+                {
+                    display: none;
+                }
+            </style>
+
+            {% endif %}#}
+
+
+
+
+            <tr>
+                <td style="border-bottom: 1px solid white; border-left:  1px solid white;"></td>
+
+
+                <td colspan="2" scope="row" class="pull-right" style="font-weight: bold;font-size: 14px;text-align: justify">Montant H.T  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</td>
+                {% if code!=0 and code['offre']=='gratuite'  %}
+                    <td  style="text-align: center;">{{ paiement['new_ht'] }}</td>
+                {% else %}
+                    <td  style="text-align: center;">{{ somme|number_format|replace(',',' ')  }}</td>
+                {% endif %}
+
+            </tr>
+
+            {% if code!=0 and (code['offre']=='remise' or code['offre']=='gratuite' or code['offre']=='remise_pourcentage') %}
+                <tr>
+                    <td style="border-bottom: 1px solid white;border-left:  1px solid white;"   ></td>
+
+
+                    {% if code['offre']=='remise' %}
+                        <td colspan="2" scope="row" class="pull-right remise_th"  style="color: #f36b60;font-weight: bold;font-size: 14px;text-align: justify">Remise accordée</td>
+                        <td   style="text-align: center;">{{ code['montant_remise']|number_format|replace(',',' ') }}</td>
+
+
+                    {% elseif code['offre']=='gratuite' %}
+                        <td colspan="2" class="pull-right " scope="row"   style="color: #f36b60;font-weight: bold;font-size: 14px;text-align: justify">Gratuité accordée</td>
+                        <td   style="text-align: center;display: none">{{ code['montant_remise']|number_format|replace(',',' ') }}</td>
+
+
+                    {% elseif code['offre']=='remise_pourcentage' %}
+                        <td colspan="2" class="pull-right " scope="row"   style="color: #f36b60;font-weight: bold;font-size: 14px;text-align: justify">Remise en %</td>
+                        <td   style="text-align: center;">{{ code['pourcentage']~'%' }}</td>
+                    {% endif %}
+
+                </tr>
+            {% endif %}
+
+            {% if code!=0 and (code['offre']=='remise' or code['offre']=='gratuite' or code['offre']=='remise_pourcentage') %}
+                <tr>
+                    <td  style="border-bottom: 1px solid white;border-left:  1px solid white;"   ></td>
+
+                    <td colspan="2"  scope="row"  class="pull-right"  style="background-color: #f36b60;color: white;font-weight: bold;font-size: 14px;text-align: center;text-align: justify">Nouveau Montant H.T &nbsp;&nbsp;&nbsp;&nbsp; </td>
+
+                    {% if code['offre']=='remise' %}
+                        <td   style="text-align: center;background-color: #f36b60 ;font-weight: bold;color: white;font-size: 14px;" > {{ code['montant_rem']|number_format|replace(',',' ') }}</td>
+                    {% endif %}
+                    {% if code['offre']=='gratuite' %}
+                        <td   style="text-align: center;background-color: #f36b60 ;font-weight: bold;color: white;font-size: 14px;" >{{ somme|number_format|replace(',',' ')  }}</td>
+                    {% endif %}
+                    {% if code['offre']=='remise_pourcentage' %}
+                        <td   style="text-align: center;background-color: #f36b60;color: white;font-weight: 500;font-size: 15px;">{{ code['montant_r']|number_format|replace(',',' ') }}</td>
+                    {% endif %}
+                </tr>
+            {% endif %}
+
+            <tr>
+                <td style="border-bottom: 1px solid white;border-left:  1px solid white;" ></td>
+                <td colspan="2" scope="row" class="pull-right" style="font-size: 14px;font-weight: bold;text-align: justify">T.V.A</td>
+                {% if code!=0 and (code['offre']=='remise' or code['offre']=='remise_pourcentage') %}
+                    <td  style="text-align: center;">{{ code['tva']|number_format|replace(',',' ') }}</td>
+                {% else %}
+                    <td  style="text-align: center;">{{ (somme*0.2)|number_format|replace(',',' ') }}</td>
+                {% endif %}
+            </tr>
+
+            <tr>
+                <td style="border-bottom: 1px solid white;border-left:  1px solid white;"   ></td>
+                <td colspan="2" scope="row" class="pull-right" style="background-color:  #dadada;font-size: 14px;font-weight: bold;text-align: justify">Montant T.T.C</td>
+                {% if code!=0 and (code['offre']=='remise' or code['offre']=='remise_pourcentage') %}
+                    <td  style="text-align: center;background-color:  #dadada;">{{ paiement['montantttc'] }}</td>
+                {% else %}
+                    <td  style="text-align: center;background-color: #dadada">{{ (somme+(somme*0.2))|number_format|replace(',',' ')  }} </td>
+                {% endif %}
+            </tr>
+
+            </tbody>
+        </table>
+
+        <div class="test">
+            {% if code['offre']=='remise' %}
+                <span style="font-weight: 600;font-size: 14px">Remise accordée de <strong >{{ code['montant_remise']|number_format|replace(',',' ') }} MAD.</strong> <strong  >{{ code['nature_remise'] }} </strong> </span>
+            {% endif %}
+            {% if code['offre']=='gratuite' %}
+                <span style="font-weight: 600;font-size: 14px">Gratuité accordée de <strong >{{ code['montant_remise']|number_format|replace(',',' ') }} MAD.</strong> <strong  >{{ code['nature_remise'] }} </strong> </span>
+
+            {% endif %}
+        </div>
+
+        {% if paiement['nbr']!=0 %}
+
+            <div> <p class="test"><strong>MODALITÉS DE PAIEMENT:</strong></p>
+                <table class="table content test" {#style="margin-top: 50px"#} >
+                    <thead class="thead-dark">
+                    <tr  style="background-color: black;color:white;">
+                        <th scope="col" >Montant T.T.C &nbsp;</th>
+                        <th scope="col" >Acompte &nbsp; &nbsp;&nbsp;&nbsp;</th>
+                        <th scope="col" >Reste &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th scope="col" >Montant &nbsp; &nbsp;&nbsp;&nbsp;</th>
+                        <th scope="col" >Date d'écheance</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ paiement['montantttc'] }}</td>
+                        <td>{{ paiement['accompte']|number_format|replace(',',' ') }}</td>
+                        <td>{{ paiement['reste']|number_format|replace(',',' ') }}</td>
+                        {% if paiement['nbr']==1  %}
+                            <td>{{ paiement['montant1']|number_format|replace(',',' ') }}</td>
+                            <td>{{ paiement['dateP1']|number_format|replace(',',' ') }}</td>
+                        {% elseif paiement['nbr']==2 %}
+                            <td>{{ paiement['montant1']|number_format|replace(',',' ') }}<br>{{ paiement['montant2']|number_format|replace(',',' ') }}</td>
+                            <td>{{ paiement['dateP1']|date("d/m/Y") }}<br>{{ paiement['dateP2']|date("d/m/Y") }}</td>
+
+                        {% elseif paiement['nbr']==3 %}
+                            <td>{{ paiement['montant1']|number_format|replace(',',' ') }}<br>{{ paiement['montant2']|number_format|replace(',',' ') }}<br>{{ paiement['montant3']|number_format|replace(',',' ') }}</td>
+                            <td>{{ paiement['dateP1']|date("d/m/Y") }}<br>{{ paiement['dateP2']|date("d/m/Y") }}<br>{{ paiement['dateP3']|date("d/m/Y") }}</td>
+
+                        {% endif %}
+
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            {#<div class="test"> </div>#}
+        {% else %}
+            <style>
+                .test
+                {
+                    display: none;
+                }
+            </style>
+
+        {% endif %}
+
+
+        
+
+
+        {% if entity.proposition =='proposition' %}
+            <p>NB :
+                Devis valable jusqu’au <b>{{ 'now' |date_modify("+15 day")|date("d/m/Y") }}</b>
+            </p>
+        {% elseif entity.ordre =='ordre' %}
+
+        {% elseif entity.boncommande =='bon_commande' %}
+
+        {% else %}
+            <p>NB :
+                Devis valable jusqu’au <b>{{ 'now' |date_modify("+15 day")|date("d/m/Y") }}</b>
+            </p>
+        {% endif %}
+
+
+
+
+    </page>
+
+{% endif %}

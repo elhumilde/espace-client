@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Convert html to pdf</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js" integrity="sha256-gJWdmuCRBovJMD9D/TVdo4TIK8u5Sti11764sZT1DhI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+<body>
+	
+<h1 id="body">Test</h1>
+
+<div id="content">
+    <h1 id='a'>  
+        We support special element handlers. Register them with jQuery-style.
+    </h1>
+</div>
+
+<div id="capture" style="padding: 10px; background: #f5da55">
+    <h4 style="color: #000; ">Hello world!</h4>
+</div>
+
+</body>
+
+<script type="text/javascript">
+
+alert('yess');
+	generatePDF();
+	function generatePDF(){
+		var doc = new jsPDF();
+		alert('yess');
+		doc.text("Octonyan loves jsPDF", 35, 25);
+	    alert('yesss');
+		doc.save('document.pdf');
+			alert('yes');
+	}
+
+	html2canvas(document.querySelector("#capture")).then(canvas => {
+    document.body.appendChild(canvas)
+});
+
+
+</script>
+
+</head>
+<body>
+	<!-- <button onclick="generatePDF()" id="message" value="{{message}}"> click to generate pdf </button> -->
+</body>
+</html>

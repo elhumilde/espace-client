@@ -1,0 +1,105 @@
+.wrapper-demande-devis {
+	background-color: #EFEFEF;
+	padding: 30px;
+	width: 50%;
+	margin:  auto;
+	position: relative;
+}
+
+
+.wrapper-demande-devis.is-published::before {
+    content: "Publiée";
+    background-color: #3acf53;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: .9em;
+    font-weight: 700;
+    padding: 3px 6px;
+}
+
+@media screen and (max-width: 992px) {
+	.wrapper-demande-devis {
+		width: 80%;
+	}
+}
+
+.title {
+}
+
+.title h5 {
+	color: black;
+	font-weight: 600;
+	font-size: 1.2em;
+}
+
+.date-creation  {
+	margin-bottom: 9px;
+}
+
+.date-creation span {
+	color: #004AAD;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.mot-cles {
+	margin-bottom: 10px;
+}
+
+.mot-cles span:first-of-type {
+	color: #D03B30;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.mot-cles span:not(:first-of-type) {
+	background-color: #D9D9D9;
+    color: black;
+    display: inline-block;
+    padding: 0px 5px;
+    font-family: auto;
+}
+
+.description {
+
+}
+
+.description p {
+	font-size: 15px;
+    font-family: auto;
+    line-height: 1.8;
+    font-weight: 100;
+    padding-right: 35px;
+    text-align: justify;
+}
+
+button.plus-details {
+	background-color: #FFED78;
+    color: black;
+    padding: 5px 8px;
+    width: fit-content;
+    margin-bottom: 10px;
+    border: 1px solid #FFED78;
+    font-weight: bold;
+}
+
+p.plus-details {
+	font-size: 15px;
+    font-family: auto;
+    line-height: 1.8;
+    font-weight: 100;
+    padding-right: 35px;
+    text-align: justify;
+}
+
+p.plus-details.hide {
+	display: none;
+  
+}
+
+h4.response-title {
+	font-weight: bold;
+	margin-bottom: 20px;
+}

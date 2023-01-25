@@ -1,0 +1,13 @@
+form#form-update-publication {
+	width: 50%;
+	margin: auto;
+}
+
+button[type="submit"] {
+	background-color: #ffdd00;
+	font-weight: bold;
+	padding: 4px 8px;
+	font-weight: 1.1em;
+	border: 1px solid #ffdd00;
+	box-shadow: 0 0 3px #ccc;
+}

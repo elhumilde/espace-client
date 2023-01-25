@@ -1,0 +1,255 @@
+{#
+{% extends '::layout/layoutAdmin.html.twig'%}
+#}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style-admin.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/nprogress.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/custom.min.css') }}" />
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/tabletools/2.2.4/js/dataTables.tableTools.js"></script>
+    <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css">
+
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <title>E-contact | Mes statistiques </title>
+    <style>
+        .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+            color: #333;
+        }
+        button.dt-button, div.dt-button, a.dt-button {
+            font-size: 10px!important;
+            background-color: black!important;
+            background-image: none!important;
+            /*margin-left: -291px!important;*/
+            color: white;
+            border-radius: 4px!important;
+            border-color: black!important;
+        }
+
+        .exportExcel {
+            padding: 11px!important;
+            border: 1px solid #f5f1f1!important;
+            margin: -10px!important;
+            cursor: pointer!important;
+            background-color: black!important;
+        }
+    </style>
+
+</head>
+<body>
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0;">
+                    {#<a > <img class="logo" src="https://image.noelshack.com/fichiers/2018/07/4/1518687555-logo-econtact-2.png" alt="logo"></a>#}
+                </div>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <!-- sidebar menu -->
+                {% include "EcommerceBundle:Administration:menu.html.twig" %}
+                <!-- /sidebar menu -->
+
+
+            </div>
+        </div>
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <nav>
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /top navigation -->
+
+        {#<div class="right_col" role="main">#}{#
+            <div class="clearfix"></div>
+            <br/>#}
+        <div class="right_col" role="main">
+            <div class="clearfix"></div>
+            <br/>
+            <div class="container-fluid">
+
+
+                <div class="row">
+                    <div class="">
+
+                        {% block body -%}
+                            <h1 style="color: black;margin-top: -71px;" align="center">Liste retour </h1>
+                            <br>
+
+
+                            {% for flashMessage in app.session.flashbag.get('success') %}
+                                <div class="alert alert-success">
+                                    {{ flashMessage }}
+                                </div>
+                            {% endfor %}
+                            <div class="row">
+
+        <div class="col-md-12 hidden-print">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success fade in col-xs-6">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger fade in col-xs-6">
+                    <a href="#"  class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+
+
+            <a class="btn btn-default pull-right" id="btnPrint" href="{{path('adminRetourStatistiques')}}">retour à la liste</a>
+        </div>
+    </div>
+    <div class="well well-sm">
+        <h2>Demande annonce par  <span class="text-danger"> {{ entity[0]._nom }} {{ entity[0]._prenom }} </span>  le  {{ entity[0]._date_depot|date('d-m-Y H:i') }}  {% if entity[0]._affecter  %}   affecter a : <span class="text-warning">{{ entity[0]._affecter }}</span>{% endif %} </h2>
+    </div>
+    <table id="example" class="table table-striped responsive-utilities jambo_table">
+        <tbody>
+            {#<tr>
+                <th>Oid</th>
+                <td>{{ entity.oid }}</td>
+            </tr>#}
+            <tr>
+                <th>Nom</th>
+                <td>{{ entity[0]._nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ entity[0]._prenom }}</td>
+            </tr>
+            <tr>
+                <th>Societe</th>
+                <td>{{ entity[0]._societe|capitalize }}</td>
+            </tr>
+            <tr>
+                <th>Fonction</th>
+                <td>{{ entity[0]._fonction }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ entity[0]._email }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ entity[0]._telephone }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ entity[0]._ville }}</td>
+            </tr>
+            <tr>
+                <th>Objet</th>
+                <td>{{ entity[0]._objet }}</td>
+            </tr>
+            <tr>
+                <th>Message</th>
+                <td>{{ entity[0]._message }}</td>
+            </tr>
+           {# <tr>
+                <th>Archiver</th>
+                <td>{{ entity.archiver }}</td>
+            </tr>#}
+            
+            {#<tr>
+                <th>Appreciation</th>
+                <td>{{ entity.appreciation }}</td>
+            </tr>#}
+        </tbody>
+    </table>
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+    /*    $(document).on('click', '.exportExcel', function(){
+            alert("The paragraph was clicked.");
+        });
+        */
+        $.extend( jQuery.fn.dataTableExt.oSort, {
+            "date-uk-pre": function (a){
+                return parseInt(moment(a, "DD-MM-YYYY HH:ii:ss").format("X"), 10);
+            },
+            "date-uk-asc": function (a, b) {
+                return a - b;
+            },
+            "date-uk-desc": function (a, b) {
+                return b - a;
+            }
+        });
+
+        $('#table').dataTable( {
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"
+
+            },
+            "aaSorting": [[ 6, "desc" ]],
+
+            columnDefs: [
+                { type: 'date-uk', targets: 6 }
+            ],
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'excel',
+                    text: 'Export excel',
+                    className: 'exportExcel',
+                    filename: 'Export excel',
+                    exportOptions: {
+                        modifier: {
+                            page: 'all'
+                        }
+                    }
+                }
+            ]
+        });
+    } );
+</script>
+
+<script src="{{ asset('js/bootstrap.js') }}"></script>
+
+{#<script src="{{ asset('js/admin/jquery.min.js') }}"></script>#}
+
+<script src="{{ asset('js/admin/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/admin/fastclick.js') }}"></script>
+<script src="{{ asset('js/admin/nprogress.js') }}"></script>
+<script src="{{ asset('js/admin/validator.js') }}"></script>
+<script src="{{ asset('js/custom.min.js') }}"></script>
+</body>
+</html>
+
